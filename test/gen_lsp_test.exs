@@ -1,11 +1,13 @@
 defmodule GenLSPTest do
   use ExUnit.Case
-  alias GenLSP.Protocol, as: P
+  alias GenLSP.Protocol.Requests
+  alias GenLSP.Protocol.Notifications
+  alias GenLSP.Protocol.Structures
 
   defmodule TestWire do
     use GenServer
 
-    require Logger
+    # require Logger
 
     def init, do: :ok
 
@@ -30,23 +32,23 @@ defmodule GenLSPTest do
     end
 
     def handle_call({:write, body}, _from, state) do
-      Logger.debug("[TestWire] write")
+      # Logger.debug("[TestWire] write")
       send(state.test_pid, {:wire, body})
       {:reply, :ok, state}
     end
 
     def handle_call(:read, _from, %{messages: [message | rest]} = state) do
-      Logger.debug("[TestWire] read: has messages")
+      # Logger.debug("[TestWire] read: has messages")
       {:reply, {:ok, message}, %{state | messages: rest}}
     end
 
     def handle_call(:read, from, %{messages: [], awaiting: awaiting} = state) do
-      Logger.debug("[TestWire] read: no messages")
+      # Logger.debug("[TestWire] read: no messages")
       {:noreply, %{state | awaiting: [from | awaiting]}}
     end
 
     def handle_call({:client_write, body}, _from, %{awaiting: [_ | _]} = state) do
-      Logger.debug("[TestWire] client_write: awaiting")
+      # Logger.debug("[TestWire] client_write: awaiting")
 
       for pid <- state.awaiting do
         GenServer.reply(pid, {:ok, body})
@@ -56,7 +58,7 @@ defmodule GenLSPTest do
     end
 
     def handle_call({:client_write, body}, _from, %{messages: messages} = state) do
-      Logger.debug("[TestWire] client_write")
+      # Logger.debug("[TestWire] client_write")
       {:reply, :ok, %{state | messages: messages ++ [body]}}
     end
   end
@@ -64,7 +66,9 @@ defmodule GenLSPTest do
   defmodule ExampleServer do
     use GenLSP
 
-    alias GenLSP.Protocol, as: P
+    alias GenLSP.Protocol.Requests
+    alias GenLSP.Protocol.Notifications
+    alias GenLSP.Protocol.Structures
 
     def start_link(opts) do
       {test_pid, opts} = Keyword.pop(opts, :test_pid)
@@ -77,24 +81,29 @@ defmodule GenLSPTest do
     end
 
     @impl true
-    def handle_request(%P.Initialize{id: id}, state) do
+    def handle_request(%Requests.Initialize{id: id}, state) do
       {:reply, id, %{"capabilities" => %{}, "serverInfo" => %{"name" => "Test LSP"}}, state}
     end
 
     @impl true
-    def handle_notification(%P.TextDocumentDidOpen{} = notification, state) do
+    def handle_notification(%Notifications.TextDocumentDidOpen{} = notification, state) do
       send(state.test_pid, {:callback, notification})
 
       {:noreply, state}
     end
 
-    def handle_notification(%P.TextDocumentDidSave{params: params} = notification, state) do
+    def handle_notification(
+          %Notifications.TextDocumentDidSave{
+            params: %Structures.DidSaveTextDocumentParams{textDocument: textDocument}
+          } = notification,
+          state
+        ) do
       send(state.test_pid, {:callback, notification})
 
-      GenLSP.notify(%P.TextDocumentPublishDiagnostics{
-        params: %{
-          "uri" => params["textDocument"]["uri"],
-          "diagnostics" => [
+      GenLSP.notify(%Notifications.TextDocumentPublishDiagnostics{
+        params: %Structures.PublishDiagnosticsParams{
+          uri: textDocument.uri,
+          diagnostics: [
             %{
               "range" => %{
                 "start" => %{"line" => 5, "character" => 23},
@@ -111,7 +120,7 @@ defmodule GenLSPTest do
     end
 
     @impl true
-    def handle_info(message, state) do
+    def handle_info(_message, state) do
       send(state.test_pid, {:info, :ack})
       {:noreply, state}
     end
@@ -156,8 +165,7 @@ defmodule GenLSPTest do
       "textDocument" => %{
         "uri" => "file://somefile",
         "languageId" => "elixir",
-        "version" => 1,
-        "text" => "some code"
+        "version" => 1
       }
     }
 
@@ -170,7 +178,17 @@ defmodule GenLSPTest do
 
     GenLSPTest.TestWire.client_write(did_open)
 
-    assert_receive {:callback, %P.TextDocumentDidOpen{params: ^params}}, 500
+    assert_receive {:callback,
+                    %Notifications.TextDocumentDidOpen{
+                      params: %Structures.DidOpenTextDocumentParams{
+                        textDocument: %Structures.TextDocumentItem{
+                          uri: "file://somefile",
+                          languageId: "elixir",
+                          version: 1
+                        }
+                      }
+                    }},
+                   500
   end
 
   test "server can send a notification" do
@@ -178,9 +196,9 @@ defmodule GenLSPTest do
       "textDocument" => %{
         "uri" => "file://somefile",
         "languageId" => "elixir",
-        "version" => 1,
-        "text" => "some code"
-      }
+        "version" => 1
+      },
+      "text" => "some code"
     }
 
     did_open =
@@ -192,7 +210,16 @@ defmodule GenLSPTest do
 
     GenLSPTest.TestWire.client_write(did_open)
 
-    assert_receive {:callback, %P.TextDocumentDidSave{params: ^params}}, 500
+    assert_receive {:callback,
+                    %Notifications.TextDocumentDidSave{
+                      params: %Structures.DidSaveTextDocumentParams{
+                        textDocument: %Structures.TextDocumentIdentifier{
+                          uri: "file://somefile"
+                        },
+                        text: "some code"
+                      }
+                    }},
+                   500
 
     packet =
       Jason.encode!(%{
@@ -209,7 +236,8 @@ defmodule GenLSPTest do
               "severity" => 1,
               "message" => "Spelling mistake"
             }
-          ]
+          ],
+          "version" => nil
         }
       })
 

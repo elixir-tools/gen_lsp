@@ -138,7 +138,7 @@ defmodule GenLSP do
 
       #{message}
 
-      #{Exception.format_banner(:error, e, __STACKTRACE__)}
+      #{Exception.format(:error, e, __STACKTRACE__)}
 
       """)
 
@@ -168,8 +168,11 @@ defmodule GenLSP do
   end
 
   def log(level, message) when level in [:error, :warning, :info, :log] do
-    GenLSP.notify(%GenLSP.Protocol.WindowLogMessage{
-      params: %{"type" => GenLSP.Communication.LogLevel.level(level), "message" => message}
+    GenLSP.notify(%GenLSP.Protocol.Notifications.WindowLogMessage{
+      params: %GenLSP.Protocol.Structures.LogMessageParams{
+        type: GenLSP.Communication.LogLevel.level(level),
+        message: message
+      }
     })
   end
 end
