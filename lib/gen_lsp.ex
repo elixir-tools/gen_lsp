@@ -15,6 +15,15 @@ defmodule GenLSP do
           shutdown: 500
         }
       end
+
+      @impl true
+      def handle_info(_, state) do
+        Logger.warn("Unhandled message passed to handle_info/2")
+
+        {:noreply, state}
+      end
+
+      defoverridable handle_info: 2
     end
   end
 
@@ -27,6 +36,7 @@ defmodule GenLSP do
             when state: any()
   @callback handle_notification(notification :: term(), state) :: {:noreply, state}
             when state: any()
+  @callback handle_info(message :: any(), state) :: {:noreply, state} when state: any()
 
   def start_link(module, init_args, opts) do
     :proc_lib.start_link(__MODULE__, :init, [
@@ -106,8 +116,16 @@ defmodule GenLSP do
           "Last message received: handle_notification #{inspect(notification)}"
         )
 
-      _msg ->
-        loop(state, parent, deb)
+      message ->
+        attempt(
+          fn ->
+            case state.internal_state.mod.handle_info(message, state.user_state) do
+              {:noreply, new_user_state} ->
+                loop(Map.put(state, :user_state, new_user_state), parent, deb)
+            end
+          end,
+          "Last message received: handle_info #{inspect(message)}"
+        )
     end
   end
 

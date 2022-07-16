@@ -109,6 +109,12 @@ defmodule GenLSPTest do
 
       {:noreply, state}
     end
+
+    @impl true
+    def handle_info(message, state) do
+      send(state.test_pid, {:info, :ack})
+      {:noreply, state}
+    end
   end
 
   setup do
@@ -208,5 +214,11 @@ defmodule GenLSPTest do
       })
 
     assert_receive {:wire, ^packet}, 500
+  end
+
+  test "can receive a normal message with handle_info/2", %{lsp: lsp} do
+    send(lsp, "hi")
+
+    assert_receive {:info, :ack}
   end
 end
