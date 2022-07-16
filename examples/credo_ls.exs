@@ -64,9 +64,9 @@ defmodule CredoLS.DiagnosticCache do
   def publish() do
     for {file, diagnostics} <- get() do
       GenLSP.notify(%GenLSP.Protocol.TextDocumentPublishDiagnostics{
-        params: %{
-          "uri" => "file://#{file}",
-          "diagnostics" => diagnostics
+        params: %GenLSP.Protocol.Property.PublishDiagnosticsParams{
+          uri: "file://#{file}",
+          diagnostics: diagnostics
         }
       })
     end
@@ -83,6 +83,7 @@ defmodule CredoLS do
   use GenLSP
 
   alias GenLSP.Protocol, as: P
+  alias GenLSP.Protocol.Property, as: Prop
 
   def start_link(_) do
     GenLSP.start_link(__MODULE__, nil, name: __MODULE__)
@@ -99,14 +100,14 @@ defmodule CredoLS do
   @impl true
   def handle_request(%P.Initialize{id: id}, state) do
     {:reply, id,
-     %{
-       "capabilities" => %{
+     %Prop.InitializeResult{
+       capabilities: %{
          "textDocumentSync" => %{
            "openClose" => true,
            "save" => %{"includeText" => true}
          }
        },
-       "serverInfo" => %{"name" => "SpeLS"}
+       serverInfo: %{"name" => "SpeLS"}
      }, state}
   end
 
