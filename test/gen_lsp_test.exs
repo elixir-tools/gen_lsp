@@ -1,130 +1,7 @@
 defmodule GenLSPTest do
   use ExUnit.Case
-  alias GenLSP.Protocol.Requests
   alias GenLSP.Protocol.Notifications
   alias GenLSP.Protocol.Structures
-
-  defmodule TestWire do
-    use GenServer
-
-    # require Logger
-
-    def init, do: :ok
-
-    def start_link(test_pid) do
-      GenServer.start_link(__MODULE__, test_pid, name: __MODULE__)
-    end
-
-    def init(test_pid) do
-      {:ok, %{test_pid: test_pid, messages: [], awaiting: []}}
-    end
-
-    def write(body) do
-      GenServer.call(__MODULE__, {:write, body})
-    end
-
-    def read do
-      GenServer.call(__MODULE__, :read)
-    end
-
-    def client_write(body) do
-      GenServer.call(__MODULE__, {:client_write, body})
-    end
-
-    def handle_call({:write, body}, _from, state) do
-      # Logger.debug("[TestWire] write")
-      send(state.test_pid, {:wire, body})
-      {:reply, :ok, state}
-    end
-
-    def handle_call(:read, _from, %{messages: [message | rest]} = state) do
-      # Logger.debug("[TestWire] read: has messages")
-      {:reply, {:ok, message}, %{state | messages: rest}}
-    end
-
-    def handle_call(:read, from, %{messages: [], awaiting: awaiting} = state) do
-      # Logger.debug("[TestWire] read: no messages")
-      {:noreply, %{state | awaiting: [from | awaiting]}}
-    end
-
-    def handle_call({:client_write, body}, _from, %{awaiting: [_ | _]} = state) do
-      # Logger.debug("[TestWire] client_write: awaiting")
-
-      for pid <- state.awaiting do
-        GenServer.reply(pid, {:ok, body})
-      end
-
-      {:reply, :ok, state}
-    end
-
-    def handle_call({:client_write, body}, _from, %{messages: messages} = state) do
-      # Logger.debug("[TestWire] client_write")
-      {:reply, :ok, %{state | messages: messages ++ [body]}}
-    end
-  end
-
-  defmodule ExampleServer do
-    use GenLSP
-
-    alias GenLSP.Protocol.Requests
-    alias GenLSP.Protocol.Notifications
-    alias GenLSP.Protocol.Structures
-
-    def start_link(opts) do
-      {test_pid, opts} = Keyword.pop(opts, :test_pid)
-      GenLSP.start_link(__MODULE__, test_pid, opts)
-    end
-
-    @impl true
-    def init(test_pid) do
-      {:ok, %{foo: :bar, test_pid: test_pid}}
-    end
-
-    @impl true
-    def handle_request(%Requests.Initialize{id: id}, state) do
-      {:reply, id, %{"capabilities" => %{}, "serverInfo" => %{"name" => "Test LSP"}}, state}
-    end
-
-    @impl true
-    def handle_notification(%Notifications.TextDocumentDidOpen{} = notification, state) do
-      send(state.test_pid, {:callback, notification})
-
-      {:noreply, state}
-    end
-
-    def handle_notification(
-          %Notifications.TextDocumentDidSave{
-            params: %Structures.DidSaveTextDocumentParams{textDocument: textDocument}
-          } = notification,
-          state
-        ) do
-      send(state.test_pid, {:callback, notification})
-
-      GenLSP.notify(%Notifications.TextDocumentPublishDiagnostics{
-        params: %Structures.PublishDiagnosticsParams{
-          uri: textDocument.uri,
-          diagnostics: [
-            %{
-              "range" => %{
-                "start" => %{"line" => 5, "character" => 23},
-                "end" => %{"line" => 6, "character" => 0}
-              },
-              "severity" => 1,
-              "message" => "Spelling mistake"
-            }
-          ]
-        }
-      })
-
-      {:noreply, state}
-    end
-
-    @impl true
-    def handle_info(_message, state) do
-      send(state.test_pid, {:info, :ack})
-      {:noreply, state}
-    end
-  end
 
   setup do
     wire = start_supervised!({GenLSPTest.TestWire, self()})
@@ -229,8 +106,14 @@ defmodule GenLSPTest do
           "uri" => params["textDocument"]["uri"],
           "diagnostics" => [
             %{
+              "code" => nil,
+              "codeDescription" => nil,
+              "data" => nil,
+              "relatedInformation" => nil,
+              "source" => nil,
+              "tags" => nil,
               "range" => %{
-                "start" => %{"line" => 5, "character" => 23},
+                "start" => %{"line" => 5, "character" => 12},
                 "end" => %{"line" => 6, "character" => 0}
               },
               "severity" => 1,
