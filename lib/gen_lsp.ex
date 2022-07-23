@@ -6,6 +6,8 @@ defmodule GenLSP do
     quote do
       @behaviour GenLSP
 
+      require Logger
+
       def child_spec(opts) do
         %{
           id: __MODULE__,
