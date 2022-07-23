@@ -4,12 +4,14 @@ defmodule GenLSP.MixProject do
   def project do
     [
       app: :gen_lsp,
+      description: "Library for creating language servers",
       version: "0.0.1",
       elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       elixirc_paths: elixirc_paths(Mix.env()),
-      docs: docs()
+      docs: docs(),
+      package: package()
     ]
   end
 
@@ -35,6 +37,15 @@ defmodule GenLSP.MixProject do
   defp docs() do
     [
       nest_modules_by_prefix: File.read!("mods.txt") |> String.split("\n")
+    ]
+  end
+
+  defp package() do
+    [
+      maintainers: ["Mitchell Hanberg"],
+      licenses: ["MIT"],
+      links: %{github: "https://github.com/mhanberg/gen_lsp"},
+      files: ~w(lib LICENSE mix.exs README.md .formatter.exs)
     ]
   end
 end
