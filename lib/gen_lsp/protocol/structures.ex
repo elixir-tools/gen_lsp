@@ -22,8 +22,12 @@ defmodule GenLSP.Protocol.Structures do
       ### Properties
 
       #{for p <- structure["properties"] do
-        "#{p["name"]} :: #{p["type"]["name"]}\n"
-      end}
+        """
+        #### #{p["name"]} :: #{p["type"]["name"] || "unimplemented doc type"} #{unless p["optional"], do: "(_required_)"}
+        
+        #{p["documentation"]}
+        """
+      end |> Enum.join("\n\n")}
 
       """
 

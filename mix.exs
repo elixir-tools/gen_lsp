@@ -4,11 +4,12 @@ defmodule GenLSP.MixProject do
   def project do
     [
       app: :gen_lsp,
-      version: "0.1.0",
+      version: "0.0.1",
       elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      elixirc_paths: elixirc_paths(Mix.env())
+      elixirc_paths: elixirc_paths(Mix.env()),
+      docs: docs()
     ]
   end
 
@@ -25,8 +26,15 @@ defmodule GenLSP.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:ex_doc, ">= 0.0.0", only: :dev},
       {:jason, "~> 1.3"},
       {:logger_file_backend, "~> 0.0.13"}
+    ]
+  end
+
+  defp docs() do
+    [
+      nest_modules_by_prefix: File.read!("mods.txt") |> String.split("\n")
     ]
   end
 end

@@ -1,7 +1,4 @@
 defmodule GenLSP do
-  @moduledoc """
-  René Föhring (@rrrene)
-  """
   defmacro __using__(_) do
     quote do
       @behaviour GenLSP

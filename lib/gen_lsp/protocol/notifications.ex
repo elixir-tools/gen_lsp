@@ -11,7 +11,7 @@ defmodule GenLSP.Protocol.Notifications do
     module_name =
       method
       |> String.split("/")
-      |> Enum.map_join("", &Macro.camelize/1)
+      |> Enum.map_join("", &Macro.camelize(&1) |> String.replace("$", "Dollar"))
       |> String.to_atom()
       |> then(&Module.concat(GenLSP.Protocol.Notifications, &1))
 
