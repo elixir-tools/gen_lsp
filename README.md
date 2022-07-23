@@ -8,11 +8,14 @@ Pre-alpha software, use only at great personal risk.
 
 Here is an example of a [Credo](github.com/rrrene/credo) language server.
 
+> **Warning**
+> This example is probably out of date, but should still illustrate the general shape of a GenLSP process.
+
 ```elixir
 defmodule CredoLS do
   use GenLSP
 
-  alias GenLSP.Protocol, as: P
+  alias GenLSP.Protocol.St, as: P
 
   def start_link(_) do
     GenLSP.start_link(__MODULE__, nil, name: __MODULE__)
@@ -152,7 +155,8 @@ end
 
 ## TODO
 
-- [ ] Generate structs for the rest of the protocol.
+- [x] Generate structs for the rest of the protocol.
+    - [ ] Improve documentation for generated structs
 - [ ] Communication: Support pipe: use pipes (Windows) or socket files (Linux, Mac) as the communication channel. The pipe / socket file name is passed as the next arg or with --pipe=.
 - [ ] Communication: Support socket: uses a socket as the communication channel. The port is passed as next arg or with --port=.
 - [ ] Documentation/tooling to package your language server into a single binary with [Burrito](https://github.com/burrito-elixir/burrito).
@@ -168,7 +172,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 ```elixir
 def deps do
   [
-    {:gen_lsp, "~> 0.1.0"}
+    {:gen_lsp, "~> 0.0.1"}
   ]
 end
 ```
