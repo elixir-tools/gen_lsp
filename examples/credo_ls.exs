@@ -82,8 +82,9 @@ end
 defmodule CredoLS do
   use GenLSP
 
-  alias GenLSP.Protocol, as: P
-  alias GenLSP.Protocol.Property, as: Prop
+  alias GenLSP.Protocol.Requests
+  alias GenLSP.Protocol.Notifications
+  alias GenLSP.Protocol.Structures
 
   def start_link(_) do
     GenLSP.start_link(__MODULE__, nil, name: __MODULE__)
@@ -98,13 +99,13 @@ defmodule CredoLS do
   end
 
   @impl true
-  def handle_request(%P.Initialize{id: id}, state) do
-    {:reply, id,
-     %Prop.InitializeResult{
-       capabilities: %{
-         "textDocumentSync" => %{
-           "openClose" => true,
-           "save" => %{"includeText" => true}
+  def handle_request(%P.Initialize{}, state) do
+    {:reply,
+     %Structures.InitializeResult{
+       capabilities: %Structures.ServerCapabilities{
+         textDocumentSync: %Structures.TextDocumentSyncOptions{
+           openClose: true,
+           save: %Structures.SaveOptions{includeText: true}
          }
        },
        serverInfo: %{"name" => "SpeLS"}
@@ -112,23 +113,23 @@ defmodule CredoLS do
   end
 
   @impl true
-  def handle_notification(%P.Initialized{}, state) do
+  def handle_notification(%Notifications.Initialized{}, state) do
     {:noreply, state}
   end
 
-  def handle_notification(%P.TextDocumentDidSave{}, state) do
+  def handle_notification(%Notifications.TextDocumentDidSave{}, state) do
     Task.start_link(fn -> CredoLS.DiagnosticCache.refresh() end)
 
     {:noreply, state}
   end
 
-  def handle_notification(%P.TextDocumentDidOpen{}, state) do
+  def handle_notification(%Notifications.TextDocumentDidOpen{}, state) do
     Task.start_link(fn -> CredoLS.DiagnosticCache.publish() end)
 
     {:noreply, state}
   end
 
-  def handle_notification(%P.TextDocumentDidChange{}, state) do
+  def handle_notification(%Notifications.TextDocumentDidChange{}, state) do
     Task.start_link(fn ->
       CredoLS.DiagnosticCache.clear()
       CredoLS.DiagnosticCache.publish()
@@ -137,7 +138,7 @@ defmodule CredoLS do
     {:noreply, state}
   end
 
-  def handle_notification(%P.TextDocumentDidClose{}, state) do
+  def handle_notification(%Notifications.TextDocumentDidClose{}, state) do
     {:noreply, state}
   end
 

@@ -81,10 +81,10 @@ defmodule GenLSP do
       {:request, _from, request} ->
         attempt(
           fn ->
-            req = GenLSP.Protocol.new(request)
+            %{id: id} = req = GenLSP.Protocol.new(request)
 
             case state.internal_state.mod.handle_request(req, state.user_state) do
-              {:reply, id, reply, new_user_state} ->
+              {:reply, reply, new_user_state} ->
                 packet = %{
                   "jsonrpc" => "2.0",
                   "id" => id,
