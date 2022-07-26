@@ -1,24 +1,43 @@
 defmodule GenLSP.Protocol do
+  require Logger
+
   def encode(struct) do
     GenLSP.Protocol.Encoder.encode(struct)
   end
 
-  defp decode_property(packet, spec) do
-    props = spec |> Map.get("properties") |> Enum.map(& &1["name"])
+  defp decode_property(_packet, nil) do
+    nil
+  end
 
-    struct(
-      Module.concat(GenLSP.Protocol.Structures, spec["name"]),
-      for {k, v} <- packet, k in props do
+  defp decode_property(packet, spec) do
+    structure =
+      Module.concat(GenLSP.Protocol.Structures, spec["name"])
+      |> struct()
+      |> GenLSP.Protocol.Encoder.decode(packet)
+
+    props =
+      for {k, v} <- Map.from_struct(structure) do
+        properties =
+          Map.get(spec, "properties") ++
+            Enum.flat_map(spec["extends"] || [], fn e ->
+              GenLSP.Protocol.Structures.spec()[e["name"]]["properties"]
+            end)
+
         p_spec =
-          spec
-          |> Map.get("properties")
-          |> Enum.find_value(fn %{"name" => name, "type" => %{"name" => p_type, "kind" => kind}} ->
-            if name == k, do: {kind, p_type}
-          end)
+          Enum.find_value(
+            properties,
+            fn
+              %{"name" => name, "type" => %{"name" => p_type, "kind" => kind}} ->
+                if name == to_string(k), do: {kind, p_type}
+
+              %{"name" => name} ->
+                if name == to_string(k), do: {"base", :idk}
+            end
+          )
 
         decoded_value =
           case p_spec do
-            {"reference", p_type} ->
+            {"reference", p_type} when p_type not in ["LSPAny"] ->
               p_type
               |> then(&Map.get(GenLSP.Protocol.Structures.spec(), &1))
               |> then(&decode_property(v, &1))
@@ -27,9 +46,10 @@ defmodule GenLSP.Protocol do
               v
           end
 
-        {String.to_existing_atom(k), decoded_value}
+        {k, decoded_value}
       end
-    )
+
+    struct(structure, props)
   end
 
   def new(%{"method" => method} = packet) do
@@ -47,6 +67,8 @@ defmodule GenLSP.Protocol do
 
     requests_and_notfications =
       Map.merge(GenLSP.Protocol.Requests.spec(), GenLSP.Protocol.Notifications.spec())
+
+    Logger.debug("[GenLSP] Decoding #{method}")
 
     structure =
       GenLSP.Protocol.Structures.spec()[requests_and_notfications[method]["params"]["name"]]

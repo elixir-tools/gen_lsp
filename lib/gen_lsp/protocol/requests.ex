@@ -30,6 +30,10 @@ defmodule GenLSP.Protocol.Requests do
             "params" => GenLSP.Protocol.Encoder.encode(req.params)
           }
         end
+
+        def decode(_, _) do
+          nil
+        end
       end
     end
   end

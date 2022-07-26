@@ -11,7 +11,7 @@ defmodule GenLSP.Protocol.Notifications do
     module_name =
       method
       |> String.split("/")
-      |> Enum.map_join("", &Macro.camelize(&1) |> String.replace("$", "Dollar"))
+      |> Enum.map_join("", &(Macro.camelize(&1) |> String.replace("$", "Dollar")))
       |> String.to_atom()
       |> then(&Module.concat(GenLSP.Protocol.Notifications, &1))
 
@@ -28,6 +28,10 @@ defmodule GenLSP.Protocol.Notifications do
             "jsonrpc" => "2.0",
             "params" => GenLSP.Protocol.Encoder.encode(note.params)
           }
+        end
+
+        def decode(_, _) do
+          nil
         end
       end
     end
