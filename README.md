@@ -172,7 +172,7 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 ```elixir
 def deps do
   [
-    {:gen_lsp, "~> 0.0.1"}
+    {:gen_lsp, "~> 0.0.2"}
   ]
 end
 ```
