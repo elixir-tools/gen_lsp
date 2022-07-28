@@ -6,15 +6,14 @@ defmodule GenLSP.Communication.Adapter do
 end
 
 defmodule GenLSP.Communication.Stdio do
+  require Logger
   @moduledoc false
   @behaviour GenLSP.Communication.Adapter
   @separator "\r\n\r\n"
 
   @impl true
   def init do
-    # unclear why i need latin1 here. When i used unicode, it was consuming an
-    # extra character for every unicode glyph it finds.
-    :ok = :io.setopts(binary: true, encoding: :latin1)
+    :ok = :io.setopts(binary: true, encoding: :utf8)
   end
 
   @impl true
