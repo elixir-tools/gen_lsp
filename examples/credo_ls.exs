@@ -8,6 +8,8 @@ Logger.configure_backend({LoggerFileBackend, :debug_log}, path: "gen_lsp.log", l
 defmodule CredoLS.DiagnosticCache do
   use Agent
 
+  alias GenLSP.Protocol.Structures
+
   def start_link() do
     Agent.start_link(fn -> Map.new() end, name: __MODULE__)
   end
@@ -20,13 +22,13 @@ defmodule CredoLS.DiagnosticCache do
     GenLSP.log(:info, "[Credo] Found #{Enum.count(issues)} issues")
 
     for issue <- issues do
-      diagnostic = %{
-        "range" => %{
-          "start" => %{line: issue.line_no - 1, character: issue.column || 0},
-          "end" => %{line: issue.line_no, character: 0}
+      diagnostic = %Structures.Diagnostic{
+        range: %Structures.Range{
+          start: %Structures.Position{line: issue.line_no - 1, character: issue.column || 0},
+          end: %Structures.Position{line: issue.line_no, character: 0}
         },
-        "severity" => category_to_severity(issue.category),
-        "message" => """
+        severity: category_to_severity(issue.category),
+        message: """
           #{issue.message}
 
           ## Explanation
