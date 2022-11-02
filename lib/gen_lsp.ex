@@ -73,12 +73,18 @@ defmodule GenLSP do
     |> GenLSP.Buffer.outgoing()
   end
 
+  defp write_debug(device, event, name) do
+    IO.write(device, "#{inspect(name)} event = #{inspect(event)}")
+  end
+
   defp loop(state, parent, deb) do
     receive do
       {:system, from, request} ->
         :sys.handle_system_msg(request, from, parent, __MODULE__, deb, state)
 
-      {:request, _from, request} ->
+      {:request, from, request} ->
+        deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:in, :request, from})
+
         attempt(
           fn ->
             %{id: id} = req = GenLSP.Protocol.new(request)
@@ -91,6 +97,8 @@ defmodule GenLSP do
                   "result" => reply
                 }
 
+                deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:out, :request, from})
+
                 GenLSP.Buffer.outgoing(packet)
 
                 loop(Map.put(state, :user_state, new_user_state), parent, deb)
@@ -102,7 +110,9 @@ defmodule GenLSP do
           "Last message received: handle_request #{inspect(request)}"
         )
 
-      {:notification, _from, notification} ->
+      {:notification, from, notification} ->
+        deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:in, :notification, from})
+
         attempt(
           fn ->
             note = GenLSP.Protocol.new(notification)
