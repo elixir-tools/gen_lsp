@@ -16,8 +16,8 @@ defmodule GenLSPTest.ExampleServer do
   end
 
   @impl true
-  def handle_request(%Requests.Initialize{id: id}, state) do
-    {:reply, id, %{"capabilities" => %{}, "serverInfo" => %{"name" => "Test LSP"}}, state}
+  def handle_request(%Requests.Initialize{id: _id}, state) do
+    {:reply, %{"capabilities" => %{}, "serverInfo" => %{"name" => "Test LSP"}}, state}
   end
 
   @impl true

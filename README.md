@@ -75,7 +75,7 @@ defmodule CredoLS do
     {:noreply, state}
   end
 
-  def handle_notification(_thing, state) do
+  def handle_notification(_notification, state) do
     {:noreply, state}
   end
 end
