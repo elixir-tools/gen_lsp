@@ -1,3 +1,23 @@
+defmodule GenLSP.Communication do
+  @moduledoc false
+
+  defmodule LogLevel do
+    @moduledoc false
+    def level(name), do: apply(__MODULE__, name, [])
+
+    def error, do: 1
+    def warning, do: 2
+    def info, do: 3
+    def log, do: 4
+  end
+
+  defp adapter, do: Application.get_env(:gen_lsp, :wire_protocol, GenLSP.Communication.Stdio)
+
+  def init, do: adapter().init()
+  def write(body), do: adapter().write(body)
+  def read, do: adapter().read()
+end
+
 defmodule GenLSP.Communication.Adapter do
   @moduledoc false
   @callback init() :: :ok
@@ -13,7 +33,7 @@ defmodule GenLSP.Communication.Stdio do
 
   @impl true
   def init do
-    :ok = :io.setopts(binary: true, encoding: :utf8)
+    :ok = :io.setopts(encoding: :latin1, binary: true)
   end
 
   @impl true
@@ -23,7 +43,10 @@ defmodule GenLSP.Communication.Stdio do
       |> IO.iodata_length()
       |> Integer.to_string()
 
-    IO.write(:stdio, ["Content-Length: ", content_length, @separator, body])
+    IO.binwrite(
+      :stdio,
+      IO.iodata_to_binary(["Content-Length: ", content_length, @separator, body])
+    )
   end
 
   @impl true
@@ -65,32 +88,13 @@ defmodule GenLSP.Communication.Stdio do
   end
 
   defp read_body(length) do
-    case IO.read(:stdio, length) do
+    # IO.puts(:standard_error, inspect(:io.getopts()))
+    case IO.binread(:stdio, length) do
       :eof ->
         :eof
 
       payload ->
-        :unicode.characters_to_binary(payload)
+        payload
     end
   end
-end
-
-defmodule GenLSP.Communication do
-  @moduledoc false
-
-  defmodule LogLevel do
-    @moduledoc false
-    def level(name), do: apply(__MODULE__, name, [])
-
-    def error, do: 1
-    def warning, do: 2
-    def info, do: 3
-    def log, do: 4
-  end
-
-  defp adapter, do: Application.get_env(:gen_lsp, :wire_protocol, GenLSP.Communication.Stdio)
-
-  def init, do: adapter().init()
-  def write(body), do: adapter().write(body)
-  def read, do: adapter().read()
 end

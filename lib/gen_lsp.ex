@@ -89,6 +89,8 @@ defmodule GenLSP do
           fn ->
             %{id: id} = req = GenLSP.Protocol.new(request)
 
+            GenLSP.log(:log, "[GenLSP] Processing #{inspect(req.__struct__)}")
+
             case state.internal_state.mod.handle_request(req, state.user_state) do
               {:reply, reply, new_user_state} ->
                 packet = %{
@@ -116,6 +118,7 @@ defmodule GenLSP do
         attempt(
           fn ->
             note = GenLSP.Protocol.new(notification)
+            GenLSP.log(:log, "[GenLSP] Processing #{inspect(note.__struct__)}")
 
             case state.internal_state.mod.handle_notification(note, state.user_state) do
               {:noreply, new_user_state} ->
