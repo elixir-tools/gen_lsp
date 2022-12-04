@@ -182,7 +182,7 @@ defmodule GenLSP do
   def log(level, message) when level in [:error, :warning, :info, :log] do
     GenLSP.notify(%GenLSP.Protocol.Notifications.WindowLogMessage{
       params: %GenLSP.Protocol.Structures.LogMessageParams{
-        type: GenLSP.Communication.LogLevel.level(level),
+        type: GenLSP.Log.level(level),
         message: message
       }
     })
