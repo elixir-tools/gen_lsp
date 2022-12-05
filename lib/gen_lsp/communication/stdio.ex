@@ -1,6 +1,8 @@
 defmodule GenLSP.Communication.Stdio do
-  require Logger
   @moduledoc false
+
+  require Logger
+
   @behaviour GenLSP.Communication.Adapter
   @separator "\r\n\r\n"
 
@@ -50,8 +52,11 @@ defmodule GenLSP.Communication.Stdio do
         line = String.trim(line)
 
         case line do
-          "" ->
+          "" when is_map_key(headers, "Content-Length") ->
             headers
+
+          "" ->
+            read_header(headers)
 
           line ->
             [k, v] = String.split(line, ":")
@@ -61,7 +66,6 @@ defmodule GenLSP.Communication.Stdio do
   end
 
   defp read_body(length) do
-    # IO.puts(:standard_error, inspect(:io.getopts()))
     case IO.binread(:stdio, length) do
       :eof ->
         :eof
