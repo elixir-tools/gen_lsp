@@ -169,7 +169,7 @@ end
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed by adding `lsp` to your list of dependencies in `mix.exs`:
+If [available in Hex](https://hex.pm/docs/publish), the package can be installed by adding `gen_lsp` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
