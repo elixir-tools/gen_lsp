@@ -8,7 +8,7 @@ defmodule GenLSP.Communication.StdioTest do
   @command "mix run -e '
 defmodule GenLSP.Support.Buffer do
   def loop do
-    case GenLSP.Communication.Stdio.read() do
+    case GenLSP.Communication.Stdio.read([]) do
       :eof ->
         :eof
 
@@ -16,14 +16,14 @@ defmodule GenLSP.Support.Buffer do
         body
         |> Jason.decode!()
         |> Jason.encode!()
-        |> GenLSP.Communication.Stdio.write()
+        |> GenLSP.Communication.Stdio.write([])
 
         loop()
     end
   end
 end
 
-GenLSP.Communication.Stdio.init()
+GenLSP.Communication.Stdio.init([])
 
 # the following match ensures that the script completes and does
 # not raise after stdin is closed.

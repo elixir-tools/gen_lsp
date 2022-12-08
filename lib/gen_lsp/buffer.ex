@@ -19,10 +19,10 @@ defmodule GenLSP.Buffer do
   end
 
   def init(lsp) when not is_nil(lsp) and (is_atom(lsp) or is_pid(lsp)) do
-    Communication.init()
-    listen()
+    {:ok, comm_data} = Communication.init([])
+    listen(comm_data)
 
-    {:ok, %{lsp: lsp}}
+    {:ok, %{lsp: lsp, comm_data: comm_data}}
   end
 
   def init(_) do
@@ -42,17 +42,17 @@ defmodule GenLSP.Buffer do
   end
 
   def handle_cast({:outgoing, packet}, state) do
-    Communication.write(Jason.encode!(packet))
+    :ok = Communication.write(Jason.encode!(packet), state.comm_data)
 
     {:noreply, state}
   end
 
-  defp listen do
+  defp listen(comm_data) do
     Task.start_link(fn ->
       Stream.resource(
         fn -> :ok end,
         fn _acc ->
-          case Communication.read() do
+          case Communication.read(comm_data) do
             :eof ->
               {:halt, :ok}
 

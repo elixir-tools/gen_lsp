@@ -1,6 +1,7 @@
 defmodule GenLSP.Communication.Adapter do
   @moduledoc false
-  @callback init() :: :ok
-  @callback read() :: {:ok, term()} | :eof | {:error, term()}
-  @callback write(String.t()) :: :ok | {:error, term()}
+  @type state :: any()
+  @callback init(args :: any()) :: {:ok, state()}
+  @callback read(state()) :: {:ok, term()} | :eof | {:error, term()}
+  @callback write(body :: String.t(), state()) :: :ok | {:error, term()}
 end

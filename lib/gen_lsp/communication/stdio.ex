@@ -7,12 +7,14 @@ defmodule GenLSP.Communication.Stdio do
   @separator "\r\n\r\n"
 
   @impl true
-  def init do
+  def init(_) do
     :ok = :io.setopts(encoding: :latin1, binary: true)
+
+    {:ok, nil}
   end
 
   @impl true
-  def write(body) do
+  def write(body, _) do
     content_length =
       body
       |> IO.iodata_length()
@@ -25,7 +27,7 @@ defmodule GenLSP.Communication.Stdio do
   end
 
   @impl true
-  def read do
+  def read(_) do
     headers = read_header(%{})
 
     case headers do

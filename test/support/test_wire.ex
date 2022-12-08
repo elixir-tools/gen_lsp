@@ -3,21 +3,20 @@ defmodule GenLSPTest.TestWire do
 
   # require Logger
 
-  def init, do: :ok
-
   def start_link(test_pid) do
     GenServer.start_link(__MODULE__, test_pid, name: __MODULE__)
   end
 
+  # this is technically being used as callback for GenServer and for GenLSP.Communication.Adapter 😅
   def init(test_pid) do
     {:ok, %{test_pid: test_pid, messages: [], awaiting: []}}
   end
 
-  def write(body) do
+  def write(body, _args) do
     GenServer.call(__MODULE__, {:write, body})
   end
 
-  def read do
+  def read(_) do
     GenServer.call(__MODULE__, :read)
   end
 
