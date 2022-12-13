@@ -160,7 +160,7 @@ end
 - [x] Generate structs for the rest of the protocol.
     - [ ] Improve documentation for generated structs
 - [ ] Communication: Support pipe: use pipes (Windows) or socket files (Linux, Mac) as the communication channel. The pipe / socket file name is passed as the next arg or with --pipe=.
-- [ ] Communication: Support socket: uses a socket as the communication channel. The port is passed as next arg or with --port=.
+- [x] Communication: Support socket: uses a socket as the communication channel. The port is passed as next arg or with --port=.
 - [ ] Documentation/tooling to package your language server into a single binary with [Burrito](https://github.com/burrito-elixir/burrito).
 
 ## Thank Yous
