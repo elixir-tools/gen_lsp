@@ -30,7 +30,6 @@ defmodule GenLSP.MixProject do
     [
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:jason, "~> 1.3"},
-      {:logger_file_backend, "~> 0.0.13"}
     ]
   end
 
