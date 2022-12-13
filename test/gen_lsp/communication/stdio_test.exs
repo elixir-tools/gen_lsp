@@ -35,9 +35,12 @@ GenLSP.Communication.Stdio.init([])
     expected_message = "Content-Length: #{@length}\r\n\r\n#{@string}"
 
     # send our message
-    assert Port.command(port, "Whoa: Buddy\nContent-Length: #{@length}\nFoo: Bar\r\n\r\n#{@string}")
+    assert Port.command(
+             port,
+             "Whoa: Buddy\nContent-Length: #{@length}\nFoo: Bar\r\n\r\n#{@string}"
+           )
 
     # assert the message is echoed back
-    assert_receive {^port, {:data, ^expected_message}}, 800
+    assert_receive {^port, {:data, ^expected_message}}, 2000
   end
 end

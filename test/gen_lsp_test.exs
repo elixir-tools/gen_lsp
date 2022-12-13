@@ -1,12 +1,14 @@
 defmodule GenLSPTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   alias GenLSP.Protocol.Notifications
   alias GenLSP.Protocol.Structures
 
   setup do
     wire = start_supervised!({GenLSPTest.TestWire, self()})
     lsp = start_supervised!({GenLSPTest.ExampleServer, [test_pid: self()]})
-    buffer = start_supervised!({GenLSP.Buffer, lsp})
+
+    buffer =
+      start_supervised!({GenLSP.Buffer, lsp: lsp, communication: {GenLSPTest.TestWire, []}})
 
     [lsp: lsp, buffer: buffer, wire: wire]
   end

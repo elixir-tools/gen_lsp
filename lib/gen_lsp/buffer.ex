@@ -4,10 +4,9 @@ defmodule GenLSP.Buffer do
 
   require Logger
 
-  alias GenLSP.Communication
-
-  def start_link(lsp) do
-    GenServer.start_link(__MODULE__, lsp, name: __MODULE__)
+  def start_link(opts) do
+    opts = Keyword.validate!(opts, [:lsp, communication: {GenLSP.Communication.Stdio, []}])
+    GenServer.start_link(__MODULE__, opts, name: __MODULE__)
   end
 
   def incoming(packet) do
@@ -18,15 +17,14 @@ defmodule GenLSP.Buffer do
     GenServer.cast(__MODULE__, {:outgoing, packet})
   end
 
-  def init(lsp) when not is_nil(lsp) and (is_atom(lsp) or is_pid(lsp)) do
-    {:ok, comm_data} = Communication.init([])
-    listen(comm_data)
+  def init(opts) do
+    lsp = opts[:lsp]
+    {comm, comm_args} = opts[:communication]
+    {:ok, comm_data} = comm.init(comm_args)
 
-    {:ok, %{lsp: lsp, comm_data: comm_data}}
-  end
+    listen(comm, comm_data)
 
-  def init(_) do
-    {:stop, :lsp_not_provided}
+    {:ok, %{lsp: lsp, comm: comm, comm_data: comm_data}}
   end
 
   def handle_cast({:incoming, packet}, %{lsp: lsp} = state) do
@@ -42,17 +40,17 @@ defmodule GenLSP.Buffer do
   end
 
   def handle_cast({:outgoing, packet}, state) do
-    :ok = Communication.write(Jason.encode!(packet), state.comm_data)
+    :ok = state.comm.write(Jason.encode!(packet), state.comm_data)
 
     {:noreply, state}
   end
 
-  defp listen(comm_data) do
+  defp listen(comm, comm_data) do
     Task.start_link(fn ->
       Stream.resource(
         fn -> :ok end,
         fn _acc ->
-          case Communication.read(comm_data) do
+          case comm.read(comm_data) do
             :eof ->
               {:halt, :ok}
 
