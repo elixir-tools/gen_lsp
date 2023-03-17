@@ -29,7 +29,9 @@ defmodule GenLSP.MixProject do
   defp deps do
     [
       {:ex_doc, ">= 0.0.0", only: :dev},
+      {:typed_struct, "~> 0.3.0"},
       {:jason, "~> 1.3"},
+      {:schematic, "~> 0.0.2"}
     ]
   end
 

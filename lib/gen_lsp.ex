@@ -68,9 +68,7 @@ defmodule GenLSP do
   end
 
   def notify(notification) do
-    notification
-    |> GenLSP.Protocol.encode()
-    |> GenLSP.Buffer.outgoing()
+    GenLSP.Buffer.outgoing(notification)
   end
 
   defp write_debug(device, event, name) do
@@ -87,7 +85,7 @@ defmodule GenLSP do
 
         attempt(
           fn ->
-            %{id: id} = req = GenLSP.Protocol.new(request)
+            %{id: id} = req = GenLSP.Requests.schematic(request)
 
             GenLSP.log(:log, "[GenLSP] Processing #{inspect(req.__struct__)}")
 
@@ -117,7 +115,7 @@ defmodule GenLSP do
 
         attempt(
           fn ->
-            note = GenLSP.Protocol.new(notification)
+            note = GenLSP.Notifications.schematic(notification)
             GenLSP.log(:log, "[GenLSP] Processing #{inspect(note.__struct__)}")
 
             case state.internal_state.mod.handle_notification(note, state.user_state) do
@@ -180,8 +178,8 @@ defmodule GenLSP do
   end
 
   def log(level, message) when level in [:error, :warning, :info, :log] do
-    GenLSP.notify(%GenLSP.Protocol.Notifications.WindowLogMessage{
-      params: %GenLSP.Protocol.Structures.LogMessageParams{
+    GenLSP.notify(%GenLSP.Notifications.WindowLogMessage{
+      params: %GenLSP.Structures.LogMessageParams{
         type: GenLSP.Log.level(level),
         message: message
       }

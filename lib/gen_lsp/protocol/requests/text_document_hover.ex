@@ -1,0 +1,30 @@
+# codegen: do not edit
+defmodule GenLSP.Requests.TextDocumentHover do
+  @moduledoc """
+  Request to request hover information at a given text document position. The request's
+  parameter is of type {@link TextDocumentPosition} the response is of
+  type {@link Hover} or a Thenable that resolves to such.
+  """
+
+  import Schematic, warn: false
+
+  use TypedStruct
+
+  @derive Jason.Encoder
+  typedstruct do
+    field :method, String.t(), default: "textDocument/hover"
+    field :jsonrpc, String.t(), default: "2.0"
+    field :id, integer(), enforce: true
+    field :params, GenLSP.Structures.HoverParams.t()
+  end
+
+  @doc false
+  def schematic() do
+    schema(__MODULE__, %{
+      method: str("textDocument/hover"),
+      jsonrpc: str("2.0"),
+      id: int(),
+      params: GenLSP.Structures.HoverParams.schematic()
+    })
+  end
+end

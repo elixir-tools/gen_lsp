@@ -1,4 +1,4 @@
-defmodule GenLsp.ProtocolTest do
+defmodule GenLSP.ProtocolTest do
   use ExUnit.Case, async: true
 
   alias GenLSP.Protocol.Notifications
