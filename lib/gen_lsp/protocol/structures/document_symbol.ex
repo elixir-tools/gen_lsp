@@ -19,10 +19,10 @@ defmodule GenLSP.Structures.DocumentSymbol do
   * detail: More detail for this symbol, e.g the signature of a function.
   * kind: The kind of this symbol.
   * tags: Tags for this document symbol.
-    
+
     @since 3.16.0
   * deprecated: Indicates if this symbol is deprecated.
-    
+
     @deprecated Use tags instead
   * range: The range enclosing this symbol not including leading/trailing whitespace but everything else
     like comments. This information is typically used to determine if the clients cursor is

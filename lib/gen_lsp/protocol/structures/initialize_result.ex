@@ -13,7 +13,7 @@ defmodule GenLSP.Structures.InitializeResult do
 
   * capabilities: The capabilities the language server provides.
   * server_info: Information about the server.
-    
+
     @since 3.15.0
   """
   @derive Jason.Encoder

@@ -18,7 +18,7 @@ defmodule GenLSP.Structures.RelatedFullDocumentDiagnosticReport do
     diagnostics in a file B which A depends on. An example of
     such a language is C/C++ where marco definitions in a file
     a.cpp and result in errors in a header file b.hpp.
-    
+
     @since 3.17.0
   * kind: A full document diagnostic report.
   * result_id: An optional result id. If provided it will

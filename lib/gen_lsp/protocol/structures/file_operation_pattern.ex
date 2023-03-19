@@ -22,7 +22,7 @@ defmodule GenLSP.Structures.FileOperationPattern do
     - `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to match on `example.0`, `example.1`, …)
     - `[!...]` to negate a range of characters to match in a path segment (e.g., `example.[!0-9]` to match on `example.a`, `example.b`, but not `example.0`)
   * matches: Whether to match files or folders with this pattern.
-    
+
     Matches both if undefined.
   * options: Additional options used during matching.
   """

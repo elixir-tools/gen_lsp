@@ -13,7 +13,7 @@ defmodule GenLSP.Structures.LocationLink do
   ## Fields
 
   * origin_selection_range: Span of the origin of this link.
-    
+
     Used as the underlined span for mouse interaction. Defaults to the word range at
     the definition position.
   * target_uri: The target resource identifier of this link.

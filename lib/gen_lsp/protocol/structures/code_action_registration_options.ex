@@ -14,12 +14,12 @@ defmodule GenLSP.Structures.CodeActionRegistrationOptions do
   * document_selector: A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used.
   * code_action_kinds: CodeActionKinds that this server may return.
-    
+
     The list of kinds may be generic, such as `CodeActionKind.Refactor`, or the server
     may list out every specific kind they provide.
   * resolve_provider: The server provides support to resolve additional
     information for a code action.
-    
+
     @since 3.16.0
   """
   @derive Jason.Encoder

@@ -15,7 +15,7 @@ defmodule GenLSP.Enumerations.CodeActionTriggerKind do
 
   * invoked: Code actions were explicitly requested by the user or by an extension.
   * automatic: Code actions were requested automatically.
-    
+
     This typically happens when current selection in a file changes, but can
     also be triggered when file content changes.
   """

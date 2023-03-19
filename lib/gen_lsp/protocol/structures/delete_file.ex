@@ -15,7 +15,7 @@ defmodule GenLSP.Structures.DeleteFile do
   * uri: The file to delete.
   * options: Delete options.
   * annotation_id: An optional annotation identifier describing the operation.
-    
+
     @since 3.16.0
   """
   @derive Jason.Encoder

@@ -15,10 +15,10 @@ defmodule GenLSP.Structures.SignatureHelpRegistrationOptions do
     the document selector provided on the client side will be used.
   * trigger_characters: List of characters that trigger signature help automatically.
   * retrigger_characters: List of characters that re-trigger signature help.
-    
+
     These trigger characters are only active when signature help is already showing. All trigger characters
     are also counted as re-trigger characters.
-    
+
     @since 3.15.0
   """
   @derive Jason.Encoder

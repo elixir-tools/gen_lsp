@@ -19,9 +19,9 @@ defmodule GenLSP.Structures.SignatureInformation do
     in the UI but can be omitted.
   * parameters: The parameters of this signature.
   * active_parameter: The index of the active parameter.
-    
+
     If provided, this is used in place of `SignatureHelp.activeParameter`.
-    
+
     @since 3.16.0
   """
   @derive Jason.Encoder

@@ -14,18 +14,18 @@ defmodule GenLSP.Structures.ServerCapabilities do
 
   * position_encoding: The position encoding the server picked from the encodings offered
     by the client via the client capability `general.positionEncodings`.
-    
+
     If the client didn't provide any position encodings the only valid
     value that a server can return is 'utf-16'.
-    
+
     If omitted it defaults to 'utf-16'.
-    
+
     @since 3.17.0
   * text_document_sync: Defines how text documents are synced. Is either a detailed structure
     defining each notification or for backwards compatibility the
     TextDocumentSyncKind number.
   * notebook_document_sync: Defines how notebook documents are synced.
-    
+
     @since 3.17.0
   * completion_provider: The server provides completion support.
   * hover_provider: The server provides hover support.
@@ -54,28 +54,28 @@ defmodule GenLSP.Structures.ServerCapabilities do
   * selection_range_provider: The server provides selection range support.
   * execute_command_provider: The server provides execute command support.
   * call_hierarchy_provider: The server provides call hierarchy support.
-    
+
     @since 3.16.0
   * linked_editing_range_provider: The server provides linked editing range support.
-    
+
     @since 3.16.0
   * semantic_tokens_provider: The server provides semantic tokens support.
-    
+
     @since 3.16.0
   * moniker_provider: The server provides moniker support.
-    
+
     @since 3.16.0
   * type_hierarchy_provider: The server provides type hierarchy support.
-    
+
     @since 3.17.0
   * inline_value_provider: The server provides inline values.
-    
+
     @since 3.17.0
   * inlay_hint_provider: The server provides inlay hints.
-    
+
     @since 3.17.0
   * diagnostic_provider: The server has support for pull model diagnostics.
-    
+
     @since 3.17.0
   * workspace: Workspace specific server capabilities.
   * experimental: Experimental server capabilities.

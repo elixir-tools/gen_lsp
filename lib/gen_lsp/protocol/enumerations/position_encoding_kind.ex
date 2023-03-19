@@ -15,11 +15,11 @@ defmodule GenLSP.Enumerations.PositionEncodingKind do
 
   * utf8: Character offsets count UTF-8 code units.
   * utf16: Character offsets count UTF-16 code units.
-    
+
     This is the default and must always be supported
     by servers
   * utf32: Character offsets count UTF-32 code units.
-    
+
     Implementation note: these are the same as Unicode code points,
     so this `PositionEncodingKind` may also be used for an
     encoding-agnostic representation of character offsets.
