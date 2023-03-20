@@ -139,6 +139,7 @@ defmodule GenLSP do
     end
   end
 
+  @spec attempt((-> any()), String.t()) :: no_return()
   defp attempt(callback, message) do
     callback.()
   rescue
