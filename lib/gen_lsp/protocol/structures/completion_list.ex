@@ -46,20 +46,23 @@ defmodule GenLSP.Structures.CompletionList do
         oneof([
           null(),
           map(%{
-            {"commitCharacters", :commit_characters} => list(str()),
+            {"commitCharacters", :commit_characters} => oneof([null(), list(str())]),
             {"editRange", :edit_range} =>
               oneof([
-                GenLSP.Structures.Range.schematic(),
-                map(%{
-                  {"insert", :insert} => GenLSP.Structures.Range.schematic(),
-                  {"replace", :replace} => GenLSP.Structures.Range.schematic()
-                })
+                null(),
+                oneof([
+                  GenLSP.Structures.Range.schematic(),
+                  map(%{
+                    {"insert", :insert} => GenLSP.Structures.Range.schematic(),
+                    {"replace", :replace} => GenLSP.Structures.Range.schematic()
+                  })
+                ])
               ]),
             {"insertTextFormat", :insert_text_format} =>
-              GenLSP.Enumerations.InsertTextFormat.schematic(),
+              oneof([null(), GenLSP.Enumerations.InsertTextFormat.schematic()]),
             {"insertTextMode", :insert_text_mode} =>
-              GenLSP.Enumerations.InsertTextMode.schematic(),
-            {"data", :data} => GenLSP.TypeAlias.LSPAny.schematic()
+              oneof([null(), GenLSP.Enumerations.InsertTextMode.schematic()]),
+            {"data", :data} => oneof([null(), GenLSP.TypeAlias.LSPAny.schematic()])
           })
         ]),
       {"items", :items} => list(GenLSP.Structures.CompletionItem.schematic())

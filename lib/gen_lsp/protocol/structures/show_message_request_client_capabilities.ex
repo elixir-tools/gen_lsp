@@ -25,7 +25,8 @@ defmodule GenLSP.Structures.ShowMessageRequestClientCapabilities do
         oneof([
           null(),
           map(%{
-            {"additionalPropertiesSupport", :additional_properties_support} => bool()
+            {"additionalPropertiesSupport", :additional_properties_support} =>
+              oneof([null(), bool()])
           })
         ])
     })

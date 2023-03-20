@@ -37,15 +37,21 @@ defmodule GenLSP.Structures.NotebookDocumentSyncRegistrationOptions do
               {"notebook", :notebook} =>
                 oneof([str(), GenLSP.TypeAlias.NotebookDocumentFilter.schematic()]),
               {"cells", :cells} =>
-                list(
-                  map(%{
-                    {"language", :language} => str()
-                  })
-                )
+                oneof([
+                  null(),
+                  list(
+                    map(%{
+                      {"language", :language} => str()
+                    })
+                  )
+                ])
             }),
             map(%{
               {"notebook", :notebook} =>
-                oneof([str(), GenLSP.TypeAlias.NotebookDocumentFilter.schematic()]),
+                oneof([
+                  null(),
+                  oneof([str(), GenLSP.TypeAlias.NotebookDocumentFilter.schematic()])
+                ]),
               {"cells", :cells} =>
                 list(
                   map(%{

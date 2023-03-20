@@ -43,14 +43,15 @@ defmodule GenLSP.Structures.FoldingRangeClientCapabilities do
         oneof([
           null(),
           map(%{
-            {"valueSet", :value_set} => list(GenLSP.Enumerations.FoldingRangeKind.schematic())
+            {"valueSet", :value_set} =>
+              oneof([null(), list(GenLSP.Enumerations.FoldingRangeKind.schematic())])
           })
         ]),
       {"foldingRange", :folding_range} =>
         oneof([
           null(),
           map(%{
-            {"collapsedText", :collapsed_text} => bool()
+            {"collapsedText", :collapsed_text} => oneof([null(), bool()])
           })
         ])
     })

@@ -31,13 +31,19 @@ defmodule GenLSP.MixProject do
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:typed_struct, "~> 0.3.0"},
       {:jason, "~> 1.3"},
-      {:schematic, "~> 0.0.2"}
+      {:schematic, path: "../schematic"}
     ]
   end
 
   defp docs() do
     [
-      nest_modules_by_prefix: File.read!("mods.txt") |> String.split("\n")
+      nest_modules_by_prefix: [
+        "GenLSP.Requests",
+        "GenLSP.Notifications",
+        "GenLSP.Enumerations",
+        "GenLSP.TypeAlias",
+        "GenLSP.Structures"
+      ]
     ]
   end
 

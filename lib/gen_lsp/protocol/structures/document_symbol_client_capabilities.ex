@@ -42,7 +42,8 @@ defmodule GenLSP.Structures.DocumentSymbolClientCapabilities do
         oneof([
           null(),
           map(%{
-            {"valueSet", :value_set} => list(GenLSP.Enumerations.SymbolKind.schematic())
+            {"valueSet", :value_set} =>
+              oneof([null(), list(GenLSP.Enumerations.SymbolKind.schematic())])
           })
         ]),
       {"hierarchicalDocumentSymbolSupport", :hierarchical_document_symbol_support} =>

@@ -63,13 +63,16 @@ defmodule GenLSP.Structures.SemanticTokensClientCapabilities do
       {"dynamicRegistration", :dynamic_registration} => oneof([null(), bool()]),
       {"requests", :requests} =>
         map(%{
-          {"range", :range} => oneof([bool(), map(%{})]),
+          {"range", :range} => oneof([null(), oneof([bool(), map(%{})])]),
           {"full", :full} =>
             oneof([
-              bool(),
-              map(%{
-                {"delta", :delta} => bool()
-              })
+              null(),
+              oneof([
+                bool(),
+                map(%{
+                  {"delta", :delta} => oneof([null(), bool()])
+                })
+              ])
             ])
         }),
       {"tokenTypes", :token_types} => list(str()),

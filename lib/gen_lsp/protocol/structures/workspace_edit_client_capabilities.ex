@@ -50,7 +50,7 @@ defmodule GenLSP.Structures.WorkspaceEditClientCapabilities do
         oneof([
           null(),
           map(%{
-            {"groupsOnLabel", :groups_on_label} => bool()
+            {"groupsOnLabel", :groups_on_label} => oneof([null(), bool()])
           })
         ])
     })

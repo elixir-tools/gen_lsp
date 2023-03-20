@@ -377,9 +377,9 @@ defmodule GenLSP.Structures.ServerCapabilities do
           null(),
           map(%{
             {"workspaceFolders", :workspace_folders} =>
-              GenLSP.Structures.WorkspaceFoldersServerCapabilities.schematic(),
+              oneof([null(), GenLSP.Structures.WorkspaceFoldersServerCapabilities.schematic()]),
             {"fileOperations", :file_operations} =>
-              GenLSP.Structures.FileOperationOptions.schematic()
+              oneof([null(), GenLSP.Structures.FileOperationOptions.schematic()])
           })
         ]),
       {"experimental", :experimental} => oneof([null(), GenLSP.TypeAlias.LSPAny.schematic()])

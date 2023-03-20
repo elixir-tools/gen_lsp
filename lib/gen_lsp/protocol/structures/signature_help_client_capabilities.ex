@@ -37,12 +37,15 @@ defmodule GenLSP.Structures.SignatureHelpClientCapabilities do
           null(),
           map(%{
             {"documentationFormat", :documentation_format} =>
-              list(GenLSP.Enumerations.MarkupKind.schematic()),
+              oneof([null(), list(GenLSP.Enumerations.MarkupKind.schematic())]),
             {"parameterInformation", :parameter_information} =>
-              map(%{
-                {"labelOffsetSupport", :label_offset_support} => bool()
-              }),
-            {"activeParameterSupport", :active_parameter_support} => bool()
+              oneof([
+                null(),
+                map(%{
+                  {"labelOffsetSupport", :label_offset_support} => oneof([null(), bool()])
+                })
+              ]),
+            {"activeParameterSupport", :active_parameter_support} => oneof([null(), bool()])
           })
         ]),
       {"contextSupport", :context_support} => oneof([null(), bool()])

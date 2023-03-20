@@ -45,34 +45,44 @@ defmodule GenLSP.Structures.CompletionClientCapabilities do
         oneof([
           null(),
           map(%{
-            {"snippetSupport", :snippet_support} => bool(),
-            {"commitCharactersSupport", :commit_characters_support} => bool(),
+            {"snippetSupport", :snippet_support} => oneof([null(), bool()]),
+            {"commitCharactersSupport", :commit_characters_support} => oneof([null(), bool()]),
             {"documentationFormat", :documentation_format} =>
-              list(GenLSP.Enumerations.MarkupKind.schematic()),
-            {"deprecatedSupport", :deprecated_support} => bool(),
-            {"preselectSupport", :preselect_support} => bool(),
+              oneof([null(), list(GenLSP.Enumerations.MarkupKind.schematic())]),
+            {"deprecatedSupport", :deprecated_support} => oneof([null(), bool()]),
+            {"preselectSupport", :preselect_support} => oneof([null(), bool()]),
             {"tagSupport", :tag_support} =>
-              map(%{
-                {"valueSet", :value_set} =>
-                  list(GenLSP.Enumerations.CompletionItemTag.schematic())
-              }),
-            {"insertReplaceSupport", :insert_replace_support} => bool(),
+              oneof([
+                null(),
+                map(%{
+                  {"valueSet", :value_set} =>
+                    list(GenLSP.Enumerations.CompletionItemTag.schematic())
+                })
+              ]),
+            {"insertReplaceSupport", :insert_replace_support} => oneof([null(), bool()]),
             {"resolveSupport", :resolve_support} =>
-              map(%{
-                {"properties", :properties} => list(str())
-              }),
+              oneof([
+                null(),
+                map(%{
+                  {"properties", :properties} => list(str())
+                })
+              ]),
             {"insertTextModeSupport", :insert_text_mode_support} =>
-              map(%{
-                {"valueSet", :value_set} => list(GenLSP.Enumerations.InsertTextMode.schematic())
-              }),
-            {"labelDetailsSupport", :label_details_support} => bool()
+              oneof([
+                null(),
+                map(%{
+                  {"valueSet", :value_set} => list(GenLSP.Enumerations.InsertTextMode.schematic())
+                })
+              ]),
+            {"labelDetailsSupport", :label_details_support} => oneof([null(), bool()])
           })
         ]),
       {"completionItemKind", :completion_item_kind} =>
         oneof([
           null(),
           map(%{
-            {"valueSet", :value_set} => list(GenLSP.Enumerations.CompletionItemKind.schematic())
+            {"valueSet", :value_set} =>
+              oneof([null(), list(GenLSP.Enumerations.CompletionItemKind.schematic())])
           })
         ]),
       {"insertTextMode", :insert_text_mode} =>
@@ -82,7 +92,7 @@ defmodule GenLSP.Structures.CompletionClientCapabilities do
         oneof([
           null(),
           map(%{
-            {"itemDefaults", :item_defaults} => list(str())
+            {"itemDefaults", :item_defaults} => oneof([null(), list(str())])
           })
         ])
     })

@@ -57,7 +57,7 @@ defmodule GenLSP.Structures.CompletionRegistrationOptions do
         oneof([
           null(),
           map(%{
-            {"labelDetailsSupport", :label_details_support} => bool()
+            {"labelDetailsSupport", :label_details_support} => oneof([null(), bool()])
           })
         ])
     })

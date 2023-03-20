@@ -36,7 +36,7 @@ defmodule GenLSP.Structures.SemanticTokensOptions do
           oneof([
             bool(),
             map(%{
-              {"delta", :delta} => bool()
+              {"delta", :delta} => oneof([null(), bool()])
             })
           ])
         ]),

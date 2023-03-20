@@ -11,27 +11,10 @@ defmodule GenLSP.TypeAlias.LSPAny do
 
   import Schematic, warn: false
 
-  @type t ::
-          GenLSP.TypeAlias.LSPObject.t()
-          | GenLSP.TypeAlias.LSPArray.t()
-          | String.t()
-          | integer()
-          | GenLSP.BaseTypes.uinteger()
-          | float()
-          | boolean()
-          | nil
+  @type t :: any()
 
   @doc false
   def schematic() do
-    oneof([
-      GenLSP.TypeAlias.LSPObject.schematic(),
-      GenLSP.TypeAlias.LSPArray.schematic(),
-      str(),
-      int(),
-      int(),
-      str(),
-      bool(),
-      null()
-    ])
+    any()
   end
 end

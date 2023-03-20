@@ -31,7 +31,7 @@ defmodule GenLSP.Structures.InitializeResult do
           null(),
           map(%{
             {"name", :name} => str(),
-            {"version", :version} => str()
+            {"version", :version} => oneof([null(), str()])
           })
         ])
     })

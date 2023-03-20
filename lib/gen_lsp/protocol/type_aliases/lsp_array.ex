@@ -7,10 +7,10 @@ defmodule GenLSP.TypeAlias.LSPArray do
 
   import Schematic, warn: false
 
-  @type t :: list(GenLSP.TypeAlias.LSPAny.t())
+  @type t :: list(any())
 
   @doc false
   def schematic() do
-    list(GenLSP.TypeAlias.LSPAny.schematic())
+    list(any())
   end
 end

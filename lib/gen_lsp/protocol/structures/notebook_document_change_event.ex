@@ -33,22 +33,29 @@ defmodule GenLSP.Structures.NotebookDocumentChangeEvent do
           null(),
           map(%{
             {"structure", :structure} =>
-              map(%{
-                {"array", :array} => GenLSP.Structures.NotebookCellArrayChange.schematic(),
-                {"didOpen", :did_open} => list(GenLSP.Structures.TextDocumentItem.schematic()),
-                {"didClose", :did_close} =>
-                  list(GenLSP.Structures.TextDocumentIdentifier.schematic())
-              }),
-            {"data", :data} => list(GenLSP.Structures.NotebookCell.schematic()),
-            {"textContent", :text_content} =>
-              list(
+              oneof([
+                null(),
                 map(%{
-                  {"document", :document} =>
-                    GenLSP.Structures.VersionedTextDocumentIdentifier.schematic(),
-                  {"changes", :changes} =>
-                    list(GenLSP.TypeAlias.TextDocumentContentChangeEvent.schematic())
+                  {"array", :array} => GenLSP.Structures.NotebookCellArrayChange.schematic(),
+                  {"didOpen", :did_open} =>
+                    oneof([null(), list(GenLSP.Structures.TextDocumentItem.schematic())]),
+                  {"didClose", :did_close} =>
+                    oneof([null(), list(GenLSP.Structures.TextDocumentIdentifier.schematic())])
                 })
-              )
+              ]),
+            {"data", :data} => oneof([null(), list(GenLSP.Structures.NotebookCell.schematic())]),
+            {"textContent", :text_content} =>
+              oneof([
+                null(),
+                list(
+                  map(%{
+                    {"document", :document} =>
+                      GenLSP.Structures.VersionedTextDocumentIdentifier.schematic(),
+                    {"changes", :changes} =>
+                      list(GenLSP.TypeAlias.TextDocumentContentChangeEvent.schematic())
+                  })
+                )
+              ])
           })
         ])
     })

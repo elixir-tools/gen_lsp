@@ -68,7 +68,7 @@ defmodule GenLSP do
   end
 
   def notify(notification) do
-    GenLSP.Buffer.outgoing(notification)
+    GenLSP.Buffer.outgoing(dump(notification))
   end
 
   defp write_debug(device, event, name) do
@@ -85,7 +85,7 @@ defmodule GenLSP do
 
         attempt(
           fn ->
-            %{id: id} = req = GenLSP.Requests.schematic(request)
+            {:ok, %{id: id} = req} = GenLSP.Requests.new(request)
 
             GenLSP.log(:log, "[GenLSP] Processing #{inspect(req.__struct__)}")
 
@@ -94,7 +94,7 @@ defmodule GenLSP do
                 packet = %{
                   "jsonrpc" => "2.0",
                   "id" => id,
-                  "result" => reply
+                  "result" => dump(reply)
                 }
 
                 deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:out, :request, from})
@@ -115,7 +115,7 @@ defmodule GenLSP do
 
         attempt(
           fn ->
-            note = GenLSP.Notifications.schematic(notification)
+            {:ok, note} = GenLSP.Notifications.new(notification)
             GenLSP.log(:log, "[GenLSP] Processing #{inspect(note.__struct__)}")
 
             case state.internal_state.mod.handle_notification(note, state.user_state) do
@@ -153,6 +153,10 @@ defmodule GenLSP do
       """)
 
       reraise e, __STACKTRACE__
+  end
+
+  defp dump(%struct{} = structure) do
+    Schematic.dump(struct.schematic(), structure)
   end
 
   @doc false

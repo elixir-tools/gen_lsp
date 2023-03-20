@@ -39,7 +39,8 @@ defmodule GenLSP.Structures.WorkspaceSymbolClientCapabilities do
         oneof([
           null(),
           map(%{
-            {"valueSet", :value_set} => list(GenLSP.Enumerations.SymbolKind.schematic())
+            {"valueSet", :value_set} =>
+              oneof([null(), list(GenLSP.Enumerations.SymbolKind.schematic())])
           })
         ]),
       {"tagSupport", :tag_support} =>

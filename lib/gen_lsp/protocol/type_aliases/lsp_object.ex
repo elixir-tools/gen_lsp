@@ -7,10 +7,10 @@ defmodule GenLSP.TypeAlias.LSPObject do
 
   import Schematic, warn: false
 
-  @type t :: %{String.t() => GenLSP.TypeAlias.LSPAny.t()}
+  @type t :: %{String.t() => any()}
 
   @doc false
   def schematic() do
-    map(keys: str(), values: GenLSP.TypeAlias.LSPAny.schematic())
+    map(keys: str(), values: any())
   end
 end

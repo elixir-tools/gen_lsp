@@ -63,7 +63,7 @@ defmodule GenLSP.Structures.PrivateInitializeParams do
           null(),
           map(%{
             {"name", :name} => str(),
-            {"version", :version} => str()
+            {"version", :version} => oneof([null(), str()])
           })
         ]),
       {"locale", :locale} => oneof([null(), str()]),

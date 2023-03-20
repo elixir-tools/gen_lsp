@@ -54,7 +54,7 @@ defmodule GenLSP.Structures.CompletionOptions do
         oneof([
           null(),
           map(%{
-            {"labelDetailsSupport", :label_details_support} => bool()
+            {"labelDetailsSupport", :label_details_support} => oneof([null(), bool()])
           })
         ]),
       {"workDoneProgress", :work_done_progress} => oneof([null(), bool()])
