@@ -6,23 +6,20 @@ defmodule GenLSP.Enumerations.FoldingRangeKind do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  Folding range for a comment
+  """
+  def comment, do: "comment"
 
   @doc """
-  ## Values
-
-  * comment: Folding range for a comment
-  * imports: Folding range for an import or include
-  * region: Folding range for a region (e.g. `#region`)
+  Folding range for an import or include
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :comment, String.t(), default: "comment"
-    field :imports, String.t(), default: "imports"
-    field :region, String.t(), default: "region"
-  end
+  def imports, do: "imports"
 
-  def v, do: %__MODULE__{}
+  @doc """
+  Folding range for a region (e.g. `#region`)
+  """
+  def region, do: "region"
 
   @doc false
   def schematic() do

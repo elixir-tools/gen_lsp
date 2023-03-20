@@ -6,32 +6,23 @@ defmodule GenLSP.Enumerations.ErrorCodes do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  def parse_error, do: -32700
+
+  def invalid_request, do: -32600
+
+  def method_not_found, do: -32601
+
+  def invalid_params, do: -32602
+
+  def internal_error, do: -32603
 
   @doc """
-  ## Values
-
-  * parse_error
-  * invalid_request
-  * method_not_found
-  * invalid_params
-  * internal_error
-  * server_not_initialized: Error code indicating that a server received a notification or
-    request before the server has received the `initialize` request.
-  * unknown_error_code
+  Error code indicating that a server received a notification or
+  request before the server has received the `initialize` request.
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :parse_error, integer(), default: -32700
-    field :invalid_request, integer(), default: -32600
-    field :method_not_found, integer(), default: -32601
-    field :invalid_params, integer(), default: -32602
-    field :internal_error, integer(), default: -32603
-    field :server_not_initialized, integer(), default: -32002
-    field :unknown_error_code, integer(), default: -32001
-  end
+  def server_not_initialized, do: -32002
 
-  def v, do: %__MODULE__{}
+  def unknown_error_code, do: -32001
 
   @doc false
   def schematic() do

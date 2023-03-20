@@ -9,21 +9,15 @@ defmodule GenLSP.Enumerations.FileOperationPatternKind do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  The pattern matches a file only.
+  """
+  def file, do: "file"
 
   @doc """
-  ## Values
-
-  * file: The pattern matches a file only.
-  * folder: The pattern matches a folder only.
+  The pattern matches a folder only.
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :file, String.t(), default: "file"
-    field :folder, String.t(), default: "folder"
-  end
-
-  def v, do: %__MODULE__{}
+  def folder, do: "folder"
 
   @doc false
   def schematic() do

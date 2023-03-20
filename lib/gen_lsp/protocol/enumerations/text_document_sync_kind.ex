@@ -7,26 +7,23 @@ defmodule GenLSP.Enumerations.TextDocumentSyncKind do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  Documents should not be synced at all.
+  """
+  def none, do: 0
 
   @doc """
-  ## Values
-
-  * none: Documents should not be synced at all.
-  * full: Documents are synced by always sending the full content
-    of the document.
-  * incremental: Documents are synced by sending the full content on open.
-    After that only incremental updates to the document are
-    send.
+  Documents are synced by always sending the full content
+  of the document.
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :none, GenLSP.BaseTypes.uinteger(), default: 0
-    field :full, GenLSP.BaseTypes.uinteger(), default: 1
-    field :incremental, GenLSP.BaseTypes.uinteger(), default: 2
-  end
+  def full, do: 1
 
-  def v, do: %__MODULE__{}
+  @doc """
+  Documents are synced by sending the full content on open.
+  After that only incremental updates to the document are
+  send.
+  """
+  def incremental, do: 2
 
   @doc false
   def schematic() do

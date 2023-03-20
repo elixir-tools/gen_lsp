@@ -6,24 +6,21 @@ defmodule GenLSP.Enumerations.TextDocumentSaveReason do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  Manually triggered, e.g. by the user pressing save, by starting debugging,
+  or by an API call.
+  """
+  def manual, do: 1
 
   @doc """
-  ## Values
-
-  * manual: Manually triggered, e.g. by the user pressing save, by starting debugging,
-    or by an API call.
-  * after_delay: Automatic after a delay.
-  * focus_out: When the editor lost focus.
+  Automatic after a delay.
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :manual, GenLSP.BaseTypes.uinteger(), default: 1
-    field :after_delay, GenLSP.BaseTypes.uinteger(), default: 2
-    field :focus_out, GenLSP.BaseTypes.uinteger(), default: 3
-  end
+  def after_delay, do: 2
 
-  def v, do: %__MODULE__{}
+  @doc """
+  When the editor lost focus.
+  """
+  def focus_out, do: 3
 
   @doc false
   def schematic() do

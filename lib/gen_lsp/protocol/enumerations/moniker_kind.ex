@@ -8,24 +8,21 @@ defmodule GenLSP.Enumerations.MonikerKind do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  The moniker represent a symbol that is imported into a project
+  """
+  def import, do: "import"
 
   @doc """
-  ## Values
-
-  * import: The moniker represent a symbol that is imported into a project
-  * export: The moniker represents a symbol that is exported from a project
-  * local: The moniker represents a symbol that is local to a project (e.g. a local
-    variable of a function, a class not visible outside the project, ...)
+  The moniker represents a symbol that is exported from a project
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :import, String.t(), default: "import"
-    field :export, String.t(), default: "export"
-    field :local, String.t(), default: "local"
-  end
+  def export, do: "export"
 
-  def v, do: %__MODULE__{}
+  @doc """
+  The moniker represents a symbol that is local to a project (e.g. a local
+  variable of a function, a class not visible outside the project, ...)
+  """
+  def local, do: "local"
 
   @doc false
   def schematic() do

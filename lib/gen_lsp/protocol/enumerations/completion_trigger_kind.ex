@@ -6,25 +6,22 @@ defmodule GenLSP.Enumerations.CompletionTriggerKind do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  Completion was triggered by typing an identifier (24x7 code
+  complete), manual invocation (e.g Ctrl+Space) or via API.
+  """
+  def invoked, do: 1
 
   @doc """
-  ## Values
-
-  * invoked: Completion was triggered by typing an identifier (24x7 code
-    complete), manual invocation (e.g Ctrl+Space) or via API.
-  * trigger_character: Completion was triggered by a trigger character specified by
-    the `triggerCharacters` properties of the `CompletionRegistrationOptions`.
-  * trigger_for_incomplete_completions: Completion was re-triggered as current completion list is incomplete
+  Completion was triggered by a trigger character specified by
+  the `triggerCharacters` properties of the `CompletionRegistrationOptions`.
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :invoked, GenLSP.BaseTypes.uinteger(), default: 1
-    field :trigger_character, GenLSP.BaseTypes.uinteger(), default: 2
-    field :trigger_for_incomplete_completions, GenLSP.BaseTypes.uinteger(), default: 3
-  end
+  def trigger_character, do: 2
 
-  def v, do: %__MODULE__{}
+  @doc """
+  Completion was re-triggered as current completion list is incomplete
+  """
+  def trigger_for_incomplete_completions, do: 3
 
   @doc false
   def schematic() do

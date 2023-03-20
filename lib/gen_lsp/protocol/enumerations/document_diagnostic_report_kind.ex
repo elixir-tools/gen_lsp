@@ -8,23 +8,17 @@ defmodule GenLSP.Enumerations.DocumentDiagnosticReportKind do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  A diagnostic report with a full
+  set of problems.
+  """
+  def full, do: "full"
 
   @doc """
-  ## Values
-
-  * full: A diagnostic report with a full
-    set of problems.
-  * unchanged: A report indicating that the last
-    returned report is still accurate.
+  A report indicating that the last
+  returned report is still accurate.
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :full, String.t(), default: "full"
-    field :unchanged, String.t(), default: "unchanged"
-  end
-
-  def v, do: %__MODULE__{}
+  def unchanged, do: "unchanged"
 
   @doc false
   def schematic() do

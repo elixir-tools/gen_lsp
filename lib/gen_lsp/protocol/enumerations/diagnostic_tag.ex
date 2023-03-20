@@ -8,26 +8,20 @@ defmodule GenLSP.Enumerations.DiagnosticTag do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  Unused or unnecessary code.
+
+  Clients are allowed to render diagnostics with this tag faded out instead of having
+  an error squiggle.
+  """
+  def unnecessary, do: 1
 
   @doc """
-  ## Values
+  Deprecated or obsolete code.
 
-  * unnecessary: Unused or unnecessary code.
-
-    Clients are allowed to render diagnostics with this tag faded out instead of having
-    an error squiggle.
-  * deprecated: Deprecated or obsolete code.
-
-    Clients are allowed to rendered diagnostics with this tag strike through.
+  Clients are allowed to rendered diagnostics with this tag strike through.
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :unnecessary, GenLSP.BaseTypes.uinteger(), default: 1
-    field :deprecated, GenLSP.BaseTypes.uinteger(), default: 2
-  end
-
-  def v, do: %__MODULE__{}
+  def deprecated, do: 2
 
   @doc false
   def schematic() do

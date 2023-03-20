@@ -6,23 +6,20 @@ defmodule GenLSP.Enumerations.FileChangeType do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  The file got created.
+  """
+  def created, do: 1
 
   @doc """
-  ## Values
-
-  * created: The file got created.
-  * changed: The file got changed.
-  * deleted: The file got deleted.
+  The file got changed.
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :created, GenLSP.BaseTypes.uinteger(), default: 1
-    field :changed, GenLSP.BaseTypes.uinteger(), default: 2
-    field :deleted, GenLSP.BaseTypes.uinteger(), default: 3
-  end
+  def changed, do: 2
 
-  def v, do: %__MODULE__{}
+  @doc """
+  The file got deleted.
+  """
+  def deleted, do: 3
 
   @doc false
   def schematic() do

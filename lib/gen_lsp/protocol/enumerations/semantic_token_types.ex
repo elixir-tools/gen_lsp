@@ -10,64 +10,58 @@ defmodule GenLSP.Enumerations.SemanticTokenTypes do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  def namespace, do: "namespace"
 
   @doc """
-  ## Values
-
-  * namespace
-  * type: Represents a generic type. Acts as a fallback for types which can't be mapped to
-    a specific type like class or enum.
-  * class
-  * enum
-  * interface
-  * struct
-  * type_parameter
-  * parameter
-  * variable
-  * property
-  * enum_member
-  * event
-  * function
-  * method
-  * macro
-  * keyword
-  * modifier
-  * comment
-  * string
-  * number
-  * regexp
-  * operator
-  * decorator: @since 3.17.0
+  Represents a generic type. Acts as a fallback for types which can't be mapped to
+  a specific type like class or enum.
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :namespace, String.t(), default: "namespace"
-    field :type, String.t(), default: "type"
-    field :class, String.t(), default: "class"
-    field :enum, String.t(), default: "enum"
-    field :interface, String.t(), default: "interface"
-    field :struct, String.t(), default: "struct"
-    field :type_parameter, String.t(), default: "typeParameter"
-    field :parameter, String.t(), default: "parameter"
-    field :variable, String.t(), default: "variable"
-    field :property, String.t(), default: "property"
-    field :enum_member, String.t(), default: "enumMember"
-    field :event, String.t(), default: "event"
-    field :function, String.t(), default: "function"
-    field :method, String.t(), default: "method"
-    field :macro, String.t(), default: "macro"
-    field :keyword, String.t(), default: "keyword"
-    field :modifier, String.t(), default: "modifier"
-    field :comment, String.t(), default: "comment"
-    field :string, String.t(), default: "string"
-    field :number, String.t(), default: "number"
-    field :regexp, String.t(), default: "regexp"
-    field :operator, String.t(), default: "operator"
-    field :decorator, String.t(), default: "decorator"
-  end
+  def type, do: "type"
 
-  def v, do: %__MODULE__{}
+  def class, do: "class"
+
+  def enum, do: "enum"
+
+  def interface, do: "interface"
+
+  def struct, do: "struct"
+
+  def type_parameter, do: "typeParameter"
+
+  def parameter, do: "parameter"
+
+  def variable, do: "variable"
+
+  def property, do: "property"
+
+  def enum_member, do: "enumMember"
+
+  def event, do: "event"
+
+  def function, do: "function"
+
+  def method, do: "method"
+
+  def macro, do: "macro"
+
+  def keyword, do: "keyword"
+
+  def modifier, do: "modifier"
+
+  def comment, do: "comment"
+
+  def string, do: "string"
+
+  def number, do: "number"
+
+  def regexp, do: "regexp"
+
+  def operator, do: "operator"
+
+  @doc """
+  @since 3.17.0
+  """
+  def decorator, do: "decorator"
 
   @doc false
   def schematic() do

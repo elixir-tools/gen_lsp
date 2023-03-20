@@ -10,21 +10,15 @@ defmodule GenLSP.Enumerations.MarkupKind do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  Plain text is supported as a content format
+  """
+  def plain_text, do: "plaintext"
 
   @doc """
-  ## Values
-
-  * plain_text: Plain text is supported as a content format
-  * markdown: Markdown is supported as a content format
+  Markdown is supported as a content format
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :plain_text, String.t(), default: "plaintext"
-    field :markdown, String.t(), default: "markdown"
-  end
-
-  def v, do: %__MODULE__{}
+  def markdown, do: "markdown"
 
   @doc false
   def schematic() do

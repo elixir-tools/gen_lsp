@@ -2,30 +2,30 @@
 defmodule GenLSP.Enumerations.FailureHandlingKind do
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  Applying the workspace change is simply aborted if one of the changes provided
+  fails. All operations executed before the failing operation stay executed.
+  """
+  def abort, do: "abort"
 
   @doc """
-  ## Values
-
-  * abort: Applying the workspace change is simply aborted if one of the changes provided
-    fails. All operations executed before the failing operation stay executed.
-  * transactional: All operations are executed transactional. That means they either all
-    succeed or no changes at all are applied to the workspace.
-  * text_only_transactional: If the workspace edit contains only textual file changes they are executed transactional.
-    If resource changes (create, rename or delete file) are part of the change the failure
-    handling strategy is abort.
-  * undo: The client tries to undo the operations already executed. But there is no
-    guarantee that this is succeeding.
+  All operations are executed transactional. That means they either all
+  succeed or no changes at all are applied to the workspace.
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :abort, String.t(), default: "abort"
-    field :transactional, String.t(), default: "transactional"
-    field :text_only_transactional, String.t(), default: "textOnlyTransactional"
-    field :undo, String.t(), default: "undo"
-  end
+  def transactional, do: "transactional"
 
-  def v, do: %__MODULE__{}
+  @doc """
+  If the workspace edit contains only textual file changes they are executed transactional.
+  If resource changes (create, rename or delete file) are part of the change the failure
+  handling strategy is abort.
+  """
+  def text_only_transactional, do: "textOnlyTransactional"
+
+  @doc """
+  The client tries to undo the operations already executed. But there is no
+  guarantee that this is succeeding.
+  """
+  def undo, do: "undo"
 
   @doc false
   def schematic() do

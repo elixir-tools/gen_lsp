@@ -8,21 +8,15 @@ defmodule GenLSP.Enumerations.NotebookCellKind do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  A markup-cell is formatted source that is used for display.
+  """
+  def markup, do: 1
 
   @doc """
-  ## Values
-
-  * markup: A markup-cell is formatted source that is used for display.
-  * code: A code-cell is source code.
+  A code-cell is source code.
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :markup, GenLSP.BaseTypes.uinteger(), default: 1
-    field :code, GenLSP.BaseTypes.uinteger(), default: 2
-  end
-
-  def v, do: %__MODULE__{}
+  def code, do: 2
 
   @doc false
   def schematic() do

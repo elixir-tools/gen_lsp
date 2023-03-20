@@ -8,24 +8,18 @@ defmodule GenLSP.Enumerations.CodeActionTriggerKind do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  Code actions were explicitly requested by the user or by an extension.
+  """
+  def invoked, do: 1
 
   @doc """
-  ## Values
+  Code actions were requested automatically.
 
-  * invoked: Code actions were explicitly requested by the user or by an extension.
-  * automatic: Code actions were requested automatically.
-
-    This typically happens when current selection in a file changes, but can
-    also be triggered when file content changes.
+  This typically happens when current selection in a file changes, but can
+  also be triggered when file content changes.
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :invoked, GenLSP.BaseTypes.uinteger(), default: 1
-    field :automatic, GenLSP.BaseTypes.uinteger(), default: 2
-  end
-
-  def v, do: %__MODULE__{}
+  def automatic, do: 2
 
   @doc false
   def schematic() do

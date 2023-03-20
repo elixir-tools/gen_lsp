@@ -8,27 +8,30 @@ defmodule GenLSP.Enumerations.UniquenessLevel do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  The moniker is only unique inside a document
+  """
+  def document, do: "document"
 
   @doc """
-  ## Values
-
-  * document: The moniker is only unique inside a document
-  * project: The moniker is unique inside a project for which a dump got created
-  * group: The moniker is unique inside the group to which a project belongs
-  * scheme: The moniker is unique inside the moniker scheme.
-  * global: The moniker is globally unique
+  The moniker is unique inside a project for which a dump got created
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :document, String.t(), default: "document"
-    field :project, String.t(), default: "project"
-    field :group, String.t(), default: "group"
-    field :scheme, String.t(), default: "scheme"
-    field :global, String.t(), default: "global"
-  end
+  def project, do: "project"
 
-  def v, do: %__MODULE__{}
+  @doc """
+  The moniker is unique inside the group to which a project belongs
+  """
+  def group, do: "group"
+
+  @doc """
+  The moniker is unique inside the moniker scheme.
+  """
+  def scheme, do: "scheme"
+
+  @doc """
+  The moniker is globally unique
+  """
+  def global, do: "global"
 
   @doc false
   def schematic() do

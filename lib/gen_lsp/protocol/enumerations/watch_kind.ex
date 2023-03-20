@@ -2,23 +2,20 @@
 defmodule GenLSP.Enumerations.WatchKind do
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  Interested in create events.
+  """
+  def create, do: 1
 
   @doc """
-  ## Values
-
-  * create: Interested in create events.
-  * change: Interested in change events
-  * delete: Interested in delete events
+  Interested in change events
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :create, GenLSP.BaseTypes.uinteger(), default: 1
-    field :change, GenLSP.BaseTypes.uinteger(), default: 2
-    field :delete, GenLSP.BaseTypes.uinteger(), default: 4
-  end
+  def change, do: 2
 
-  def v, do: %__MODULE__{}
+  @doc """
+  Interested in delete events
+  """
+  def delete, do: 4
 
   @doc false
   def schematic() do

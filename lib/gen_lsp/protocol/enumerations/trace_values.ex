@@ -2,23 +2,20 @@
 defmodule GenLSP.Enumerations.TraceValues do
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  Turn tracing off.
+  """
+  def off, do: "off"
 
   @doc """
-  ## Values
-
-  * off: Turn tracing off.
-  * messages: Trace messages only.
-  * verbose: Verbose message tracing.
+  Trace messages only.
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :off, String.t(), default: "off"
-    field :messages, String.t(), default: "messages"
-    field :verbose, String.t(), default: "verbose"
-  end
+  def messages, do: "messages"
 
-  def v, do: %__MODULE__{}
+  @doc """
+  Verbose message tracing.
+  """
+  def verbose, do: "verbose"
 
   @doc false
   def schematic() do

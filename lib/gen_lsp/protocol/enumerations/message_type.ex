@@ -6,25 +6,25 @@ defmodule GenLSP.Enumerations.MessageType do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  An error message.
+  """
+  def error, do: 1
 
   @doc """
-  ## Values
-
-  * error: An error message.
-  * warning: A warning message.
-  * info: An information message.
-  * log: A log message.
+  A warning message.
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :error, GenLSP.BaseTypes.uinteger(), default: 1
-    field :warning, GenLSP.BaseTypes.uinteger(), default: 2
-    field :info, GenLSP.BaseTypes.uinteger(), default: 3
-    field :log, GenLSP.BaseTypes.uinteger(), default: 4
-  end
+  def warning, do: 2
 
-  def v, do: %__MODULE__{}
+  @doc """
+  An information message.
+  """
+  def info, do: 3
+
+  @doc """
+  A log message.
+  """
+  def log, do: 4
 
   @doc false
   def schematic() do

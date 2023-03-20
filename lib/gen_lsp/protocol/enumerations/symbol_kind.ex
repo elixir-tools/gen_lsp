@@ -6,69 +6,57 @@ defmodule GenLSP.Enumerations.SymbolKind do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  def file, do: 1
 
-  @doc """
-  ## Values
+  def module, do: 2
 
-  * file
-  * module
-  * namespace
-  * package
-  * class
-  * method
-  * property
-  * field
-  * constructor
-  * enum
-  * interface
-  * function
-  * variable
-  * constant
-  * string
-  * number
-  * boolean
-  * array
-  * object
-  * key
-  * null
-  * enum_member
-  * struct
-  * event
-  * operator
-  * type_parameter
-  """
-  @derive Jason.Encoder
-  typedstruct do
-    field :file, GenLSP.BaseTypes.uinteger(), default: 1
-    field :module, GenLSP.BaseTypes.uinteger(), default: 2
-    field :namespace, GenLSP.BaseTypes.uinteger(), default: 3
-    field :package, GenLSP.BaseTypes.uinteger(), default: 4
-    field :class, GenLSP.BaseTypes.uinteger(), default: 5
-    field :method, GenLSP.BaseTypes.uinteger(), default: 6
-    field :property, GenLSP.BaseTypes.uinteger(), default: 7
-    field :field, GenLSP.BaseTypes.uinteger(), default: 8
-    field :constructor, GenLSP.BaseTypes.uinteger(), default: 9
-    field :enum, GenLSP.BaseTypes.uinteger(), default: 10
-    field :interface, GenLSP.BaseTypes.uinteger(), default: 11
-    field :function, GenLSP.BaseTypes.uinteger(), default: 12
-    field :variable, GenLSP.BaseTypes.uinteger(), default: 13
-    field :constant, GenLSP.BaseTypes.uinteger(), default: 14
-    field :string, GenLSP.BaseTypes.uinteger(), default: 15
-    field :number, GenLSP.BaseTypes.uinteger(), default: 16
-    field :boolean, GenLSP.BaseTypes.uinteger(), default: 17
-    field :array, GenLSP.BaseTypes.uinteger(), default: 18
-    field :object, GenLSP.BaseTypes.uinteger(), default: 19
-    field :key, GenLSP.BaseTypes.uinteger(), default: 20
-    field :null, GenLSP.BaseTypes.uinteger(), default: 21
-    field :enum_member, GenLSP.BaseTypes.uinteger(), default: 22
-    field :struct, GenLSP.BaseTypes.uinteger(), default: 23
-    field :event, GenLSP.BaseTypes.uinteger(), default: 24
-    field :operator, GenLSP.BaseTypes.uinteger(), default: 25
-    field :type_parameter, GenLSP.BaseTypes.uinteger(), default: 26
-  end
+  def namespace, do: 3
 
-  def v, do: %__MODULE__{}
+  def package, do: 4
+
+  def class, do: 5
+
+  def method, do: 6
+
+  def property, do: 7
+
+  def field, do: 8
+
+  def constructor, do: 9
+
+  def enum, do: 10
+
+  def interface, do: 11
+
+  def function, do: 12
+
+  def variable, do: 13
+
+  def constant, do: 14
+
+  def string, do: 15
+
+  def number, do: 16
+
+  def boolean, do: 17
+
+  def array, do: 18
+
+  def object, do: 19
+
+  def key, do: 20
+
+  def null, do: 21
+
+  def enum_member, do: 22
+
+  def struct, do: 23
+
+  def event, do: 24
+
+  def operator, do: 25
+
+  def type_parameter, do: 26
 
   @doc false
   def schematic() do

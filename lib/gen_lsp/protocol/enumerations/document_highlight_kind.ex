@@ -6,23 +6,20 @@ defmodule GenLSP.Enumerations.DocumentHighlightKind do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  A textual occurrence.
+  """
+  def text, do: 1
 
   @doc """
-  ## Values
-
-  * text: A textual occurrence.
-  * read: Read-access of a symbol, like reading a variable.
-  * write: Write-access of a symbol, like writing to a variable.
+  Read-access of a symbol, like reading a variable.
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :text, GenLSP.BaseTypes.uinteger(), default: 1
-    field :read, GenLSP.BaseTypes.uinteger(), default: 2
-    field :write, GenLSP.BaseTypes.uinteger(), default: 3
-  end
+  def read, do: 2
 
-  def v, do: %__MODULE__{}
+  @doc """
+  Write-access of a symbol, like writing to a variable.
+  """
+  def write, do: 3
 
   @doc false
   def schematic() do

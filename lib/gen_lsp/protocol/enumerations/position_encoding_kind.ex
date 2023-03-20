@@ -8,30 +8,27 @@ defmodule GenLSP.Enumerations.PositionEncodingKind do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  Character offsets count UTF-8 code units.
+  """
+  def utf8, do: "utf-8"
 
   @doc """
-  ## Values
+  Character offsets count UTF-16 code units.
 
-  * utf8: Character offsets count UTF-8 code units.
-  * utf16: Character offsets count UTF-16 code units.
-
-    This is the default and must always be supported
-    by servers
-  * utf32: Character offsets count UTF-32 code units.
-
-    Implementation note: these are the same as Unicode code points,
-    so this `PositionEncodingKind` may also be used for an
-    encoding-agnostic representation of character offsets.
+  This is the default and must always be supported
+  by servers
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :utf8, String.t(), default: "utf-8"
-    field :utf16, String.t(), default: "utf-16"
-    field :utf32, String.t(), default: "utf-32"
-  end
+  def utf16, do: "utf-16"
 
-  def v, do: %__MODULE__{}
+  @doc """
+  Character offsets count UTF-32 code units.
+
+  Implementation note: these are the same as Unicode code points,
+  so this `PositionEncodingKind` may also be used for an
+  encoding-agnostic representation of character offsets.
+  """
+  def utf32, do: "utf-32"
 
   @doc false
   def schematic() do

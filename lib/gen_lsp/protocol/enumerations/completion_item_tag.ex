@@ -9,19 +9,10 @@ defmodule GenLSP.Enumerations.CompletionItemTag do
 
   import Schematic, warn: false
 
-  use TypedStruct
-
   @doc """
-  ## Values
-
-  * deprecated: Render a completion as obsolete, usually using a strike-out.
+  Render a completion as obsolete, usually using a strike-out.
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :deprecated, GenLSP.BaseTypes.uinteger(), default: 1
-  end
-
-  def v, do: %__MODULE__{}
+  def deprecated, do: 1
 
   @doc false
   def schematic() do

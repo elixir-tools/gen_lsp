@@ -6,25 +6,25 @@ defmodule GenLSP.Enumerations.DiagnosticSeverity do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  @doc """
+  Reports an error.
+  """
+  def error, do: 1
 
   @doc """
-  ## Values
-
-  * error: Reports an error.
-  * warning: Reports a warning.
-  * information: Reports an information.
-  * hint: Reports a hint.
+  Reports a warning.
   """
-  @derive Jason.Encoder
-  typedstruct do
-    field :error, GenLSP.BaseTypes.uinteger(), default: 1
-    field :warning, GenLSP.BaseTypes.uinteger(), default: 2
-    field :information, GenLSP.BaseTypes.uinteger(), default: 3
-    field :hint, GenLSP.BaseTypes.uinteger(), default: 4
-  end
+  def warning, do: 2
 
-  def v, do: %__MODULE__{}
+  @doc """
+  Reports an information.
+  """
+  def information, do: 3
+
+  @doc """
+  Reports a hint.
+  """
+  def hint, do: 4
 
   @doc false
   def schematic() do

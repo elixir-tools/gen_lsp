@@ -10,37 +10,25 @@ defmodule GenLSP.Enumerations.SemanticTokenModifiers do
 
   import Schematic, warn: false
 
-  use TypedStruct
+  def declaration, do: "declaration"
 
-  @doc """
-  ## Values
+  def definition, do: "definition"
 
-  * declaration
-  * definition
-  * readonly
-  * static
-  * deprecated
-  * abstract
-  * async
-  * modification
-  * documentation
-  * default_library
-  """
-  @derive Jason.Encoder
-  typedstruct do
-    field :declaration, String.t(), default: "declaration"
-    field :definition, String.t(), default: "definition"
-    field :readonly, String.t(), default: "readonly"
-    field :static, String.t(), default: "static"
-    field :deprecated, String.t(), default: "deprecated"
-    field :abstract, String.t(), default: "abstract"
-    field :async, String.t(), default: "async"
-    field :modification, String.t(), default: "modification"
-    field :documentation, String.t(), default: "documentation"
-    field :default_library, String.t(), default: "defaultLibrary"
-  end
+  def readonly, do: "readonly"
 
-  def v, do: %__MODULE__{}
+  def static, do: "static"
+
+  def deprecated, do: "deprecated"
+
+  def abstract, do: "abstract"
+
+  def async, do: "async"
+
+  def modification, do: "modification"
+
+  def documentation, do: "documentation"
+
+  def default_library, do: "defaultLibrary"
 
   @doc false
   def schematic() do
