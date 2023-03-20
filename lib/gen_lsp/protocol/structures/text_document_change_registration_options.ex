@@ -22,6 +22,7 @@ defmodule GenLSP.Structures.TextDocumentChangeRegistrationOptions do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"syncKind", :sync_kind} => GenLSP.Enumerations.TextDocumentSyncKind.schematic(),

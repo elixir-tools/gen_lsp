@@ -21,6 +21,7 @@ defmodule GenLSP.Structures.FileOperationPatternOptions do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"ignoreCase", :ignore_case} => oneof([null(), bool()])

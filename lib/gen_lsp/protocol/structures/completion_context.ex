@@ -22,6 +22,7 @@ defmodule GenLSP.Structures.CompletionContext do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"triggerKind", :trigger_kind} => GenLSP.Enumerations.CompletionTriggerKind.schematic(),

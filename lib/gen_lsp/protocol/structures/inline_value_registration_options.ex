@@ -25,6 +25,7 @@ defmodule GenLSP.Structures.InlineValueRegistrationOptions do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"id", :id} => oneof([null(), str()]),

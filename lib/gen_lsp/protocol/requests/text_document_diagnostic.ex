@@ -19,6 +19,7 @@ defmodule GenLSP.Requests.TextDocumentDiagnostic do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       method: str("textDocument/diagnostic"),

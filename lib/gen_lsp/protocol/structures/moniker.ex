@@ -28,6 +28,7 @@ defmodule GenLSP.Structures.Moniker do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"scheme", :scheme} => str(),

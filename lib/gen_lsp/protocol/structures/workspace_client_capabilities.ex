@@ -71,6 +71,7 @@ defmodule GenLSP.Structures.WorkspaceClientCapabilities do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"applyEdit", :apply_edit} => oneof([null(), bool()]),

@@ -25,6 +25,7 @@ defmodule GenLSP.Structures.NotebookDocumentChangeEvent do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"metadata", :metadata} => oneof([null(), GenLSP.TypeAlias.LSPObject.schematic()]),

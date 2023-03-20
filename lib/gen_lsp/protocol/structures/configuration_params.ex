@@ -19,6 +19,7 @@ defmodule GenLSP.Structures.ConfigurationParams do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"items", :items} => list(GenLSP.Structures.ConfigurationItem.schematic())

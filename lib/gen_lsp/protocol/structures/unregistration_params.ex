@@ -15,6 +15,7 @@ defmodule GenLSP.Structures.UnregistrationParams do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"unregisterations", :unregisterations} =>

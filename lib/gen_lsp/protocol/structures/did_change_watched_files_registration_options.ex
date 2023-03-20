@@ -19,6 +19,7 @@ defmodule GenLSP.Structures.DidChangeWatchedFilesRegistrationOptions do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"watchers", :watchers} => list(GenLSP.Structures.FileSystemWatcher.schematic())

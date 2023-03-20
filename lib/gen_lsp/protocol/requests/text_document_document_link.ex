@@ -17,6 +17,7 @@ defmodule GenLSP.Requests.TextDocumentDocumentLink do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       method: str("textDocument/documentLink"),

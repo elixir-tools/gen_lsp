@@ -10,6 +10,7 @@ defmodule GenLSP.TypeAlias.LSPObject do
   @type t :: %{String.t() => any()}
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     map(keys: str(), values: any())
   end

@@ -27,6 +27,7 @@ defmodule GenLSP.Structures.AnnotatedTextEdit do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"annotationId", :annotation_id} => GenLSP.TypeAlias.ChangeAnnotationIdentifier.schematic(),

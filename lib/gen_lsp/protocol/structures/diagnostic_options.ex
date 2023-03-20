@@ -31,6 +31,7 @@ defmodule GenLSP.Structures.DiagnosticOptions do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"identifier", :identifier} => oneof([null(), str()]),

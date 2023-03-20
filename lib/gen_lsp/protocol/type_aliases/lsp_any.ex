@@ -14,6 +14,7 @@ defmodule GenLSP.TypeAlias.LSPAny do
   @type t :: any()
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     any()
   end

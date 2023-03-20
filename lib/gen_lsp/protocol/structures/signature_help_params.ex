@@ -28,6 +28,7 @@ defmodule GenLSP.Structures.SignatureHelpParams do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"context", :context} =>

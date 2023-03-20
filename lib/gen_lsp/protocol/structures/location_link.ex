@@ -32,6 +32,7 @@ defmodule GenLSP.Structures.LocationLink do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"originSelectionRange", :origin_selection_range} =>

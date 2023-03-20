@@ -24,6 +24,7 @@ defmodule GenLSP.TypeAlias.TextDocumentFilter do
   @type t :: map() | map() | map()
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
       map(%{

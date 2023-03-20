@@ -31,6 +31,7 @@ defmodule GenLSP.Structures.Range do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"start", :start} => GenLSP.Structures.Position.schematic(),

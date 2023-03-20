@@ -58,6 +58,7 @@ defmodule GenLSP.Structures.WorkspaceEdit do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"changes", :changes} =>

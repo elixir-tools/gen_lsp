@@ -15,6 +15,7 @@ defmodule GenLSP.TypeAlias.DeclarationLink do
   @type t :: GenLSP.Structures.LocationLink.t()
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     GenLSP.Structures.LocationLink.schematic()
   end

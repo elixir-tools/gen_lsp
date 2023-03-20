@@ -16,6 +16,7 @@ defmodule GenLSP.Structures.PartialResultParams do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"partialResultToken", :partial_result_token} =>

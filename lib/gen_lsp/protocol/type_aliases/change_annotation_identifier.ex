@@ -9,6 +9,7 @@ defmodule GenLSP.TypeAlias.ChangeAnnotationIdentifier do
   @type t :: String.t()
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     str()
   end

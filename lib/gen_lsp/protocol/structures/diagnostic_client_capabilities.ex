@@ -25,6 +25,7 @@ defmodule GenLSP.Structures.DiagnosticClientCapabilities do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"dynamicRegistration", :dynamic_registration} => oneof([null(), bool()]),

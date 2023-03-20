@@ -29,6 +29,7 @@ defmodule GenLSP.Structures.CodeActionOptions do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"codeActionKinds", :code_action_kinds} =>

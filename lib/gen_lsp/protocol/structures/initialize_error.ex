@@ -23,6 +23,7 @@ defmodule GenLSP.Structures.InitializeError do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"retry", :retry} => bool()

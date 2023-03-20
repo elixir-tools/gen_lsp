@@ -5,6 +5,7 @@ defmodule GenLSP.TypeAlias.PrepareRenameResult do
   @type t :: GenLSP.Structures.Range.t() | map() | map()
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
       GenLSP.Structures.Range.schematic(),

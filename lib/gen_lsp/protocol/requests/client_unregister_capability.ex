@@ -18,6 +18,7 @@ defmodule GenLSP.Requests.ClientUnregisterCapability do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       method: str("client/unregisterCapability"),

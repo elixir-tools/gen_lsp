@@ -17,6 +17,7 @@ defmodule GenLSP.TypeAlias.DocumentDiagnosticReport do
           | GenLSP.Structures.RelatedUnchangedDocumentDiagnosticReport.t()
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
       GenLSP.Structures.RelatedFullDocumentDiagnosticReport.schematic(),

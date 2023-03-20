@@ -25,6 +25,7 @@ defmodule GenLSP.Structures.CompletionItemLabelDetails do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"detail", :detail} => oneof([null(), str()]),

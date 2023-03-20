@@ -38,6 +38,7 @@ defmodule GenLSP.Structures.WorkspaceEditClientCapabilities do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"documentChanges", :document_changes} => oneof([null(), bool()]),

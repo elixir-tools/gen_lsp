@@ -7,6 +7,8 @@ defmodule GenLSP.Enumerations.InsertTextMode do
   @since 3.16.0
   """
 
+  @type t :: 1 | 2
+
   import Schematic, warn: false
 
   @doc """
@@ -16,6 +18,7 @@ defmodule GenLSP.Enumerations.InsertTextMode do
   The client will not apply any kind of adjustments to the
   string.
   """
+  @spec as_is() :: 1
   def as_is, do: 1
 
   @doc """
@@ -27,9 +30,11 @@ defmodule GenLSP.Enumerations.InsertTextMode do
   multi line completion item is indented using 2 tabs and all
   following lines inserted will be indented using 2 tabs as well.
   """
+  @spec adjust_indentation() :: 2
   def adjust_indentation, do: 2
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
       int(1),

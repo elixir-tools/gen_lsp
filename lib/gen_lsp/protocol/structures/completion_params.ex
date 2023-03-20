@@ -29,6 +29,7 @@ defmodule GenLSP.Structures.CompletionParams do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"context", :context} => oneof([null(), GenLSP.Structures.CompletionContext.schematic()]),

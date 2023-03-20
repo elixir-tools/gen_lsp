@@ -19,6 +19,7 @@ defmodule GenLSP.Structures.SemanticTokensDeltaPartialResult do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"edits", :edits} => list(GenLSP.Structures.SemanticTokensEdit.schematic())

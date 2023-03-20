@@ -10,6 +10,7 @@ defmodule GenLSP.TypeAlias.TextDocumentContentChangeEvent do
   @type t :: map() | map()
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
       map(%{

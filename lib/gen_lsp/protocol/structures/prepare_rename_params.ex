@@ -19,6 +19,7 @@ defmodule GenLSP.Structures.PrepareRenameParams do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"workDoneToken", :work_done_token} =>

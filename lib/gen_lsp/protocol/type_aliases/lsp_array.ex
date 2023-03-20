@@ -10,6 +10,7 @@ defmodule GenLSP.TypeAlias.LSPArray do
   @type t :: list(any())
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     list(any())
   end

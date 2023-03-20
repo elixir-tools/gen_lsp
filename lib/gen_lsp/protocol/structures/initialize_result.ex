@@ -23,6 +23,7 @@ defmodule GenLSP.Structures.InitializeResult do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"capabilities", :capabilities} => GenLSP.Structures.ServerCapabilities.schematic(),

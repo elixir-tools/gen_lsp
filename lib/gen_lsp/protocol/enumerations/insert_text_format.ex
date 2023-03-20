@@ -5,11 +5,14 @@ defmodule GenLSP.Enumerations.InsertTextFormat do
   plain text or a snippet.
   """
 
+  @type t :: 1 | 2
+
   import Schematic, warn: false
 
   @doc """
   The primary text to be inserted is treated as a plain string.
   """
+  @spec plain_text() :: 1
   def plain_text, do: 1
 
   @doc """
@@ -22,9 +25,11 @@ defmodule GenLSP.Enumerations.InsertTextFormat do
 
   See also: https://microsoft.github.io/language-server-protocol/specifications/specification-current/#snippet_syntax
   """
+  @spec snippet() :: 2
   def snippet, do: 2
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
       int(1),

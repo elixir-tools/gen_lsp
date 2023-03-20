@@ -19,6 +19,7 @@ defmodule GenLSP.Structures.ShowMessageRequestParams do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"type", :type} => GenLSP.Enumerations.MessageType.schematic(),

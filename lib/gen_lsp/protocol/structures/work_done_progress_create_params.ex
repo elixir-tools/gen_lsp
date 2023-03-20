@@ -15,6 +15,7 @@ defmodule GenLSP.Structures.WorkDoneProgressCreateParams do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"token", :token} => GenLSP.TypeAlias.ProgressToken.schematic()

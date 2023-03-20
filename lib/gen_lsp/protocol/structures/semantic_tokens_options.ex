@@ -26,6 +26,7 @@ defmodule GenLSP.Structures.SemanticTokensOptions do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"legend", :legend} => GenLSP.Structures.SemanticTokensLegend.schematic(),

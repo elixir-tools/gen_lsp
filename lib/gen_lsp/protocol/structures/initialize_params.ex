@@ -57,6 +57,7 @@ defmodule GenLSP.Structures.InitializeParams do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"processId", :process_id} => oneof([int(), null()]),

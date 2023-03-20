@@ -26,6 +26,7 @@ defmodule GenLSP.Structures.RelativePattern do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"baseUri", :base_uri} => oneof([GenLSP.Structures.WorkspaceFolder.schematic(), str()]),

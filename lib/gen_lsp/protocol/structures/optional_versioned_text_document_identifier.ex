@@ -25,6 +25,7 @@ defmodule GenLSP.Structures.OptionalVersionedTextDocumentIdentifier do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"version", :version} => oneof([int(), null()]),

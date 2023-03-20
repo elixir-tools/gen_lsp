@@ -17,6 +17,7 @@ defmodule GenLSP.Structures.LogTraceParams do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"message", :message} => str(),

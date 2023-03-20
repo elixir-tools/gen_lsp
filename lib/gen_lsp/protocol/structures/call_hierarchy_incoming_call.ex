@@ -24,6 +24,7 @@ defmodule GenLSP.Structures.CallHierarchyIncomingCall do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"from", :from} => GenLSP.Structures.CallHierarchyItem.schematic(),

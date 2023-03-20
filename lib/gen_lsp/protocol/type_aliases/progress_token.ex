@@ -5,6 +5,7 @@ defmodule GenLSP.TypeAlias.ProgressToken do
   @type t :: integer() | String.t()
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([int(), str()])
   end

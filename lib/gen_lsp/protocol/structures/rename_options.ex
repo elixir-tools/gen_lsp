@@ -23,6 +23,7 @@ defmodule GenLSP.Structures.RenameOptions do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"prepareProvider", :prepare_provider} => oneof([null(), bool()]),

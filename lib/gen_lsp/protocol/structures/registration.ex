@@ -24,6 +24,7 @@ defmodule GenLSP.Structures.Registration do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"id", :id} => str(),

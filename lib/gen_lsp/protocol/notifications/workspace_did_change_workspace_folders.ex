@@ -17,6 +17,7 @@ defmodule GenLSP.Notifications.WorkspaceDidChangeWorkspaceFolders do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       method: str("workspace/didChangeWorkspaceFolders"),

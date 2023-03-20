@@ -18,6 +18,7 @@ defmodule GenLSP.TypeAlias.InlineValue do
           | GenLSP.Structures.InlineValueEvaluatableExpression.t()
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
       GenLSP.Structures.InlineValueText.schematic(),

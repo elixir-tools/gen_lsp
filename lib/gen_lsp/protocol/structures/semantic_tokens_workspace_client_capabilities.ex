@@ -25,6 +25,7 @@ defmodule GenLSP.Structures.SemanticTokensWorkspaceClientCapabilities do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"refreshSupport", :refresh_support} => oneof([null(), bool()])

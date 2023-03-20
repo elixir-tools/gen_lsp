@@ -17,6 +17,7 @@ defmodule GenLSP.TypeAlias.Pattern do
   @type t :: String.t()
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     str()
   end

@@ -19,6 +19,7 @@ defmodule GenLSP.Requests.WorkspaceDiagnostic do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       method: str("workspace/diagnostic"),

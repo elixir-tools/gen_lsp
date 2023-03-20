@@ -13,6 +13,7 @@ defmodule GenLSP.TypeAlias.DocumentSelector do
   @type t :: list(GenLSP.TypeAlias.DocumentFilter.t())
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     list(GenLSP.TypeAlias.DocumentFilter.schematic())
   end

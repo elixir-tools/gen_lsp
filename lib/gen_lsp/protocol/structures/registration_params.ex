@@ -15,6 +15,7 @@ defmodule GenLSP.Structures.RegistrationParams do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"registrations", :registrations} => list(GenLSP.Structures.Registration.schematic())

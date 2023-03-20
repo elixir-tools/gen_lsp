@@ -14,6 +14,7 @@ defmodule GenLSP.TypeAlias.DocumentFilter do
           | GenLSP.Structures.NotebookCellTextDocumentFilter.t()
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
       GenLSP.TypeAlias.TextDocumentFilter.schematic(),

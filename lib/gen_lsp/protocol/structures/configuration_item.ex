@@ -17,6 +17,7 @@ defmodule GenLSP.Structures.ConfigurationItem do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"scopeUri", :scope_uri} => oneof([null(), str()]),

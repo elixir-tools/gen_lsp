@@ -32,6 +32,7 @@ defmodule GenLSP.Structures.ParameterInformation do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"label", :label} => oneof([str(), tuple([int(), int()], from: :list)]),

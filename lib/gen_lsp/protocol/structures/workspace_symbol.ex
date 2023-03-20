@@ -43,6 +43,7 @@ defmodule GenLSP.Structures.WorkspaceSymbol do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"location", :location} =>

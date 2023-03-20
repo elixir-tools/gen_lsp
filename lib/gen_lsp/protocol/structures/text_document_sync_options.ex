@@ -28,6 +28,7 @@ defmodule GenLSP.Structures.TextDocumentSyncOptions do
   end
 
   @doc false
+  @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
       {"openClose", :open_close} => oneof([null(), bool()]),
