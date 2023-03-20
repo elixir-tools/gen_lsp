@@ -31,7 +31,7 @@ defmodule GenLSP.MixProject do
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:typed_struct, "~> 0.3.0"},
       {:jason, "~> 1.3"},
-      {:schematic, github: "mhanberg/schematic"}
+      {:schematic, "~> 0.0.3"}
     ]
   end
 
