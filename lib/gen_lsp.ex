@@ -1,9 +1,13 @@
 defmodule GenLSP do
+  alias GenLSP.LSP
+
   defmacro __using__(_) do
     quote do
       @behaviour GenLSP
 
       require Logger
+
+      import GenLSP.LSP
 
       def child_spec(opts) do
         %{
@@ -28,57 +32,61 @@ defmodule GenLSP do
 
   require Logger
 
-  @callback init(init_arg :: term()) :: {:ok, state} when state: any()
+  @callback init(lsp :: GenLSP.LSP.t(), init_arg :: term()) :: {:ok, GenLSP.LSP.t()}
   @callback handle_request(request :: term(), state) ::
-              {:reply, id :: integer(), reply :: term(), state}
-              | {:noreply, state}
-            when state: any()
+              {:reply, id :: integer(), reply :: term(), state} | {:noreply, state}
+            when state: GenLSP.LSP.t()
   @callback handle_notification(notification :: term(), state) :: {:noreply, state}
-            when state: any()
-  @callback handle_info(message :: any(), state) :: {:noreply, state} when state: any()
+            when state: GenLSP.LSP.t()
+  @callback handle_info(message :: any(), state) :: {:noreply, state} when state: GenLSP.LSP.t()
 
   def start_link(module, init_args, opts) do
     :proc_lib.start_link(__MODULE__, :init, [
-      {module, init_args, opts[:name], self()}
+      {module, init_args, Keyword.take(opts, [:name, :buffer]), self()}
     ])
   end
 
   @doc false
-  def init({module, init_args, name, parent}) do
-    case module.init(init_args) do
-      {:ok, user_state} ->
-        deb = :sys.debug_options([])
-        if name, do: Process.register(self(), name)
-        :proc_lib.init_ack(parent, {:ok, self()})
-        state = %{user_state: user_state, internal_state: %{mod: module}}
+  def init({module, init_args, opts, parent}) do
+    me = self()
+    buffer = Keyword.get(opts, :buffer, GenLSP.Buffer)
+    lsp = %LSP{mod: module, pid: me, buffer: buffer}
 
-        loop(state, parent, deb)
+    case module.init(lsp, init_args) do
+      {:ok, %LSP{} = lsp} ->
+        deb = :sys.debug_options([])
+        if opts[:name], do: Process.register(self(), opts[:name])
+        :proc_lib.init_ack(parent, {:ok, me})
+
+        GenLSP.Buffer.listen(buffer, me)
+
+        loop(lsp, parent, deb)
     end
   end
 
-  def request_server(lsp, request) do
+  def request_server(pid, request) do
     from = self()
     message = {:request, from, request}
-    send(lsp, message)
+    send(pid, message)
   end
 
-  def notify_server(lsp, notification) do
+  def notify_server(pid, notification) do
     from = self()
-    send(lsp, {:notification, from, notification})
+    send(pid, {:notification, from, notification})
   end
 
-  def notify(notification) do
-    GenLSP.Buffer.outgoing(dump(notification))
+  def notify(%{buffer: buffer}, notification) do
+    GenLSP.Buffer.outgoing(buffer, dump(notification))
   end
 
   defp write_debug(device, event, name) do
     IO.write(device, "#{inspect(name)} event = #{inspect(event)}")
   end
 
-  defp loop(state, parent, deb) do
+  defp loop(%LSP{} = lsp, parent, deb) do
     receive do
       {:system, from, request} ->
-        :sys.handle_system_msg(request, from, parent, __MODULE__, deb, state)
+        :sys.handle_system_msg(request, from, parent, __MODULE__, deb, lsp)
 
       {:request, from, request} ->
         deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:in, :request, from})
@@ -87,10 +95,10 @@ defmodule GenLSP do
           fn ->
             {:ok, %{id: id} = req} = GenLSP.Requests.new(request)
 
-            GenLSP.log(:log, "[GenLSP] Processing #{inspect(req.__struct__)}")
+            GenLSP.log(lsp, :log, "[GenLSP] Processing #{inspect(req.__struct__)}")
 
-            case state.internal_state.mod.handle_request(req, state.user_state) do
-              {:reply, reply, new_user_state} ->
+            case lsp.mod.handle_request(req, lsp) do
+              {:reply, reply, %LSP{} = lsp} ->
                 packet = %{
                   "jsonrpc" => "2.0",
                   "id" => id,
@@ -99,12 +107,12 @@ defmodule GenLSP do
 
                 deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:out, :request, from})
 
-                GenLSP.Buffer.outgoing(packet)
+                GenLSP.Buffer.outgoing(lsp.buffer, packet)
 
-                loop(Map.put(state, :user_state, new_user_state), parent, deb)
+                loop(lsp, parent, deb)
 
-              {:noreply, new_user_state} ->
-                loop(Map.put(state, :user_state, new_user_state), parent, deb)
+              {:noreply, lsp} ->
+                loop(lsp, parent, deb)
             end
           end,
           "Last message received: handle_request #{inspect(request)}"
@@ -116,11 +124,11 @@ defmodule GenLSP do
         attempt(
           fn ->
             {:ok, note} = GenLSP.Notifications.new(notification)
-            GenLSP.log(:log, "[GenLSP] Processing #{inspect(note.__struct__)}")
+            GenLSP.log(lsp, :log, "[GenLSP] Processing #{inspect(note.__struct__)}")
 
-            case state.internal_state.mod.handle_notification(note, state.user_state) do
-              {:noreply, new_user_state} ->
-                loop(Map.put(state, :user_state, new_user_state), parent, deb)
+            case lsp.mod.handle_notification(note, lsp) do
+              {:noreply, %LSP{} = lsp} ->
+                loop(lsp, parent, deb)
             end
           end,
           "Last message received: handle_notification #{inspect(notification)}"
@@ -129,9 +137,9 @@ defmodule GenLSP do
       message ->
         attempt(
           fn ->
-            case state.internal_state.mod.handle_info(message, state.user_state) do
-              {:noreply, new_user_state} ->
-                loop(Map.put(state, :user_state, new_user_state), parent, deb)
+            case lsp.mod.handle_info(message, lsp) do
+              {:noreply, %LSP{} = lsp} ->
+                loop(lsp, parent, deb)
             end
           end,
           "Last message received: handle_info #{inspect(message)}"
@@ -139,7 +147,7 @@ defmodule GenLSP do
     end
   end
 
-  @spec attempt((-> any()), String.t()) :: no_return()
+  @spec attempt((() -> any()), String.t()) :: no_return()
   defp attempt(callback, message) do
     callback.()
   rescue
@@ -182,8 +190,8 @@ defmodule GenLSP do
     {:ok, new_state, new_state}
   end
 
-  def log(level, message) when level in [:error, :warning, :info, :log] do
-    GenLSP.notify(%GenLSP.Notifications.WindowLogMessage{
+  def log(lsp, level, message) when level in [:error, :warning, :info, :log] do
+    GenLSP.notify(lsp, %GenLSP.Notifications.WindowLogMessage{
       params: %GenLSP.Structures.LogMessageParams{
         type: GenLSP.Log.level(level),
         message: message

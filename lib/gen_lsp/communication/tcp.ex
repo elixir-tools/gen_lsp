@@ -1,4 +1,4 @@
-defmodule GenLSP.Communication.Tcp do
+defmodule GenLSP.Communication.TCP do
   @moduledoc false
 
   @behaviour GenLSP.Communication.Adapter
@@ -12,9 +12,12 @@ defmodule GenLSP.Communication.Tcp do
     {:ok, lsocket} =
       :gen_tcp.listen(args[:port], [:binary, packet: :raw, active: false, reuseaddr: true])
 
-    {:ok, socket} = :gen_tcp.accept(lsocket)
+    {:ok, %{lsocket: lsocket}}
+  end
 
-    {:ok, %{socket: socket, lsocket: lsocket}}
+  def listen(state) do
+    {:ok, socket} = :gen_tcp.accept(state.lsocket)
+    {:ok, Map.merge(state, %{socket: socket})}
   end
 
   @impl true

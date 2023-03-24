@@ -3,24 +3,28 @@ defmodule GenLSPTest do
   alias GenLSP.Notifications
   alias GenLSP.Structures
 
+  import GenLSP.Test
+
   setup do
-    wire = start_supervised!({GenLSPTest.TestWire, self()})
-    lsp = start_supervised!({GenLSPTest.ExampleServer, [test_pid: self()]})
+    server = server(GenLSPTest.ExampleServer)
+    client = client(server)
 
-    buffer =
-      start_supervised!({GenLSP.Buffer, lsp: lsp, communication: {GenLSPTest.TestWire, []}})
-
-    [lsp: lsp, buffer: buffer, wire: wire]
+    [server: server, client: client]
   end
 
-  test "stores the user state and internal state", %{lsp: lsp} do
-    assert Process.alive?(lsp)
+  test "stores the user state and internal state", %{server: server} do
+    assert Process.alive?(server.lsp)
 
-    assert %{user_state: %{foo: :bar}, internal_state: %{mod: GenLSPTest.ExampleServer}} =
-             :sys.get_state(lsp)
+    assert %GenLSP.LSP{
+             assigns: %{foo: :bar, test_pid: self()},
+             buffer: server.buffer,
+             pid: server.lsp,
+             mod: GenLSPTest.ExampleServer
+           } ==
+             :sys.get_state(server.lsp)
   end
 
-  test "can receive and reply to a request" do
+  test "can receive and reply to a request", %{client: client} do
     id = System.unique_integer([:positive])
 
     params = %{
@@ -61,44 +65,36 @@ defmodule GenLSPTest do
       "typeHierarchyProvider" => nil
     }
 
-    initialize =
-      Jason.encode!(%{
-        "jsonrpc" => "2.0",
-        "method" => "initialize",
-        "params" => %{"capabilities" => %{}},
-        "id" => id
-      })
+    assert :ok ==
+             request(client, %{
+               "jsonrpc" => "2.0",
+               "method" => "initialize",
+               "params" => %{"capabilities" => %{}},
+               "id" => id
+             })
 
-    GenLSPTest.TestWire.client_write(initialize)
-
-    packet =
-      Jason.encode!(%{
-        "id" => id,
-        "jsonrpc" => "2.0",
-        "result" => %{"capabilities" => params, "serverInfo" => %{"name" => "Test LSP"}}
-      })
-
-    assert_receive {:wire, ^packet}, 500
+    assert_result ^id,
+                  %{
+                    "capabilities" => ^params,
+                    "serverInfo" => %{"name" => "Test LSP"}
+                  },
+                  500
   end
 
-  test "can receive a notification" do
-    params = %{
-      "textDocument" => %{
-        "uri" => "file://somefile",
-        "languageId" => "elixir",
-        "version" => 1,
-        "text" => "hello world!"
-      }
-    }
-
-    did_open =
-      Jason.encode!(%{
-        "jsonrpc" => "2.0",
-        "method" => "textDocument/didOpen",
-        "params" => params
-      })
-
-    GenLSPTest.TestWire.client_write(did_open)
+  test "the server can receive a notification", %{client: client} do
+    assert :ok ==
+             notify(client, %{
+               "jsonrpc" => "2.0",
+               "method" => "textDocument/didOpen",
+               "params" => %{
+                 "textDocument" => %{
+                   "uri" => "file://somefile",
+                   "languageId" => "elixir",
+                   "version" => 1,
+                   "text" => "hello world!"
+                 }
+               }
+             })
 
     assert_receive {:callback,
                     %Notifications.TextDocumentDidOpen{
@@ -113,67 +109,49 @@ defmodule GenLSPTest do
                    500
   end
 
-  test "server can send a notification" do
-    params = %{
-      "textDocument" => %{
-        "uri" => "file://somefile",
-        "languageId" => "elixir",
-        "version" => 1
-      },
-      "text" => "some code"
-    }
+  test "server can send a notification", %{client: client} do
+    expected_uri = "file://somefile"
 
-    did_save =
-      Jason.encode!(%{
-        "jsonrpc" => "2.0",
-        "method" => "textDocument/didSave",
-        "params" => params
-      })
+    assert :ok ==
+             notify(client, %{
+               "jsonrpc" => "2.0",
+               "method" => "textDocument/didSave",
+               "params" => %{
+                 "textDocument" => %{
+                   "uri" => expected_uri,
+                   "languageId" => "elixir",
+                   "version" => 1
+                 },
+                 "text" => "some code"
+               }
+             })
 
-    GenLSPTest.TestWire.client_write(did_save)
-
-    assert_receive {:callback,
-                    %Notifications.TextDocumentDidSave{
-                      params: %Structures.DidSaveTextDocumentParams{
-                        text_document: %Structures.TextDocumentIdentifier{
-                          uri: "file://somefile"
+    assert_notification "textDocument/publishDiagnostics",
+                        %{
+                          "uri" => ^expected_uri,
+                          "diagnostics" => [
+                            %{
+                              "code" => nil,
+                              "codeDescription" => nil,
+                              "data" => nil,
+                              "relatedInformation" => nil,
+                              "source" => nil,
+                              "tags" => nil,
+                              "range" => %{
+                                "start" => %{"line" => 5, "character" => 12},
+                                "end" => %{"line" => 6, "character" => 0}
+                              },
+                              "severity" => 1,
+                              "message" => "Spelling mistake"
+                            }
+                          ],
+                          "version" => nil
                         },
-                        text: "some code"
-                      }
-                    }},
-                   500
-
-    packet =
-      Jason.encode!(%{
-        "jsonrpc" => "2.0",
-        "method" => "textDocument/publishDiagnostics",
-        "params" => %{
-          "uri" => params["textDocument"]["uri"],
-          "diagnostics" => [
-            %{
-              "code" => nil,
-              "codeDescription" => nil,
-              "data" => nil,
-              "relatedInformation" => nil,
-              "source" => nil,
-              "tags" => nil,
-              "range" => %{
-                "start" => %{"line" => 5, "character" => 12},
-                "end" => %{"line" => 6, "character" => 0}
-              },
-              "severity" => 1,
-              "message" => "Spelling mistake"
-            }
-          ],
-          "version" => nil
-        }
-      })
-
-    assert_receive {:wire, ^packet}, 500
+                        500
   end
 
-  test "can receive a normal message with handle_info/2", %{lsp: lsp} do
-    send(lsp, "hi")
+  test "can receive a normal message with handle_info/2", %{server: server} do
+    send(server.lsp, "hi")
 
     assert_receive {:info, :ack}
   end

@@ -1,6 +1,6 @@
 defmodule GenLSP.Support.Buffer do
   def loop(args) do
-    case GenLSP.Communication.Tcp.read(args) do
+    case GenLSP.Communication.TCP.read(args) do
       :eof ->
         :eof
 
@@ -8,14 +8,14 @@ defmodule GenLSP.Support.Buffer do
         body
         |> Jason.decode!()
         |> Jason.encode!()
-        |> GenLSP.Communication.Tcp.write(args)
+        |> GenLSP.Communication.TCP.write(args)
 
         loop(args)
     end
   end
 end
 
-defmodule GenLSP.Communication.TcpTest do
+defmodule GenLSP.Communication.TCPTest do
   use ExUnit.Case, async: true
 
   # this includes a char that is 3 bytes in length, that is also very long so that the packet is chunked
@@ -31,7 +31,8 @@ defmodule GenLSP.Communication.TcpTest do
     # the following match ensures that the script completes and does
     # not raise after stdin is closed.
     Task.start_link(fn ->
-      {:ok, args} = GenLSP.Communication.Tcp.init(port: @port)
+      {:ok, args} = GenLSP.Communication.TCP.init(port: @port)
+      {:ok, args} = GenLSP.Communication.TCP.listen(args)
       send(me, {:done, args})
 
       assert :eof = GenLSP.Support.Buffer.loop(args)
