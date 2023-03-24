@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "==> Generating Protocol"
+elixir \
+  -e 'Mix.install([{:lsp_codegen, github: "mhanberg/lsp_codegen"}], force: true); LSPCodegen.generate(System.argv())' \
+  -- \
+  --path ./lib/gen_lsp/protocol
+
+echo "==> Removing trailing whitespace"
+gsed -i 's/[ \t]*$//' ./lib/gen_lsp/protocol/**/*.ex
+
+echo "==> mix format"
+mix format
+

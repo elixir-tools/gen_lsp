@@ -1,39 +1,91 @@
-defmodule GenLSP.Protocol.Notifications do
-  @notifications_spec File.read!("metaModel.json")
-                      |> Jason.decode!()
-                      |> Map.get("notifications")
-                      |> Enum.map(fn s -> {s["method"], s} end)
-                      |> Map.new()
+defmodule GenLSP.Notifications do
+  import Schematic
 
-  def spec, do: @notifications_spec
+  def new(notification) do
+    unify(
+      oneof(fn
+        %{"method" => "$/cancelRequest"} ->
+          GenLSP.Notifications.DollarCancelRequest.schematic()
 
-  for {method, notification} <- @notifications_spec do
-    module_name =
-      method
-      |> String.split("/")
-      |> Enum.map_join("", &(Macro.camelize(&1) |> String.replace("$", "Dollar")))
-      |> String.to_atom()
-      |> then(&Module.concat(GenLSP.Protocol.Notifications, &1))
+        %{"method" => "$/logTrace"} ->
+          GenLSP.Notifications.DollarLogTrace.schematic()
 
-    defmodule module_name do
-      @moduledoc """
-      #{notification["documentation"]}
-      """
-      defstruct params: nil
+        %{"method" => "$/progress"} ->
+          GenLSP.Notifications.DollarProgress.schematic()
 
-      defimpl GenLSP.Protocol.Encoder do
-        def encode(note) do
-          %{
-            "method" => unquote(notification["method"]),
-            "jsonrpc" => "2.0",
-            "params" => GenLSP.Protocol.Encoder.encode(note.params)
-          }
-        end
+        %{"method" => "$/setTrace"} ->
+          GenLSP.Notifications.DollarSetTrace.schematic()
 
-        def decode(_, _) do
-          nil
-        end
-      end
-    end
+        %{"method" => "exit"} ->
+          GenLSP.Notifications.Exit.schematic()
+
+        %{"method" => "initialized"} ->
+          GenLSP.Notifications.Initialized.schematic()
+
+        %{"method" => "notebookDocument/didChange"} ->
+          GenLSP.Notifications.NotebookDocumentDidChange.schematic()
+
+        %{"method" => "notebookDocument/didClose"} ->
+          GenLSP.Notifications.NotebookDocumentDidClose.schematic()
+
+        %{"method" => "notebookDocument/didOpen"} ->
+          GenLSP.Notifications.NotebookDocumentDidOpen.schematic()
+
+        %{"method" => "notebookDocument/didSave"} ->
+          GenLSP.Notifications.NotebookDocumentDidSave.schematic()
+
+        %{"method" => "telemetry/event"} ->
+          GenLSP.Notifications.TelemetryEvent.schematic()
+
+        %{"method" => "textDocument/didChange"} ->
+          GenLSP.Notifications.TextDocumentDidChange.schematic()
+
+        %{"method" => "textDocument/didClose"} ->
+          GenLSP.Notifications.TextDocumentDidClose.schematic()
+
+        %{"method" => "textDocument/didOpen"} ->
+          GenLSP.Notifications.TextDocumentDidOpen.schematic()
+
+        %{"method" => "textDocument/didSave"} ->
+          GenLSP.Notifications.TextDocumentDidSave.schematic()
+
+        %{"method" => "textDocument/publishDiagnostics"} ->
+          GenLSP.Notifications.TextDocumentPublishDiagnostics.schematic()
+
+        %{"method" => "textDocument/willSave"} ->
+          GenLSP.Notifications.TextDocumentWillSave.schematic()
+
+        %{"method" => "window/logMessage"} ->
+          GenLSP.Notifications.WindowLogMessage.schematic()
+
+        %{"method" => "window/showMessage"} ->
+          GenLSP.Notifications.WindowShowMessage.schematic()
+
+        %{"method" => "window/workDoneProgress/cancel"} ->
+          GenLSP.Notifications.WindowWorkDoneProgressCancel.schematic()
+
+        %{"method" => "workspace/didChangeConfiguration"} ->
+          GenLSP.Notifications.WorkspaceDidChangeConfiguration.schematic()
+
+        %{"method" => "workspace/didChangeWatchedFiles"} ->
+          GenLSP.Notifications.WorkspaceDidChangeWatchedFiles.schematic()
+
+        %{"method" => "workspace/didChangeWorkspaceFolders"} ->
+          GenLSP.Notifications.WorkspaceDidChangeWorkspaceFolders.schematic()
+
+        %{"method" => "workspace/didCreateFiles"} ->
+          GenLSP.Notifications.WorkspaceDidCreateFiles.schematic()
+
+        %{"method" => "workspace/didDeleteFiles"} ->
+          GenLSP.Notifications.WorkspaceDidDeleteFiles.schematic()
+
+        %{"method" => "workspace/didRenameFiles"} ->
+          GenLSP.Notifications.WorkspaceDidRenameFiles.schematic()
+
+        _ ->
+          {:error, "unexpected notification payload"}
+      end),
+      notification
+    )
   end
 end

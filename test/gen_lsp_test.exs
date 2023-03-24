@@ -1,7 +1,7 @@
 defmodule GenLSPTest do
   use ExUnit.Case, async: true
-  alias GenLSP.Protocol.Notifications
-  alias GenLSP.Protocol.Structures
+  alias GenLSP.Notifications
+  alias GenLSP.Structures
 
   setup do
     wire = start_supervised!({GenLSPTest.TestWire, self()})
@@ -23,18 +23,60 @@ defmodule GenLSPTest do
   test "can receive and reply to a request" do
     id = System.unique_integer([:positive])
 
+    params = %{
+      "monikerProvider" => nil,
+      "diagnosticProvider" => nil,
+      "executeCommandProvider" => nil,
+      "colorProvider" => nil,
+      "inlayHintProvider" => nil,
+      "renameProvider" => nil,
+      "documentSymbolProvider" => nil,
+      "documentLinkProvider" => nil,
+      "callHierarchyProvider" => nil,
+      "semanticTokensProvider" => nil,
+      "workspace" => nil,
+      "completionProvider" => nil,
+      "textDocumentSync" => nil,
+      "codeActionProvider" => nil,
+      "definitionProvider" => nil,
+      "workspaceSymbolProvider" => nil,
+      "signatureHelpProvider" => nil,
+      "inlineValueProvider" => nil,
+      "referencesProvider" => nil,
+      "selectionRangeProvider" => nil,
+      "documentFormattingProvider" => nil,
+      "positionEncoding" => nil,
+      "foldingRangeProvider" => nil,
+      "typeDefinitionProvider" => nil,
+      "documentHighlightProvider" => nil,
+      "documentOnTypeFormattingProvider" => nil,
+      "implementationProvider" => nil,
+      "linkedEditingRangeProvider" => nil,
+      "documentRangeFormattingProvider" => nil,
+      "experimental" => nil,
+      "notebookDocumentSync" => nil,
+      "codeLensProvider" => nil,
+      "hoverProvider" => nil,
+      "declarationProvider" => nil,
+      "typeHierarchyProvider" => nil
+    }
+
     initialize =
       Jason.encode!(%{
         "jsonrpc" => "2.0",
         "method" => "initialize",
-        "params" => %{},
+        "params" => %{"capabilities" => %{}},
         "id" => id
       })
 
     GenLSPTest.TestWire.client_write(initialize)
 
     packet =
-      "{\"id\":#{id},\"jsonrpc\":\"2.0\",\"result\":{\"capabilities\":{},\"serverInfo\":{\"name\":\"Test LSP\"}}}"
+      Jason.encode!(%{
+        "id" => id,
+        "jsonrpc" => "2.0",
+        "result" => %{"capabilities" => params, "serverInfo" => %{"name" => "Test LSP"}}
+      })
 
     assert_receive {:wire, ^packet}, 500
   end
@@ -44,7 +86,8 @@ defmodule GenLSPTest do
       "textDocument" => %{
         "uri" => "file://somefile",
         "languageId" => "elixir",
-        "version" => 1
+        "version" => 1,
+        "text" => "hello world!"
       }
     }
 
@@ -60,9 +103,9 @@ defmodule GenLSPTest do
     assert_receive {:callback,
                     %Notifications.TextDocumentDidOpen{
                       params: %Structures.DidOpenTextDocumentParams{
-                        textDocument: %Structures.TextDocumentItem{
+                        text_document: %Structures.TextDocumentItem{
                           uri: "file://somefile",
-                          languageId: "elixir",
+                          language_id: "elixir",
                           version: 1
                         }
                       }
@@ -80,19 +123,19 @@ defmodule GenLSPTest do
       "text" => "some code"
     }
 
-    did_open =
+    did_save =
       Jason.encode!(%{
         "jsonrpc" => "2.0",
         "method" => "textDocument/didSave",
         "params" => params
       })
 
-    GenLSPTest.TestWire.client_write(did_open)
+    GenLSPTest.TestWire.client_write(did_save)
 
     assert_receive {:callback,
                     %Notifications.TextDocumentDidSave{
                       params: %Structures.DidSaveTextDocumentParams{
-                        textDocument: %Structures.TextDocumentIdentifier{
+                        text_document: %Structures.TextDocumentIdentifier{
                           uri: "file://somefile"
                         },
                         text: "some code"

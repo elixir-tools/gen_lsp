@@ -1,9 +1,9 @@
-defmodule GenLsp.ProtocolTest do
+defmodule GenLSP.ProtocolTest do
   use ExUnit.Case, async: true
 
-  alias GenLSP.Protocol.Notifications
-  alias GenLSP.Protocol.Requests
-  alias GenLSP.Protocol.Structures
+  alias GenLSP.Notifications
+  alias GenLSP.Requests
+  alias GenLSP.Structures
 
   describe "new/1" do
     test "decodes a textDocument/didSave packet" do
@@ -18,14 +18,15 @@ defmodule GenLsp.ProtocolTest do
         }
       }
 
-      assert %Notifications.TextDocumentDidSave{
-               params: %Structures.DidSaveTextDocumentParams{
-                 textDocument: %Structures.TextDocumentIdentifier{
-                   uri: "file://somefile"
-                 },
-                 text: "some code"
-               }
-             } = GenLSP.Protocol.new(did_save)
+      assert {:ok,
+              %Notifications.TextDocumentDidSave{
+                params: %Structures.DidSaveTextDocumentParams{
+                  text_document: %Structures.TextDocumentIdentifier{
+                    uri: "file://somefile"
+                  },
+                  text: "some code"
+                }
+              }} = GenLSP.Notifications.new(did_save)
     end
 
     test "decodes a workspace/didChangeConfiguration packet" do
@@ -44,9 +45,10 @@ defmodule GenLsp.ProtocolTest do
         }
       }
 
-      assert %Notifications.WorkspaceDidChangeConfiguration{
-               params: %Structures.DidChangeConfigurationParams{settings: _settings}
-             } = GenLSP.Protocol.new(did_change_configuration)
+      assert {:ok,
+              %Notifications.WorkspaceDidChangeConfiguration{
+                params: %Structures.DidChangeConfigurationParams{settings: _settings}
+              }} = GenLSP.Notifications.new(did_change_configuration)
     end
 
     test "decodes a textDocument/hover packet" do
@@ -62,12 +64,13 @@ defmodule GenLsp.ProtocolTest do
         }
       }
 
-      assert %Requests.TextDocumentHover{
-               params: %Structures.HoverParams{
-                 textDocument: %Structures.TextDocumentIdentifier{uri: _uri},
-                 position: %Structures.Position{line: _line, character: _character}
-               }
-             } = GenLSP.Protocol.new(did_change_configuration)
+      assert {:ok,
+              %Requests.TextDocumentHover{
+                params: %Structures.HoverParams{
+                  text_document: %Structures.TextDocumentIdentifier{uri: _uri},
+                  position: %Structures.Position{line: _line, character: _character}
+                }
+              }} = GenLSP.Requests.new(did_change_configuration)
     end
 
     test "decodes initialize" do
@@ -84,14 +87,6 @@ defmodule GenLsp.ProtocolTest do
                   "codeActionKind" => %{
                     "valueSet" => [
                       "",
-                      "Empty",
-                      "QuickFix",
-                      "Refactor",
-                      "RefactorExtract",
-                      "RefactorInline",
-                      "RefactorRewrite",
-                      "Source",
-                      "SourceOrganizeImports",
                       "quickfix",
                       "refactor",
                       "refactor.extract",
@@ -272,8 +267,8 @@ defmodule GenLsp.ProtocolTest do
         }
       }
 
-      assert %Requests.Initialize{params: %Structures.InitializeParams{}} =
-               GenLSP.Protocol.new(initialize)
+      assert {:ok, %Requests.Initialize{params: %Structures.InitializeParams{}}} =
+               GenLSP.Requests.new(initialize)
     end
   end
 end

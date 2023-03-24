@@ -1,9 +1,9 @@
 defmodule GenLSPTest.ExampleServer do
   use GenLSP
 
-  alias GenLSP.Protocol.Requests
-  alias GenLSP.Protocol.Notifications
-  alias GenLSP.Protocol.Structures
+  alias GenLSP.Requests
+  alias GenLSP.Notifications
+  alias GenLSP.Structures
 
   def start_link(opts) do
     {test_pid, opts} = Keyword.pop(opts, :test_pid)
@@ -17,7 +17,11 @@ defmodule GenLSPTest.ExampleServer do
 
   @impl true
   def handle_request(%Requests.Initialize{id: _id}, state) do
-    {:reply, %{"capabilities" => %{}, "serverInfo" => %{"name" => "Test LSP"}}, state}
+    {:reply,
+     %Structures.InitializeResult{
+       capabilities: %Structures.ServerCapabilities{},
+       server_info: %{"name" => "Test LSP"}
+     }, state}
   end
 
   @impl true
@@ -29,7 +33,7 @@ defmodule GenLSPTest.ExampleServer do
 
   def handle_notification(
         %Notifications.TextDocumentDidSave{
-          params: %Structures.DidSaveTextDocumentParams{textDocument: textDocument}
+          params: %Structures.DidSaveTextDocumentParams{text_document: text_document}
         } = notification,
         state
       ) do
@@ -37,7 +41,7 @@ defmodule GenLSPTest.ExampleServer do
 
     GenLSP.notify(%Notifications.TextDocumentPublishDiagnostics{
       params: %Structures.PublishDiagnosticsParams{
-        uri: textDocument.uri,
+        uri: text_document.uri,
         diagnostics: [
           %Structures.Diagnostic{
             range: %Structures.Range{

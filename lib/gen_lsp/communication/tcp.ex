@@ -9,7 +9,8 @@ defmodule GenLSP.Communication.Tcp do
   def init(args) do
     args = Keyword.validate!(args, port: 6969)
 
-    {:ok, lsocket} = :gen_tcp.listen(args[:port], [:binary, packet: :raw, active: false])
+    {:ok, lsocket} =
+      :gen_tcp.listen(args[:port], [:binary, packet: :raw, active: false, reuseaddr: true])
 
     {:ok, socket} = :gen_tcp.accept(lsocket)
 
