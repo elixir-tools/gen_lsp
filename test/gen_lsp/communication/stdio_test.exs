@@ -30,7 +30,7 @@ GenLSP.Communication.Stdio.init([])
 :eof = GenLSP.Support.Buffer.loop()'"
 
   test "can read and write through stdio" do
-    port = Port.open({:spawn, @command}, [:binary])
+    port = Port.open({:spawn, @command}, [:binary, env: [{'MIX_ENV', 'test'}]])
 
     expected_message = "Content-Length: #{@length}\r\n\r\n#{@string}"
 
