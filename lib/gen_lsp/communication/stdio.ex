@@ -13,6 +13,10 @@ defmodule GenLSP.Communication.Stdio do
     {:ok, nil}
   end
 
+  def listen(state) do
+    {:ok, state}
+  end
+
   @impl true
   def write(body, _) do
     content_length =

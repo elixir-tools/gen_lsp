@@ -11,35 +11,35 @@ defmodule GenLSPTest.ExampleServer do
   end
 
   @impl true
-  def init(test_pid) do
-    {:ok, %{foo: :bar, test_pid: test_pid}}
+  def init(lsp, test_pid) do
+    {:ok, assign(lsp, foo: :bar, test_pid: test_pid)}
   end
 
   @impl true
-  def handle_request(%Requests.Initialize{id: _id}, state) do
+  def handle_request(%Requests.Initialize{id: _id}, lsp) do
     {:reply,
      %Structures.InitializeResult{
        capabilities: %Structures.ServerCapabilities{},
        server_info: %{"name" => "Test LSP"}
-     }, state}
+     }, lsp}
   end
 
   @impl true
-  def handle_notification(%Notifications.TextDocumentDidOpen{} = notification, state) do
-    send(state.test_pid, {:callback, notification})
+  def handle_notification(%Notifications.TextDocumentDidOpen{} = notification, lsp) do
+    send(lsp.assigns.test_pid, {:callback, notification})
 
-    {:noreply, state}
+    {:noreply, lsp}
   end
 
   def handle_notification(
         %Notifications.TextDocumentDidSave{
           params: %Structures.DidSaveTextDocumentParams{text_document: text_document}
         } = notification,
-        state
+        lsp
       ) do
-    send(state.test_pid, {:callback, notification})
+    send(lsp.assigns.test_pid, {:callback, notification})
 
-    GenLSP.notify(%Notifications.TextDocumentPublishDiagnostics{
+    GenLSP.notify(lsp, %Notifications.TextDocumentPublishDiagnostics{
       params: %Structures.PublishDiagnosticsParams{
         uri: text_document.uri,
         diagnostics: [
@@ -55,12 +55,12 @@ defmodule GenLSPTest.ExampleServer do
       }
     })
 
-    {:noreply, state}
+    {:noreply, lsp}
   end
 
   @impl true
-  def handle_info(_message, state) do
-    send(state.test_pid, {:info, :ack})
-    {:noreply, state}
+  def handle_info(_message, lsp) do
+    send(lsp.assigns.test_pid, {:info, :ack})
+    {:noreply, lsp}
   end
 end
