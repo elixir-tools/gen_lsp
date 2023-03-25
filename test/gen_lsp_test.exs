@@ -6,14 +6,14 @@ defmodule GenLSPTest do
   import GenLSP.Test
 
   setup do
-    server = server(GenLSPTest.ExampleServer)
+    server = server(GenLSPTest.ExampleServer, test_pid: self())
     client = client(server)
 
     [server: server, client: client]
   end
 
   test "stores the user state and internal state", %{server: server} do
-    assert Process.alive?(server.lsp)
+    assert alive?(server)
 
     assert %GenLSP.LSP{
              assigns: %{foo: :bar, test_pid: self()},

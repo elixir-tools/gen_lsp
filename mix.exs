@@ -32,7 +32,7 @@ defmodule GenLSP.MixProject do
       {:typed_struct, "~> 0.3.0"},
       {:jason, "~> 1.3"},
       # {:schematic, path: "../schematic"},
-      {:schematic, "~> 0.0.5"},
+      {:schematic, "~> 0.0.6"},
       {:dialyxir, ">= 0.0.0", only: :dev}
     ]
   end

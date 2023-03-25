@@ -10,13 +10,13 @@ defmodule GenLSP.Test do
           }
 
   @spec server(mod :: atom()) :: server()
-  def server(mod) do
+  def server(mod, opts \\ []) do
     buffer =
       start_supervised!({GenLSP.Buffer, communication: {GenLSP.Communication.TCP, [port: 0]}})
 
     {:ok, port} = :inet.port(GenLSP.Buffer.comm_state(buffer).lsocket)
 
-    lsp = start_supervised!({mod, [buffer: buffer, test_pid: self()]})
+    lsp = start_supervised!({mod, Keyword.merge([buffer: buffer], opts)})
 
     %{lsp: lsp, buffer: buffer, port: port}
   end
@@ -69,6 +69,10 @@ defmodule GenLSP.Test do
   @spec notify(client(), Jason.Encoder.t()) :: :ok
   def notify(%{socket: socket}, body) do
     GenLSP.Communication.TCP.write(Jason.encode!(body), %{socket: socket})
+  end
+
+  def alive?(%{lsp: lsp}) do
+    Process.alive?(lsp)
   end
 
   defmacro assert_result(id, pattern, timeout \\ 100) do

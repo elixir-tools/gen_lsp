@@ -20,7 +20,7 @@ defmodule GenLSPTest.ExampleServer do
     {:reply,
      %Structures.InitializeResult{
        capabilities: %Structures.ServerCapabilities{},
-       server_info: %{"name" => "Test LSP"}
+       server_info: %{name: "Test LSP"}
      }, lsp}
   end
 
