@@ -1,16 +1,17 @@
 defmodule GenLSP.Support.Buffer do
-  def loop(args) do
-    case GenLSP.Communication.TCP.read(args) do
+  def loop(args, pid, buffer) do
+    case GenLSP.Communication.TCP.read(args, buffer) do
       :eof ->
         :eof
 
-      {:ok, body} ->
+      {:ok, body, buffer} ->
         body
         |> Jason.decode!()
+        |> tap(fn b -> send(pid, {:packet, b}) end)
         |> Jason.encode!()
         |> GenLSP.Communication.TCP.write(args)
 
-        loop(args)
+        loop(args, pid, buffer)
     end
   end
 end
@@ -35,7 +36,7 @@ defmodule GenLSP.Communication.TCPTest do
       {:ok, args} = GenLSP.Communication.TCP.listen(args)
       send(me, {:done, args})
 
-      assert :eof = GenLSP.Support.Buffer.loop(args)
+      assert :eof = GenLSP.Support.Buffer.loop(args, me, "")
     end)
 
     assert {:ok, socket} = connect()
@@ -50,6 +51,62 @@ defmodule GenLSP.Communication.TCPTest do
     {:ok, actual} = :gen_tcp.recv(socket, byte_size(expected_message))
 
     assert expected_message == actual
+  end
+
+  test "correctly reads from the socket" do
+    me = self()
+
+    {:ok, task} =
+      Task.start_link(fn ->
+        Process.flag(:trap_exit, true)
+        {:ok, args} = GenLSP.Communication.TCP.init(port: @port)
+        {:ok, args} = GenLSP.Communication.TCP.listen(args)
+
+        assert :eof = GenLSP.Support.Buffer.loop(args, me, "")
+      end)
+
+    ref = Process.monitor(task)
+
+    assert {:ok, socket} = connect()
+
+    assert :ok ==
+             :gen_tcp.send(
+               socket,
+               "Content-Length: 52\r\n\r\n{\"jsonrpc\":\"2.0\",\"method\":\"initialized\",\"params\":{}}"
+             )
+
+    assert :ok ==
+             :gen_tcp.send(
+               socket,
+               "Content-Length: 131\r\n\r\n{\"jsonrpc\":\"2.0\",\"method\":\"window/logMessage\",\"params\":{\"message\":\"[GenLSP] Processing GenLSP.Notifications.Initialized\",\"type\":4}}"
+             )
+
+    assert :ok ==
+             :gen_tcp.send(
+               socket,
+               "Content-Length: 103\r\n\r\n{\"jsonrpc\":\"2.0\",\"method\":\"window/logMessage\",\"params\":{\"message\":\"[Credo] LSP Initialized!\",\"type\":4}}"
+             )
+
+    assert_receive {:packet, %{"method" => "initialized"}}
+
+    assert_receive {:packet,
+                    %{
+                      "method" => "window/logMessage",
+                      "params" => %{
+                        "message" => "[GenLSP] Processing GenLSP.Notifications.Initialized"
+                      }
+                    }}
+
+    assert_receive {:packet,
+                    %{
+                      "method" => "window/logMessage",
+                      "params" => %{
+                        "message" => "[Credo] LSP Initialized!"
+                      }
+                    }}
+
+    assert :ok == :gen_tcp.close(socket)
+    assert_receive {:DOWN, ^ref, :process, _pid, :normal}
   end
 
   defp connect() do

@@ -32,19 +32,19 @@ defmodule GenLSP.Test do
 
     Task.start_link(fn ->
       Stream.resource(
-        fn -> :ok end,
-        fn _acc ->
-          case GenLSP.Communication.TCP.read(%{socket: socket}) do
+        fn -> "" end,
+        fn buffer ->
+          case GenLSP.Communication.TCP.read(%{socket: socket}, buffer) do
             :eof ->
               {:halt, :ok}
 
             {:error, reason} ->
               {:halt, {:error, reason}}
 
-            {:ok, body} ->
+            {:ok, body, buffer} ->
               send(me, Jason.decode!(body))
 
-              {[body], :ok}
+              {[body], buffer}
           end
         end,
         fn

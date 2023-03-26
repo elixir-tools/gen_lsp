@@ -34,22 +34,33 @@ defmodule GenLSP.Communication.TCP do
   end
 
   @impl true
-  def read(state) do
-    {:ok, packet} = :gen_tcp.recv(state.socket, 0)
+  def read(state, "") do
+    case :gen_tcp.recv(state.socket, 0) do
+      {:ok, packet} ->
+        read(state, packet)
 
-    {%{"Content-Length" => length}, buffer} = read_headers(packet)
-
-    body = read_body(state.socket, buffer, String.to_integer(length))
-
-    {:ok, body}
+      {:error, _} ->
+        :eof
+    end
   end
 
-  defp read_body(_socket, buffer, length) when byte_size(buffer) == length do
-    buffer
+  def read(state, buffer) do
+    {%{"Content-Length" => length}, buffer} = read_headers(buffer)
+
+    {body, buffer} = read_body(state.socket, buffer, String.to_integer(length))
+
+    {:ok, body, buffer}
+  end
+
+  defp read_body(_socket, buffer, length) when byte_size(buffer) >= length do
+    <<body::binary-size(length), buffer::binary>> = buffer
+
+    {body, buffer}
   end
 
   defp read_body(socket, buffer, length) do
-    {:ok, packet} = :gen_tcp.recv(socket, length - byte_size(buffer))
+    size = length - byte_size(buffer)
+    {:ok, packet} = :gen_tcp.recv(socket, size)
 
     read_body(socket, buffer <> packet, length)
   end

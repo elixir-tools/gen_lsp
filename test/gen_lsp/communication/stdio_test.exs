@@ -8,11 +8,11 @@ defmodule GenLSP.Communication.StdioTest do
   @command "mix run -e '
 defmodule GenLSP.Support.Buffer do
   def loop do
-    case GenLSP.Communication.Stdio.read([]) do
+    case GenLSP.Communication.Stdio.read([], nil) do
       :eof ->
         :eof
 
-      {:ok, body} ->
+      {:ok, body, _} ->
         body
         |> Jason.decode!()
         |> Jason.encode!()

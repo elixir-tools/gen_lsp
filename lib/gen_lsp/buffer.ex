@@ -73,19 +73,19 @@ defmodule GenLSP.Buffer do
       send(me, {:update_comm_data, comm_data})
 
       Stream.resource(
-        fn -> :ok end,
-        fn _acc ->
-          case comm.read(comm_data) do
+        fn -> "" end,
+        fn buffer ->
+          case comm.read(comm_data, buffer) do
             :eof ->
               {:halt, :ok}
 
             {:error, reason} ->
               {:halt, {:error, reason}}
 
-            {:ok, body} ->
+            {:ok, body, buffer} ->
               incoming(me, body)
 
-              {[body], :ok}
+              {[body], buffer}
           end
         end,
         fn

@@ -31,7 +31,7 @@ defmodule GenLSP.Communication.Stdio do
   end
 
   @impl true
-  def read(_) do
+  def read(_, _) do
     headers = read_header(%{})
 
     case headers do
@@ -45,7 +45,7 @@ defmodule GenLSP.Communication.Stdio do
           |> String.to_integer()
           |> read_body()
 
-        {:ok, body}
+        {:ok, body, ""}
     end
   end
 
