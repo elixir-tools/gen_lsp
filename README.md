@@ -1,147 +1,190 @@
 # GenLSP
 
-A behaviour for creating language servers.
+<!-- MDOC !-->
 
-Pre-alpha software, use only at great personal risk.
+GenLSP is an OTP behaviour for building processes that implement the [Language Server Protocol](https://microsoft.github.io/language-server-protocol/).
 
 ## Example
 
-Here is an example of a [Credo](github.com/rrrene/credo) language server.
-
-> **Warning**
-> This example is probably out of date, but should still illustrate the general shape of a GenLSP process.
+Here is an example of a [Credo](https://github.com/rrrene/credo) language server.
 
 ```elixir
-defmodule CredoLS do
+defmodule Credo.Lsp do
+  @moduledoc """
+  LSP implementation for Credo.
+  """
   use GenLSP
 
-  alias GenLSP.Protocol.Requests
-  alias GenLSP.Protocol.Notifications
-  alias GenLSP.Protocol.Structures
+  alias GenLSP.Enumerations.TextDocumentSyncKind
 
-  def start_link(_) do
-    GenLSP.start_link(__MODULE__, nil, name: __MODULE__)
+  alias GenLSP.Notifications.{
+    Exit,
+    Initialized,
+    TextDocumentDidChange,
+    TextDocumentDidClose,
+    TextDocumentDidOpen,
+    TextDocumentDidSave
+  }
+
+  alias GenLSP.Requests.{Initialize, Shutdown}
+
+  alias GenLSP.Structures.{
+    InitializeParams,
+    InitializeResult,
+    SaveOptions,
+    ServerCapabilities,
+    TextDocumentSyncOptions
+  }
+
+  alias Credo.Lsp.Cache, as: Diagnostics
+
+  def start_link(args) do
+    GenLSP.start_link(__MODULE__, args, [])
   end
 
   @impl true
-  def init(_) do
-    CredoLS.DiagnosticCache.start_link()
-    CredoLS.DiagnosticCache.refresh()
+  def init(lsp, args) do
+    cache = Keyword.fetch!(args, :cache)
 
-    {:ok, nil}
+    {:ok, assign(lsp, exit_code: 1, cache: cache)}
   end
 
   @impl true
-  def handle_request(%P.Initialize{}, state) do
+  def handle_request(%Initialize{params: %InitializeParams{root_uri: root_uri}}, lsp) do
     {:reply,
-     %Structures.InitializeResult{
-       capabilities: %Structures.ServerCapabilities{
-         textDocumentSync: %Structures.TextDocumentSyncOptions{
-           openClose: true,
-           save: %Structures.SaveOptions{includeText: true}
+     %InitializeResult{
+       capabilities: %ServerCapabilities{
+         text_document_sync: %TextDocumentSyncOptions{
+           open_close: true,
+           save: %SaveOptions{include_text: true},
+           change: TextDocumentSyncKind.full()
          }
        },
-       serverInfo: %{"name" => "SpeLS"}
-     }, state}
+       server_info: %{name: "Credo"}
+     }, assign(lsp, root_uri: root_uri)}
+  end
+
+  def handle_request(%Shutdown{}, lsp) do
+    {:noreply, assign(lsp, exit_code: 0)}
   end
 
   @impl true
-  def handle_notification(%Notifications.Initialized{}, state) do
-    {:noreply, state}
+  def handle_notification(%Initialized{}, lsp) do
+    GenLSP.log(lsp, :log, "[Credo] LSP Initialized!")
+    Diagnostics.refresh(lsp.assigns.cache, lsp)
+    Diagnostics.publish(lsp.assigns.cache, lsp)
+
+    {:noreply, lsp}
   end
 
-  def handle_notification(%Notifications.TextDocumentDidSave{}, state) do
-    Task.start_link(fn -> CredoLS.DiagnosticCache.refresh() end)
-
-    {:noreply, state}
-  end
-
-  def handle_notification(%Notifications.TextDocumentDidOpen{}, state) do
-    Task.start_link(fn -> CredoLS.DiagnosticCache.publish() end)
-
-    {:noreply, state}
-  end
-
-  def handle_notification(%Notifications.TextDocumentDidChange{}, state) do
+  def handle_notification(%TextDocumentDidSave{}, lsp) do
     Task.start_link(fn ->
-      CredoLS.DiagnosticCache.clear()
-      CredoLS.DiagnosticCache.publish()
+      Diagnostics.clear(lsp.assigns.cache)
+      Diagnostics.refresh(lsp.assigns.cache, lsp)
+      Diagnostics.publish(lsp.assigns.cache, lsp)
     end)
 
-    {:noreply, state}
+    {:noreply, lsp}
   end
 
-  def handle_notification(%Notifications.TextDocumentDidClose{}, state) do
-    {:noreply, state}
+  def handle_notification(%TextDocumentDidChange{}, lsp) do
+    Task.start_link(fn ->
+      Diagnostics.clear(lsp.assigns.cache)
+      Diagnostics.publish(lsp.assigns.cache, lsp)
+    end)
+
+    {:noreply, lsp}
   end
 
-  def handle_notification(_notification, state) do
-    {:noreply, state}
+  def handle_notification(%note{}, lsp)
+      when note in [TextDocumentDidOpen, TextDocumentDidClose] do
+    {:noreply, lsp}
+  end
+
+  def handle_notification(%Exit{}, lsp) do
+    System.halt(lsp.assigns.exit_code)
+
+    {:noreply, lsp}
+  end
+
+  def handle_notification(_thing, lsp) do
+    {:noreply, lsp}
   end
 end
 
-defmodule CredoLS.DiagnosticCache do
+
+defmodule Credo.Lsp.Cache do
+  @moduledoc """
+  Cache for Credo diagnostics.
+  """
   use Agent
 
-  def start_link() do
-    Agent.start_link(fn -> Map.new() end, name: __MODULE__)
+  alias GenLSP.Structures.{
+    Diagnostic,
+    Position,
+    PublishDiagnosticsParams,
+    Range
+  }
+
+  alias GenLSP.Notifications.TextDocumentPublishDiagnostics
+
+  def start_link(_) do
+    Agent.start_link(fn -> Map.new() end)
   end
 
-  def refresh() do
-    clear()
+  def refresh(cache, lsp) do
+    dir = URI.new!(lsp.assigns.root_uri).path
 
-    issues = Credo.Execution.get_issues(Credo.run(["--strict", "--all"]))
+    issues = Credo.Execution.get_issues(Credo.run(["--strict", "--all", "#{dir}/**/*.ex"]))
 
-    GenLSP.log(:info, "[Credo] Found #{Enum.count(issues)} issues")
+    GenLSP.log(lsp, :info, "[Credo] Found #{Enum.count(issues)} issues")
 
     for issue <- issues do
-      diagnostic = %{
-        "range" => %{
-          "start" => %{line: issue.line_no - 1, character: issue.column || 0},
-          "end" => %{line: issue.line_no, character: 0}
+      diagnostic = %Diagnostic{
+        range: %Range{
+          start: %Position{line: issue.line_no - 1, character: issue.column || 0},
+          end: %Position{line: issue.line_no, character: 0}
         },
-        "severity" => category_to_severity(issue.category),
-        "message" => """
-          #{issue.message}
+        severity: category_to_severity(issue.category),
+        message: """
+        #{issue.message}
 
-          ## Explanation
+        ## Explanation
 
-          #{issue.check.explanations()[:check]}
+        #{issue.check.explanations()[:check]}
         """
       }
 
-      put(Path.absname(issue.filename), diagnostic)
+      put(cache, Path.absname(issue.filename), diagnostic)
     end
-
-    publish()
   end
 
-  def get() do
-    Agent.get(__MODULE__, & &1)
+  def get(cache) do
+    Agent.get(cache, & &1)
   end
 
-  def put(filename, diagnostic) do
-    Agent.update(__MODULE__, fn cache ->
+  def put(cache, filename, diagnostic) do
+    Agent.update(cache, fn cache ->
       Map.update(cache, Path.absname(filename), [diagnostic], fn v ->
         [diagnostic | v]
       end)
     end)
   end
 
-  def clear() do
-    Agent.update(__MODULE__, fn cache ->
+  def clear(cache) do
+    Agent.update(cache, fn cache ->
       for {k, _} <- cache, into: Map.new() do
         {k, []}
       end
     end)
   end
 
-  def publish() do
-    for {file, diagnostics} <- get() do
-      GenLSP.notify(%GenLSP.Protocol.TextDocumentPublishDiagnostics{
-        params: %{
-          "uri" => "file://#{file}",
-          "diagnostics" => diagnostics
+  def publish(cache, lsp) do
+    for {file, diagnostics} <- get(cache) do
+      GenLSP.notify(lsp, %TextDocumentPublishDiagnostics{
+        params: %PublishDiagnosticsParams{
+          uri: "file://#{file}",
+          diagnostics: diagnostics
         }
       })
     end
@@ -155,10 +198,12 @@ defmodule CredoLS.DiagnosticCache do
 end
 ```
 
+<!-- MDOC !-->
+
 ## TODO
 
 - [x] Generate structs for the rest of the protocol.
-    - [x] Improve documentation for generated structs
+  - [x] Improve documentation for generated structs
 - [x] Communication: Support socket: uses a socket as the communication channel. The port is passed as next arg or with --port=.
 - [ ] Documentation/tooling to package your language server into a single binary with [Burrito](https://github.com/burrito-elixir/burrito).
 

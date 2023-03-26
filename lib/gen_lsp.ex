@@ -1,4 +1,9 @@
 defmodule GenLSP do
+  @moduledoc "README.md"
+             |> File.read!()
+             |> String.split("<!-- MDOC !-->")
+             |> Enum.fetch!(1)
+
   alias GenLSP.LSP
 
   defmacro __using__(_) do
@@ -32,14 +37,94 @@ defmodule GenLSP do
 
   require Logger
 
+  @doc """
+  The callback responsible for initializing the process.
+
+  Receives the `t:GenLSP.LSP.t/0` token as the first argument and the arguments that were passed to `GenLSP.start_link/3` as the second.
+
+  ## Usage
+
+  ```elixir
+  @impl true
+  def init(lsp, args) do
+    some_arg = Keyword.fetch!(args, :some_arg)
+
+    {:ok, assign(lsp, static_assign: :some_assign, some_arg: some_arg)}
+  end
+  ```
+  """
   @callback init(lsp :: GenLSP.LSP.t(), init_arg :: term()) :: {:ok, GenLSP.LSP.t()}
+  @doc """
+  The callback responsible for handling requests from the client.
+
+  Receives the request struct as the first argument and the LSP token `t:GenLSP.LSP.t/0` as the second.
+
+  ## Usage
+
+  ```elixir
+  @impl true
+  def handle_request(%Initialize{params: %InitializeParams{root_uri: root_uri}}, lsp) do
+    {:reply,
+     %InitializeResult{
+       capabilities: %ServerCapabilities{
+         text_document_sync: %TextDocumentSyncOptions{
+           open_close: true,
+           save: %SaveOptions{include_text: true},
+           change: TextDocumentSyncKind.full()
+         }
+       },
+       server_info: %{name: "MyLSP"}
+     }, assign(lsp, root_uri: root_uri)}
+  end
+  ```
+  """
   @callback handle_request(request :: term(), state) ::
               {:reply, id :: integer(), reply :: term(), state} | {:noreply, state}
             when state: GenLSP.LSP.t()
+  @doc """
+  The callback responsible for handling notifications from the client.
+
+  Receives the notification struct as the first argument and the LSP token `t:GenLSP.LSP.t/0` as the second.
+
+  ## Usage
+
+  ```elixir
+  @impl true
+  def handle_notification(%Initialized{}, lsp) do
+    # handle the notification
+
+    {:noreply, lsp}
+  end
+  ```
+  """
   @callback handle_notification(notification :: term(), state) :: {:noreply, state}
             when state: GenLSP.LSP.t()
+  @doc """
+  The callback responsible for handling normal messages.
+
+  Receives the notification struct as the first argument and the LSP token `t:GenLSP.LSP.t/0` as the second.
+
+  ## Usage
+
+  ```elixir
+  @impl true
+  def handle_info(message, lsp) do
+    # handle the message
+
+    {:noreply, lsp}
+  end
+  ```
+  """
   @callback handle_info(message :: any(), state) :: {:noreply, state} when state: GenLSP.LSP.t()
 
+  @doc """
+  Starts a `GenLSP` process that is linked to the current process.
+
+  ## Options
+
+  - `:buffer` - the `t:pid/0` or name of the `GenLSP.Buffer` process.
+  - `:name` - used for name registration as described in the "Name registration" section in the documentation for `GenServer`.
+  """
   def start_link(module, init_args, opts) do
     :proc_lib.start_link(__MODULE__, :init, [
       {module, init_args, Keyword.take(opts, [:name, :buffer]), self()}
@@ -64,17 +149,48 @@ defmodule GenLSP do
     end
   end
 
+  @doc """
+  Sends a request from the client to the LSP process.
+
+  Generally used by the `GenLSP.Communication.Adapter` implementation to forward messages from the buffer to the LSP process.
+
+  You shouldn't need to use this to implement a language server.
+  """
+  @spec request_server(pid(), message) :: message when message: term()
   def request_server(pid, request) do
     from = self()
     message = {:request, from, request}
     send(pid, message)
   end
 
+  @doc """
+  Sends a notification from the client to the LSP process.
+
+  Generally used by the `GenLSP.Communication.Adapter` implementation to forward messages from the buffer to the LSP process.
+
+  You shouldn't need to use this to implement a language server.
+  """
+  @spec notify_server(pid(), message) :: message when message: term()
   def notify_server(pid, notification) do
     from = self()
     send(pid, {:notification, from, notification})
   end
 
+  @doc """
+  Sends a notification to the client from the LSP process.
+
+  ## Usage
+
+  ```elixir
+  GenLSP.notify(lsp, %TextDocumentPublishDiagnostics{
+    params: %PublishDiagnosticsParams{
+      uri: "file://#\{file}",
+      diagnostics: diagnostics
+    }
+  })
+  ```
+  """
+  @spec notify(GenLSP.LSP.t(), notification :: any()) :: :ok
   def notify(%{buffer: buffer}, notification) do
     GenLSP.Buffer.outgoing(buffer, dump!(notification))
   end
@@ -191,10 +307,20 @@ defmodule GenLSP do
     {:ok, new_state, new_state}
   end
 
+  @doc """
+  Send a `window/logMessage` notification to the client.
+
+  ## Usage
+
+  ```elixir
+  GenLSP.log(lsp, :warning, "Failed to compiled!")
+  ```
+  """
+  @spec log(GenLSP.LSP.t(), :error | :warning | :info | :log, String.t()) :: :ok
   def log(lsp, level, message) when level in [:error, :warning, :info, :log] do
     GenLSP.notify(lsp, %GenLSP.Notifications.WindowLogMessage{
       params: %GenLSP.Structures.LogMessageParams{
-        type: GenLSP.Enumerations.MessageType.log(),
+        type: apply(GenLSP.Enumerations.MessageType, level, []),
         message: message
       }
     })

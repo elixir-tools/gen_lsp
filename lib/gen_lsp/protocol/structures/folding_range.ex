@@ -18,7 +18,7 @@ defmodule GenLSP.Structures.FoldingRange do
   * end_line: The zero-based end line of the range to fold. The folded area ends with the line's last character.
     To be valid, the end must be zero or larger and smaller than the number of lines in the document.
   * end_character: The zero-based character offset before the folded range ends. If not defined, defaults to the length of the end line.
-  * kind: Describes the kind of the folding range such as `comment' or 'region'. The kind
+  * kind: Describes the kind of the folding range such as 'comment' or 'region'. The kind
     is used to categorize folding ranges and used by commands like 'Fold all comments'.
     See {@link FoldingRangeKind} for an enumeration of standardized kinds.
   * collapsed_text: The text that the client should show when the specified range is

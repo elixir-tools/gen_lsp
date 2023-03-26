@@ -1,5 +1,9 @@
 defmodule GenLSP.Communication.Stdio do
-  @moduledoc false
+  @moduledoc """
+  The Standard IO adapter.
+
+  This is the default adapter, and is the communication channel that most LSP clients expect to be able to use.
+  """
 
   require Logger
 
@@ -13,6 +17,7 @@ defmodule GenLSP.Communication.Stdio do
     {:ok, nil}
   end
 
+  @impl true
   def listen(state) do
     {:ok, state}
   end

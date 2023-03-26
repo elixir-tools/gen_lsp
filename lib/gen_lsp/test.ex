@@ -1,14 +1,33 @@
 defmodule GenLSP.Test do
+  @moduledoc """
+  Conveniences for testing GenLSP processes.
+  """
   import ExUnit.Callbacks
   import ExUnit.Assertions
 
   @connect_opts [:binary, packet: :raw, active: false]
 
-  @opaque server :: %{
-            lsp: pid(),
-            buffer: pid()
-          }
+  @typedoc """
+  The test server data structure.
+  """
+  @opaque server :: %{lsp: pid(), buffer: pid()}
 
+  @typedoc """
+  The test client data structure.
+  """
+  @opaque client :: %{socket: :gen_tcp.socket()}
+
+  @doc """
+  Starts a new server.
+
+  ## Usage
+
+  ```elixir
+  import GenLSP.Test
+
+  server = server(MyLSP, some_arg: some_arg)
+  ```
+  """
   @spec server(mod :: atom()) :: server()
   def server(mod, opts \\ []) do
     buffer =
@@ -21,7 +40,20 @@ defmodule GenLSP.Test do
     %{lsp: lsp, buffer: buffer, port: port}
   end
 
-  @opaque client :: %{socket: :gen_tcp.socket()}
+  @doc """
+  Starts a new LSP client for the given server.
+
+  The "client" is equivalent to a text editor.
+
+  ## Usage
+
+  ```elixir
+  import GenLSP.Test
+
+  server = server(MyLSP, some_arg: some_arg)
+  client = client(server)
+  ```
+  """
   @spec client(server()) :: client()
   def client(server) do
     start_time = System.monotonic_time(:millisecond)
@@ -61,20 +93,88 @@ defmodule GenLSP.Test do
     %{socket: socket}
   end
 
+  @doc ~S"""
+  Send a request from the client to the server.
+
+  The response from the server will be sent as a message to the current process and can be asserted on using `GenLSP.Test.assert_result/3`.
+
+  ## Usage
+
+  ```elixir
+  import GenLSP.Test
+
+  request(client, %{
+    method: "initialize",
+    id: 1,
+    jsonrpc: "2.0",
+    params: %{capabilities: %{}, rootUri: "file://#{root_path}"}
+  })
+  ```
+  """
   @spec request(client(), Jason.Encoder.t()) :: {:ok, any()}
   def request(%{socket: socket}, body) do
     GenLSP.Communication.TCP.write(Jason.encode!(body), %{socket: socket})
   end
 
+  @doc """
+  Send a notification from the client to the server.
+
+  ## Usage
+
+  ```elixir
+  import GenLSP.Test
+
+  notify(client, %{
+    method: "initialized",
+    jsonrpc: "2.0",
+    params: %{}
+  })
+  ```
+  """
   @spec notify(client(), Jason.Encoder.t()) :: :ok
   def notify(%{socket: socket}, body) do
     GenLSP.Communication.TCP.write(Jason.encode!(body), %{socket: socket})
   end
 
+  @doc """
+  Simple helper to determine whether the LSP process is alive.
+  """
+  @spec alive?(server()) :: boolean()
   def alive?(%{lsp: lsp}) do
     Process.alive?(lsp)
   end
 
+  @doc ~S"""
+  Assert on the response of a request that was sent with `GenLSP.Test.request/2`.
+
+  The second argument is a pattern, similar to `ExUnit.Assertions.assert_receive/3`.
+
+  ## Usage
+
+  ```elixir
+  import GenLSP.Test
+
+  request(client, %{
+    method: "initialize",
+    id: 1,
+    jsonrpc: "2.0",
+    params: %{capabilities: %{}, rootUri: "file://#{root_path}"}
+  })
+
+  assert_result(1, %{
+    "capabilities" => %{
+      "textDocumentSync" => %{
+        "openClose" => true,
+        "save" => %{
+          "includeText" => true
+        },
+        "change" => 1
+      }
+    },
+    "serverInfo" => %{"name" => "Credo"}
+  })
+  ```
+  """
   defmacro assert_result(id, pattern, timeout \\ 100) do
     quote do
       assert_receive %{
@@ -86,6 +186,24 @@ defmodule GenLSP.Test do
     end
   end
 
+  @doc ~S"""
+  Assert on a notification that was sent from the server.
+
+  The second argument is a pattern, similar to `ExUnit.Assertions.assert_receive/3`.
+
+  ## Usage
+
+  ```elixir
+  import GenLSP.Test
+
+  notify(client, %{method: "initialized", jsonrpc: "2.0", params: %{}})
+
+  assert_notification("window/logMessage", %{
+    "message" => "[MyLSP] LSP Initialized!",
+    "type" => 4
+  })
+  ```
+  """
   defmacro assert_notification(method, pattern, timeout \\ 100) do
     quote do
       assert_receive %{

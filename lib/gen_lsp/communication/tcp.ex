@@ -1,5 +1,11 @@
 defmodule GenLSP.Communication.TCP do
-  @moduledoc false
+  @moduledoc """
+  The TCP adapter.
+
+  This adapter can be used to launch the LSP with a given port and can be connected to by multiple clients.
+
+  This adapter is also used during test by `GenLSP.Test`.
+  """
 
   @behaviour GenLSP.Communication.Adapter
 
@@ -15,6 +21,7 @@ defmodule GenLSP.Communication.TCP do
     {:ok, %{lsocket: lsocket}}
   end
 
+  @impl true
   def listen(state) do
     {:ok, socket} = :gen_tcp.accept(state.lsocket)
     {:ok, Map.merge(state, %{socket: socket})}
