@@ -49,6 +49,7 @@ defmodule GenLSP.Communication.TCPTest do
              )
 
     {:ok, actual} = :gen_tcp.recv(socket, byte_size(expected_message))
+    assert :ok == :gen_tcp.close(socket)
 
     assert expected_message == actual
   end
