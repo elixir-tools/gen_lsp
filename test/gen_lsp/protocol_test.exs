@@ -275,7 +275,7 @@ defmodule GenLSP.ProtocolTest do
                       name: "/Users/mitchell/src/bifrost",
                       uri: "file:///Users/mitchell/src/bifrost"
                     }
-                  ],
+                  ]
                 }
               }} = GenLSP.Requests.new(initialize)
     end
