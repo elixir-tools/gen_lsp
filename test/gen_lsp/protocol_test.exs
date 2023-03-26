@@ -52,7 +52,7 @@ defmodule GenLSP.ProtocolTest do
     end
 
     test "decodes a textDocument/hover packet" do
-      did_change_configuration = %{
+      hover = %{
         "id" => 2,
         "jsonrpc" => "2.0",
         "method" => "textDocument/hover",
@@ -70,7 +70,7 @@ defmodule GenLSP.ProtocolTest do
                   text_document: %Structures.TextDocumentIdentifier{uri: _uri},
                   position: %Structures.Position{line: _line, character: _character}
                 }
-              }} = GenLSP.Requests.new(did_change_configuration)
+              }} = GenLSP.Requests.new(hover)
     end
 
     test "decodes initialize" do
@@ -267,8 +267,17 @@ defmodule GenLSP.ProtocolTest do
         }
       }
 
-      assert {:ok, %Requests.Initialize{params: %Structures.InitializeParams{}}} =
-               GenLSP.Requests.new(initialize)
+      assert {:ok,
+              %Requests.Initialize{
+                params: %Structures.InitializeParams{
+                  workspace_folders: [
+                    %GenLSP.Structures.WorkspaceFolder{
+                      name: "/Users/mitchell/src/bifrost",
+                      uri: "file:///Users/mitchell/src/bifrost"
+                    }
+                  ],
+                }
+              }} = GenLSP.Requests.new(initialize)
     end
   end
 end
