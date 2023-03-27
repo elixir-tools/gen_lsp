@@ -7,7 +7,10 @@ defmodule GenLSP.Support.Buffer do
       {:ok, body, buffer} ->
         body
         |> Jason.decode!()
-        |> tap(fn b -> send(pid, {:packet, b}) end)
+        |> (fn b ->
+              send(pid, {:packet, b})
+              b
+            end).()
         |> Jason.encode!()
         |> GenLSP.Communication.TCP.write(args)
 

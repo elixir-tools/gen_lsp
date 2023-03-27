@@ -6,7 +6,7 @@ defmodule GenLSP.MixProject do
       app: :gen_lsp,
       description: "Library for creating language servers",
       version: "0.0.4",
-      elixir: "~> 1.13",
+      elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -33,7 +33,7 @@ defmodule GenLSP.MixProject do
       {:jason, "~> 1.3"},
       {:nimble_options, "~> 0.5 or ~> 1.0"},
       # {:schematic, path: "../schematic"},
-      {:schematic, "~> 0.0.6"},
+      {:schematic, "~> 0.0.7"},
       {:dialyxir, ">= 0.0.0", only: :dev}
     ]
   end
