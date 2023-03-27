@@ -90,8 +90,8 @@ defmodule GenLSP.Communication.TCP do
     {headers, body}
   end
 
-  defp read_headers({:ok, {:http_header, _, _, header, value}, more}, headers) do
-    headers = Map.put(headers, header, value)
+  defp read_headers({:ok, {:http_header, _, header, _header, value}, more}, headers) do
+    headers = Map.put(headers, to_string(header), value)
 
     more
     |> decode_header()
