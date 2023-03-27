@@ -117,15 +117,29 @@ defmodule GenLSP do
   """
   @callback handle_info(message :: any(), state) :: {:noreply, state} when state: GenLSP.LSP.t()
 
+  @options_schema NimbleOptions.new!(
+                    buffer: [
+                      type: {:or, [:pid, :atom]},
+                      required: true,
+                      doc: "The `t:pid/0` or name of the `GenLSP.Buffer` process."
+                    ],
+                    name: [
+                      type: :atom,
+                      doc:
+                        "Used for name registration as described in the \"Name registration\" section in the documentation for `GenServer`."
+                    ]
+                  )
+
   @doc """
   Starts a `GenLSP` process that is linked to the current process.
 
   ## Options
 
-  - `:buffer` - the `t:pid/0` or name of the `GenLSP.Buffer` process.
-  - `:name` - used for name registration as described in the "Name registration" section in the documentation for `GenServer`.
+  #{NimbleOptions.docs(@options_schema)}
   """
   def start_link(module, init_args, opts) do
+    opts = NimbleOptions.validate!(opts, @options_schema)
+
     :proc_lib.start_link(__MODULE__, :init, [
       {module, init_args, Keyword.take(opts, [:name, :buffer]), self()}
     ])

@@ -31,6 +31,7 @@ defmodule GenLSP.MixProject do
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:typed_struct, "~> 0.3.0"},
       {:jason, "~> 1.3"},
+      {:nimble_options, "~> 0.5 or ~> 1.0"},
       # {:schematic, path: "../schematic"},
       {:schematic, "~> 0.0.6"},
       {:dialyxir, ">= 0.0.0", only: :dev}

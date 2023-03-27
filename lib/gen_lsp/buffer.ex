@@ -6,15 +6,24 @@ defmodule GenLSP.Buffer do
 
   require Logger
 
+  @options_schema NimbleOptions.new!(
+                    communication: [
+                      type: :mod_arg,
+                      default: {GenLSP.Communication.Stdio, []},
+                      doc:
+                        "A `{module, args}` tuple, where `module` implements the `GenLSP.Communication.Adapter` behaviour."
+                    ]
+                  )
+
   @doc """
   Starts a `GenLSP.Buffer` process that is linked to the current process.
 
   ## Options
 
-  - `:communication` - a `{module, args}` tuple, where `module` implements the `GenLSP.Communication.Adapter` behaviour. Defaults to `GenLSP.Communication.Stdio`.
+  #{NimbleOptions.docs(@options_schema)}
   """
   def start_link(opts) do
-    opts = Keyword.validate!(opts, communication: {GenLSP.Communication.Stdio, []})
+    opts = NimbleOptions.validate!(opts, @options_schema)
     GenServer.start_link(__MODULE__, opts, name: Keyword.get(opts, :name, __MODULE__))
   end
 
