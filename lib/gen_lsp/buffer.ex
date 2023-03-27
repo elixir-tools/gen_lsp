@@ -114,11 +114,11 @@ defmodule GenLSP.Buffer do
           end
         end,
         fn
-          :ok ->
-            :ok
-
           {:error, reason} ->
             IO.warn("Unable to read from device: #{inspect(reason)}")
+
+          _ ->
+            :ok
         end
       )
       |> Enum.to_list()
