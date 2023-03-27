@@ -11,9 +11,17 @@ defmodule GenLSP.Communication.TCP do
 
   @separator "\r\n\r\n"
 
+  @options_schema NimbleOptions.new!(
+                    port: [
+                      type: :integer,
+                      default: 6890,
+                      doc: "The port number to use when starting the TCP socket."
+                    ]
+                  )
+
   @impl true
   def init(args) do
-    args = Keyword.validate!(args, port: 6969)
+    args = NimbleOptions.validate!(args, @options_schema)
 
     {:ok, lsocket} =
       :gen_tcp.listen(args[:port], [:binary, packet: :raw, active: false, reuseaddr: true])
