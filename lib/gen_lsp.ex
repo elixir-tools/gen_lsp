@@ -79,7 +79,7 @@ defmodule GenLSP do
   ```
   """
   @callback handle_request(request :: term(), state) ::
-              {:reply, id :: integer(), reply :: term(), state} | {:noreply, state}
+              {:reply, reply :: term(), state} | {:noreply, state}
             when state: GenLSP.LSP.t()
   @doc """
   The callback responsible for handling notifications from the client.

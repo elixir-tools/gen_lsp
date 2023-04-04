@@ -11,7 +11,10 @@ defmodule GenLSP.MixProject do
       deps: deps(),
       elixirc_paths: elixirc_paths(Mix.env()),
       docs: docs(),
-      package: package()
+      package: package(),
+      dialyzer: [
+        plt_add_apps: [:ex_unit],
+      ]
     ]
   end
 
@@ -34,7 +37,7 @@ defmodule GenLSP.MixProject do
       {:nimble_options, "~> 0.5 or ~> 1.0"},
       # {:schematic, path: "../schematic"},
       {:schematic, "~> 0.0.8"},
-      {:dialyxir, ">= 0.0.0", only: :dev}
+      {:dialyxir, ">= 0.0.0", only: [:dev, :test], runtime: false}
     ]
   end
 

@@ -10,7 +10,7 @@ defmodule GenLSP.Test do
   @typedoc """
   The test server data structure.
   """
-  @opaque server :: %{lsp: pid(), buffer: pid()}
+  @opaque server :: %{lsp: pid(), buffer: pid(), port: integer()}
 
   @typedoc """
   The test client data structure.
@@ -70,9 +70,6 @@ defmodule GenLSP.Test do
             :eof ->
               {:halt, :ok}
 
-            {:error, reason} ->
-              {:halt, {:error, reason}}
-
             {:ok, body, buffer} ->
               send(me, Jason.decode!(body))
 
@@ -111,7 +108,8 @@ defmodule GenLSP.Test do
   })
   ```
   """
-  @spec request(client(), Jason.Encoder.t()) :: {:ok, any()}
+  @spec request(client(), Jason.Encoder.t()) ::
+          {:ok, any()} | {:error, :closed | {:timeout, binary()} | :inet.posix()}
   def request(%{socket: socket}, body) do
     GenLSP.Communication.TCP.write(Jason.encode!(body), %{socket: socket})
   end
