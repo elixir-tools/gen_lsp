@@ -206,7 +206,7 @@ defmodule GenLSP do
   """
   @spec notify(GenLSP.LSP.t(), notification :: any()) :: :ok
   def notify(%{buffer: buffer}, notification) do
-    GenLSP.Buffer.outgoing(buffer, dump!(notification))
+    GenLSP.Buffer.outgoing(buffer, dump!(notification.__struct__.schematic(), notification))
   end
 
   defp write_debug(device, event, name) do
@@ -232,7 +232,7 @@ defmodule GenLSP do
                 packet = %{
                   "jsonrpc" => "2.0",
                   "id" => id,
-                  "result" => dump!(reply)
+                  "result" => dump!(req.__struct__.result(), reply)
                 }
 
                 deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:out, :request, from})
@@ -294,8 +294,8 @@ defmodule GenLSP do
       reraise e, __STACKTRACE__
   end
 
-  defp dump!(%struct{} = structure) do
-    {:ok, output} = Schematic.dump(struct.schematic(), structure)
+  defp dump!(schematic, structure) do
+    {:ok, output} = Schematic.dump(schematic, structure)
     output
   end
 
