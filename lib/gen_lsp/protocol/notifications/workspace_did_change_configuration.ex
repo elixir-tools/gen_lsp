@@ -4,6 +4,8 @@ defmodule GenLSP.Notifications.WorkspaceDidChangeConfiguration do
   The configuration change notification is sent from the client to the server
   when the client's configuration has changed. The notification contains
   the changed configuration as defined by the language client.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false

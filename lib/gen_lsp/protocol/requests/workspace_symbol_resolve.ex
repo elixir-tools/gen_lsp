@@ -5,6 +5,8 @@ defmodule GenLSP.Requests.WorkspaceSymbolResolve do
   symbol's location.
 
   @since 3.17.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -19,6 +21,8 @@ defmodule GenLSP.Requests.WorkspaceSymbolResolve do
     field :params, GenLSP.Structures.WorkspaceSymbol.t()
   end
 
+  @type result :: GenLSP.Structures.WorkspaceSymbol.t()
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -28,5 +32,11 @@ defmodule GenLSP.Requests.WorkspaceSymbolResolve do
       id: int(),
       params: GenLSP.Structures.WorkspaceSymbol.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    GenLSP.Structures.WorkspaceSymbol.schematic()
   end
 end

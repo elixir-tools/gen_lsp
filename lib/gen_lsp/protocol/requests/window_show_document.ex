@@ -7,6 +7,8 @@ defmodule GenLSP.Requests.WindowShowDocument do
   will very likely open the URI in a WEB browser.
 
   @since 3.16.0
+
+  Message Direction: serverToClient
   """
 
   import Schematic, warn: false
@@ -21,6 +23,8 @@ defmodule GenLSP.Requests.WindowShowDocument do
     field :params, GenLSP.Structures.ShowDocumentParams.t()
   end
 
+  @type result :: GenLSP.Structures.ShowDocumentResult.t()
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -30,5 +34,11 @@ defmodule GenLSP.Requests.WindowShowDocument do
       id: int(),
       params: GenLSP.Structures.ShowDocumentParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    GenLSP.Structures.ShowDocumentResult.schematic()
   end
 end

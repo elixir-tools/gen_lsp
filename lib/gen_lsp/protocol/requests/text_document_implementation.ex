@@ -5,6 +5,8 @@ defmodule GenLSP.Requests.TextDocumentImplementation do
   document position. The request's parameter is of type [TextDocumentPositionParams]
   (#TextDocumentPositionParams) the response is of type {@link Definition} or a
   Thenable that resolves to such.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -19,6 +21,9 @@ defmodule GenLSP.Requests.TextDocumentImplementation do
     field :params, GenLSP.Structures.ImplementationParams.t()
   end
 
+  @type result ::
+          GenLSP.TypeAlias.Definition.t() | list(GenLSP.TypeAlias.DefinitionLink.t()) | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -28,5 +33,15 @@ defmodule GenLSP.Requests.TextDocumentImplementation do
       id: int(),
       params: GenLSP.Structures.ImplementationParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([
+      GenLSP.TypeAlias.Definition.schematic(),
+      list(GenLSP.TypeAlias.DefinitionLink.schematic()),
+      null()
+    ])
   end
 end

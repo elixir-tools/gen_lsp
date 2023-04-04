@@ -6,6 +6,8 @@ defmodule GenLSP.Requests.TextDocumentDeclaration do
   (#TextDocumentPositionParams) the response is of type {@link Declaration}
   or a typed array of {@link DeclarationLink} or a Thenable that resolves
   to such.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -20,6 +22,9 @@ defmodule GenLSP.Requests.TextDocumentDeclaration do
     field :params, GenLSP.Structures.DeclarationParams.t()
   end
 
+  @type result ::
+          GenLSP.TypeAlias.Declaration.t() | list(GenLSP.TypeAlias.DeclarationLink.t()) | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -29,5 +34,15 @@ defmodule GenLSP.Requests.TextDocumentDeclaration do
       id: int(),
       params: GenLSP.Structures.DeclarationParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([
+      GenLSP.TypeAlias.Declaration.schematic(),
+      list(GenLSP.TypeAlias.DeclarationLink.schematic()),
+      null()
+    ])
   end
 end

@@ -4,6 +4,8 @@ defmodule GenLSP.Requests.TypeHierarchySupertypes do
   A request to resolve the supertypes for a given `TypeHierarchyItem`.
 
   @since 3.17.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -18,6 +20,8 @@ defmodule GenLSP.Requests.TypeHierarchySupertypes do
     field :params, GenLSP.Structures.TypeHierarchySupertypesParams.t()
   end
 
+  @type result :: list(GenLSP.Structures.TypeHierarchyItem.t()) | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -27,5 +31,11 @@ defmodule GenLSP.Requests.TypeHierarchySupertypes do
       id: int(),
       params: GenLSP.Structures.TypeHierarchySupertypesParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([list(GenLSP.Structures.TypeHierarchyItem.schematic()), null()])
   end
 end

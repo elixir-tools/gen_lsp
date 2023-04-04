@@ -5,6 +5,8 @@ defmodule GenLSP.Requests.TextDocumentColorPresentation do
   parameter is of type {@link ColorPresentationParams} the
   response is of type {@link ColorInformation ColorInformation[]} or a Thenable
   that resolves to such.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -19,6 +21,8 @@ defmodule GenLSP.Requests.TextDocumentColorPresentation do
     field :params, GenLSP.Structures.ColorPresentationParams.t()
   end
 
+  @type result :: list(GenLSP.Structures.ColorPresentation.t())
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -28,5 +32,11 @@ defmodule GenLSP.Requests.TextDocumentColorPresentation do
       id: int(),
       params: GenLSP.Structures.ColorPresentationParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    list(GenLSP.Structures.ColorPresentation.schematic())
   end
 end

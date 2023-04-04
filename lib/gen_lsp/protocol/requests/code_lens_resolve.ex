@@ -2,6 +2,8 @@
 defmodule GenLSP.Requests.CodeLensResolve do
   @moduledoc """
   A request to resolve a command for a given code lens.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -16,6 +18,8 @@ defmodule GenLSP.Requests.CodeLensResolve do
     field :params, GenLSP.Structures.CodeLens.t()
   end
 
+  @type result :: GenLSP.Structures.CodeLens.t()
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -25,5 +29,11 @@ defmodule GenLSP.Requests.CodeLensResolve do
       id: int(),
       params: GenLSP.Structures.CodeLens.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    GenLSP.Structures.CodeLens.schematic()
   end
 end

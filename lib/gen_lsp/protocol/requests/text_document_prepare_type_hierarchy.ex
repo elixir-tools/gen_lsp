@@ -5,6 +5,8 @@ defmodule GenLSP.Requests.TextDocumentPrepareTypeHierarchy do
   Can be used as an input to a subtypes or supertypes type hierarchy.
 
   @since 3.17.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -19,6 +21,8 @@ defmodule GenLSP.Requests.TextDocumentPrepareTypeHierarchy do
     field :params, GenLSP.Structures.TypeHierarchyPrepareParams.t()
   end
 
+  @type result :: list(GenLSP.Structures.TypeHierarchyItem.t()) | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -28,5 +32,11 @@ defmodule GenLSP.Requests.TextDocumentPrepareTypeHierarchy do
       id: int(),
       params: GenLSP.Structures.TypeHierarchyPrepareParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([list(GenLSP.Structures.TypeHierarchyItem.schematic()), null()])
   end
 end

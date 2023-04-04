@@ -5,6 +5,8 @@ defmodule GenLSP.Requests.TextDocumentDocumentHighlight do
   text document position. The request's parameter is of type [TextDocumentPosition]
   (#TextDocumentPosition) the request response is of type [DocumentHighlight[]]
   (#DocumentHighlight) or a Thenable that resolves to such.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -19,6 +21,8 @@ defmodule GenLSP.Requests.TextDocumentDocumentHighlight do
     field :params, GenLSP.Structures.DocumentHighlightParams.t()
   end
 
+  @type result :: list(GenLSP.Structures.DocumentHighlight.t()) | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -28,5 +32,11 @@ defmodule GenLSP.Requests.TextDocumentDocumentHighlight do
       id: int(),
       params: GenLSP.Structures.DocumentHighlightParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([list(GenLSP.Structures.DocumentHighlight.schematic()), null()])
   end
 end

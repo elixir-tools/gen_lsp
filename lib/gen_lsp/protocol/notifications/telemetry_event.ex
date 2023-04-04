@@ -3,6 +3,8 @@ defmodule GenLSP.Notifications.TelemetryEvent do
   @moduledoc """
   The telemetry event notification is sent from the server to the client to ask
   the client to log telemetry data.
+
+  Message Direction: serverToClient
   """
 
   import Schematic, warn: false

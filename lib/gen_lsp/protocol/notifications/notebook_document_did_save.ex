@@ -4,6 +4,8 @@ defmodule GenLSP.Notifications.NotebookDocumentDidSave do
   A notification sent when a notebook document is saved.
 
   @since 3.17.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false

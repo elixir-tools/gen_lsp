@@ -4,6 +4,8 @@ defmodule GenLSP.Requests.WorkspaceDiagnostic do
   The workspace diagnostic request definition.
 
   @since 3.17.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -18,6 +20,8 @@ defmodule GenLSP.Requests.WorkspaceDiagnostic do
     field :params, GenLSP.Structures.WorkspaceDiagnosticParams.t()
   end
 
+  @type result :: GenLSP.Structures.WorkspaceDiagnosticReport.t()
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -27,5 +31,11 @@ defmodule GenLSP.Requests.WorkspaceDiagnostic do
       id: int(),
       params: GenLSP.Structures.WorkspaceDiagnosticParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    GenLSP.Structures.WorkspaceDiagnosticReport.schematic()
   end
 end

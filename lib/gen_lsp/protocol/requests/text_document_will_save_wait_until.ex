@@ -7,6 +7,8 @@ defmodule GenLSP.Requests.TextDocumentWillSaveWaitUntil do
   clients might drop results if computing the text edits took too long or if a
   server constantly fails on this request. This is done to keep the save fast and
   reliable.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -21,6 +23,8 @@ defmodule GenLSP.Requests.TextDocumentWillSaveWaitUntil do
     field :params, GenLSP.Structures.WillSaveTextDocumentParams.t()
   end
 
+  @type result :: list(GenLSP.Structures.TextEdit.t()) | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -30,5 +34,11 @@ defmodule GenLSP.Requests.TextDocumentWillSaveWaitUntil do
       id: int(),
       params: GenLSP.Structures.WillSaveTextDocumentParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([list(GenLSP.Structures.TextEdit.schematic()), null()])
   end
 end

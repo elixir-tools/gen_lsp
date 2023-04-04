@@ -2,6 +2,8 @@
 defmodule GenLSP.Requests.TextDocumentCodeLens do
   @moduledoc """
   A request to provide code lens for the given text document.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -16,6 +18,8 @@ defmodule GenLSP.Requests.TextDocumentCodeLens do
     field :params, GenLSP.Structures.CodeLensParams.t()
   end
 
+  @type result :: list(GenLSP.Structures.CodeLens.t()) | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -25,5 +29,11 @@ defmodule GenLSP.Requests.TextDocumentCodeLens do
       id: int(),
       params: GenLSP.Structures.CodeLensParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([list(GenLSP.Structures.CodeLens.schematic()), null()])
   end
 end

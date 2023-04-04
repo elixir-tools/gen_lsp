@@ -5,6 +5,8 @@ defmodule GenLSP.Requests.TextDocumentPrepareCallHierarchy do
   Can be used as an input to an incoming or outgoing call hierarchy.
 
   @since 3.16.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -19,6 +21,8 @@ defmodule GenLSP.Requests.TextDocumentPrepareCallHierarchy do
     field :params, GenLSP.Structures.CallHierarchyPrepareParams.t()
   end
 
+  @type result :: list(GenLSP.Structures.CallHierarchyItem.t()) | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -28,5 +32,11 @@ defmodule GenLSP.Requests.TextDocumentPrepareCallHierarchy do
       id: int(),
       params: GenLSP.Structures.CallHierarchyPrepareParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([list(GenLSP.Structures.CallHierarchyItem.schematic()), null()])
   end
 end

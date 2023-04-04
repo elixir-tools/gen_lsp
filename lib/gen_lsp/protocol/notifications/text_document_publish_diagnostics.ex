@@ -3,6 +3,8 @@ defmodule GenLSP.Notifications.TextDocumentPublishDiagnostics do
   @moduledoc """
   Diagnostics notification are sent from the server to the client to signal
   results of validation runs.
+
+  Message Direction: serverToClient
   """
 
   import Schematic, warn: false

@@ -10,6 +10,8 @@ defmodule GenLSP.Requests.WorkspaceSymbol do
    need to advertise support for WorkspaceSymbols via the client capability
    `workspace.symbol.resolveSupport`.
 
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -24,6 +26,11 @@ defmodule GenLSP.Requests.WorkspaceSymbol do
     field :params, GenLSP.Structures.WorkspaceSymbolParams.t()
   end
 
+  @type result ::
+          list(GenLSP.Structures.SymbolInformation.t())
+          | list(GenLSP.Structures.WorkspaceSymbol.t())
+          | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -33,5 +40,15 @@ defmodule GenLSP.Requests.WorkspaceSymbol do
       id: int(),
       params: GenLSP.Structures.WorkspaceSymbolParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([
+      list(GenLSP.Structures.SymbolInformation.schematic()),
+      list(GenLSP.Structures.WorkspaceSymbol.schematic()),
+      null()
+    ])
   end
 end

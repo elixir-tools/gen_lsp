@@ -4,6 +4,8 @@ defmodule GenLSP.Requests.TextDocumentLinkedEditingRange do
   A request to provide ranges that can be edited together.
 
   @since 3.16.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -18,6 +20,8 @@ defmodule GenLSP.Requests.TextDocumentLinkedEditingRange do
     field :params, GenLSP.Structures.LinkedEditingRangeParams.t()
   end
 
+  @type result :: GenLSP.Structures.LinkedEditingRanges.t() | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -27,5 +31,11 @@ defmodule GenLSP.Requests.TextDocumentLinkedEditingRange do
       id: int(),
       params: GenLSP.Structures.LinkedEditingRangeParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([GenLSP.Structures.LinkedEditingRanges.schematic(), null()])
   end
 end

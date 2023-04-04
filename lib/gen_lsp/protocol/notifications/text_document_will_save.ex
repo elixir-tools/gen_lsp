@@ -3,6 +3,8 @@ defmodule GenLSP.Notifications.TextDocumentWillSave do
   @moduledoc """
   A document will save notification is sent from the client to the server before
   the document is actually saved.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false

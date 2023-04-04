@@ -2,6 +2,8 @@
 defmodule GenLSP.Requests.TextDocumentRename do
   @moduledoc """
   A request to rename a symbol.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -16,6 +18,8 @@ defmodule GenLSP.Requests.TextDocumentRename do
     field :params, GenLSP.Structures.RenameParams.t()
   end
 
+  @type result :: GenLSP.Structures.WorkspaceEdit.t() | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -25,5 +29,11 @@ defmodule GenLSP.Requests.TextDocumentRename do
       id: int(),
       params: GenLSP.Structures.RenameParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([GenLSP.Structures.WorkspaceEdit.schematic(), null()])
   end
 end

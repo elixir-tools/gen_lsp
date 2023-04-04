@@ -10,6 +10,8 @@ defmodule GenLSP.Requests.TextDocumentCompletion do
   and {@link CompletionItem.documentation `documentation`} properties to the `completionItem/resolve`
   request. However, properties that are needed for the initial sorting and filtering, like `sortText`,
   `filterText`, `insertText`, and `textEdit`, must not be changed during resolve.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -24,6 +26,9 @@ defmodule GenLSP.Requests.TextDocumentCompletion do
     field :params, GenLSP.Structures.CompletionParams.t()
   end
 
+  @type result ::
+          list(GenLSP.Structures.CompletionItem.t()) | GenLSP.Structures.CompletionList.t() | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -33,5 +38,15 @@ defmodule GenLSP.Requests.TextDocumentCompletion do
       id: int(),
       params: GenLSP.Structures.CompletionParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([
+      list(GenLSP.Structures.CompletionItem.schematic()),
+      GenLSP.Structures.CompletionList.schematic(),
+      null()
+    ])
   end
 end

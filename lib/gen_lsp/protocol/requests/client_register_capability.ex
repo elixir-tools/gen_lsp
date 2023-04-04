@@ -3,6 +3,8 @@ defmodule GenLSP.Requests.ClientRegisterCapability do
   @moduledoc """
   The `client/registerCapability` request is sent from the server to the client to register a new capability
   handler on the client side.
+
+  Message Direction: serverToClient
   """
 
   import Schematic, warn: false
@@ -17,6 +19,8 @@ defmodule GenLSP.Requests.ClientRegisterCapability do
     field :params, GenLSP.Structures.RegistrationParams.t()
   end
 
+  @type result :: nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -26,5 +30,11 @@ defmodule GenLSP.Requests.ClientRegisterCapability do
       id: int(),
       params: GenLSP.Structures.RegistrationParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    null()
   end
 end

@@ -5,6 +5,8 @@ defmodule GenLSP.Requests.TextDocumentFoldingRange do
   parameter is of type {@link FoldingRangeParams}, the
   response is of type {@link FoldingRangeList} or a Thenable
   that resolves to such.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -19,6 +21,8 @@ defmodule GenLSP.Requests.TextDocumentFoldingRange do
     field :params, GenLSP.Structures.FoldingRangeParams.t()
   end
 
+  @type result :: list(GenLSP.Structures.FoldingRange.t()) | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -28,5 +32,11 @@ defmodule GenLSP.Requests.TextDocumentFoldingRange do
       id: int(),
       params: GenLSP.Structures.FoldingRangeParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([list(GenLSP.Structures.FoldingRange.schematic()), null()])
   end
 end

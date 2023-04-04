@@ -4,6 +4,8 @@ defmodule GenLSP.Requests.TextDocumentPrepareRename do
   A request to test and perform the setup necessary for a rename.
 
   @since 3.16 - support for default behavior
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -18,6 +20,8 @@ defmodule GenLSP.Requests.TextDocumentPrepareRename do
     field :params, GenLSP.Structures.PrepareRenameParams.t()
   end
 
+  @type result :: GenLSP.TypeAlias.PrepareRenameResult.t() | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -27,5 +31,11 @@ defmodule GenLSP.Requests.TextDocumentPrepareRename do
       id: int(),
       params: GenLSP.Structures.PrepareRenameParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([GenLSP.TypeAlias.PrepareRenameResult.schematic(), null()])
   end
 end

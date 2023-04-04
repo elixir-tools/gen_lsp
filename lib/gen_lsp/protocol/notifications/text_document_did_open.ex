@@ -9,6 +9,8 @@ defmodule GenLSP.Notifications.TextDocumentDidOpen do
   be sent more than once without a corresponding close notification send before.
   This means open and close notification must be balanced and the max open count
   is one.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false

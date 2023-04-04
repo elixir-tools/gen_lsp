@@ -2,6 +2,8 @@
 defmodule GenLSP.Requests.WorkspaceApplyEdit do
   @moduledoc """
   A request sent from the server to the client to modified certain resources.
+
+  Message Direction: serverToClient
   """
 
   import Schematic, warn: false
@@ -16,6 +18,8 @@ defmodule GenLSP.Requests.WorkspaceApplyEdit do
     field :params, GenLSP.Structures.ApplyWorkspaceEditParams.t()
   end
 
+  @type result :: GenLSP.Structures.ApplyWorkspaceEditResult.t()
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -25,5 +29,11 @@ defmodule GenLSP.Requests.WorkspaceApplyEdit do
       id: int(),
       params: GenLSP.Structures.ApplyWorkspaceEditParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    GenLSP.Structures.ApplyWorkspaceEditResult.schematic()
   end
 end

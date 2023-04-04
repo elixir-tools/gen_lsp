@@ -2,6 +2,8 @@
 defmodule GenLSP.Requests.TextDocumentSemanticTokensRange do
   @moduledoc """
   @since 3.16.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -16,6 +18,8 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensRange do
     field :params, GenLSP.Structures.SemanticTokensRangeParams.t()
   end
 
+  @type result :: GenLSP.Structures.SemanticTokens.t() | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -25,5 +29,11 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensRange do
       id: int(),
       params: GenLSP.Structures.SemanticTokensRangeParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([GenLSP.Structures.SemanticTokens.schematic(), null()])
   end
 end

@@ -6,6 +6,8 @@ defmodule GenLSP.Requests.InlayHintResolve do
   of type {@link InlayHint} or a Thenable that resolves to such.
 
   @since 3.17.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -20,6 +22,8 @@ defmodule GenLSP.Requests.InlayHintResolve do
     field :params, GenLSP.Structures.InlayHint.t()
   end
 
+  @type result :: GenLSP.Structures.InlayHint.t()
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -29,5 +33,11 @@ defmodule GenLSP.Requests.InlayHintResolve do
       id: int(),
       params: GenLSP.Structures.InlayHint.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    GenLSP.Structures.InlayHint.schematic()
   end
 end

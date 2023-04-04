@@ -4,6 +4,8 @@ defmodule GenLSP.Requests.CodeActionResolve do
   Request to resolve additional information for a given code action.The request's
   parameter is of type {@link CodeAction} the response
   is of type {@link CodeAction} or a Thenable that resolves to such.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -18,6 +20,8 @@ defmodule GenLSP.Requests.CodeActionResolve do
     field :params, GenLSP.Structures.CodeAction.t()
   end
 
+  @type result :: GenLSP.Structures.CodeAction.t()
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -27,5 +31,11 @@ defmodule GenLSP.Requests.CodeActionResolve do
       id: int(),
       params: GenLSP.Structures.CodeAction.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    GenLSP.Structures.CodeAction.schematic()
   end
 end
