@@ -28,7 +28,7 @@ defmodule GenLSP.Structures.CodeLensWorkspaceClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"refreshSupport", :refresh_support} => oneof([null(), bool()])
+      {"refreshSupport", :refresh_support} => nullable(bool())
     })
   end
 end

@@ -18,7 +18,7 @@ defmodule GenLSP.Structures.DidChangeConfigurationRegistrationOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"section", :section} => oneof([null(), oneof([str(), list(str())])])
+      {"section", :section} => nullable(oneof([str(), list(str())]))
     })
   end
 end

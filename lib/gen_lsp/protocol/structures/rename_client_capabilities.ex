@@ -38,11 +38,11 @@ defmodule GenLSP.Structures.RenameClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => oneof([null(), bool()]),
-      {"prepareSupport", :prepare_support} => oneof([null(), bool()]),
+      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
+      {"prepareSupport", :prepare_support} => nullable(bool()),
       {"prepareSupportDefaultBehavior", :prepare_support_default_behavior} =>
-        oneof([null(), GenLSP.Enumerations.PrepareSupportDefaultBehavior.schematic()]),
-      {"honorsChangeAnnotations", :honors_change_annotations} => oneof([null(), bool()])
+        nullable(GenLSP.Enumerations.PrepareSupportDefaultBehavior.schematic()),
+      {"honorsChangeAnnotations", :honors_change_annotations} => nullable(bool())
     })
   end
 end

@@ -35,8 +35,8 @@ defmodule GenLSP.Structures.BaseSymbolInformation do
     schema(__MODULE__, %{
       {"name", :name} => str(),
       {"kind", :kind} => GenLSP.Enumerations.SymbolKind.schematic(),
-      {"tags", :tags} => oneof([null(), list(GenLSP.Enumerations.SymbolTag.schematic())]),
-      {"containerName", :container_name} => oneof([null(), str()])
+      {"tags", :tags} => nullable(list(GenLSP.Enumerations.SymbolTag.schematic())),
+      {"containerName", :container_name} => nullable(str())
     })
   end
 end

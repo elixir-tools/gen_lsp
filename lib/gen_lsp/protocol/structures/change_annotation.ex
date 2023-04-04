@@ -32,8 +32,8 @@ defmodule GenLSP.Structures.ChangeAnnotation do
   def schematic() do
     schema(__MODULE__, %{
       {"label", :label} => str(),
-      {"needsConfirmation", :needs_confirmation} => oneof([null(), bool()]),
-      {"description", :description} => oneof([null(), str()])
+      {"needsConfirmation", :needs_confirmation} => nullable(bool()),
+      {"description", :description} => nullable(str())
     })
   end
 end

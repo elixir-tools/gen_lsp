@@ -26,8 +26,8 @@ defmodule GenLSP.Structures.DocumentLinkClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => oneof([null(), bool()]),
-      {"tooltipSupport", :tooltip_support} => oneof([null(), bool()])
+      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
+      {"tooltipSupport", :tooltip_support} => nullable(bool())
     })
   end
 end

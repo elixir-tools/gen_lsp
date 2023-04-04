@@ -38,7 +38,7 @@ defmodule GenLSP.Structures.WorkspaceFullDocumentDiagnosticReport do
       {"uri", :uri} => str(),
       {"version", :version} => oneof([int(), null()]),
       {"kind", :kind} => str("full"),
-      {"resultId", :result_id} => oneof([null(), str()]),
+      {"resultId", :result_id} => nullable(str()),
       {"items", :items} => list(GenLSP.Structures.Diagnostic.schematic())
     })
   end

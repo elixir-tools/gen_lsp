@@ -29,10 +29,9 @@ defmodule GenLSP.Structures.DocumentHighlightParams do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"workDoneToken", :work_done_token} =>
-        oneof([null(), GenLSP.TypeAlias.ProgressToken.schematic()]),
+      {"workDoneToken", :work_done_token} => nullable(GenLSP.TypeAlias.ProgressToken.schematic()),
       {"partialResultToken", :partial_result_token} =>
-        oneof([null(), GenLSP.TypeAlias.ProgressToken.schematic()]),
+        nullable(GenLSP.TypeAlias.ProgressToken.schematic()),
       {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schematic(),
       {"position", :position} => GenLSP.Structures.Position.schematic()
     })

@@ -31,9 +31,9 @@ defmodule GenLSP.Structures.SignatureHelpOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"triggerCharacters", :trigger_characters} => oneof([null(), list(str())]),
-      {"retriggerCharacters", :retrigger_characters} => oneof([null(), list(str())]),
-      {"workDoneProgress", :work_done_progress} => oneof([null(), bool()])
+      {"triggerCharacters", :trigger_characters} => nullable(list(str())),
+      {"retriggerCharacters", :retrigger_characters} => nullable(list(str())),
+      {"workDoneProgress", :work_done_progress} => nullable(bool())
     })
   end
 end

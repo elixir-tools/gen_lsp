@@ -38,10 +38,8 @@ defmodule GenLSP.Structures.FileOperationPattern do
   def schematic() do
     schema(__MODULE__, %{
       {"glob", :glob} => str(),
-      {"matches", :matches} =>
-        oneof([null(), GenLSP.Enumerations.FileOperationPatternKind.schematic()]),
-      {"options", :options} =>
-        oneof([null(), GenLSP.Structures.FileOperationPatternOptions.schematic()])
+      {"matches", :matches} => nullable(GenLSP.Enumerations.FileOperationPatternKind.schematic()),
+      {"options", :options} => nullable(GenLSP.Structures.FileOperationPatternOptions.schematic())
     })
   end
 end

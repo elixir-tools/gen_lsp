@@ -44,13 +44,11 @@ defmodule GenLSP.Structures.CompletionList do
     schema(__MODULE__, %{
       {"isIncomplete", :is_incomplete} => bool(),
       {"itemDefaults", :item_defaults} =>
-        oneof([
-          null(),
+        nullable(
           map(%{
-            {"commitCharacters", :commit_characters} => oneof([null(), list(str())]),
+            {"commitCharacters", :commit_characters} => nullable(list(str())),
             {"editRange", :edit_range} =>
-              oneof([
-                null(),
+              nullable(
                 oneof([
                   GenLSP.Structures.Range.schematic(),
                   map(%{
@@ -58,14 +56,14 @@ defmodule GenLSP.Structures.CompletionList do
                     {"replace", :replace} => GenLSP.Structures.Range.schematic()
                   })
                 ])
-              ]),
+              ),
             {"insertTextFormat", :insert_text_format} =>
-              oneof([null(), GenLSP.Enumerations.InsertTextFormat.schematic()]),
+              nullable(GenLSP.Enumerations.InsertTextFormat.schematic()),
             {"insertTextMode", :insert_text_mode} =>
-              oneof([null(), GenLSP.Enumerations.InsertTextMode.schematic()]),
-            {"data", :data} => oneof([null(), GenLSP.TypeAlias.LSPAny.schematic()])
+              nullable(GenLSP.Enumerations.InsertTextMode.schematic()),
+            {"data", :data} => nullable(GenLSP.TypeAlias.LSPAny.schematic())
           })
-        ]),
+        ),
       {"items", :items} => list(GenLSP.Structures.CompletionItem.schematic())
     })
   end

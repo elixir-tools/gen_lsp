@@ -41,19 +41,18 @@ defmodule GenLSP.Structures.WorkspaceEditClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"documentChanges", :document_changes} => oneof([null(), bool()]),
+      {"documentChanges", :document_changes} => nullable(bool()),
       {"resourceOperations", :resource_operations} =>
-        oneof([null(), list(GenLSP.Enumerations.ResourceOperationKind.schematic())]),
+        nullable(list(GenLSP.Enumerations.ResourceOperationKind.schematic())),
       {"failureHandling", :failure_handling} =>
-        oneof([null(), GenLSP.Enumerations.FailureHandlingKind.schematic()]),
-      {"normalizesLineEndings", :normalizes_line_endings} => oneof([null(), bool()]),
+        nullable(GenLSP.Enumerations.FailureHandlingKind.schematic()),
+      {"normalizesLineEndings", :normalizes_line_endings} => nullable(bool()),
       {"changeAnnotationSupport", :change_annotation_support} =>
-        oneof([
-          null(),
+        nullable(
           map(%{
-            {"groupsOnLabel", :groups_on_label} => oneof([null(), bool()])
+            {"groupsOnLabel", :groups_on_label} => nullable(bool())
           })
-        ])
+        )
     })
   end
 end

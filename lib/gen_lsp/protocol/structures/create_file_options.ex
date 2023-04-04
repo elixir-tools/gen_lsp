@@ -24,8 +24,8 @@ defmodule GenLSP.Structures.CreateFileOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"overwrite", :overwrite} => oneof([null(), bool()]),
-      {"ignoreIfExists", :ignore_if_exists} => oneof([null(), bool()])
+      {"overwrite", :overwrite} => nullable(bool()),
+      {"ignoreIfExists", :ignore_if_exists} => nullable(bool())
     })
   end
 end

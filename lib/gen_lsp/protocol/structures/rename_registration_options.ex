@@ -29,7 +29,7 @@ defmodule GenLSP.Structures.RenameRegistrationOptions do
     schema(__MODULE__, %{
       {"documentSelector", :document_selector} =>
         oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()]),
-      {"prepareProvider", :prepare_provider} => oneof([null(), bool()])
+      {"prepareProvider", :prepare_provider} => nullable(bool())
     })
   end
 end

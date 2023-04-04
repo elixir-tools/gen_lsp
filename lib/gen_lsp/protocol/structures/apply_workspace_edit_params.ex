@@ -26,7 +26,7 @@ defmodule GenLSP.Structures.ApplyWorkspaceEditParams do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"label", :label} => oneof([null(), str()]),
+      {"label", :label} => nullable(str()),
       {"edit", :edit} => GenLSP.Structures.WorkspaceEdit.schematic()
     })
   end

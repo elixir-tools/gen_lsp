@@ -30,7 +30,7 @@ defmodule GenLSP.Structures.InlineValueEvaluatableExpression do
   def schematic() do
     schema(__MODULE__, %{
       {"range", :range} => GenLSP.Structures.Range.schematic(),
-      {"expression", :expression} => oneof([null(), str()])
+      {"expression", :expression} => nullable(str())
     })
   end
 end

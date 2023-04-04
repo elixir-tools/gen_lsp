@@ -197,193 +197,173 @@ defmodule GenLSP.Structures.ServerCapabilities do
   def schematic() do
     schema(__MODULE__, %{
       {"positionEncoding", :position_encoding} =>
-        oneof([null(), GenLSP.Enumerations.PositionEncodingKind.schematic()]),
+        nullable(GenLSP.Enumerations.PositionEncodingKind.schematic()),
       {"textDocumentSync", :text_document_sync} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             GenLSP.Structures.TextDocumentSyncOptions.schematic(),
             GenLSP.Enumerations.TextDocumentSyncKind.schematic()
           ])
-        ]),
+        ),
       {"notebookDocumentSync", :notebook_document_sync} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             GenLSP.Structures.NotebookDocumentSyncOptions.schematic(),
             GenLSP.Structures.NotebookDocumentSyncRegistrationOptions.schematic()
           ])
-        ]),
+        ),
       {"completionProvider", :completion_provider} =>
-        oneof([null(), GenLSP.Structures.CompletionOptions.schematic()]),
+        nullable(GenLSP.Structures.CompletionOptions.schematic()),
       {"hoverProvider", :hover_provider} =>
-        oneof([null(), oneof([bool(), GenLSP.Structures.HoverOptions.schematic()])]),
+        nullable(oneof([bool(), GenLSP.Structures.HoverOptions.schematic()])),
       {"signatureHelpProvider", :signature_help_provider} =>
-        oneof([null(), GenLSP.Structures.SignatureHelpOptions.schematic()]),
+        nullable(GenLSP.Structures.SignatureHelpOptions.schematic()),
       {"declarationProvider", :declaration_provider} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             bool(),
             GenLSP.Structures.DeclarationOptions.schematic(),
             GenLSP.Structures.DeclarationRegistrationOptions.schematic()
           ])
-        ]),
+        ),
       {"definitionProvider", :definition_provider} =>
-        oneof([null(), oneof([bool(), GenLSP.Structures.DefinitionOptions.schematic()])]),
+        nullable(oneof([bool(), GenLSP.Structures.DefinitionOptions.schematic()])),
       {"typeDefinitionProvider", :type_definition_provider} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             bool(),
             GenLSP.Structures.TypeDefinitionOptions.schematic(),
             GenLSP.Structures.TypeDefinitionRegistrationOptions.schematic()
           ])
-        ]),
+        ),
       {"implementationProvider", :implementation_provider} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             bool(),
             GenLSP.Structures.ImplementationOptions.schematic(),
             GenLSP.Structures.ImplementationRegistrationOptions.schematic()
           ])
-        ]),
+        ),
       {"referencesProvider", :references_provider} =>
-        oneof([null(), oneof([bool(), GenLSP.Structures.ReferenceOptions.schematic()])]),
+        nullable(oneof([bool(), GenLSP.Structures.ReferenceOptions.schematic()])),
       {"documentHighlightProvider", :document_highlight_provider} =>
-        oneof([null(), oneof([bool(), GenLSP.Structures.DocumentHighlightOptions.schematic()])]),
+        nullable(oneof([bool(), GenLSP.Structures.DocumentHighlightOptions.schematic()])),
       {"documentSymbolProvider", :document_symbol_provider} =>
-        oneof([null(), oneof([bool(), GenLSP.Structures.DocumentSymbolOptions.schematic()])]),
+        nullable(oneof([bool(), GenLSP.Structures.DocumentSymbolOptions.schematic()])),
       {"codeActionProvider", :code_action_provider} =>
-        oneof([null(), oneof([bool(), GenLSP.Structures.CodeActionOptions.schematic()])]),
+        nullable(oneof([bool(), GenLSP.Structures.CodeActionOptions.schematic()])),
       {"codeLensProvider", :code_lens_provider} =>
-        oneof([null(), GenLSP.Structures.CodeLensOptions.schematic()]),
+        nullable(GenLSP.Structures.CodeLensOptions.schematic()),
       {"documentLinkProvider", :document_link_provider} =>
-        oneof([null(), GenLSP.Structures.DocumentLinkOptions.schematic()]),
+        nullable(GenLSP.Structures.DocumentLinkOptions.schematic()),
       {"colorProvider", :color_provider} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             bool(),
             GenLSP.Structures.DocumentColorOptions.schematic(),
             GenLSP.Structures.DocumentColorRegistrationOptions.schematic()
           ])
-        ]),
+        ),
       {"workspaceSymbolProvider", :workspace_symbol_provider} =>
-        oneof([null(), oneof([bool(), GenLSP.Structures.WorkspaceSymbolOptions.schematic()])]),
+        nullable(oneof([bool(), GenLSP.Structures.WorkspaceSymbolOptions.schematic()])),
       {"documentFormattingProvider", :document_formatting_provider} =>
-        oneof([null(), oneof([bool(), GenLSP.Structures.DocumentFormattingOptions.schematic()])]),
+        nullable(oneof([bool(), GenLSP.Structures.DocumentFormattingOptions.schematic()])),
       {"documentRangeFormattingProvider", :document_range_formatting_provider} =>
-        oneof([
-          null(),
-          oneof([bool(), GenLSP.Structures.DocumentRangeFormattingOptions.schematic()])
-        ]),
+        nullable(oneof([bool(), GenLSP.Structures.DocumentRangeFormattingOptions.schematic()])),
       {"documentOnTypeFormattingProvider", :document_on_type_formatting_provider} =>
-        oneof([null(), GenLSP.Structures.DocumentOnTypeFormattingOptions.schematic()]),
+        nullable(GenLSP.Structures.DocumentOnTypeFormattingOptions.schematic()),
       {"renameProvider", :rename_provider} =>
-        oneof([null(), oneof([bool(), GenLSP.Structures.RenameOptions.schematic()])]),
+        nullable(oneof([bool(), GenLSP.Structures.RenameOptions.schematic()])),
       {"foldingRangeProvider", :folding_range_provider} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             bool(),
             GenLSP.Structures.FoldingRangeOptions.schematic(),
             GenLSP.Structures.FoldingRangeRegistrationOptions.schematic()
           ])
-        ]),
+        ),
       {"selectionRangeProvider", :selection_range_provider} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             bool(),
             GenLSP.Structures.SelectionRangeOptions.schematic(),
             GenLSP.Structures.SelectionRangeRegistrationOptions.schematic()
           ])
-        ]),
+        ),
       {"executeCommandProvider", :execute_command_provider} =>
-        oneof([null(), GenLSP.Structures.ExecuteCommandOptions.schematic()]),
+        nullable(GenLSP.Structures.ExecuteCommandOptions.schematic()),
       {"callHierarchyProvider", :call_hierarchy_provider} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             bool(),
             GenLSP.Structures.CallHierarchyOptions.schematic(),
             GenLSP.Structures.CallHierarchyRegistrationOptions.schematic()
           ])
-        ]),
+        ),
       {"linkedEditingRangeProvider", :linked_editing_range_provider} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             bool(),
             GenLSP.Structures.LinkedEditingRangeOptions.schematic(),
             GenLSP.Structures.LinkedEditingRangeRegistrationOptions.schematic()
           ])
-        ]),
+        ),
       {"semanticTokensProvider", :semantic_tokens_provider} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             GenLSP.Structures.SemanticTokensOptions.schematic(),
             GenLSP.Structures.SemanticTokensRegistrationOptions.schematic()
           ])
-        ]),
+        ),
       {"monikerProvider", :moniker_provider} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             bool(),
             GenLSP.Structures.MonikerOptions.schematic(),
             GenLSP.Structures.MonikerRegistrationOptions.schematic()
           ])
-        ]),
+        ),
       {"typeHierarchyProvider", :type_hierarchy_provider} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             bool(),
             GenLSP.Structures.TypeHierarchyOptions.schematic(),
             GenLSP.Structures.TypeHierarchyRegistrationOptions.schematic()
           ])
-        ]),
+        ),
       {"inlineValueProvider", :inline_value_provider} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             bool(),
             GenLSP.Structures.InlineValueOptions.schematic(),
             GenLSP.Structures.InlineValueRegistrationOptions.schematic()
           ])
-        ]),
+        ),
       {"inlayHintProvider", :inlay_hint_provider} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             bool(),
             GenLSP.Structures.InlayHintOptions.schematic(),
             GenLSP.Structures.InlayHintRegistrationOptions.schematic()
           ])
-        ]),
+        ),
       {"diagnosticProvider", :diagnostic_provider} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             GenLSP.Structures.DiagnosticOptions.schematic(),
             GenLSP.Structures.DiagnosticRegistrationOptions.schematic()
           ])
-        ]),
+        ),
       {"workspace", :workspace} =>
-        oneof([
-          null(),
+        nullable(
           map(%{
             {"workspaceFolders", :workspace_folders} =>
-              oneof([null(), GenLSP.Structures.WorkspaceFoldersServerCapabilities.schematic()]),
+              nullable(GenLSP.Structures.WorkspaceFoldersServerCapabilities.schematic()),
             {"fileOperations", :file_operations} =>
-              oneof([null(), GenLSP.Structures.FileOperationOptions.schematic()])
+              nullable(GenLSP.Structures.FileOperationOptions.schematic())
           })
-        ]),
-      {"experimental", :experimental} => oneof([null(), GenLSP.TypeAlias.LSPAny.schematic()])
+        ),
+      {"experimental", :experimental} => nullable(GenLSP.TypeAlias.LSPAny.schematic())
     })
   end
 end

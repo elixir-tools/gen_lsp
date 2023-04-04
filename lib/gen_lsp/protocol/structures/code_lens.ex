@@ -33,8 +33,8 @@ defmodule GenLSP.Structures.CodeLens do
   def schematic() do
     schema(__MODULE__, %{
       {"range", :range} => GenLSP.Structures.Range.schematic(),
-      {"command", :command} => oneof([null(), GenLSP.Structures.Command.schematic()]),
-      {"data", :data} => oneof([null(), GenLSP.TypeAlias.LSPAny.schematic()])
+      {"command", :command} => nullable(GenLSP.Structures.Command.schematic()),
+      {"data", :data} => nullable(GenLSP.TypeAlias.LSPAny.schematic())
     })
   end
 end

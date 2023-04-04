@@ -25,7 +25,7 @@ defmodule GenLSP.Structures.WorkspaceFoldersInitializeParams do
   def schematic() do
     schema(__MODULE__, %{
       {"workspaceFolders", :workspace_folders} =>
-        oneof([null(), oneof([list(GenLSP.Structures.WorkspaceFolder.schematic()), null()])])
+        nullable(oneof([list(GenLSP.Structures.WorkspaceFolder.schematic()), null()]))
     })
   end
 end

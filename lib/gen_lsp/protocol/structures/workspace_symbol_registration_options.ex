@@ -25,7 +25,7 @@ defmodule GenLSP.Structures.WorkspaceSymbolRegistrationOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"resolveProvider", :resolve_provider} => oneof([null(), bool()])
+      {"resolveProvider", :resolve_provider} => nullable(bool())
     })
   end
 end

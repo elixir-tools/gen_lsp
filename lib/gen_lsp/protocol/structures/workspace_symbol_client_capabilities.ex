@@ -35,29 +35,25 @@ defmodule GenLSP.Structures.WorkspaceSymbolClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => oneof([null(), bool()]),
+      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
       {"symbolKind", :symbol_kind} =>
-        oneof([
-          null(),
+        nullable(
           map(%{
-            {"valueSet", :value_set} =>
-              oneof([null(), list(GenLSP.Enumerations.SymbolKind.schematic())])
+            {"valueSet", :value_set} => nullable(list(GenLSP.Enumerations.SymbolKind.schematic()))
           })
-        ]),
+        ),
       {"tagSupport", :tag_support} =>
-        oneof([
-          null(),
+        nullable(
           map(%{
             {"valueSet", :value_set} => list(GenLSP.Enumerations.SymbolTag.schematic())
           })
-        ]),
+        ),
       {"resolveSupport", :resolve_support} =>
-        oneof([
-          null(),
+        nullable(
           map(%{
             {"properties", :properties} => list(str())
           })
-        ])
+        )
     })
   end
 end

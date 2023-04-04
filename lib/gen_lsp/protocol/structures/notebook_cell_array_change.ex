@@ -31,7 +31,7 @@ defmodule GenLSP.Structures.NotebookCellArrayChange do
     schema(__MODULE__, %{
       {"start", :start} => int(),
       {"deleteCount", :delete_count} => int(),
-      {"cells", :cells} => oneof([null(), list(GenLSP.Structures.NotebookCell.schematic())])
+      {"cells", :cells} => nullable(list(GenLSP.Structures.NotebookCell.schematic()))
     })
   end
 end

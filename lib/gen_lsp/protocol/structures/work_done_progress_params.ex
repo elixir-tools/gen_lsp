@@ -18,8 +18,7 @@ defmodule GenLSP.Structures.WorkDoneProgressParams do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"workDoneToken", :work_done_token} =>
-        oneof([null(), GenLSP.TypeAlias.ProgressToken.schematic()])
+      {"workDoneToken", :work_done_token} => nullable(GenLSP.TypeAlias.ProgressToken.schematic())
     })
   end
 end

@@ -74,31 +74,31 @@ defmodule GenLSP.Structures.WorkspaceClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"applyEdit", :apply_edit} => oneof([null(), bool()]),
+      {"applyEdit", :apply_edit} => nullable(bool()),
       {"workspaceEdit", :workspace_edit} =>
-        oneof([null(), GenLSP.Structures.WorkspaceEditClientCapabilities.schematic()]),
+        nullable(GenLSP.Structures.WorkspaceEditClientCapabilities.schematic()),
       {"didChangeConfiguration", :did_change_configuration} =>
-        oneof([null(), GenLSP.Structures.DidChangeConfigurationClientCapabilities.schematic()]),
+        nullable(GenLSP.Structures.DidChangeConfigurationClientCapabilities.schematic()),
       {"didChangeWatchedFiles", :did_change_watched_files} =>
-        oneof([null(), GenLSP.Structures.DidChangeWatchedFilesClientCapabilities.schematic()]),
+        nullable(GenLSP.Structures.DidChangeWatchedFilesClientCapabilities.schematic()),
       {"symbol", :symbol} =>
-        oneof([null(), GenLSP.Structures.WorkspaceSymbolClientCapabilities.schematic()]),
+        nullable(GenLSP.Structures.WorkspaceSymbolClientCapabilities.schematic()),
       {"executeCommand", :execute_command} =>
-        oneof([null(), GenLSP.Structures.ExecuteCommandClientCapabilities.schematic()]),
-      {"workspaceFolders", :workspace_folders} => oneof([null(), bool()]),
-      {"configuration", :configuration} => oneof([null(), bool()]),
+        nullable(GenLSP.Structures.ExecuteCommandClientCapabilities.schematic()),
+      {"workspaceFolders", :workspace_folders} => nullable(bool()),
+      {"configuration", :configuration} => nullable(bool()),
       {"semanticTokens", :semantic_tokens} =>
-        oneof([null(), GenLSP.Structures.SemanticTokensWorkspaceClientCapabilities.schematic()]),
+        nullable(GenLSP.Structures.SemanticTokensWorkspaceClientCapabilities.schematic()),
       {"codeLens", :code_lens} =>
-        oneof([null(), GenLSP.Structures.CodeLensWorkspaceClientCapabilities.schematic()]),
+        nullable(GenLSP.Structures.CodeLensWorkspaceClientCapabilities.schematic()),
       {"fileOperations", :file_operations} =>
-        oneof([null(), GenLSP.Structures.FileOperationClientCapabilities.schematic()]),
+        nullable(GenLSP.Structures.FileOperationClientCapabilities.schematic()),
       {"inlineValue", :inline_value} =>
-        oneof([null(), GenLSP.Structures.InlineValueWorkspaceClientCapabilities.schematic()]),
+        nullable(GenLSP.Structures.InlineValueWorkspaceClientCapabilities.schematic()),
       {"inlayHint", :inlay_hint} =>
-        oneof([null(), GenLSP.Structures.InlayHintWorkspaceClientCapabilities.schematic()]),
+        nullable(GenLSP.Structures.InlayHintWorkspaceClientCapabilities.schematic()),
       {"diagnostics", :diagnostics} =>
-        oneof([null(), GenLSP.Structures.DiagnosticWorkspaceClientCapabilities.schematic()])
+        nullable(GenLSP.Structures.DiagnosticWorkspaceClientCapabilities.schematic())
     })
   end
 end

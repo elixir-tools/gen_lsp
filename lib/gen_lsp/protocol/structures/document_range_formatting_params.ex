@@ -31,8 +31,7 @@ defmodule GenLSP.Structures.DocumentRangeFormattingParams do
       {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schematic(),
       {"range", :range} => GenLSP.Structures.Range.schematic(),
       {"options", :options} => GenLSP.Structures.FormattingOptions.schematic(),
-      {"workDoneToken", :work_done_token} =>
-        oneof([null(), GenLSP.TypeAlias.ProgressToken.schematic()])
+      {"workDoneToken", :work_done_token} => nullable(GenLSP.TypeAlias.ProgressToken.schematic())
     })
   end
 end

@@ -15,7 +15,7 @@ defmodule GenLSP.TypeAlias.TextDocumentContentChangeEvent do
     oneof([
       map(%{
         {"range", :range} => GenLSP.Structures.Range.schematic(),
-        {"rangeLength", :range_length} => oneof([null(), int()]),
+        {"rangeLength", :range_length} => nullable(int()),
         {"text", :text} => str()
       }),
       map(%{

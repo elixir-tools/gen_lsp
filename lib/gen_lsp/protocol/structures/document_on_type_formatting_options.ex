@@ -25,7 +25,7 @@ defmodule GenLSP.Structures.DocumentOnTypeFormattingOptions do
   def schematic() do
     schema(__MODULE__, %{
       {"firstTriggerCharacter", :first_trigger_character} => str(),
-      {"moreTriggerCharacter", :more_trigger_character} => oneof([null(), list(str())])
+      {"moreTriggerCharacter", :more_trigger_character} => nullable(list(str()))
     })
   end
 end

@@ -24,8 +24,7 @@ defmodule GenLSP.Structures.ShowMessageRequestParams do
     schema(__MODULE__, %{
       {"type", :type} => GenLSP.Enumerations.MessageType.schematic(),
       {"message", :message} => str(),
-      {"actions", :actions} =>
-        oneof([null(), list(GenLSP.Structures.MessageActionItem.schematic())])
+      {"actions", :actions} => nullable(list(GenLSP.Structures.MessageActionItem.schematic()))
     })
   end
 end

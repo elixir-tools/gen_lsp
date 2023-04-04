@@ -30,7 +30,7 @@ defmodule GenLSP.Structures.DocumentSymbolRegistrationOptions do
     schema(__MODULE__, %{
       {"documentSelector", :document_selector} =>
         oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()]),
-      {"label", :label} => oneof([null(), str()])
+      {"label", :label} => nullable(str())
     })
   end
 end

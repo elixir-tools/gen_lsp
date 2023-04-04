@@ -26,7 +26,7 @@ defmodule GenLSP.Structures.DidSaveTextDocumentParams do
   def schematic() do
     schema(__MODULE__, %{
       {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schematic(),
-      {"text", :text} => oneof([null(), str()])
+      {"text", :text} => nullable(str())
     })
   end
 end

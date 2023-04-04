@@ -27,8 +27,8 @@ defmodule GenLSP.Structures.WorkspaceSymbolOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"resolveProvider", :resolve_provider} => oneof([null(), bool()]),
-      {"workDoneProgress", :work_done_progress} => oneof([null(), bool()])
+      {"resolveProvider", :resolve_provider} => nullable(bool()),
+      {"workDoneProgress", :work_done_progress} => nullable(bool())
     })
   end
 end

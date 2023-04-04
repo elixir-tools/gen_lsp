@@ -37,24 +37,22 @@ defmodule GenLSP.Structures.FoldingRangeClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => oneof([null(), bool()]),
-      {"rangeLimit", :range_limit} => oneof([null(), int()]),
-      {"lineFoldingOnly", :line_folding_only} => oneof([null(), bool()]),
+      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
+      {"rangeLimit", :range_limit} => nullable(int()),
+      {"lineFoldingOnly", :line_folding_only} => nullable(bool()),
       {"foldingRangeKind", :folding_range_kind} =>
-        oneof([
-          null(),
+        nullable(
           map(%{
             {"valueSet", :value_set} =>
-              oneof([null(), list(GenLSP.Enumerations.FoldingRangeKind.schematic())])
+              nullable(list(GenLSP.Enumerations.FoldingRangeKind.schematic()))
           })
-        ]),
+        ),
       {"foldingRange", :folding_range} =>
-        oneof([
-          null(),
+        nullable(
           map(%{
-            {"collapsedText", :collapsed_text} => oneof([null(), bool()])
+            {"collapsedText", :collapsed_text} => nullable(bool())
           })
-        ])
+        )
     })
   end
 end

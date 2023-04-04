@@ -61,28 +61,27 @@ defmodule GenLSP.Structures.SemanticTokensClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => oneof([null(), bool()]),
+      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
       {"requests", :requests} =>
         map(%{
-          {"range", :range} => oneof([null(), oneof([bool(), map(%{})])]),
+          {"range", :range} => nullable(oneof([bool(), map(%{})])),
           {"full", :full} =>
-            oneof([
-              null(),
+            nullable(
               oneof([
                 bool(),
                 map(%{
-                  {"delta", :delta} => oneof([null(), bool()])
+                  {"delta", :delta} => nullable(bool())
                 })
               ])
-            ])
+            )
         }),
       {"tokenTypes", :token_types} => list(str()),
       {"tokenModifiers", :token_modifiers} => list(str()),
       {"formats", :formats} => list(GenLSP.Enumerations.TokenFormat.schematic()),
-      {"overlappingTokenSupport", :overlapping_token_support} => oneof([null(), bool()]),
-      {"multilineTokenSupport", :multiline_token_support} => oneof([null(), bool()]),
-      {"serverCancelSupport", :server_cancel_support} => oneof([null(), bool()]),
-      {"augmentsSyntaxTokens", :augments_syntax_tokens} => oneof([null(), bool()])
+      {"overlappingTokenSupport", :overlapping_token_support} => nullable(bool()),
+      {"multilineTokenSupport", :multiline_token_support} => nullable(bool()),
+      {"serverCancelSupport", :server_cancel_support} => nullable(bool()),
+      {"augmentsSyntaxTokens", :augments_syntax_tokens} => nullable(bool())
     })
   end
 end

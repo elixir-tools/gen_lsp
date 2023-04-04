@@ -37,16 +37,14 @@ defmodule GenLSP.Structures.ClientCapabilities do
   def schematic() do
     schema(__MODULE__, %{
       {"workspace", :workspace} =>
-        oneof([null(), GenLSP.Structures.WorkspaceClientCapabilities.schematic()]),
+        nullable(GenLSP.Structures.WorkspaceClientCapabilities.schematic()),
       {"textDocument", :text_document} =>
-        oneof([null(), GenLSP.Structures.TextDocumentClientCapabilities.schematic()]),
+        nullable(GenLSP.Structures.TextDocumentClientCapabilities.schematic()),
       {"notebookDocument", :notebook_document} =>
-        oneof([null(), GenLSP.Structures.NotebookDocumentClientCapabilities.schematic()]),
-      {"window", :window} =>
-        oneof([null(), GenLSP.Structures.WindowClientCapabilities.schematic()]),
-      {"general", :general} =>
-        oneof([null(), GenLSP.Structures.GeneralClientCapabilities.schematic()]),
-      {"experimental", :experimental} => oneof([null(), GenLSP.TypeAlias.LSPAny.schematic()])
+        nullable(GenLSP.Structures.NotebookDocumentClientCapabilities.schematic()),
+      {"window", :window} => nullable(GenLSP.Structures.WindowClientCapabilities.schematic()),
+      {"general", :general} => nullable(GenLSP.Structures.GeneralClientCapabilities.schematic()),
+      {"experimental", :experimental} => nullable(GenLSP.TypeAlias.LSPAny.schematic())
     })
   end
 end

@@ -57,19 +57,18 @@ defmodule GenLSP.Structures.GeneralClientCapabilities do
   def schematic() do
     schema(__MODULE__, %{
       {"staleRequestSupport", :stale_request_support} =>
-        oneof([
-          null(),
+        nullable(
           map(%{
             {"cancel", :cancel} => bool(),
             {"retryOnContentModified", :retry_on_content_modified} => list(str())
           })
-        ]),
+        ),
       {"regularExpressions", :regular_expressions} =>
-        oneof([null(), GenLSP.Structures.RegularExpressionsClientCapabilities.schematic()]),
+        nullable(GenLSP.Structures.RegularExpressionsClientCapabilities.schematic()),
       {"markdown", :markdown} =>
-        oneof([null(), GenLSP.Structures.MarkdownClientCapabilities.schematic()]),
+        nullable(GenLSP.Structures.MarkdownClientCapabilities.schematic()),
       {"positionEncodings", :position_encodings} =>
-        oneof([null(), list(GenLSP.Enumerations.PositionEncodingKind.schematic())])
+        nullable(list(GenLSP.Enumerations.PositionEncodingKind.schematic()))
     })
   end
 end
