@@ -13,7 +13,7 @@ defmodule GenLSP.MixProject do
       docs: docs(),
       package: package(),
       dialyzer: [
-        plt_add_apps: [:ex_unit],
+        plt_add_apps: [:ex_unit]
       ]
     ]
   end
