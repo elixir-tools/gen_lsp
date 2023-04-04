@@ -5,6 +5,8 @@ defmodule GenLSP.Requests.TextDocumentDocumentSymbol do
   parameter is of type {@link TextDocumentIdentifier} the
   response is of type {@link SymbolInformation SymbolInformation[]} or a Thenable
   that resolves to such.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -19,6 +21,11 @@ defmodule GenLSP.Requests.TextDocumentDocumentSymbol do
     field :params, GenLSP.Structures.DocumentSymbolParams.t()
   end
 
+  @type result ::
+          list(GenLSP.Structures.SymbolInformation.t())
+          | list(GenLSP.Structures.DocumentSymbol.t())
+          | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -28,5 +35,15 @@ defmodule GenLSP.Requests.TextDocumentDocumentSymbol do
       id: int(),
       params: GenLSP.Structures.DocumentSymbolParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([
+      list(GenLSP.Structures.SymbolInformation.schematic()),
+      list(GenLSP.Structures.DocumentSymbol.schematic()),
+      null()
+    ])
   end
 end

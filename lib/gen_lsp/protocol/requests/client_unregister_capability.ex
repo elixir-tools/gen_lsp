@@ -3,6 +3,8 @@ defmodule GenLSP.Requests.ClientUnregisterCapability do
   @moduledoc """
   The `client/unregisterCapability` request is sent from the server to the client to unregister a previously registered capability
   handler on the client side.
+
+  Message Direction: serverToClient
   """
 
   import Schematic, warn: false
@@ -17,6 +19,8 @@ defmodule GenLSP.Requests.ClientUnregisterCapability do
     field :params, GenLSP.Structures.UnregistrationParams.t()
   end
 
+  @type result :: nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -26,5 +30,11 @@ defmodule GenLSP.Requests.ClientUnregisterCapability do
       id: int(),
       params: GenLSP.Structures.UnregistrationParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    null()
   end
 end

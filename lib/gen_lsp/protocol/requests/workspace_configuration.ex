@@ -8,6 +8,8 @@ defmodule GenLSP.Requests.WorkspaceConfiguration do
   event. If the server still needs to react to configuration changes (since the server caches the
   result of `workspace/configuration` requests) the server should register for an empty configuration
   change event and empty the cache if such an event is received.
+
+  Message Direction: serverToClient
   """
 
   import Schematic, warn: false
@@ -22,6 +24,8 @@ defmodule GenLSP.Requests.WorkspaceConfiguration do
     field :params, GenLSP.Structures.ConfigurationParams.t()
   end
 
+  @type result :: list(GenLSP.TypeAlias.LSPAny.t())
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -31,5 +35,11 @@ defmodule GenLSP.Requests.WorkspaceConfiguration do
       id: int(),
       params: GenLSP.Structures.ConfigurationParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    list(GenLSP.TypeAlias.LSPAny.schematic())
   end
 end

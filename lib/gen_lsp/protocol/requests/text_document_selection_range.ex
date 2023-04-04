@@ -5,6 +5,8 @@ defmodule GenLSP.Requests.TextDocumentSelectionRange do
   parameter is of type {@link SelectionRangeParams}, the
   response is of type {@link SelectionRange SelectionRange[]} or a Thenable
   that resolves to such.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -19,6 +21,8 @@ defmodule GenLSP.Requests.TextDocumentSelectionRange do
     field :params, GenLSP.Structures.SelectionRangeParams.t()
   end
 
+  @type result :: list(GenLSP.Structures.SelectionRange.t()) | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -28,5 +32,11 @@ defmodule GenLSP.Requests.TextDocumentSelectionRange do
       id: int(),
       params: GenLSP.Structures.SelectionRangeParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([list(GenLSP.Structures.SelectionRange.schematic()), null()])
   end
 end

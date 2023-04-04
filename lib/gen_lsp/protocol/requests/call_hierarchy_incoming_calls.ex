@@ -4,6 +4,8 @@ defmodule GenLSP.Requests.CallHierarchyIncomingCalls do
   A request to resolve the incoming calls for a given `CallHierarchyItem`.
 
   @since 3.16.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -18,6 +20,8 @@ defmodule GenLSP.Requests.CallHierarchyIncomingCalls do
     field :params, GenLSP.Structures.CallHierarchyIncomingCallsParams.t()
   end
 
+  @type result :: list(GenLSP.Structures.CallHierarchyIncomingCall.t()) | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -27,5 +31,11 @@ defmodule GenLSP.Requests.CallHierarchyIncomingCalls do
       id: int(),
       params: GenLSP.Structures.CallHierarchyIncomingCallsParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([list(GenLSP.Structures.CallHierarchyIncomingCall.schematic()), null()])
   end
 end

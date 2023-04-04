@@ -4,6 +4,8 @@ defmodule GenLSP.Requests.CompletionItemResolve do
   Request to resolve additional information for a given completion item.The request's
   parameter is of type {@link CompletionItem} the response
   is of type {@link CompletionItem} or a Thenable that resolves to such.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -18,6 +20,8 @@ defmodule GenLSP.Requests.CompletionItemResolve do
     field :params, GenLSP.Structures.CompletionItem.t()
   end
 
+  @type result :: GenLSP.Structures.CompletionItem.t()
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -27,5 +31,11 @@ defmodule GenLSP.Requests.CompletionItemResolve do
       id: int(),
       params: GenLSP.Structures.CompletionItem.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    GenLSP.Structures.CompletionItem.schematic()
   end
 end

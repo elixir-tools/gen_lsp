@@ -5,6 +5,8 @@ defmodule GenLSP.Notifications.WorkspaceDidDeleteFiles do
   deleted as long as the deletion is triggered from within the client.
 
   @since 3.16.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false

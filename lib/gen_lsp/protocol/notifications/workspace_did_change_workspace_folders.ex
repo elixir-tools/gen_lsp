@@ -3,6 +3,8 @@ defmodule GenLSP.Notifications.WorkspaceDidChangeWorkspaceFolders do
   @moduledoc """
   The `workspace/didChangeWorkspaceFolders` notification is sent from the client to the server when the workspace
   folder configuration changes.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false

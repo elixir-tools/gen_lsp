@@ -3,6 +3,8 @@ defmodule GenLSP.Requests.WorkspaceExecuteCommand do
   @moduledoc """
   A request send from the client to the server to execute a command. The request might return
   a workspace edit which the client will apply to the workspace.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -17,6 +19,8 @@ defmodule GenLSP.Requests.WorkspaceExecuteCommand do
     field :params, GenLSP.Structures.ExecuteCommandParams.t()
   end
 
+  @type result :: GenLSP.TypeAlias.LSPAny.t() | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -26,5 +30,11 @@ defmodule GenLSP.Requests.WorkspaceExecuteCommand do
       id: int(),
       params: GenLSP.Structures.ExecuteCommandParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([GenLSP.TypeAlias.LSPAny.schematic(), null()])
   end
 end

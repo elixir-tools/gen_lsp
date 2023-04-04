@@ -4,6 +4,8 @@ defmodule GenLSP.Notifications.NotebookDocumentDidClose do
   A notification sent when a notebook closes.
 
   @since 3.17.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false

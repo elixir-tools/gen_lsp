@@ -6,6 +6,8 @@ defmodule GenLSP.Requests.TextDocumentInlineValue do
   {@link InlineValue InlineValue[]} or a Thenable that resolves to such.
 
   @since 3.17.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -20,6 +22,8 @@ defmodule GenLSP.Requests.TextDocumentInlineValue do
     field :params, GenLSP.Structures.InlineValueParams.t()
   end
 
+  @type result :: list(GenLSP.TypeAlias.InlineValue.t()) | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -29,5 +33,11 @@ defmodule GenLSP.Requests.TextDocumentInlineValue do
       id: int(),
       params: GenLSP.Structures.InlineValueParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([list(GenLSP.TypeAlias.InlineValue.schematic()), null()])
   end
 end

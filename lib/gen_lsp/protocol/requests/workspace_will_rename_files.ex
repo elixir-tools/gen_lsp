@@ -5,6 +5,8 @@ defmodule GenLSP.Requests.WorkspaceWillRenameFiles do
   renamed as long as the rename is triggered from within the client.
 
   @since 3.16.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -19,6 +21,8 @@ defmodule GenLSP.Requests.WorkspaceWillRenameFiles do
     field :params, GenLSP.Structures.RenameFilesParams.t()
   end
 
+  @type result :: GenLSP.Structures.WorkspaceEdit.t() | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -28,5 +32,11 @@ defmodule GenLSP.Requests.WorkspaceWillRenameFiles do
       id: int(),
       params: GenLSP.Structures.RenameFilesParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([GenLSP.Structures.WorkspaceEdit.schematic(), null()])
   end
 end

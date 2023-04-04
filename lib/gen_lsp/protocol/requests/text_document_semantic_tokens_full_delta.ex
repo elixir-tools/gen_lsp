@@ -2,6 +2,8 @@
 defmodule GenLSP.Requests.TextDocumentSemanticTokensFullDelta do
   @moduledoc """
   @since 3.16.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -16,6 +18,9 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensFullDelta do
     field :params, GenLSP.Structures.SemanticTokensDeltaParams.t()
   end
 
+  @type result ::
+          GenLSP.Structures.SemanticTokens.t() | GenLSP.Structures.SemanticTokensDelta.t() | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -25,5 +30,15 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensFullDelta do
       id: int(),
       params: GenLSP.Structures.SemanticTokensDeltaParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([
+      GenLSP.Structures.SemanticTokens.schematic(),
+      GenLSP.Structures.SemanticTokensDelta.schematic(),
+      null()
+    ])
   end
 end

@@ -5,6 +5,8 @@ defmodule GenLSP.Requests.Shutdown do
   It is sent once when the client decides to shutdown the
   server. The only notification that is sent after a shutdown request
   is the exit event.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -19,6 +21,8 @@ defmodule GenLSP.Requests.Shutdown do
     field :params, nil
   end
 
+  @type result :: nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -28,5 +32,11 @@ defmodule GenLSP.Requests.Shutdown do
       id: int(),
       params: null()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    null()
   end
 end

@@ -2,6 +2,8 @@
 defmodule GenLSP.Requests.TextDocumentDocumentLink do
   @moduledoc """
   A request to provide document links
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -16,6 +18,8 @@ defmodule GenLSP.Requests.TextDocumentDocumentLink do
     field :params, GenLSP.Structures.DocumentLinkParams.t()
   end
 
+  @type result :: list(GenLSP.Structures.DocumentLink.t()) | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -25,5 +29,11 @@ defmodule GenLSP.Requests.TextDocumentDocumentLink do
       id: int(),
       params: GenLSP.Structures.DocumentLinkParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([list(GenLSP.Structures.DocumentLink.schematic()), null()])
   end
 end

@@ -4,6 +4,8 @@ defmodule GenLSP.Requests.WorkspaceDiagnosticRefresh do
   The diagnostic refresh request definition.
 
   @since 3.17.0
+
+  Message Direction: serverToClient
   """
 
   import Schematic, warn: false
@@ -18,6 +20,8 @@ defmodule GenLSP.Requests.WorkspaceDiagnosticRefresh do
     field :params, nil
   end
 
+  @type result :: nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -27,5 +31,11 @@ defmodule GenLSP.Requests.WorkspaceDiagnosticRefresh do
       id: int(),
       params: null()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    null()
   end
 end

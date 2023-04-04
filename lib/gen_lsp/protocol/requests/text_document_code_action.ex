@@ -2,6 +2,8 @@
 defmodule GenLSP.Requests.TextDocumentCodeAction do
   @moduledoc """
   A request to provide commands for the given text document and range.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -16,6 +18,8 @@ defmodule GenLSP.Requests.TextDocumentCodeAction do
     field :params, GenLSP.Structures.CodeActionParams.t()
   end
 
+  @type result :: list(GenLSP.Structures.Command.t() | GenLSP.Structures.CodeAction.t()) | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -25,5 +29,16 @@ defmodule GenLSP.Requests.TextDocumentCodeAction do
       id: int(),
       params: GenLSP.Structures.CodeActionParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([
+      list(
+        oneof([GenLSP.Structures.Command.schematic(), GenLSP.Structures.CodeAction.schematic()])
+      ),
+      null()
+    ])
   end
 end

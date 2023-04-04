@@ -12,6 +12,8 @@ defmodule GenLSP.Requests.TextDocumentSignatureHelp do
     field :params, GenLSP.Structures.SignatureHelpParams.t()
   end
 
+  @type result :: GenLSP.Structures.SignatureHelp.t() | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -21,5 +23,11 @@ defmodule GenLSP.Requests.TextDocumentSignatureHelp do
       id: int(),
       params: GenLSP.Structures.SignatureHelpParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([GenLSP.Structures.SignatureHelp.schematic(), null()])
   end
 end

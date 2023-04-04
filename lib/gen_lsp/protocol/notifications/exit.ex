@@ -3,6 +3,8 @@ defmodule GenLSP.Notifications.Exit do
   @moduledoc """
   The exit event is sent from the client to the server to
   ask the server to exit its process.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false

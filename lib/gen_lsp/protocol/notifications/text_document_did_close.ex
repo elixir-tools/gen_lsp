@@ -8,6 +8,8 @@ defmodule GenLSP.Notifications.TextDocumentDidClose do
   is about managing the document's content. Receiving a close notification
   doesn't mean that the document was open in an editor before. A close
   notification requires a previous open notification to be sent.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false

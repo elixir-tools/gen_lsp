@@ -3,6 +3,8 @@ defmodule GenLSP.Requests.WindowWorkDoneProgressCreate do
   @moduledoc """
   The `window/workDoneProgress/create` request is sent from the server to the client to initiate progress
   reporting from the server.
+
+  Message Direction: serverToClient
   """
 
   import Schematic, warn: false
@@ -17,6 +19,8 @@ defmodule GenLSP.Requests.WindowWorkDoneProgressCreate do
     field :params, GenLSP.Structures.WorkDoneProgressCreateParams.t()
   end
 
+  @type result :: nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -26,5 +30,11 @@ defmodule GenLSP.Requests.WindowWorkDoneProgressCreate do
       id: int(),
       params: GenLSP.Structures.WorkDoneProgressCreateParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    null()
   end
 end

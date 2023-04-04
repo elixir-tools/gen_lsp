@@ -2,6 +2,8 @@
 defmodule GenLSP.Requests.TextDocumentOnTypeFormatting do
   @moduledoc """
   A request to format a document on type.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -16,6 +18,8 @@ defmodule GenLSP.Requests.TextDocumentOnTypeFormatting do
     field :params, GenLSP.Structures.DocumentOnTypeFormattingParams.t()
   end
 
+  @type result :: list(GenLSP.Structures.TextEdit.t()) | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -25,5 +29,11 @@ defmodule GenLSP.Requests.TextDocumentOnTypeFormatting do
       id: int(),
       params: GenLSP.Structures.DocumentOnTypeFormattingParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([list(GenLSP.Structures.TextEdit.schematic()), null()])
   end
 end

@@ -2,6 +2,8 @@
 defmodule GenLSP.Requests.TextDocumentRangeFormatting do
   @moduledoc """
   A request to format a range in a document.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -16,6 +18,8 @@ defmodule GenLSP.Requests.TextDocumentRangeFormatting do
     field :params, GenLSP.Structures.DocumentRangeFormattingParams.t()
   end
 
+  @type result :: list(GenLSP.Structures.TextEdit.t()) | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -25,5 +29,11 @@ defmodule GenLSP.Requests.TextDocumentRangeFormatting do
       id: int(),
       params: GenLSP.Structures.DocumentRangeFormattingParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([list(GenLSP.Structures.TextEdit.schematic()), null()])
   end
 end

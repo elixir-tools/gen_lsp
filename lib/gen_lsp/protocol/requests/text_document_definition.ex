@@ -6,6 +6,8 @@ defmodule GenLSP.Requests.TextDocumentDefinition do
   (#TextDocumentPosition) the response is of either type {@link Definition}
   or a typed array of {@link DefinitionLink} or a Thenable that resolves
   to such.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -20,6 +22,9 @@ defmodule GenLSP.Requests.TextDocumentDefinition do
     field :params, GenLSP.Structures.DefinitionParams.t()
   end
 
+  @type result ::
+          GenLSP.TypeAlias.Definition.t() | list(GenLSP.TypeAlias.DefinitionLink.t()) | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -29,5 +34,15 @@ defmodule GenLSP.Requests.TextDocumentDefinition do
       id: int(),
       params: GenLSP.Structures.DefinitionParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([
+      GenLSP.TypeAlias.Definition.schematic(),
+      list(GenLSP.TypeAlias.DefinitionLink.schematic()),
+      null()
+    ])
   end
 end

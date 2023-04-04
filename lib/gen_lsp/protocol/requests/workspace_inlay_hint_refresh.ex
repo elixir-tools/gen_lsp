@@ -2,6 +2,8 @@
 defmodule GenLSP.Requests.WorkspaceInlayHintRefresh do
   @moduledoc """
   @since 3.17.0
+
+  Message Direction: serverToClient
   """
 
   import Schematic, warn: false
@@ -16,6 +18,8 @@ defmodule GenLSP.Requests.WorkspaceInlayHintRefresh do
     field :params, nil
   end
 
+  @type result :: nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -25,5 +29,11 @@ defmodule GenLSP.Requests.WorkspaceInlayHintRefresh do
       id: int(),
       params: null()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    null()
   end
 end

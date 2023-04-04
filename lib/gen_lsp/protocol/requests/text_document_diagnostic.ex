@@ -4,6 +4,8 @@ defmodule GenLSP.Requests.TextDocumentDiagnostic do
   The document diagnostic request definition.
 
   @since 3.17.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -18,6 +20,8 @@ defmodule GenLSP.Requests.TextDocumentDiagnostic do
     field :params, GenLSP.Structures.DocumentDiagnosticParams.t()
   end
 
+  @type result :: GenLSP.TypeAlias.DocumentDiagnosticReport.t()
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -27,5 +31,11 @@ defmodule GenLSP.Requests.TextDocumentDiagnostic do
       id: int(),
       params: GenLSP.Structures.DocumentDiagnosticParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    GenLSP.TypeAlias.DocumentDiagnosticReport.schematic()
   end
 end

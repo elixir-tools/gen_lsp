@@ -6,6 +6,8 @@ defmodule GenLSP.Requests.Initialize do
   The requests parameter is of type {@link InitializeParams}
   the response if of type {@link InitializeResult} of a Thenable that
   resolves to such.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -20,6 +22,8 @@ defmodule GenLSP.Requests.Initialize do
     field :params, GenLSP.Structures.InitializeParams.t()
   end
 
+  @type result :: GenLSP.Structures.InitializeResult.t()
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -29,5 +33,11 @@ defmodule GenLSP.Requests.Initialize do
       id: int(),
       params: GenLSP.Structures.InitializeParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    GenLSP.Structures.InitializeResult.schematic()
   end
 end

@@ -4,6 +4,8 @@ defmodule GenLSP.Notifications.NotebookDocumentDidOpen do
   A notification sent when a notebook opens.
 
   @since 3.17.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false

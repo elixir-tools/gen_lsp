@@ -3,6 +3,8 @@ defmodule GenLSP.Notifications.WindowWorkDoneProgressCancel do
   @moduledoc """
   The `window/workDoneProgress/cancel` notification is sent from  the client to the server to cancel a progress
   initiated on the server side.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false

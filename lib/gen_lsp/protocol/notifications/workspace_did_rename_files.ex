@@ -5,6 +5,8 @@ defmodule GenLSP.Notifications.WorkspaceDidRenameFiles do
   files were renamed from within the client.
 
   @since 3.16.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false

@@ -5,6 +5,8 @@ defmodule GenLSP.Requests.WorkspaceWillCreateFiles do
   created as long as the creation is triggered from within the client.
 
   @since 3.16.0
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false
@@ -19,6 +21,8 @@ defmodule GenLSP.Requests.WorkspaceWillCreateFiles do
     field :params, GenLSP.Structures.CreateFilesParams.t()
   end
 
+  @type result :: GenLSP.Structures.WorkspaceEdit.t() | nil
+
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
@@ -28,5 +32,11 @@ defmodule GenLSP.Requests.WorkspaceWillCreateFiles do
       id: int(),
       params: GenLSP.Structures.CreateFilesParams.schematic()
     })
+  end
+
+  @doc false
+  @spec result() :: Schematic.t()
+  def result() do
+    oneof([GenLSP.Structures.WorkspaceEdit.schematic(), null()])
   end
 end

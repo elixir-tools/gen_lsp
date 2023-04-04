@@ -3,6 +3,8 @@ defmodule GenLSP.Notifications.TextDocumentDidChange do
   @moduledoc """
   The document change notification is sent from the client to the server to signal
   changes to a text document.
+
+  Message Direction: clientToServer
   """
 
   import Schematic, warn: false

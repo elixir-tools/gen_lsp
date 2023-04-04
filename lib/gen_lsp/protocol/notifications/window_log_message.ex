@@ -3,6 +3,8 @@ defmodule GenLSP.Notifications.WindowLogMessage do
   @moduledoc """
   The log message notification is sent from the server to the client to ask
   the client to log a particular message.
+
+  Message Direction: serverToClient
   """
 
   import Schematic, warn: false
