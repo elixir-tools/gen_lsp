@@ -48,9 +48,9 @@ defmodule GenLSP.Structures.InlayHintLabelPart do
     schema(__MODULE__, %{
       {"value", :value} => str(),
       {"tooltip", :tooltip} =>
-        oneof([null(), oneof([str(), GenLSP.Structures.MarkupContent.schematic()])]),
-      {"location", :location} => oneof([null(), GenLSP.Structures.Location.schematic()]),
-      {"command", :command} => oneof([null(), GenLSP.Structures.Command.schematic()])
+        nullable(oneof([str(), GenLSP.Structures.MarkupContent.schematic()])),
+      {"location", :location} => nullable(GenLSP.Structures.Location.schematic()),
+      {"command", :command} => nullable(GenLSP.Structures.Command.schematic())
     })
   end
 end

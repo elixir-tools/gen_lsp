@@ -20,7 +20,7 @@ defmodule GenLSP.Structures.PartialResultParams do
   def schematic() do
     schema(__MODULE__, %{
       {"partialResultToken", :partial_result_token} =>
-        oneof([null(), GenLSP.TypeAlias.ProgressToken.schematic()])
+        nullable(GenLSP.TypeAlias.ProgressToken.schematic())
     })
   end
 end

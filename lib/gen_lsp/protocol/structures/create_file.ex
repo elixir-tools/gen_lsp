@@ -32,9 +32,9 @@ defmodule GenLSP.Structures.CreateFile do
     schema(__MODULE__, %{
       {"kind", :kind} => str("create"),
       {"uri", :uri} => str(),
-      {"options", :options} => oneof([null(), GenLSP.Structures.CreateFileOptions.schematic()]),
+      {"options", :options} => nullable(GenLSP.Structures.CreateFileOptions.schematic()),
       {"annotationId", :annotation_id} =>
-        oneof([null(), GenLSP.TypeAlias.ChangeAnnotationIdentifier.schematic()])
+        nullable(GenLSP.TypeAlias.ChangeAnnotationIdentifier.schematic())
     })
   end
 end

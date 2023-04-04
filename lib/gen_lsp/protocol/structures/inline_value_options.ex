@@ -24,7 +24,7 @@ defmodule GenLSP.Structures.InlineValueOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"workDoneProgress", :work_done_progress} => oneof([null(), bool()])
+      {"workDoneProgress", :work_done_progress} => nullable(bool())
     })
   end
 end

@@ -62,10 +62,9 @@ defmodule GenLSP.Structures.WorkspaceEdit do
   def schematic() do
     schema(__MODULE__, %{
       {"changes", :changes} =>
-        oneof([null(), map(keys: str(), values: list(GenLSP.Structures.TextEdit.schematic()))]),
+        nullable(map(keys: str(), values: list(GenLSP.Structures.TextEdit.schematic()))),
       {"documentChanges", :document_changes} =>
-        oneof([
-          null(),
+        nullable(
           list(
             oneof([
               GenLSP.Structures.TextDocumentEdit.schematic(),
@@ -74,15 +73,14 @@ defmodule GenLSP.Structures.WorkspaceEdit do
               GenLSP.Structures.DeleteFile.schematic()
             ])
           )
-        ]),
+        ),
       {"changeAnnotations", :change_annotations} =>
-        oneof([
-          null(),
+        nullable(
           map(
             keys: GenLSP.TypeAlias.ChangeAnnotationIdentifier.schematic(),
             values: GenLSP.Structures.ChangeAnnotation.schematic()
           )
-        ])
+        )
     })
   end
 end

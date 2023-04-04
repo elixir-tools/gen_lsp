@@ -27,7 +27,7 @@ defmodule GenLSP.Structures.RegularExpressionsClientCapabilities do
   def schematic() do
     schema(__MODULE__, %{
       {"engine", :engine} => str(),
-      {"version", :version} => oneof([null(), str()])
+      {"version", :version} => nullable(str())
     })
   end
 end

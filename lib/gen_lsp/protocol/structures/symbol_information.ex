@@ -48,12 +48,12 @@ defmodule GenLSP.Structures.SymbolInformation do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"deprecated", :deprecated} => oneof([null(), bool()]),
+      {"deprecated", :deprecated} => nullable(bool()),
       {"location", :location} => GenLSP.Structures.Location.schematic(),
       {"name", :name} => str(),
       {"kind", :kind} => GenLSP.Enumerations.SymbolKind.schematic(),
-      {"tags", :tags} => oneof([null(), list(GenLSP.Enumerations.SymbolTag.schematic())]),
-      {"containerName", :container_name} => oneof([null(), str()])
+      {"tags", :tags} => nullable(list(GenLSP.Enumerations.SymbolTag.schematic())),
+      {"containerName", :container_name} => nullable(str())
     })
   end
 end

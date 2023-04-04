@@ -31,10 +31,9 @@ defmodule GenLSP.Structures.SemanticTokensRangeParams do
     schema(__MODULE__, %{
       {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schematic(),
       {"range", :range} => GenLSP.Structures.Range.schematic(),
-      {"workDoneToken", :work_done_token} =>
-        oneof([null(), GenLSP.TypeAlias.ProgressToken.schematic()]),
+      {"workDoneToken", :work_done_token} => nullable(GenLSP.TypeAlias.ProgressToken.schematic()),
       {"partialResultToken", :partial_result_token} =>
-        oneof([null(), GenLSP.TypeAlias.ProgressToken.schematic()])
+        nullable(GenLSP.TypeAlias.ProgressToken.schematic())
     })
   end
 end

@@ -26,7 +26,7 @@ defmodule GenLSP.Structures.CompletionContext do
   def schematic() do
     schema(__MODULE__, %{
       {"triggerKind", :trigger_kind} => GenLSP.Enumerations.CompletionTriggerKind.schematic(),
-      {"triggerCharacter", :trigger_character} => oneof([null(), str()])
+      {"triggerCharacter", :trigger_character} => nullable(str())
     })
   end
 end

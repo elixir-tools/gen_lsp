@@ -55,28 +55,26 @@ defmodule GenLSP.Structures.CodeActionClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => oneof([null(), bool()]),
+      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
       {"codeActionLiteralSupport", :code_action_literal_support} =>
-        oneof([
-          null(),
+        nullable(
           map(%{
             {"codeActionKind", :code_action_kind} =>
               map(%{
                 {"valueSet", :value_set} => list(GenLSP.Enumerations.CodeActionKind.schematic())
               })
           })
-        ]),
-      {"isPreferredSupport", :is_preferred_support} => oneof([null(), bool()]),
-      {"disabledSupport", :disabled_support} => oneof([null(), bool()]),
-      {"dataSupport", :data_support} => oneof([null(), bool()]),
+        ),
+      {"isPreferredSupport", :is_preferred_support} => nullable(bool()),
+      {"disabledSupport", :disabled_support} => nullable(bool()),
+      {"dataSupport", :data_support} => nullable(bool()),
       {"resolveSupport", :resolve_support} =>
-        oneof([
-          null(),
+        nullable(
           map(%{
             {"properties", :properties} => list(str())
           })
-        ]),
-      {"honorsChangeAnnotations", :honors_change_annotations} => oneof([null(), bool()])
+        ),
+      {"honorsChangeAnnotations", :honors_change_annotations} => nullable(bool())
     })
   end
 end

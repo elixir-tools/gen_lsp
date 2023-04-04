@@ -27,7 +27,7 @@ defmodule GenLSP.Structures.DocumentHighlight do
   def schematic() do
     schema(__MODULE__, %{
       {"range", :range} => GenLSP.Structures.Range.schematic(),
-      {"kind", :kind} => oneof([null(), GenLSP.Enumerations.DocumentHighlightKind.schematic()])
+      {"kind", :kind} => nullable(GenLSP.Enumerations.DocumentHighlightKind.schematic())
     })
   end
 end

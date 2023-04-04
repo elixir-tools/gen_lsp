@@ -29,17 +29,17 @@ defmodule GenLSP.TypeAlias.TextDocumentFilter do
     oneof([
       map(%{
         {"language", :language} => str(),
-        {"scheme", :scheme} => oneof([null(), str()]),
-        {"pattern", :pattern} => oneof([null(), str()])
+        {"scheme", :scheme} => nullable(str()),
+        {"pattern", :pattern} => nullable(str())
       }),
       map(%{
-        {"language", :language} => oneof([null(), str()]),
+        {"language", :language} => nullable(str()),
         {"scheme", :scheme} => str(),
-        {"pattern", :pattern} => oneof([null(), str()])
+        {"pattern", :pattern} => nullable(str())
       }),
       map(%{
-        {"language", :language} => oneof([null(), str()]),
-        {"scheme", :scheme} => oneof([null(), str()]),
+        {"language", :language} => nullable(str()),
+        {"scheme", :scheme} => nullable(str()),
         {"pattern", :pattern} => str()
       })
     ])

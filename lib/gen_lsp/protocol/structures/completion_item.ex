@@ -140,35 +140,34 @@ defmodule GenLSP.Structures.CompletionItem do
     schema(__MODULE__, %{
       {"label", :label} => str(),
       {"labelDetails", :label_details} =>
-        oneof([null(), GenLSP.Structures.CompletionItemLabelDetails.schematic()]),
-      {"kind", :kind} => oneof([null(), GenLSP.Enumerations.CompletionItemKind.schematic()]),
-      {"tags", :tags} => oneof([null(), list(GenLSP.Enumerations.CompletionItemTag.schematic())]),
-      {"detail", :detail} => oneof([null(), str()]),
+        nullable(GenLSP.Structures.CompletionItemLabelDetails.schematic()),
+      {"kind", :kind} => nullable(GenLSP.Enumerations.CompletionItemKind.schematic()),
+      {"tags", :tags} => nullable(list(GenLSP.Enumerations.CompletionItemTag.schematic())),
+      {"detail", :detail} => nullable(str()),
       {"documentation", :documentation} =>
-        oneof([null(), oneof([str(), GenLSP.Structures.MarkupContent.schematic()])]),
-      {"deprecated", :deprecated} => oneof([null(), bool()]),
-      {"preselect", :preselect} => oneof([null(), bool()]),
-      {"sortText", :sort_text} => oneof([null(), str()]),
-      {"filterText", :filter_text} => oneof([null(), str()]),
-      {"insertText", :insert_text} => oneof([null(), str()]),
+        nullable(oneof([str(), GenLSP.Structures.MarkupContent.schematic()])),
+      {"deprecated", :deprecated} => nullable(bool()),
+      {"preselect", :preselect} => nullable(bool()),
+      {"sortText", :sort_text} => nullable(str()),
+      {"filterText", :filter_text} => nullable(str()),
+      {"insertText", :insert_text} => nullable(str()),
       {"insertTextFormat", :insert_text_format} =>
-        oneof([null(), GenLSP.Enumerations.InsertTextFormat.schematic()]),
+        nullable(GenLSP.Enumerations.InsertTextFormat.schematic()),
       {"insertTextMode", :insert_text_mode} =>
-        oneof([null(), GenLSP.Enumerations.InsertTextMode.schematic()]),
+        nullable(GenLSP.Enumerations.InsertTextMode.schematic()),
       {"textEdit", :text_edit} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             GenLSP.Structures.TextEdit.schematic(),
             GenLSP.Structures.InsertReplaceEdit.schematic()
           ])
-        ]),
-      {"textEditText", :text_edit_text} => oneof([null(), str()]),
+        ),
+      {"textEditText", :text_edit_text} => nullable(str()),
       {"additionalTextEdits", :additional_text_edits} =>
-        oneof([null(), list(GenLSP.Structures.TextEdit.schematic())]),
-      {"commitCharacters", :commit_characters} => oneof([null(), list(str())]),
-      {"command", :command} => oneof([null(), GenLSP.Structures.Command.schematic()]),
-      {"data", :data} => oneof([null(), GenLSP.TypeAlias.LSPAny.schematic()])
+        nullable(list(GenLSP.Structures.TextEdit.schematic())),
+      {"commitCharacters", :commit_characters} => nullable(list(str())),
+      {"command", :command} => nullable(GenLSP.Structures.Command.schematic()),
+      {"data", :data} => nullable(GenLSP.TypeAlias.LSPAny.schematic())
     })
   end
 end

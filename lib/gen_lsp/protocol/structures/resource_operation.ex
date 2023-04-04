@@ -28,7 +28,7 @@ defmodule GenLSP.Structures.ResourceOperation do
     schema(__MODULE__, %{
       {"kind", :kind} => str(),
       {"annotationId", :annotation_id} =>
-        oneof([null(), GenLSP.TypeAlias.ChangeAnnotationIdentifier.schematic()])
+        nullable(GenLSP.TypeAlias.ChangeAnnotationIdentifier.schematic())
     })
   end
 end

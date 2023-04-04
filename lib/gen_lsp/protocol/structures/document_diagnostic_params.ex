@@ -34,12 +34,11 @@ defmodule GenLSP.Structures.DocumentDiagnosticParams do
   def schematic() do
     schema(__MODULE__, %{
       {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schematic(),
-      {"identifier", :identifier} => oneof([null(), str()]),
-      {"previousResultId", :previous_result_id} => oneof([null(), str()]),
-      {"workDoneToken", :work_done_token} =>
-        oneof([null(), GenLSP.TypeAlias.ProgressToken.schematic()]),
+      {"identifier", :identifier} => nullable(str()),
+      {"previousResultId", :previous_result_id} => nullable(str()),
+      {"workDoneToken", :work_done_token} => nullable(GenLSP.TypeAlias.ProgressToken.schematic()),
       {"partialResultToken", :partial_result_token} =>
-        oneof([null(), GenLSP.TypeAlias.ProgressToken.schematic()])
+        nullable(GenLSP.TypeAlias.ProgressToken.schematic())
     })
   end
 end

@@ -30,7 +30,7 @@ defmodule GenLSP.Structures.NotebookDocumentSyncRegistrationOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"id", :id} => oneof([null(), str()]),
+      {"id", :id} => nullable(str()),
       {"notebookSelector", :notebook_selector} =>
         list(
           oneof([
@@ -38,21 +38,17 @@ defmodule GenLSP.Structures.NotebookDocumentSyncRegistrationOptions do
               {"notebook", :notebook} =>
                 oneof([str(), GenLSP.TypeAlias.NotebookDocumentFilter.schematic()]),
               {"cells", :cells} =>
-                oneof([
-                  null(),
+                nullable(
                   list(
                     map(%{
                       {"language", :language} => str()
                     })
                   )
-                ])
+                )
             }),
             map(%{
               {"notebook", :notebook} =>
-                oneof([
-                  null(),
-                  oneof([str(), GenLSP.TypeAlias.NotebookDocumentFilter.schematic()])
-                ]),
+                nullable(oneof([str(), GenLSP.TypeAlias.NotebookDocumentFilter.schematic()])),
               {"cells", :cells} =>
                 list(
                   map(%{
@@ -62,7 +58,7 @@ defmodule GenLSP.Structures.NotebookDocumentSyncRegistrationOptions do
             })
           ])
         ),
-      {"save", :save} => oneof([null(), bool()])
+      {"save", :save} => nullable(bool())
     })
   end
 end

@@ -22,7 +22,7 @@ defmodule GenLSP.Structures.SaveOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"includeText", :include_text} => oneof([null(), bool()])
+      {"includeText", :include_text} => nullable(bool())
     })
   end
 end

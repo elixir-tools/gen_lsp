@@ -62,22 +62,21 @@ defmodule GenLSP.Structures.InitializeParams do
     schema(__MODULE__, %{
       {"processId", :process_id} => oneof([int(), null()]),
       {"clientInfo", :client_info} =>
-        oneof([
-          null(),
+        nullable(
           map(%{
             {"name", :name} => str(),
-            {"version", :version} => oneof([null(), str()])
+            {"version", :version} => nullable(str())
           })
-        ]),
-      {"locale", :locale} => oneof([null(), str()]),
-      {"rootPath", :root_path} => oneof([null(), oneof([str(), null()])]),
+        ),
+      {"locale", :locale} => nullable(str()),
+      {"rootPath", :root_path} => nullable(oneof([str(), null()])),
       {"rootUri", :root_uri} => oneof([str(), null()]),
       {"capabilities", :capabilities} => GenLSP.Structures.ClientCapabilities.schematic(),
       {"initializationOptions", :initialization_options} =>
-        oneof([null(), GenLSP.TypeAlias.LSPAny.schematic()]),
-      {"trace", :trace} => oneof([null(), GenLSP.Enumerations.TraceValues.schematic()]),
+        nullable(GenLSP.TypeAlias.LSPAny.schematic()),
+      {"trace", :trace} => nullable(GenLSP.Enumerations.TraceValues.schematic()),
       {"workspaceFolders", :workspace_folders} =>
-        oneof([null(), oneof([list(GenLSP.Structures.WorkspaceFolder.schematic()), null()])])
+        nullable(oneof([list(GenLSP.Structures.WorkspaceFolder.schematic()), null()]))
     })
   end
 end

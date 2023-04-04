@@ -36,7 +36,7 @@ defmodule GenLSP.Structures.LocationLink do
   def schematic() do
     schema(__MODULE__, %{
       {"originSelectionRange", :origin_selection_range} =>
-        oneof([null(), GenLSP.Structures.Range.schematic()]),
+        nullable(GenLSP.Structures.Range.schematic()),
       {"targetUri", :target_uri} => str(),
       {"targetRange", :target_range} => GenLSP.Structures.Range.schematic(),
       {"targetSelectionRange", :target_selection_range} => GenLSP.Structures.Range.schematic()

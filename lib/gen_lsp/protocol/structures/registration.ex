@@ -29,8 +29,7 @@ defmodule GenLSP.Structures.Registration do
     schema(__MODULE__, %{
       {"id", :id} => str(),
       {"method", :method} => str(),
-      {"registerOptions", :register_options} =>
-        oneof([null(), GenLSP.TypeAlias.LSPAny.schematic()])
+      {"registerOptions", :register_options} => nullable(GenLSP.TypeAlias.LSPAny.schematic())
     })
   end
 end

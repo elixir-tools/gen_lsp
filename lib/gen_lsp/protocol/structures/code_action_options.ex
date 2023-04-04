@@ -33,9 +33,9 @@ defmodule GenLSP.Structures.CodeActionOptions do
   def schematic() do
     schema(__MODULE__, %{
       {"codeActionKinds", :code_action_kinds} =>
-        oneof([null(), list(GenLSP.Enumerations.CodeActionKind.schematic())]),
-      {"resolveProvider", :resolve_provider} => oneof([null(), bool()]),
-      {"workDoneProgress", :work_done_progress} => oneof([null(), bool()])
+        nullable(list(GenLSP.Enumerations.CodeActionKind.schematic())),
+      {"resolveProvider", :resolve_provider} => nullable(bool()),
+      {"workDoneProgress", :work_done_progress} => nullable(bool())
     })
   end
 end

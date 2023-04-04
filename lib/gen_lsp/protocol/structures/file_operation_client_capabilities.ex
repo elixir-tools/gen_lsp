@@ -39,13 +39,13 @@ defmodule GenLSP.Structures.FileOperationClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => oneof([null(), bool()]),
-      {"didCreate", :did_create} => oneof([null(), bool()]),
-      {"willCreate", :will_create} => oneof([null(), bool()]),
-      {"didRename", :did_rename} => oneof([null(), bool()]),
-      {"willRename", :will_rename} => oneof([null(), bool()]),
-      {"didDelete", :did_delete} => oneof([null(), bool()]),
-      {"willDelete", :will_delete} => oneof([null(), bool()])
+      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
+      {"didCreate", :did_create} => nullable(bool()),
+      {"willCreate", :will_create} => nullable(bool()),
+      {"didRename", :did_rename} => nullable(bool()),
+      {"willRename", :will_rename} => nullable(bool()),
+      {"didDelete", :did_delete} => nullable(bool()),
+      {"willDelete", :will_delete} => nullable(bool())
     })
   end
 end

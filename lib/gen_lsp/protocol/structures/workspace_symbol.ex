@@ -53,11 +53,11 @@ defmodule GenLSP.Structures.WorkspaceSymbol do
             {"uri", :uri} => str()
           })
         ]),
-      {"data", :data} => oneof([null(), GenLSP.TypeAlias.LSPAny.schematic()]),
+      {"data", :data} => nullable(GenLSP.TypeAlias.LSPAny.schematic()),
       {"name", :name} => str(),
       {"kind", :kind} => GenLSP.Enumerations.SymbolKind.schematic(),
-      {"tags", :tags} => oneof([null(), list(GenLSP.Enumerations.SymbolTag.schematic())]),
-      {"containerName", :container_name} => oneof([null(), str()])
+      {"tags", :tags} => nullable(list(GenLSP.Enumerations.SymbolTag.schematic())),
+      {"containerName", :container_name} => nullable(str())
     })
   end
 end

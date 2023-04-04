@@ -30,18 +30,17 @@ defmodule GenLSP.Structures.SemanticTokensOptions do
   def schematic() do
     schema(__MODULE__, %{
       {"legend", :legend} => GenLSP.Structures.SemanticTokensLegend.schematic(),
-      {"range", :range} => oneof([null(), oneof([bool(), map(%{})])]),
+      {"range", :range} => nullable(oneof([bool(), map(%{})])),
       {"full", :full} =>
-        oneof([
-          null(),
+        nullable(
           oneof([
             bool(),
             map(%{
-              {"delta", :delta} => oneof([null(), bool()])
+              {"delta", :delta} => nullable(bool())
             })
           ])
-        ]),
-      {"workDoneProgress", :work_done_progress} => oneof([null(), bool()])
+        ),
+      {"workDoneProgress", :work_done_progress} => nullable(bool())
     })
   end
 end

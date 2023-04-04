@@ -22,7 +22,7 @@ defmodule GenLSP.Structures.WorkDoneProgressEnd do
   def schematic() do
     schema(__MODULE__, %{
       {"kind", :kind} => str("end"),
-      {"message", :message} => oneof([null(), str()])
+      {"message", :message} => nullable(str())
     })
   end
 end

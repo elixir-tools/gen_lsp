@@ -35,9 +35,9 @@ defmodule GenLSP.Structures.RenameFile do
       {"kind", :kind} => str("rename"),
       {"oldUri", :old_uri} => str(),
       {"newUri", :new_uri} => str(),
-      {"options", :options} => oneof([null(), GenLSP.Structures.RenameFileOptions.schematic()]),
+      {"options", :options} => nullable(GenLSP.Structures.RenameFileOptions.schematic()),
       {"annotationId", :annotation_id} =>
-        oneof([null(), GenLSP.TypeAlias.ChangeAnnotationIdentifier.schematic()])
+        nullable(GenLSP.TypeAlias.ChangeAnnotationIdentifier.schematic())
     })
   end
 end

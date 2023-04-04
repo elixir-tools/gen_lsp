@@ -28,13 +28,12 @@ defmodule GenLSP.Structures.InitializeResult do
     schema(__MODULE__, %{
       {"capabilities", :capabilities} => GenLSP.Structures.ServerCapabilities.schematic(),
       {"serverInfo", :server_info} =>
-        oneof([
-          null(),
+        nullable(
           map(%{
             {"name", :name} => str(),
-            {"version", :version} => oneof([null(), str()])
+            {"version", :version} => nullable(str())
           })
-        ])
+        )
     })
   end
 end

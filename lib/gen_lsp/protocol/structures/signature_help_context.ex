@@ -39,10 +39,10 @@ defmodule GenLSP.Structures.SignatureHelpContext do
   def schematic() do
     schema(__MODULE__, %{
       {"triggerKind", :trigger_kind} => GenLSP.Enumerations.SignatureHelpTriggerKind.schematic(),
-      {"triggerCharacter", :trigger_character} => oneof([null(), str()]),
+      {"triggerCharacter", :trigger_character} => nullable(str()),
       {"isRetrigger", :is_retrigger} => bool(),
       {"activeSignatureHelp", :active_signature_help} =>
-        oneof([null(), GenLSP.Structures.SignatureHelp.schematic()])
+        nullable(GenLSP.Structures.SignatureHelp.schematic())
     })
   end
 end

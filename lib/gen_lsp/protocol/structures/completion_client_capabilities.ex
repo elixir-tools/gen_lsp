@@ -41,61 +41,55 @@ defmodule GenLSP.Structures.CompletionClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => oneof([null(), bool()]),
+      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
       {"completionItem", :completion_item} =>
-        oneof([
-          null(),
+        nullable(
           map(%{
-            {"snippetSupport", :snippet_support} => oneof([null(), bool()]),
-            {"commitCharactersSupport", :commit_characters_support} => oneof([null(), bool()]),
+            {"snippetSupport", :snippet_support} => nullable(bool()),
+            {"commitCharactersSupport", :commit_characters_support} => nullable(bool()),
             {"documentationFormat", :documentation_format} =>
-              oneof([null(), list(GenLSP.Enumerations.MarkupKind.schematic())]),
-            {"deprecatedSupport", :deprecated_support} => oneof([null(), bool()]),
-            {"preselectSupport", :preselect_support} => oneof([null(), bool()]),
+              nullable(list(GenLSP.Enumerations.MarkupKind.schematic())),
+            {"deprecatedSupport", :deprecated_support} => nullable(bool()),
+            {"preselectSupport", :preselect_support} => nullable(bool()),
             {"tagSupport", :tag_support} =>
-              oneof([
-                null(),
+              nullable(
                 map(%{
                   {"valueSet", :value_set} =>
                     list(GenLSP.Enumerations.CompletionItemTag.schematic())
                 })
-              ]),
-            {"insertReplaceSupport", :insert_replace_support} => oneof([null(), bool()]),
+              ),
+            {"insertReplaceSupport", :insert_replace_support} => nullable(bool()),
             {"resolveSupport", :resolve_support} =>
-              oneof([
-                null(),
+              nullable(
                 map(%{
                   {"properties", :properties} => list(str())
                 })
-              ]),
+              ),
             {"insertTextModeSupport", :insert_text_mode_support} =>
-              oneof([
-                null(),
+              nullable(
                 map(%{
                   {"valueSet", :value_set} => list(GenLSP.Enumerations.InsertTextMode.schematic())
                 })
-              ]),
-            {"labelDetailsSupport", :label_details_support} => oneof([null(), bool()])
+              ),
+            {"labelDetailsSupport", :label_details_support} => nullable(bool())
           })
-        ]),
+        ),
       {"completionItemKind", :completion_item_kind} =>
-        oneof([
-          null(),
+        nullable(
           map(%{
             {"valueSet", :value_set} =>
-              oneof([null(), list(GenLSP.Enumerations.CompletionItemKind.schematic())])
+              nullable(list(GenLSP.Enumerations.CompletionItemKind.schematic()))
           })
-        ]),
+        ),
       {"insertTextMode", :insert_text_mode} =>
-        oneof([null(), GenLSP.Enumerations.InsertTextMode.schematic()]),
-      {"contextSupport", :context_support} => oneof([null(), bool()]),
+        nullable(GenLSP.Enumerations.InsertTextMode.schematic()),
+      {"contextSupport", :context_support} => nullable(bool()),
       {"completionList", :completion_list} =>
-        oneof([
-          null(),
+        nullable(
           map(%{
-            {"itemDefaults", :item_defaults} => oneof([null(), list(str())])
+            {"itemDefaults", :item_defaults} => nullable(list(str()))
           })
-        ])
+        )
     })
   end
 end

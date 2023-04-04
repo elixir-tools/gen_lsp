@@ -37,9 +37,9 @@ defmodule GenLSP.Structures.DocumentLink do
   def schematic() do
     schema(__MODULE__, %{
       {"range", :range} => GenLSP.Structures.Range.schematic(),
-      {"target", :target} => oneof([null(), str()]),
-      {"tooltip", :tooltip} => oneof([null(), str()]),
-      {"data", :data} => oneof([null(), GenLSP.TypeAlias.LSPAny.schematic()])
+      {"target", :target} => nullable(str()),
+      {"tooltip", :tooltip} => nullable(str()),
+      {"data", :data} => nullable(GenLSP.TypeAlias.LSPAny.schematic())
     })
   end
 end

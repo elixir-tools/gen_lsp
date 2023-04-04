@@ -36,7 +36,7 @@ defmodule GenLSP.Structures.Hover do
           GenLSP.TypeAlias.MarkedString.schematic(),
           list(GenLSP.TypeAlias.MarkedString.schematic())
         ]),
-      {"range", :range} => oneof([null(), GenLSP.Structures.Range.schematic()])
+      {"range", :range} => nullable(GenLSP.Structures.Range.schematic())
     })
   end
 end

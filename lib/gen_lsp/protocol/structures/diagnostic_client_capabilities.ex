@@ -28,8 +28,8 @@ defmodule GenLSP.Structures.DiagnosticClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => oneof([null(), bool()]),
-      {"relatedDocumentSupport", :related_document_support} => oneof([null(), bool()])
+      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
+      {"relatedDocumentSupport", :related_document_support} => nullable(bool())
     })
   end
 end

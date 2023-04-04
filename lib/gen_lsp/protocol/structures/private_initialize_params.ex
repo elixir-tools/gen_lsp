@@ -60,22 +60,20 @@ defmodule GenLSP.Structures.PrivateInitializeParams do
     schema(__MODULE__, %{
       {"processId", :process_id} => oneof([int(), null()]),
       {"clientInfo", :client_info} =>
-        oneof([
-          null(),
+        nullable(
           map(%{
             {"name", :name} => str(),
-            {"version", :version} => oneof([null(), str()])
+            {"version", :version} => nullable(str())
           })
-        ]),
-      {"locale", :locale} => oneof([null(), str()]),
-      {"rootPath", :root_path} => oneof([null(), oneof([str(), null()])]),
+        ),
+      {"locale", :locale} => nullable(str()),
+      {"rootPath", :root_path} => nullable(oneof([str(), null()])),
       {"rootUri", :root_uri} => oneof([str(), null()]),
       {"capabilities", :capabilities} => GenLSP.Structures.ClientCapabilities.schematic(),
       {"initializationOptions", :initialization_options} =>
-        oneof([null(), GenLSP.TypeAlias.LSPAny.schematic()]),
-      {"trace", :trace} => oneof([null(), GenLSP.Enumerations.TraceValues.schematic()]),
-      {"workDoneToken", :work_done_token} =>
-        oneof([null(), GenLSP.TypeAlias.ProgressToken.schematic()])
+        nullable(GenLSP.TypeAlias.LSPAny.schematic()),
+      {"trace", :trace} => nullable(GenLSP.Enumerations.TraceValues.schematic()),
+      {"workDoneToken", :work_done_token} => nullable(GenLSP.TypeAlias.ProgressToken.schematic())
     })
   end
 end

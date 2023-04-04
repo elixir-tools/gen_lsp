@@ -31,10 +31,8 @@ defmodule GenLSP.Structures.SignatureHelpParams do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"context", :context} =>
-        oneof([null(), GenLSP.Structures.SignatureHelpContext.schematic()]),
-      {"workDoneToken", :work_done_token} =>
-        oneof([null(), GenLSP.TypeAlias.ProgressToken.schematic()]),
+      {"context", :context} => nullable(GenLSP.Structures.SignatureHelpContext.schematic()),
+      {"workDoneToken", :work_done_token} => nullable(GenLSP.TypeAlias.ProgressToken.schematic()),
       {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schematic(),
       {"position", :position} => GenLSP.Structures.Position.schematic()
     })

@@ -32,8 +32,8 @@ defmodule GenLSP.Structures.MarkdownClientCapabilities do
   def schematic() do
     schema(__MODULE__, %{
       {"parser", :parser} => str(),
-      {"version", :version} => oneof([null(), str()]),
-      {"allowedTags", :allowed_tags} => oneof([null(), list(str())])
+      {"version", :version} => nullable(str()),
+      {"allowedTags", :allowed_tags} => nullable(list(str()))
     })
   end
 end

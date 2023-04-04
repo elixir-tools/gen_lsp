@@ -21,7 +21,7 @@ defmodule GenLSP.Structures.LogTraceParams do
   def schematic() do
     schema(__MODULE__, %{
       {"message", :message} => str(),
-      {"verbose", :verbose} => oneof([null(), str()])
+      {"verbose", :verbose} => nullable(str())
     })
   end
 end

@@ -32,9 +32,9 @@ defmodule GenLSP.Structures.DeleteFile do
     schema(__MODULE__, %{
       {"kind", :kind} => str("delete"),
       {"uri", :uri} => str(),
-      {"options", :options} => oneof([null(), GenLSP.Structures.DeleteFileOptions.schematic()]),
+      {"options", :options} => nullable(GenLSP.Structures.DeleteFileOptions.schematic()),
       {"annotationId", :annotation_id} =>
-        oneof([null(), GenLSP.TypeAlias.ChangeAnnotationIdentifier.schematic()])
+        nullable(GenLSP.TypeAlias.ChangeAnnotationIdentifier.schematic())
     })
   end
 end

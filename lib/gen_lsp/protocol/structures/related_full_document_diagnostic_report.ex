@@ -44,8 +44,7 @@ defmodule GenLSP.Structures.RelatedFullDocumentDiagnosticReport do
   def schematic() do
     schema(__MODULE__, %{
       {"relatedDocuments", :related_documents} =>
-        oneof([
-          null(),
+        nullable(
           map(
             keys: str(),
             values:
@@ -54,9 +53,9 @@ defmodule GenLSP.Structures.RelatedFullDocumentDiagnosticReport do
                 GenLSP.Structures.UnchangedDocumentDiagnosticReport.schematic()
               ])
           )
-        ]),
+        ),
       {"kind", :kind} => str("full"),
-      {"resultId", :result_id} => oneof([null(), str()]),
+      {"resultId", :result_id} => nullable(str()),
       {"items", :items} => list(GenLSP.Structures.Diagnostic.schematic())
     })
   end

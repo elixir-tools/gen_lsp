@@ -27,7 +27,7 @@ defmodule GenLSP.Structures.SemanticTokens do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"resultId", :result_id} => oneof([null(), str()]),
+      {"resultId", :result_id} => nullable(str()),
       {"data", :data} => list(int())
     })
   end

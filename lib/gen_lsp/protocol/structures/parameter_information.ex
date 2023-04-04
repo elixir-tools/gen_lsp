@@ -37,7 +37,7 @@ defmodule GenLSP.Structures.ParameterInformation do
     schema(__MODULE__, %{
       {"label", :label} => oneof([str(), tuple([int(), int()], from: :list)]),
       {"documentation", :documentation} =>
-        oneof([null(), oneof([str(), GenLSP.Structures.MarkupContent.schematic()])])
+        nullable(oneof([str(), GenLSP.Structures.MarkupContent.schematic()]))
     })
   end
 end

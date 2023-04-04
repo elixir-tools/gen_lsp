@@ -20,8 +20,8 @@ defmodule GenLSP.Structures.ConfigurationItem do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"scopeUri", :scope_uri} => oneof([null(), str()]),
-      {"section", :section} => oneof([null(), str()])
+      {"scopeUri", :scope_uri} => nullable(str()),
+      {"section", :section} => nullable(str())
     })
   end
 end

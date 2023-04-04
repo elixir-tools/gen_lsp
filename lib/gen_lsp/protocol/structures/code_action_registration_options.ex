@@ -36,8 +36,8 @@ defmodule GenLSP.Structures.CodeActionRegistrationOptions do
       {"documentSelector", :document_selector} =>
         oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()]),
       {"codeActionKinds", :code_action_kinds} =>
-        oneof([null(), list(GenLSP.Enumerations.CodeActionKind.schematic())]),
-      {"resolveProvider", :resolve_provider} => oneof([null(), bool()])
+        nullable(list(GenLSP.Enumerations.CodeActionKind.schematic())),
+      {"resolveProvider", :resolve_provider} => nullable(bool())
     })
   end
 end
