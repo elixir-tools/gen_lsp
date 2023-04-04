@@ -93,6 +93,9 @@ jobs:
           path: |
             priv/plts
 
+      - name: Install Dependencies
+        run: mix deps.get
+
       # Create PLTs if no cache was found
       - name: Create PLTs
         if: steps.plt_cache.outputs.cache-hit != 'true'
