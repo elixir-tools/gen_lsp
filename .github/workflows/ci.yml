@@ -24,47 +24,94 @@ jobs:
             elixir: 1.10.x
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: erlef/setup-beam@v1
-      with:
-        otp-version: ${{matrix.otp}}
-        elixir-version: ${{matrix.elixir}}
-    - uses: actions/cache@v3
-      with:
-        path: |
-          deps
-          _build
-        key: ${{ runner.os }}-mix-${{matrix.otp}}-${{matrix.elixir}}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-mix-${{matrix.otp}}-${{matrix.elixir}}-
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+      - uses: actions/cache@v3
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-${{matrix.otp}}-${{matrix.elixir}}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-${{matrix.otp}}-${{matrix.elixir}}-
 
-    - name: Install Dependencies
-      run: mix deps.get
+      - name: Install Dependencies
+        run: mix deps.get
 
-    - name: Run Tests
-      run: mix test || mix test --failed || mix test --failed
+      - name: Run Tests
+        run: mix test || mix test --failed || mix test --failed
 
   formatter:
     runs-on: ubuntu-latest
     name: Formatter (1.14.x.x/25.x)
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: erlef/setup-beam@v1
-      with:
-        otp-version: 25.x
-        elixir-version: 1.14.x
-    - uses: actions/cache@v3
-      with:
-        path: |
-          deps
-          _build
-        key: ${{ runner.os }}-mix-25-1.14-${{ hashFiles('**/mix.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-mix-25-1.14-
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: 25.x
+          elixir-version: 1.14.x
+      - uses: actions/cache@v3
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-25-1.14-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-25-1.14-
 
-    - name: Install Dependencies
-      run: mix deps.get
+      - name: Install Dependencies
+        run: mix deps.get
 
-    - name: Run Formatter
-      run: mix format --check-formatted
+      - name: Run Formatter
+        run: mix format --check-formatted
+
+  dialyzer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Elixir
+        id: beam
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: 25.x
+          elixir-version: 1.14.x
+
+      # Don't cache PLTs based on mix.lock hash, as Dialyzer can incrementally update even old ones
+      # Cache key based on Elixir & Erlang version (also useful when running in matrix)
+      - name: Restore PLT cache
+        uses: actions/cache/restore@v3
+        id: plt_cache
+        with:
+          key: |
+            ${{ runner.os }}-${{ steps.beam.outputs.elixir-version }}-${{ steps.beam.outputs.otp-version }}-plt
+          restore-keys: |
+            ${{ runner.os }}-${{ steps.beam.outputs.elixir-version }}-${{ steps.beam.outputs.otp-version }}-plt
+          path: |
+            priv/plts
+
+      - name: Install Dependencies
+        run: mix deps.get
+
+      # Create PLTs if no cache was found
+      - name: Create PLTs
+        if: steps.plt_cache.outputs.cache-hit != 'true'
+        run: mix dialyzer --plt
+
+      # By default, the GitHub Cache action will only save the cache if all steps in the job succeed,
+      # so we separate the cache restore and save steps in case running dialyzer fails.
+      - name: Save PLT cache
+        uses: actions/cache/save@v3
+        if: steps.plt_cache.outputs.cache-hit != 'true'
+        id: plt_cache_save
+        with:
+          key: |
+            ${{ runner.os }}-${{ steps.beam.outputs.elixir-version }}-${{ steps.beam.outputs.otp-version }}-plt
+          path: |
+            priv/plts
+
+      - name: Run dialyzer
+        run: mix dialyzer --format github
