@@ -25,7 +25,7 @@ defmodule GenLSP.Structures.FileSystemWatcher do
   def schematic() do
     schema(__MODULE__, %{
       {"globPattern", :glob_pattern} => GenLSP.TypeAlias.GlobPattern.schematic(),
-      {"kind", :kind} => nullable(GenLSP.Enumerations.WatchKind.schematic())
+      optional({"kind", :kind}) => GenLSP.Enumerations.WatchKind.schematic()
     })
   end
 end

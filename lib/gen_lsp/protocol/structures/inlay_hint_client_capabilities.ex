@@ -27,13 +27,11 @@ defmodule GenLSP.Structures.InlayHintClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
-      {"resolveSupport", :resolve_support} =>
-        nullable(
-          map(%{
-            {"properties", :properties} => list(str())
-          })
-        )
+      optional({"dynamicRegistration", :dynamic_registration}) => bool(),
+      optional({"resolveSupport", :resolve_support}) =>
+        map(%{
+          {"properties", :properties} => list(str())
+        })
     })
   end
 end

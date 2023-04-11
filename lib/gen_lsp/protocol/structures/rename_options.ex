@@ -26,8 +26,8 @@ defmodule GenLSP.Structures.RenameOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"prepareProvider", :prepare_provider} => nullable(bool()),
-      {"workDoneProgress", :work_done_progress} => nullable(bool())
+      optional({"prepareProvider", :prepare_provider}) => bool(),
+      optional({"workDoneProgress", :work_done_progress}) => bool()
     })
   end
 end

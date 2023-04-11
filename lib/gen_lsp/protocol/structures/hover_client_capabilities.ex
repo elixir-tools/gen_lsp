@@ -21,9 +21,9 @@ defmodule GenLSP.Structures.HoverClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
-      {"contentFormat", :content_format} =>
-        nullable(list(GenLSP.Enumerations.MarkupKind.schematic()))
+      optional({"dynamicRegistration", :dynamic_registration}) => bool(),
+      optional({"contentFormat", :content_format}) =>
+        list(GenLSP.Enumerations.MarkupKind.schematic())
     })
   end
 end

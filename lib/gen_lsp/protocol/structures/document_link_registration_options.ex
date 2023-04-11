@@ -27,7 +27,7 @@ defmodule GenLSP.Structures.DocumentLinkRegistrationOptions do
     schema(__MODULE__, %{
       {"documentSelector", :document_selector} =>
         oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()]),
-      {"resolveProvider", :resolve_provider} => nullable(bool())
+      optional({"resolveProvider", :resolve_provider}) => bool()
     })
   end
 end

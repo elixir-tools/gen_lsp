@@ -28,7 +28,7 @@ defmodule GenLSP.Structures.SemanticTokensEdit do
     schema(__MODULE__, %{
       {"start", :start} => int(),
       {"deleteCount", :delete_count} => int(),
-      {"data", :data} => nullable(list(int()))
+      optional({"data", :data}) => list(int())
     })
   end
 end

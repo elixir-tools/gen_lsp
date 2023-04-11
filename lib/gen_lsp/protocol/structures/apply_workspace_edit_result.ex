@@ -33,8 +33,8 @@ defmodule GenLSP.Structures.ApplyWorkspaceEditResult do
   def schematic() do
     schema(__MODULE__, %{
       {"applied", :applied} => bool(),
-      {"failureReason", :failure_reason} => nullable(str()),
-      {"failedChange", :failed_change} => nullable(int())
+      optional({"failureReason", :failure_reason}) => str(),
+      optional({"failedChange", :failed_change}) => int()
     })
   end
 end

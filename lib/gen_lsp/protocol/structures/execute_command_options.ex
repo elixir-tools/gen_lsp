@@ -25,7 +25,7 @@ defmodule GenLSP.Structures.ExecuteCommandOptions do
   def schematic() do
     schema(__MODULE__, %{
       {"commands", :commands} => list(str()),
-      {"workDoneProgress", :work_done_progress} => nullable(bool())
+      optional({"workDoneProgress", :work_done_progress}) => bool()
     })
   end
 end

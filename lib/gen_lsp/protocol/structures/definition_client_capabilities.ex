@@ -26,8 +26,8 @@ defmodule GenLSP.Structures.DefinitionClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
-      {"linkSupport", :link_support} => nullable(bool())
+      optional({"dynamicRegistration", :dynamic_registration}) => bool(),
+      optional({"linkSupport", :link_support}) => bool()
     })
   end
 end

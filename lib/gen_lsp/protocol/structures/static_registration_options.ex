@@ -24,7 +24,7 @@ defmodule GenLSP.Structures.StaticRegistrationOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"id", :id} => nullable(str())
+      optional({"id", :id}) => str()
     })
   end
 end

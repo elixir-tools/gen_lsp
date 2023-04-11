@@ -30,7 +30,7 @@ defmodule GenLSP.Structures.DocumentOnTypeFormattingRegistrationOptions do
       {"documentSelector", :document_selector} =>
         oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()]),
       {"firstTriggerCharacter", :first_trigger_character} => str(),
-      {"moreTriggerCharacter", :more_trigger_character} => nullable(list(str()))
+      optional({"moreTriggerCharacter", :more_trigger_character}) => list(str())
     })
   end
 end

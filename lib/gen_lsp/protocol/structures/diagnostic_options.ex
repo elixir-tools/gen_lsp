@@ -34,10 +34,10 @@ defmodule GenLSP.Structures.DiagnosticOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"identifier", :identifier} => nullable(str()),
+      optional({"identifier", :identifier}) => str(),
       {"interFileDependencies", :inter_file_dependencies} => bool(),
       {"workspaceDiagnostics", :workspace_diagnostics} => bool(),
-      {"workDoneProgress", :work_done_progress} => nullable(bool())
+      optional({"workDoneProgress", :work_done_progress}) => bool()
     })
   end
 end

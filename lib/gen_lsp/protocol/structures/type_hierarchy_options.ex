@@ -24,7 +24,7 @@ defmodule GenLSP.Structures.TypeHierarchyOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"workDoneProgress", :work_done_progress} => nullable(bool())
+      optional({"workDoneProgress", :work_done_progress}) => bool()
     })
   end
 end

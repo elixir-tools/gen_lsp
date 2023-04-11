@@ -34,7 +34,7 @@ defmodule GenLSP.Structures.Moniker do
       {"scheme", :scheme} => str(),
       {"identifier", :identifier} => str(),
       {"unique", :unique} => GenLSP.Enumerations.UniquenessLevel.schematic(),
-      {"kind", :kind} => nullable(GenLSP.Enumerations.MonikerKind.schematic())
+      optional({"kind", :kind}) => GenLSP.Enumerations.MonikerKind.schematic()
     })
   end
 end

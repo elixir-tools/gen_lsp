@@ -27,44 +27,6 @@ defmodule GenLSPTest do
   test "can receive and reply to a request", %{client: client} do
     id = System.unique_integer([:positive])
 
-    params = %{
-      "monikerProvider" => nil,
-      "diagnosticProvider" => nil,
-      "executeCommandProvider" => nil,
-      "colorProvider" => nil,
-      "inlayHintProvider" => nil,
-      "renameProvider" => nil,
-      "documentSymbolProvider" => nil,
-      "documentLinkProvider" => nil,
-      "callHierarchyProvider" => nil,
-      "semanticTokensProvider" => nil,
-      "workspace" => nil,
-      "completionProvider" => nil,
-      "textDocumentSync" => nil,
-      "codeActionProvider" => nil,
-      "definitionProvider" => nil,
-      "workspaceSymbolProvider" => nil,
-      "signatureHelpProvider" => nil,
-      "inlineValueProvider" => nil,
-      "referencesProvider" => nil,
-      "selectionRangeProvider" => nil,
-      "documentFormattingProvider" => nil,
-      "positionEncoding" => nil,
-      "foldingRangeProvider" => nil,
-      "typeDefinitionProvider" => nil,
-      "documentHighlightProvider" => nil,
-      "documentOnTypeFormattingProvider" => nil,
-      "implementationProvider" => nil,
-      "linkedEditingRangeProvider" => nil,
-      "documentRangeFormattingProvider" => nil,
-      "experimental" => nil,
-      "notebookDocumentSync" => nil,
-      "codeLensProvider" => nil,
-      "hoverProvider" => nil,
-      "declarationProvider" => nil,
-      "typeHierarchyProvider" => nil
-    }
-
     assert :ok ==
              request(client, %{
                "jsonrpc" => "2.0",
@@ -75,7 +37,10 @@ defmodule GenLSPTest do
 
     assert_result ^id,
                   %{
-                    "capabilities" => ^params,
+                    "capabilities" => %{
+                      "callHierarchyProvider" => %{"workDoneProgress" => true},
+                      "experimental" => nil
+                    },
                     "serverInfo" => %{"name" => "Test LSP"}
                   },
                   500
@@ -131,12 +96,6 @@ defmodule GenLSPTest do
                           "uri" => ^expected_uri,
                           "diagnostics" => [
                             %{
-                              "code" => nil,
-                              "codeDescription" => nil,
-                              "data" => nil,
-                              "relatedInformation" => nil,
-                              "source" => nil,
-                              "tags" => nil,
                               "range" => %{
                                 "start" => %{"line" => 5, "character" => 12},
                                 "end" => %{"line" => 6, "character" => 0}
@@ -144,8 +103,7 @@ defmodule GenLSPTest do
                               "severity" => 1,
                               "message" => "Spelling mistake"
                             }
-                          ],
-                          "version" => nil
+                          ]
                         },
                         500
   end

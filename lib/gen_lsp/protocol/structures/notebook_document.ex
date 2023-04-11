@@ -39,7 +39,7 @@ defmodule GenLSP.Structures.NotebookDocument do
       {"uri", :uri} => str(),
       {"notebookType", :notebook_type} => str(),
       {"version", :version} => int(),
-      {"metadata", :metadata} => nullable(GenLSP.TypeAlias.LSPObject.schematic()),
+      optional({"metadata", :metadata}) => GenLSP.TypeAlias.LSPObject.schematic(),
       {"cells", :cells} => list(GenLSP.Structures.NotebookCell.schematic())
     })
   end

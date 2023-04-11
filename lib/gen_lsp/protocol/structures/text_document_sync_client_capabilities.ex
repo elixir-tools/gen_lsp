@@ -26,10 +26,10 @@ defmodule GenLSP.Structures.TextDocumentSyncClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
-      {"willSave", :will_save} => nullable(bool()),
-      {"willSaveWaitUntil", :will_save_wait_until} => nullable(bool()),
-      {"didSave", :did_save} => nullable(bool())
+      optional({"dynamicRegistration", :dynamic_registration}) => bool(),
+      optional({"willSave", :will_save}) => bool(),
+      optional({"willSaveWaitUntil", :will_save_wait_until}) => bool(),
+      optional({"didSave", :did_save}) => bool()
     })
   end
 end

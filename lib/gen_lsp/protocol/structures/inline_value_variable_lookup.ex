@@ -32,7 +32,7 @@ defmodule GenLSP.Structures.InlineValueVariableLookup do
   def schematic() do
     schema(__MODULE__, %{
       {"range", :range} => GenLSP.Structures.Range.schematic(),
-      {"variableName", :variable_name} => nullable(str()),
+      optional({"variableName", :variable_name}) => str(),
       {"caseSensitiveLookup", :case_sensitive_lookup} => bool()
     })
   end

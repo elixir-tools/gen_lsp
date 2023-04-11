@@ -52,16 +52,16 @@ defmodule GenLSP.Structures.Diagnostic do
   def schematic() do
     schema(__MODULE__, %{
       {"range", :range} => GenLSP.Structures.Range.schematic(),
-      {"severity", :severity} => nullable(GenLSP.Enumerations.DiagnosticSeverity.schematic()),
-      {"code", :code} => nullable(oneof([int(), str()])),
-      {"codeDescription", :code_description} =>
-        nullable(GenLSP.Structures.CodeDescription.schematic()),
-      {"source", :source} => nullable(str()),
+      optional({"severity", :severity}) => GenLSP.Enumerations.DiagnosticSeverity.schematic(),
+      optional({"code", :code}) => oneof([int(), str()]),
+      optional({"codeDescription", :code_description}) =>
+        GenLSP.Structures.CodeDescription.schematic(),
+      optional({"source", :source}) => str(),
       {"message", :message} => str(),
-      {"tags", :tags} => nullable(list(GenLSP.Enumerations.DiagnosticTag.schematic())),
-      {"relatedInformation", :related_information} =>
-        nullable(list(GenLSP.Structures.DiagnosticRelatedInformation.schematic())),
-      {"data", :data} => nullable(GenLSP.TypeAlias.LSPAny.schematic())
+      optional({"tags", :tags}) => list(GenLSP.Enumerations.DiagnosticTag.schematic()),
+      optional({"relatedInformation", :related_information}) =>
+        list(GenLSP.Structures.DiagnosticRelatedInformation.schematic()),
+      optional({"data", :data}) => GenLSP.TypeAlias.LSPAny.schematic()
     })
   end
 end

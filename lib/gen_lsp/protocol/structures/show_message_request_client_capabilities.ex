@@ -22,12 +22,10 @@ defmodule GenLSP.Structures.ShowMessageRequestClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"messageActionItem", :message_action_item} =>
-        nullable(
-          map(%{
-            {"additionalPropertiesSupport", :additional_properties_support} => nullable(bool())
-          })
-        )
+      optional({"messageActionItem", :message_action_item}) =>
+        map(%{
+          optional({"additionalPropertiesSupport", :additional_properties_support}) => bool()
+        })
     })
   end
 end

@@ -33,7 +33,7 @@ defmodule GenLSP.Structures.RenameParams do
       {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schematic(),
       {"position", :position} => GenLSP.Structures.Position.schematic(),
       {"newName", :new_name} => str(),
-      {"workDoneToken", :work_done_token} => nullable(GenLSP.TypeAlias.ProgressToken.schematic())
+      optional({"workDoneToken", :work_done_token}) => GenLSP.TypeAlias.ProgressToken.schematic()
     })
   end
 end

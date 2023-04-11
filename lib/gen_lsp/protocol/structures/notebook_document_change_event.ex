@@ -28,34 +28,28 @@ defmodule GenLSP.Structures.NotebookDocumentChangeEvent do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"metadata", :metadata} => nullable(GenLSP.TypeAlias.LSPObject.schematic()),
-      {"cells", :cells} =>
-        nullable(
-          map(%{
-            {"structure", :structure} =>
-              nullable(
-                map(%{
-                  {"array", :array} => GenLSP.Structures.NotebookCellArrayChange.schematic(),
-                  {"didOpen", :did_open} =>
-                    nullable(list(GenLSP.Structures.TextDocumentItem.schematic())),
-                  {"didClose", :did_close} =>
-                    nullable(list(GenLSP.Structures.TextDocumentIdentifier.schematic()))
-                })
-              ),
-            {"data", :data} => nullable(list(GenLSP.Structures.NotebookCell.schematic())),
-            {"textContent", :text_content} =>
-              nullable(
-                list(
-                  map(%{
-                    {"document", :document} =>
-                      GenLSP.Structures.VersionedTextDocumentIdentifier.schematic(),
-                    {"changes", :changes} =>
-                      list(GenLSP.TypeAlias.TextDocumentContentChangeEvent.schematic())
-                  })
-                )
-              )
-          })
-        )
+      optional({"metadata", :metadata}) => GenLSP.TypeAlias.LSPObject.schematic(),
+      optional({"cells", :cells}) =>
+        map(%{
+          optional({"structure", :structure}) =>
+            map(%{
+              {"array", :array} => GenLSP.Structures.NotebookCellArrayChange.schematic(),
+              optional({"didOpen", :did_open}) =>
+                list(GenLSP.Structures.TextDocumentItem.schematic()),
+              optional({"didClose", :did_close}) =>
+                list(GenLSP.Structures.TextDocumentIdentifier.schematic())
+            }),
+          optional({"data", :data}) => list(GenLSP.Structures.NotebookCell.schematic()),
+          optional({"textContent", :text_content}) =>
+            list(
+              map(%{
+                {"document", :document} =>
+                  GenLSP.Structures.VersionedTextDocumentIdentifier.schematic(),
+                {"changes", :changes} =>
+                  list(GenLSP.TypeAlias.TextDocumentContentChangeEvent.schematic())
+              })
+            )
+        })
     })
   end
 end

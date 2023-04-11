@@ -28,9 +28,9 @@ defmodule GenLSP.Structures.ColorPresentation do
   def schematic() do
     schema(__MODULE__, %{
       {"label", :label} => str(),
-      {"textEdit", :text_edit} => nullable(GenLSP.Structures.TextEdit.schematic()),
-      {"additionalTextEdits", :additional_text_edits} =>
-        nullable(list(GenLSP.Structures.TextEdit.schematic()))
+      optional({"textEdit", :text_edit}) => GenLSP.Structures.TextEdit.schematic(),
+      optional({"additionalTextEdits", :additional_text_edits}) =>
+        list(GenLSP.Structures.TextEdit.schematic())
     })
   end
 end

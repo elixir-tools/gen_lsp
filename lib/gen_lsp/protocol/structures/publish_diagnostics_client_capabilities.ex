@@ -42,16 +42,14 @@ defmodule GenLSP.Structures.PublishDiagnosticsClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"relatedInformation", :related_information} => nullable(bool()),
-      {"tagSupport", :tag_support} =>
-        nullable(
-          map(%{
-            {"valueSet", :value_set} => list(GenLSP.Enumerations.DiagnosticTag.schematic())
-          })
-        ),
-      {"versionSupport", :version_support} => nullable(bool()),
-      {"codeDescriptionSupport", :code_description_support} => nullable(bool()),
-      {"dataSupport", :data_support} => nullable(bool())
+      optional({"relatedInformation", :related_information}) => bool(),
+      optional({"tagSupport", :tag_support}) =>
+        map(%{
+          {"valueSet", :value_set} => list(GenLSP.Enumerations.DiagnosticTag.schematic())
+        }),
+      optional({"versionSupport", :version_support}) => bool(),
+      optional({"codeDescriptionSupport", :code_description_support}) => bool(),
+      optional({"dataSupport", :data_support}) => bool()
     })
   end
 end

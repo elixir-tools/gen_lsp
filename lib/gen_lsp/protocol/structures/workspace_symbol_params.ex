@@ -29,9 +29,9 @@ defmodule GenLSP.Structures.WorkspaceSymbolParams do
   def schematic() do
     schema(__MODULE__, %{
       {"query", :query} => str(),
-      {"workDoneToken", :work_done_token} => nullable(GenLSP.TypeAlias.ProgressToken.schematic()),
-      {"partialResultToken", :partial_result_token} =>
-        nullable(GenLSP.TypeAlias.ProgressToken.schematic())
+      optional({"workDoneToken", :work_done_token}) => GenLSP.TypeAlias.ProgressToken.schematic(),
+      optional({"partialResultToken", :partial_result_token}) =>
+        GenLSP.TypeAlias.ProgressToken.schematic()
     })
   end
 end

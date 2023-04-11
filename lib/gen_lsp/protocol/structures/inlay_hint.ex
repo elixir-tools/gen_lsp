@@ -57,13 +57,13 @@ defmodule GenLSP.Structures.InlayHint do
     schema(__MODULE__, %{
       {"position", :position} => GenLSP.Structures.Position.schematic(),
       {"label", :label} => oneof([str(), list(GenLSP.Structures.InlayHintLabelPart.schematic())]),
-      {"kind", :kind} => nullable(GenLSP.Enumerations.InlayHintKind.schematic()),
-      {"textEdits", :text_edits} => nullable(list(GenLSP.Structures.TextEdit.schematic())),
-      {"tooltip", :tooltip} =>
-        nullable(oneof([str(), GenLSP.Structures.MarkupContent.schematic()])),
-      {"paddingLeft", :padding_left} => nullable(bool()),
-      {"paddingRight", :padding_right} => nullable(bool()),
-      {"data", :data} => nullable(GenLSP.TypeAlias.LSPAny.schematic())
+      optional({"kind", :kind}) => GenLSP.Enumerations.InlayHintKind.schematic(),
+      optional({"textEdits", :text_edits}) => list(GenLSP.Structures.TextEdit.schematic()),
+      optional({"tooltip", :tooltip}) =>
+        oneof([str(), GenLSP.Structures.MarkupContent.schematic()]),
+      optional({"paddingLeft", :padding_left}) => bool(),
+      optional({"paddingRight", :padding_right}) => bool(),
+      optional({"data", :data}) => GenLSP.TypeAlias.LSPAny.schematic()
     })
   end
 end

@@ -24,7 +24,7 @@ defmodule GenLSP.Structures.SemanticTokensDelta do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"resultId", :result_id} => nullable(str()),
+      optional({"resultId", :result_id}) => str(),
       {"edits", :edits} => list(GenLSP.Structures.SemanticTokensEdit.schematic())
     })
   end

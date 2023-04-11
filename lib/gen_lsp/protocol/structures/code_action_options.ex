@@ -32,10 +32,10 @@ defmodule GenLSP.Structures.CodeActionOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"codeActionKinds", :code_action_kinds} =>
-        nullable(list(GenLSP.Enumerations.CodeActionKind.schematic())),
-      {"resolveProvider", :resolve_provider} => nullable(bool()),
-      {"workDoneProgress", :work_done_progress} => nullable(bool())
+      optional({"codeActionKinds", :code_action_kinds}) =>
+        list(GenLSP.Enumerations.CodeActionKind.schematic()),
+      optional({"resolveProvider", :resolve_provider}) => bool(),
+      optional({"workDoneProgress", :work_done_progress}) => bool()
     })
   end
 end

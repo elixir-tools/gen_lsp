@@ -43,12 +43,12 @@ defmodule GenLSP.Structures.CallHierarchyItem do
     schema(__MODULE__, %{
       {"name", :name} => str(),
       {"kind", :kind} => GenLSP.Enumerations.SymbolKind.schematic(),
-      {"tags", :tags} => nullable(list(GenLSP.Enumerations.SymbolTag.schematic())),
-      {"detail", :detail} => nullable(str()),
+      optional({"tags", :tags}) => list(GenLSP.Enumerations.SymbolTag.schematic()),
+      optional({"detail", :detail}) => str(),
       {"uri", :uri} => str(),
       {"range", :range} => GenLSP.Structures.Range.schematic(),
       {"selectionRange", :selection_range} => GenLSP.Structures.Range.schematic(),
-      {"data", :data} => nullable(GenLSP.TypeAlias.LSPAny.schematic())
+      optional({"data", :data}) => GenLSP.TypeAlias.LSPAny.schematic()
     })
   end
 end

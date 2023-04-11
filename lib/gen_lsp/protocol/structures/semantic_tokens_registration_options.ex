@@ -33,20 +33,18 @@ defmodule GenLSP.Structures.SemanticTokensRegistrationOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"id", :id} => nullable(str()),
+      optional({"id", :id}) => str(),
       {"documentSelector", :document_selector} =>
         oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()]),
       {"legend", :legend} => GenLSP.Structures.SemanticTokensLegend.schematic(),
-      {"range", :range} => nullable(oneof([bool(), map(%{})])),
-      {"full", :full} =>
-        nullable(
-          oneof([
-            bool(),
-            map(%{
-              {"delta", :delta} => nullable(bool())
-            })
-          ])
-        )
+      optional({"range", :range}) => oneof([bool(), map(%{})]),
+      optional({"full", :full}) =>
+        oneof([
+          bool(),
+          map(%{
+            optional({"delta", :delta}) => bool()
+          })
+        ])
     })
   end
 end

@@ -42,9 +42,9 @@ defmodule GenLSP.Structures.WorkDoneProgressBegin do
     schema(__MODULE__, %{
       {"kind", :kind} => str("begin"),
       {"title", :title} => str(),
-      {"cancellable", :cancellable} => nullable(bool()),
-      {"message", :message} => nullable(str()),
-      {"percentage", :percentage} => nullable(int())
+      optional({"cancellable", :cancellable}) => bool(),
+      optional({"message", :message}) => str(),
+      optional({"percentage", :percentage}) => int()
     })
   end
 end

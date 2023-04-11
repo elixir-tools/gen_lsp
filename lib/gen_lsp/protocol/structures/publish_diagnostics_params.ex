@@ -29,7 +29,7 @@ defmodule GenLSP.Structures.PublishDiagnosticsParams do
   def schematic() do
     schema(__MODULE__, %{
       {"uri", :uri} => str(),
-      {"version", :version} => nullable(int()),
+      optional({"version", :version}) => int(),
       {"diagnostics", :diagnostics} => list(GenLSP.Structures.Diagnostic.schematic())
     })
   end

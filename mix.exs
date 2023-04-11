@@ -36,7 +36,7 @@ defmodule GenLSP.MixProject do
       {:jason, "~> 1.3"},
       {:nimble_options, "~> 0.5 or ~> 1.0"},
       # {:schematic, path: "../schematic"},
-      {:schematic, "~> 0.0.8"},
+      {:schematic, "~> 0.0.9"},
       {:dialyxir, ">= 0.0.0", only: [:dev, :test], runtime: false}
     ]
   end

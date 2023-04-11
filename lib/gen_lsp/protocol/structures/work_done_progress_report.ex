@@ -37,9 +37,9 @@ defmodule GenLSP.Structures.WorkDoneProgressReport do
   def schematic() do
     schema(__MODULE__, %{
       {"kind", :kind} => str("report"),
-      {"cancellable", :cancellable} => nullable(bool()),
-      {"message", :message} => nullable(str()),
-      {"percentage", :percentage} => nullable(int())
+      optional({"cancellable", :cancellable}) => bool(),
+      optional({"message", :message}) => str(),
+      optional({"percentage", :percentage}) => int()
     })
   end
 end

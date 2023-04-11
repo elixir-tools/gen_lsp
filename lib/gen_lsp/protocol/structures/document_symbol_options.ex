@@ -27,8 +27,8 @@ defmodule GenLSP.Structures.DocumentSymbolOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"label", :label} => nullable(str()),
-      {"workDoneProgress", :work_done_progress} => nullable(bool())
+      optional({"label", :label}) => str(),
+      optional({"workDoneProgress", :work_done_progress}) => bool()
     })
   end
 end

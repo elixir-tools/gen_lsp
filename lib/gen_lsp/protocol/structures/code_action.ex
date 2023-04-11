@@ -67,18 +67,16 @@ defmodule GenLSP.Structures.CodeAction do
   def schematic() do
     schema(__MODULE__, %{
       {"title", :title} => str(),
-      {"kind", :kind} => nullable(GenLSP.Enumerations.CodeActionKind.schematic()),
-      {"diagnostics", :diagnostics} => nullable(list(GenLSP.Structures.Diagnostic.schematic())),
-      {"isPreferred", :is_preferred} => nullable(bool()),
-      {"disabled", :disabled} =>
-        nullable(
-          map(%{
-            {"reason", :reason} => str()
-          })
-        ),
-      {"edit", :edit} => nullable(GenLSP.Structures.WorkspaceEdit.schematic()),
-      {"command", :command} => nullable(GenLSP.Structures.Command.schematic()),
-      {"data", :data} => nullable(GenLSP.TypeAlias.LSPAny.schematic())
+      optional({"kind", :kind}) => GenLSP.Enumerations.CodeActionKind.schematic(),
+      optional({"diagnostics", :diagnostics}) => list(GenLSP.Structures.Diagnostic.schematic()),
+      optional({"isPreferred", :is_preferred}) => bool(),
+      optional({"disabled", :disabled}) =>
+        map(%{
+          {"reason", :reason} => str()
+        }),
+      optional({"edit", :edit}) => GenLSP.Structures.WorkspaceEdit.schematic(),
+      optional({"command", :command}) => GenLSP.Structures.Command.schematic(),
+      optional({"data", :data}) => GenLSP.TypeAlias.LSPAny.schematic()
     })
   end
 end

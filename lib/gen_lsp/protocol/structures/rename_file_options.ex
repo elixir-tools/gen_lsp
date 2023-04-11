@@ -24,8 +24,8 @@ defmodule GenLSP.Structures.RenameFileOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"overwrite", :overwrite} => nullable(bool()),
-      {"ignoreIfExists", :ignore_if_exists} => nullable(bool())
+      optional({"overwrite", :overwrite}) => bool(),
+      optional({"ignoreIfExists", :ignore_if_exists}) => bool()
     })
   end
 end

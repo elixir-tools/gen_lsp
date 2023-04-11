@@ -42,11 +42,11 @@ defmodule GenLSP.Structures.FoldingRange do
   def schematic() do
     schema(__MODULE__, %{
       {"startLine", :start_line} => int(),
-      {"startCharacter", :start_character} => nullable(int()),
+      optional({"startCharacter", :start_character}) => int(),
       {"endLine", :end_line} => int(),
-      {"endCharacter", :end_character} => nullable(int()),
-      {"kind", :kind} => nullable(GenLSP.Enumerations.FoldingRangeKind.schematic()),
-      {"collapsedText", :collapsed_text} => nullable(str())
+      optional({"endCharacter", :end_character}) => int(),
+      optional({"kind", :kind}) => GenLSP.Enumerations.FoldingRangeKind.schematic(),
+      optional({"collapsedText", :collapsed_text}) => str()
     })
   end
 end

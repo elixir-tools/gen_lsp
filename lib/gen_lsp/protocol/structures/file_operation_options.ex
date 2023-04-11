@@ -34,18 +34,18 @@ defmodule GenLSP.Structures.FileOperationOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"didCreate", :did_create} =>
-        nullable(GenLSP.Structures.FileOperationRegistrationOptions.schematic()),
-      {"willCreate", :will_create} =>
-        nullable(GenLSP.Structures.FileOperationRegistrationOptions.schematic()),
-      {"didRename", :did_rename} =>
-        nullable(GenLSP.Structures.FileOperationRegistrationOptions.schematic()),
-      {"willRename", :will_rename} =>
-        nullable(GenLSP.Structures.FileOperationRegistrationOptions.schematic()),
-      {"didDelete", :did_delete} =>
-        nullable(GenLSP.Structures.FileOperationRegistrationOptions.schematic()),
-      {"willDelete", :will_delete} =>
-        nullable(GenLSP.Structures.FileOperationRegistrationOptions.schematic())
+      optional({"didCreate", :did_create}) =>
+        GenLSP.Structures.FileOperationRegistrationOptions.schematic(),
+      optional({"willCreate", :will_create}) =>
+        GenLSP.Structures.FileOperationRegistrationOptions.schematic(),
+      optional({"didRename", :did_rename}) =>
+        GenLSP.Structures.FileOperationRegistrationOptions.schematic(),
+      optional({"willRename", :will_rename}) =>
+        GenLSP.Structures.FileOperationRegistrationOptions.schematic(),
+      optional({"didDelete", :did_delete}) =>
+        GenLSP.Structures.FileOperationRegistrationOptions.schematic(),
+      optional({"willDelete", :will_delete}) =>
+        GenLSP.Structures.FileOperationRegistrationOptions.schematic()
     })
   end
 end

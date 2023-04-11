@@ -32,22 +32,18 @@ defmodule GenLSP.Structures.SignatureHelpClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
-      {"signatureInformation", :signature_information} =>
-        nullable(
-          map(%{
-            {"documentationFormat", :documentation_format} =>
-              nullable(list(GenLSP.Enumerations.MarkupKind.schematic())),
-            {"parameterInformation", :parameter_information} =>
-              nullable(
-                map(%{
-                  {"labelOffsetSupport", :label_offset_support} => nullable(bool())
-                })
-              ),
-            {"activeParameterSupport", :active_parameter_support} => nullable(bool())
-          })
-        ),
-      {"contextSupport", :context_support} => nullable(bool())
+      optional({"dynamicRegistration", :dynamic_registration}) => bool(),
+      optional({"signatureInformation", :signature_information}) =>
+        map(%{
+          optional({"documentationFormat", :documentation_format}) =>
+            list(GenLSP.Enumerations.MarkupKind.schematic()),
+          optional({"parameterInformation", :parameter_information}) =>
+            map(%{
+              optional({"labelOffsetSupport", :label_offset_support}) => bool()
+            }),
+          optional({"activeParameterSupport", :active_parameter_support}) => bool()
+        }),
+      optional({"contextSupport", :context_support}) => bool()
     })
   end
 end

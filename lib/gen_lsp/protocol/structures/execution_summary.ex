@@ -24,7 +24,7 @@ defmodule GenLSP.Structures.ExecutionSummary do
   def schematic() do
     schema(__MODULE__, %{
       {"executionOrder", :execution_order} => int(),
-      {"success", :success} => nullable(bool())
+      optional({"success", :success}) => bool()
     })
   end
 end

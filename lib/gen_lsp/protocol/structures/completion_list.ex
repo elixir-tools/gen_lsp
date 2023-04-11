@@ -43,27 +43,23 @@ defmodule GenLSP.Structures.CompletionList do
   def schematic() do
     schema(__MODULE__, %{
       {"isIncomplete", :is_incomplete} => bool(),
-      {"itemDefaults", :item_defaults} =>
-        nullable(
-          map(%{
-            {"commitCharacters", :commit_characters} => nullable(list(str())),
-            {"editRange", :edit_range} =>
-              nullable(
-                oneof([
-                  GenLSP.Structures.Range.schematic(),
-                  map(%{
-                    {"insert", :insert} => GenLSP.Structures.Range.schematic(),
-                    {"replace", :replace} => GenLSP.Structures.Range.schematic()
-                  })
-                ])
-              ),
-            {"insertTextFormat", :insert_text_format} =>
-              nullable(GenLSP.Enumerations.InsertTextFormat.schematic()),
-            {"insertTextMode", :insert_text_mode} =>
-              nullable(GenLSP.Enumerations.InsertTextMode.schematic()),
-            {"data", :data} => nullable(GenLSP.TypeAlias.LSPAny.schematic())
-          })
-        ),
+      optional({"itemDefaults", :item_defaults}) =>
+        map(%{
+          optional({"commitCharacters", :commit_characters}) => list(str()),
+          optional({"editRange", :edit_range}) =>
+            oneof([
+              GenLSP.Structures.Range.schematic(),
+              map(%{
+                {"insert", :insert} => GenLSP.Structures.Range.schematic(),
+                {"replace", :replace} => GenLSP.Structures.Range.schematic()
+              })
+            ]),
+          optional({"insertTextFormat", :insert_text_format}) =>
+            GenLSP.Enumerations.InsertTextFormat.schematic(),
+          optional({"insertTextMode", :insert_text_mode}) =>
+            GenLSP.Enumerations.InsertTextMode.schematic(),
+          optional({"data", :data}) => GenLSP.TypeAlias.LSPAny.schematic()
+        }),
       {"items", :items} => list(GenLSP.Structures.CompletionItem.schematic())
     })
   end

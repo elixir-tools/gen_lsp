@@ -29,8 +29,8 @@ defmodule GenLSP.Structures.NotebookDocumentSyncClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
-      {"executionSummarySupport", :execution_summary_support} => nullable(bool())
+      optional({"dynamicRegistration", :dynamic_registration}) => bool(),
+      optional({"executionSummarySupport", :execution_summary_support}) => bool()
     })
   end
 end

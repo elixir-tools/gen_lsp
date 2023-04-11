@@ -28,8 +28,8 @@ defmodule GenLSP.Structures.CompletionItemLabelDetails do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"detail", :detail} => nullable(str()),
-      {"description", :description} => nullable(str())
+      optional({"detail", :detail}) => str(),
+      optional({"description", :description}) => str()
     })
   end
 end

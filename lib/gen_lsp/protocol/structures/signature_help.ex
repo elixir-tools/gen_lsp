@@ -43,8 +43,8 @@ defmodule GenLSP.Structures.SignatureHelp do
   def schematic() do
     schema(__MODULE__, %{
       {"signatures", :signatures} => list(GenLSP.Structures.SignatureInformation.schematic()),
-      {"activeSignature", :active_signature} => nullable(int()),
-      {"activeParameter", :active_parameter} => nullable(int())
+      optional({"activeSignature", :active_signature}) => int(),
+      optional({"activeParameter", :active_parameter}) => int()
     })
   end
 end

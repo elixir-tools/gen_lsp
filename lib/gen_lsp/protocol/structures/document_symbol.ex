@@ -48,13 +48,13 @@ defmodule GenLSP.Structures.DocumentSymbol do
   def schematic() do
     schema(__MODULE__, %{
       {"name", :name} => str(),
-      {"detail", :detail} => nullable(str()),
+      optional({"detail", :detail}) => str(),
       {"kind", :kind} => GenLSP.Enumerations.SymbolKind.schematic(),
-      {"tags", :tags} => nullable(list(GenLSP.Enumerations.SymbolTag.schematic())),
-      {"deprecated", :deprecated} => nullable(bool()),
+      optional({"tags", :tags}) => list(GenLSP.Enumerations.SymbolTag.schematic()),
+      optional({"deprecated", :deprecated}) => bool(),
       {"range", :range} => GenLSP.Structures.Range.schematic(),
       {"selectionRange", :selection_range} => GenLSP.Structures.Range.schematic(),
-      {"children", :children} => nullable(list(GenLSP.Structures.DocumentSymbol.schematic()))
+      optional({"children", :children}) => list(GenLSP.Structures.DocumentSymbol.schematic())
     })
   end
 end

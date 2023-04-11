@@ -41,55 +41,42 @@ defmodule GenLSP.Structures.CompletionClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
-      {"completionItem", :completion_item} =>
-        nullable(
-          map(%{
-            {"snippetSupport", :snippet_support} => nullable(bool()),
-            {"commitCharactersSupport", :commit_characters_support} => nullable(bool()),
-            {"documentationFormat", :documentation_format} =>
-              nullable(list(GenLSP.Enumerations.MarkupKind.schematic())),
-            {"deprecatedSupport", :deprecated_support} => nullable(bool()),
-            {"preselectSupport", :preselect_support} => nullable(bool()),
-            {"tagSupport", :tag_support} =>
-              nullable(
-                map(%{
-                  {"valueSet", :value_set} =>
-                    list(GenLSP.Enumerations.CompletionItemTag.schematic())
-                })
-              ),
-            {"insertReplaceSupport", :insert_replace_support} => nullable(bool()),
-            {"resolveSupport", :resolve_support} =>
-              nullable(
-                map(%{
-                  {"properties", :properties} => list(str())
-                })
-              ),
-            {"insertTextModeSupport", :insert_text_mode_support} =>
-              nullable(
-                map(%{
-                  {"valueSet", :value_set} => list(GenLSP.Enumerations.InsertTextMode.schematic())
-                })
-              ),
-            {"labelDetailsSupport", :label_details_support} => nullable(bool())
-          })
-        ),
-      {"completionItemKind", :completion_item_kind} =>
-        nullable(
-          map(%{
-            {"valueSet", :value_set} =>
-              nullable(list(GenLSP.Enumerations.CompletionItemKind.schematic()))
-          })
-        ),
-      {"insertTextMode", :insert_text_mode} =>
-        nullable(GenLSP.Enumerations.InsertTextMode.schematic()),
-      {"contextSupport", :context_support} => nullable(bool()),
-      {"completionList", :completion_list} =>
-        nullable(
-          map(%{
-            {"itemDefaults", :item_defaults} => nullable(list(str()))
-          })
-        )
+      optional({"dynamicRegistration", :dynamic_registration}) => bool(),
+      optional({"completionItem", :completion_item}) =>
+        map(%{
+          optional({"snippetSupport", :snippet_support}) => bool(),
+          optional({"commitCharactersSupport", :commit_characters_support}) => bool(),
+          optional({"documentationFormat", :documentation_format}) =>
+            list(GenLSP.Enumerations.MarkupKind.schematic()),
+          optional({"deprecatedSupport", :deprecated_support}) => bool(),
+          optional({"preselectSupport", :preselect_support}) => bool(),
+          optional({"tagSupport", :tag_support}) =>
+            map(%{
+              {"valueSet", :value_set} => list(GenLSP.Enumerations.CompletionItemTag.schematic())
+            }),
+          optional({"insertReplaceSupport", :insert_replace_support}) => bool(),
+          optional({"resolveSupport", :resolve_support}) =>
+            map(%{
+              {"properties", :properties} => list(str())
+            }),
+          optional({"insertTextModeSupport", :insert_text_mode_support}) =>
+            map(%{
+              {"valueSet", :value_set} => list(GenLSP.Enumerations.InsertTextMode.schematic())
+            }),
+          optional({"labelDetailsSupport", :label_details_support}) => bool()
+        }),
+      optional({"completionItemKind", :completion_item_kind}) =>
+        map(%{
+          optional({"valueSet", :value_set}) =>
+            list(GenLSP.Enumerations.CompletionItemKind.schematic())
+        }),
+      optional({"insertTextMode", :insert_text_mode}) =>
+        GenLSP.Enumerations.InsertTextMode.schematic(),
+      optional({"contextSupport", :context_support}) => bool(),
+      optional({"completionList", :completion_list}) =>
+        map(%{
+          optional({"itemDefaults", :item_defaults}) => list(str())
+        })
     })
   end
 end

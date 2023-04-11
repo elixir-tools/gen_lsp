@@ -37,9 +37,9 @@ defmodule GenLSP.Structures.CodeActionContext do
   def schematic() do
     schema(__MODULE__, %{
       {"diagnostics", :diagnostics} => list(GenLSP.Structures.Diagnostic.schematic()),
-      {"only", :only} => nullable(list(GenLSP.Enumerations.CodeActionKind.schematic())),
-      {"triggerKind", :trigger_kind} =>
-        nullable(GenLSP.Enumerations.CodeActionTriggerKind.schematic())
+      optional({"only", :only}) => list(GenLSP.Enumerations.CodeActionKind.schematic()),
+      optional({"triggerKind", :trigger_kind}) =>
+        GenLSP.Enumerations.CodeActionTriggerKind.schematic()
     })
   end
 end

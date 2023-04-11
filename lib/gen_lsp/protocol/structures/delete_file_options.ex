@@ -24,8 +24,8 @@ defmodule GenLSP.Structures.DeleteFileOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"recursive", :recursive} => nullable(bool()),
-      {"ignoreIfNotExists", :ignore_if_not_exists} => nullable(bool())
+      optional({"recursive", :recursive}) => bool(),
+      optional({"ignoreIfNotExists", :ignore_if_not_exists}) => bool()
     })
   end
 end

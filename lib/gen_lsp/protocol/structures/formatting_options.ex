@@ -38,9 +38,9 @@ defmodule GenLSP.Structures.FormattingOptions do
     schema(__MODULE__, %{
       {"tabSize", :tab_size} => int(),
       {"insertSpaces", :insert_spaces} => bool(),
-      {"trimTrailingWhitespace", :trim_trailing_whitespace} => nullable(bool()),
-      {"insertFinalNewline", :insert_final_newline} => nullable(bool()),
-      {"trimFinalNewlines", :trim_final_newlines} => nullable(bool())
+      optional({"trimTrailingWhitespace", :trim_trailing_whitespace}) => bool(),
+      optional({"insertFinalNewline", :insert_final_newline}) => bool(),
+      optional({"trimFinalNewlines", :trim_final_newlines}) => bool()
     })
   end
 end

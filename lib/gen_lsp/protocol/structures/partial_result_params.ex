@@ -19,8 +19,8 @@ defmodule GenLSP.Structures.PartialResultParams do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"partialResultToken", :partial_result_token} =>
-        nullable(GenLSP.TypeAlias.ProgressToken.schematic())
+      optional({"partialResultToken", :partial_result_token}) =>
+        GenLSP.TypeAlias.ProgressToken.schematic()
     })
   end
 end

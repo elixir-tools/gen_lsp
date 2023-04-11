@@ -35,7 +35,7 @@ defmodule GenLSP.Structures.NotebookCellTextDocumentFilter do
     schema(__MODULE__, %{
       {"notebook", :notebook} =>
         oneof([str(), GenLSP.TypeAlias.NotebookDocumentFilter.schematic()]),
-      {"language", :language} => nullable(str())
+      optional({"language", :language}) => str()
     })
   end
 end

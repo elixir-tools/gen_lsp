@@ -27,13 +27,11 @@ defmodule GenLSP.Structures.InitializeResult do
   def schematic() do
     schema(__MODULE__, %{
       {"capabilities", :capabilities} => GenLSP.Structures.ServerCapabilities.schematic(),
-      {"serverInfo", :server_info} =>
-        nullable(
-          map(%{
-            {"name", :name} => str(),
-            {"version", :version} => nullable(str())
-          })
-        )
+      optional({"serverInfo", :server_info}) =>
+        map(%{
+          {"name", :name} => str(),
+          optional({"version", :version}) => str()
+        })
     })
   end
 end

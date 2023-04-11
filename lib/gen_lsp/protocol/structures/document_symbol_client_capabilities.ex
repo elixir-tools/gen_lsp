@@ -38,22 +38,18 @@ defmodule GenLSP.Structures.DocumentSymbolClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
-      {"symbolKind", :symbol_kind} =>
-        nullable(
-          map(%{
-            {"valueSet", :value_set} => nullable(list(GenLSP.Enumerations.SymbolKind.schematic()))
-          })
-        ),
-      {"hierarchicalDocumentSymbolSupport", :hierarchical_document_symbol_support} =>
-        nullable(bool()),
-      {"tagSupport", :tag_support} =>
-        nullable(
-          map(%{
-            {"valueSet", :value_set} => list(GenLSP.Enumerations.SymbolTag.schematic())
-          })
-        ),
-      {"labelSupport", :label_support} => nullable(bool())
+      optional({"dynamicRegistration", :dynamic_registration}) => bool(),
+      optional({"symbolKind", :symbol_kind}) =>
+        map(%{
+          optional({"valueSet", :value_set}) => list(GenLSP.Enumerations.SymbolKind.schematic())
+        }),
+      optional({"hierarchicalDocumentSymbolSupport", :hierarchical_document_symbol_support}) =>
+        bool(),
+      optional({"tagSupport", :tag_support}) =>
+        map(%{
+          {"valueSet", :value_set} => list(GenLSP.Enumerations.SymbolTag.schematic())
+        }),
+      optional({"labelSupport", :label_support}) => bool()
     })
   end
 end

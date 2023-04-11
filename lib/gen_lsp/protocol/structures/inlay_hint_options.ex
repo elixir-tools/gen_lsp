@@ -27,8 +27,8 @@ defmodule GenLSP.Structures.InlayHintOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"resolveProvider", :resolve_provider} => nullable(bool()),
-      {"workDoneProgress", :work_done_progress} => nullable(bool())
+      optional({"resolveProvider", :resolve_provider}) => bool(),
+      optional({"workDoneProgress", :work_done_progress}) => bool()
     })
   end
 end

@@ -31,11 +31,11 @@ defmodule GenLSP.Structures.TextDocumentSyncOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"openClose", :open_close} => nullable(bool()),
-      {"change", :change} => nullable(GenLSP.Enumerations.TextDocumentSyncKind.schematic()),
-      {"willSave", :will_save} => nullable(bool()),
-      {"willSaveWaitUntil", :will_save_wait_until} => nullable(bool()),
-      {"save", :save} => nullable(oneof([bool(), GenLSP.Structures.SaveOptions.schematic()]))
+      optional({"openClose", :open_close}) => bool(),
+      optional({"change", :change}) => GenLSP.Enumerations.TextDocumentSyncKind.schematic(),
+      optional({"willSave", :will_save}) => bool(),
+      optional({"willSaveWaitUntil", :will_save_wait_until}) => bool(),
+      optional({"save", :save}) => oneof([bool(), GenLSP.Structures.SaveOptions.schematic()])
     })
   end
 end

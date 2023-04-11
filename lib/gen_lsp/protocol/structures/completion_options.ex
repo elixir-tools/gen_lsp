@@ -48,16 +48,14 @@ defmodule GenLSP.Structures.CompletionOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"triggerCharacters", :trigger_characters} => nullable(list(str())),
-      {"allCommitCharacters", :all_commit_characters} => nullable(list(str())),
-      {"resolveProvider", :resolve_provider} => nullable(bool()),
-      {"completionItem", :completion_item} =>
-        nullable(
-          map(%{
-            {"labelDetailsSupport", :label_details_support} => nullable(bool())
-          })
-        ),
-      {"workDoneProgress", :work_done_progress} => nullable(bool())
+      optional({"triggerCharacters", :trigger_characters}) => list(str()),
+      optional({"allCommitCharacters", :all_commit_characters}) => list(str()),
+      optional({"resolveProvider", :resolve_provider}) => bool(),
+      optional({"completionItem", :completion_item}) =>
+        map(%{
+          optional({"labelDetailsSupport", :label_details_support}) => bool()
+        }),
+      optional({"workDoneProgress", :work_done_progress}) => bool()
     })
   end
 end

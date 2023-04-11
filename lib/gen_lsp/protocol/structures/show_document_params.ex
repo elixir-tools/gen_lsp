@@ -39,9 +39,9 @@ defmodule GenLSP.Structures.ShowDocumentParams do
   def schematic() do
     schema(__MODULE__, %{
       {"uri", :uri} => str(),
-      {"external", :external} => nullable(bool()),
-      {"takeFocus", :take_focus} => nullable(bool()),
-      {"selection", :selection} => nullable(GenLSP.Structures.Range.schematic())
+      optional({"external", :external}) => bool(),
+      optional({"takeFocus", :take_focus}) => bool(),
+      optional({"selection", :selection}) => GenLSP.Structures.Range.schematic()
     })
   end
 end

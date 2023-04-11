@@ -18,17 +18,17 @@ defmodule GenLSP.TypeAlias.NotebookDocumentFilter do
     oneof([
       map(%{
         {"notebookType", :notebook_type} => str(),
-        {"scheme", :scheme} => nullable(str()),
-        {"pattern", :pattern} => nullable(str())
+        optional({"scheme", :scheme}) => str(),
+        optional({"pattern", :pattern}) => str()
       }),
       map(%{
-        {"notebookType", :notebook_type} => nullable(str()),
+        optional({"notebookType", :notebook_type}) => str(),
         {"scheme", :scheme} => str(),
-        {"pattern", :pattern} => nullable(str())
+        optional({"pattern", :pattern}) => str()
       }),
       map(%{
-        {"notebookType", :notebook_type} => nullable(str()),
-        {"scheme", :scheme} => nullable(str()),
+        optional({"notebookType", :notebook_type}) => str(),
+        optional({"scheme", :scheme}) => str(),
         {"pattern", :pattern} => str()
       })
     ])

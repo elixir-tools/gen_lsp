@@ -43,16 +43,14 @@ defmodule GenLSP.Structures.RelatedUnchangedDocumentDiagnosticReport do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"relatedDocuments", :related_documents} =>
-        nullable(
-          map(
-            keys: str(),
-            values:
-              oneof([
-                GenLSP.Structures.FullDocumentDiagnosticReport.schematic(),
-                GenLSP.Structures.UnchangedDocumentDiagnosticReport.schematic()
-              ])
-          )
+      optional({"relatedDocuments", :related_documents}) =>
+        map(
+          keys: str(),
+          values:
+            oneof([
+              GenLSP.Structures.FullDocumentDiagnosticReport.schematic(),
+              GenLSP.Structures.UnchangedDocumentDiagnosticReport.schematic()
+            ])
         ),
       {"kind", :kind} => str("unchanged"),
       {"resultId", :result_id} => str()

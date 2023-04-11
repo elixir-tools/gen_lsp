@@ -34,8 +34,8 @@ defmodule GenLSP.Structures.SignatureHelpRegistrationOptions do
     schema(__MODULE__, %{
       {"documentSelector", :document_selector} =>
         oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()]),
-      {"triggerCharacters", :trigger_characters} => nullable(list(str())),
-      {"retriggerCharacters", :retrigger_characters} => nullable(list(str()))
+      optional({"triggerCharacters", :trigger_characters}) => list(str()),
+      optional({"retriggerCharacters", :retrigger_characters}) => list(str())
     })
   end
 end

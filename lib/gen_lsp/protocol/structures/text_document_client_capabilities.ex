@@ -109,63 +109,63 @@ defmodule GenLSP.Structures.TextDocumentClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"synchronization", :synchronization} =>
-        nullable(GenLSP.Structures.TextDocumentSyncClientCapabilities.schematic()),
-      {"completion", :completion} =>
-        nullable(GenLSP.Structures.CompletionClientCapabilities.schematic()),
-      {"hover", :hover} => nullable(GenLSP.Structures.HoverClientCapabilities.schematic()),
-      {"signatureHelp", :signature_help} =>
-        nullable(GenLSP.Structures.SignatureHelpClientCapabilities.schematic()),
-      {"declaration", :declaration} =>
-        nullable(GenLSP.Structures.DeclarationClientCapabilities.schematic()),
-      {"definition", :definition} =>
-        nullable(GenLSP.Structures.DefinitionClientCapabilities.schematic()),
-      {"typeDefinition", :type_definition} =>
-        nullable(GenLSP.Structures.TypeDefinitionClientCapabilities.schematic()),
-      {"implementation", :implementation} =>
-        nullable(GenLSP.Structures.ImplementationClientCapabilities.schematic()),
-      {"references", :references} =>
-        nullable(GenLSP.Structures.ReferenceClientCapabilities.schematic()),
-      {"documentHighlight", :document_highlight} =>
-        nullable(GenLSP.Structures.DocumentHighlightClientCapabilities.schematic()),
-      {"documentSymbol", :document_symbol} =>
-        nullable(GenLSP.Structures.DocumentSymbolClientCapabilities.schematic()),
-      {"codeAction", :code_action} =>
-        nullable(GenLSP.Structures.CodeActionClientCapabilities.schematic()),
-      {"codeLens", :code_lens} =>
-        nullable(GenLSP.Structures.CodeLensClientCapabilities.schematic()),
-      {"documentLink", :document_link} =>
-        nullable(GenLSP.Structures.DocumentLinkClientCapabilities.schematic()),
-      {"colorProvider", :color_provider} =>
-        nullable(GenLSP.Structures.DocumentColorClientCapabilities.schematic()),
-      {"formatting", :formatting} =>
-        nullable(GenLSP.Structures.DocumentFormattingClientCapabilities.schematic()),
-      {"rangeFormatting", :range_formatting} =>
-        nullable(GenLSP.Structures.DocumentRangeFormattingClientCapabilities.schematic()),
-      {"onTypeFormatting", :on_type_formatting} =>
-        nullable(GenLSP.Structures.DocumentOnTypeFormattingClientCapabilities.schematic()),
-      {"rename", :rename} => nullable(GenLSP.Structures.RenameClientCapabilities.schematic()),
-      {"foldingRange", :folding_range} =>
-        nullable(GenLSP.Structures.FoldingRangeClientCapabilities.schematic()),
-      {"selectionRange", :selection_range} =>
-        nullable(GenLSP.Structures.SelectionRangeClientCapabilities.schematic()),
-      {"publishDiagnostics", :publish_diagnostics} =>
-        nullable(GenLSP.Structures.PublishDiagnosticsClientCapabilities.schematic()),
-      {"callHierarchy", :call_hierarchy} =>
-        nullable(GenLSP.Structures.CallHierarchyClientCapabilities.schematic()),
-      {"semanticTokens", :semantic_tokens} =>
-        nullable(GenLSP.Structures.SemanticTokensClientCapabilities.schematic()),
-      {"linkedEditingRange", :linked_editing_range} =>
-        nullable(GenLSP.Structures.LinkedEditingRangeClientCapabilities.schematic()),
-      {"moniker", :moniker} => nullable(GenLSP.Structures.MonikerClientCapabilities.schematic()),
-      {"typeHierarchy", :type_hierarchy} =>
-        nullable(GenLSP.Structures.TypeHierarchyClientCapabilities.schematic()),
-      {"inlineValue", :inline_value} =>
-        nullable(GenLSP.Structures.InlineValueClientCapabilities.schematic()),
-      {"inlayHint", :inlay_hint} =>
-        nullable(GenLSP.Structures.InlayHintClientCapabilities.schematic()),
-      {"diagnostic", :diagnostic} =>
-        nullable(GenLSP.Structures.DiagnosticClientCapabilities.schematic())
+      optional({"synchronization", :synchronization}) =>
+        GenLSP.Structures.TextDocumentSyncClientCapabilities.schematic(),
+      optional({"completion", :completion}) =>
+        GenLSP.Structures.CompletionClientCapabilities.schematic(),
+      optional({"hover", :hover}) => GenLSP.Structures.HoverClientCapabilities.schematic(),
+      optional({"signatureHelp", :signature_help}) =>
+        GenLSP.Structures.SignatureHelpClientCapabilities.schematic(),
+      optional({"declaration", :declaration}) =>
+        GenLSP.Structures.DeclarationClientCapabilities.schematic(),
+      optional({"definition", :definition}) =>
+        GenLSP.Structures.DefinitionClientCapabilities.schematic(),
+      optional({"typeDefinition", :type_definition}) =>
+        GenLSP.Structures.TypeDefinitionClientCapabilities.schematic(),
+      optional({"implementation", :implementation}) =>
+        GenLSP.Structures.ImplementationClientCapabilities.schematic(),
+      optional({"references", :references}) =>
+        GenLSP.Structures.ReferenceClientCapabilities.schematic(),
+      optional({"documentHighlight", :document_highlight}) =>
+        GenLSP.Structures.DocumentHighlightClientCapabilities.schematic(),
+      optional({"documentSymbol", :document_symbol}) =>
+        GenLSP.Structures.DocumentSymbolClientCapabilities.schematic(),
+      optional({"codeAction", :code_action}) =>
+        GenLSP.Structures.CodeActionClientCapabilities.schematic(),
+      optional({"codeLens", :code_lens}) =>
+        GenLSP.Structures.CodeLensClientCapabilities.schematic(),
+      optional({"documentLink", :document_link}) =>
+        GenLSP.Structures.DocumentLinkClientCapabilities.schematic(),
+      optional({"colorProvider", :color_provider}) =>
+        GenLSP.Structures.DocumentColorClientCapabilities.schematic(),
+      optional({"formatting", :formatting}) =>
+        GenLSP.Structures.DocumentFormattingClientCapabilities.schematic(),
+      optional({"rangeFormatting", :range_formatting}) =>
+        GenLSP.Structures.DocumentRangeFormattingClientCapabilities.schematic(),
+      optional({"onTypeFormatting", :on_type_formatting}) =>
+        GenLSP.Structures.DocumentOnTypeFormattingClientCapabilities.schematic(),
+      optional({"rename", :rename}) => GenLSP.Structures.RenameClientCapabilities.schematic(),
+      optional({"foldingRange", :folding_range}) =>
+        GenLSP.Structures.FoldingRangeClientCapabilities.schematic(),
+      optional({"selectionRange", :selection_range}) =>
+        GenLSP.Structures.SelectionRangeClientCapabilities.schematic(),
+      optional({"publishDiagnostics", :publish_diagnostics}) =>
+        GenLSP.Structures.PublishDiagnosticsClientCapabilities.schematic(),
+      optional({"callHierarchy", :call_hierarchy}) =>
+        GenLSP.Structures.CallHierarchyClientCapabilities.schematic(),
+      optional({"semanticTokens", :semantic_tokens}) =>
+        GenLSP.Structures.SemanticTokensClientCapabilities.schematic(),
+      optional({"linkedEditingRange", :linked_editing_range}) =>
+        GenLSP.Structures.LinkedEditingRangeClientCapabilities.schematic(),
+      optional({"moniker", :moniker}) => GenLSP.Structures.MonikerClientCapabilities.schematic(),
+      optional({"typeHierarchy", :type_hierarchy}) =>
+        GenLSP.Structures.TypeHierarchyClientCapabilities.schematic(),
+      optional({"inlineValue", :inline_value}) =>
+        GenLSP.Structures.InlineValueClientCapabilities.schematic(),
+      optional({"inlayHint", :inlay_hint}) =>
+        GenLSP.Structures.InlayHintClientCapabilities.schematic(),
+      optional({"diagnostic", :diagnostic}) =>
+        GenLSP.Structures.DiagnosticClientCapabilities.schematic()
     })
   end
 end

@@ -30,7 +30,7 @@ defmodule GenLSP.Structures.InlayHintWorkspaceClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"refreshSupport", :refresh_support} => nullable(bool())
+      optional({"refreshSupport", :refresh_support}) => bool()
     })
   end
 end

@@ -1,6 +1,7 @@
 defmodule GenLSPTest.ExampleServer do
   use GenLSP
 
+  alias GenLSP.Structures.CallHierarchyOptions
   alias GenLSP.Requests
   alias GenLSP.Notifications
   alias GenLSP.Structures
@@ -19,7 +20,9 @@ defmodule GenLSPTest.ExampleServer do
   def handle_request(%Requests.Initialize{id: _id}, lsp) do
     {:reply,
      %Structures.InitializeResult{
-       capabilities: %Structures.ServerCapabilities{},
+       capabilities: %Structures.ServerCapabilities{
+         call_hierarchy_provider: %CallHierarchyOptions{work_done_progress: true}
+       },
        server_info: %{name: "Test LSP"}
      }, lsp}
   end

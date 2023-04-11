@@ -31,7 +31,7 @@ defmodule GenLSP.Structures.FullDocumentDiagnosticReport do
   def schematic() do
     schema(__MODULE__, %{
       {"kind", :kind} => str("full"),
-      {"resultId", :result_id} => nullable(str()),
+      optional({"resultId", :result_id}) => str(),
       {"items", :items} => list(GenLSP.Structures.Diagnostic.schematic())
     })
   end

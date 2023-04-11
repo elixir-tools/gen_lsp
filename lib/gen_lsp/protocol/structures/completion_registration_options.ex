@@ -51,15 +51,13 @@ defmodule GenLSP.Structures.CompletionRegistrationOptions do
     schema(__MODULE__, %{
       {"documentSelector", :document_selector} =>
         oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()]),
-      {"triggerCharacters", :trigger_characters} => nullable(list(str())),
-      {"allCommitCharacters", :all_commit_characters} => nullable(list(str())),
-      {"resolveProvider", :resolve_provider} => nullable(bool()),
-      {"completionItem", :completion_item} =>
-        nullable(
-          map(%{
-            {"labelDetailsSupport", :label_details_support} => nullable(bool())
-          })
-        )
+      optional({"triggerCharacters", :trigger_characters}) => list(str()),
+      optional({"allCommitCharacters", :all_commit_characters}) => list(str()),
+      optional({"resolveProvider", :resolve_provider}) => bool(),
+      optional({"completionItem", :completion_item}) =>
+        map(%{
+          optional({"labelDetailsSupport", :label_details_support}) => bool()
+        })
     })
   end
 end

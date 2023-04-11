@@ -32,7 +32,7 @@ defmodule GenLSP.Structures.Command do
     schema(__MODULE__, %{
       {"title", :title} => str(),
       {"command", :command} => str(),
-      {"arguments", :arguments} => nullable(list(GenLSP.TypeAlias.LSPAny.schematic()))
+      optional({"arguments", :arguments}) => list(GenLSP.TypeAlias.LSPAny.schematic())
     })
   end
 end

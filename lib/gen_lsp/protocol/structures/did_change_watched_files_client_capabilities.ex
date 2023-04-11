@@ -25,8 +25,8 @@ defmodule GenLSP.Structures.DidChangeWatchedFilesClientCapabilities do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"dynamicRegistration", :dynamic_registration} => nullable(bool()),
-      {"relativePatternSupport", :relative_pattern_support} => nullable(bool())
+      optional({"dynamicRegistration", :dynamic_registration}) => bool(),
+      optional({"relativePatternSupport", :relative_pattern_support}) => bool()
     })
   end
 end

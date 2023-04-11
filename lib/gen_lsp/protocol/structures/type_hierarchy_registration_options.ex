@@ -28,7 +28,7 @@ defmodule GenLSP.Structures.TypeHierarchyRegistrationOptions do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"id", :id} => nullable(str()),
+      optional({"id", :id}) => str(),
       {"documentSelector", :document_selector} =>
         oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()])
     })

@@ -43,18 +43,16 @@ defmodule GenLSP.Structures.NotebookDocumentSyncOptions do
             map(%{
               {"notebook", :notebook} =>
                 oneof([str(), GenLSP.TypeAlias.NotebookDocumentFilter.schematic()]),
-              {"cells", :cells} =>
-                nullable(
-                  list(
-                    map(%{
-                      {"language", :language} => str()
-                    })
-                  )
+              optional({"cells", :cells}) =>
+                list(
+                  map(%{
+                    {"language", :language} => str()
+                  })
                 )
             }),
             map(%{
-              {"notebook", :notebook} =>
-                nullable(oneof([str(), GenLSP.TypeAlias.NotebookDocumentFilter.schematic()])),
+              optional({"notebook", :notebook}) =>
+                oneof([str(), GenLSP.TypeAlias.NotebookDocumentFilter.schematic()]),
               {"cells", :cells} =>
                 list(
                   map(%{
@@ -64,7 +62,7 @@ defmodule GenLSP.Structures.NotebookDocumentSyncOptions do
             })
           ])
         ),
-      {"save", :save} => nullable(bool())
+      optional({"save", :save}) => bool()
     })
   end
 end
