@@ -102,7 +102,7 @@ defmodule GenLSP do
   @doc """
   The callback responsible for handling normal messages.
 
-  Receives the notification struct as the first argument and the LSP token `t:GenLSP.LSP.t/0` as the second.
+  Receives the message as the first argument and the LSP token `t:GenLSP.LSP.t/0` as the second.
 
   ## Usage
 
