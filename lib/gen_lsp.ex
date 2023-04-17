@@ -225,7 +225,7 @@ defmodule GenLSP do
           fn ->
             {:ok, %{id: id} = req} = GenLSP.Requests.new(request)
 
-            GenLSP.log(lsp, :log, "[GenLSP] Processing #{inspect(req.__struct__)}")
+            # GenLSP.log(lsp, :log, "[GenLSP] Processing #{inspect(req.__struct__)}")
 
             case lsp.mod.handle_request(req, lsp) do
               {:reply, reply, %LSP{} = lsp} ->
@@ -254,7 +254,8 @@ defmodule GenLSP do
         attempt(
           fn ->
             {:ok, note} = GenLSP.Notifications.new(notification)
-            GenLSP.log(lsp, :log, "[GenLSP] Processing #{inspect(note.__struct__)}")
+
+            # GenLSP.log(lsp, :log, "[GenLSP] Processing #{inspect(note.__struct__)}")
 
             case lsp.mod.handle_notification(note, lsp) do
               {:noreply, %LSP{} = lsp} ->
@@ -322,19 +323,73 @@ defmodule GenLSP do
   end
 
   @doc """
-  Send a `window/logMessage` notification to the client.
+  Send a `window/logMessage` error notification to the client.
+
+  See `GenLSP.Enumerations.MessageType.error/0`.
 
   ## Usage
 
   ```elixir
-  GenLSP.log(lsp, :warning, "Failed to compiled!")
+  GenLSP.error(lsp, "Failed to compiled!")
   ```
   """
-  @spec log(GenLSP.LSP.t(), :error | :warning | :info | :log, String.t()) :: :ok
-  def log(lsp, level, message) when level in [:error, :warning, :info, :log] do
+  @spec error(GenLSP.LSP.t(), String.t()) :: :ok
+  def error(lsp, message) do
+    log_message(lsp, GenLSP.Enumerations.MessageType.error(), message)
+  end
+
+  @doc """
+  Send a `window/logMessage` error notification to the client.
+
+  See `GenLSP.Enumerations.MessageType.warning/0`.
+
+  ## Usage
+
+  ```elixir
+  GenLSP.warning(lsp, "Variable `foo` is unused.")
+  ```
+  """
+  @spec warning(GenLSP.LSP.t(), String.t()) :: :ok
+  def warning(lsp, message) do
+    log_message(lsp, GenLSP.Enumerations.MessageType.warning(), message)
+  end
+
+  @doc """
+  Send a `window/logMessage` info notification to the client.
+
+  See `GenLSP.Enumerations.MessageType.info/0`.
+
+  ## Usage
+
+  ```elixir
+  GenLSP.info(lsp, "Compilation complete!")
+  ```
+  """
+  @spec info(GenLSP.LSP.t(), String.t()) :: :ok
+  def info(lsp, message) do
+    log_message(lsp, GenLSP.Enumerations.MessageType.info(), message)
+  end
+
+  @doc """
+  Send a `window/logMessage` log notification to the client.
+
+  See `GenLSP.Enumerations.MessageType.log/0`.
+
+  ## Usage
+
+  ```elixir
+  GenLSP.log(lsp, "Starting compilation.")
+  ```
+  """
+  @spec log(GenLSP.LSP.t(), String.t()) :: :ok
+  def log(lsp, message) do
+    log_message(lsp, GenLSP.Enumerations.MessageType.log(), message)
+  end
+
+  defp log_message(lsp, level, message) do
     GenLSP.notify(lsp, %GenLSP.Notifications.WindowLogMessage{
       params: %GenLSP.Structures.LogMessageParams{
-        type: apply(GenLSP.Enumerations.MessageType, level, []),
+        type: level,
         message: message
       }
     })
