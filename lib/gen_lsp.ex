@@ -120,7 +120,7 @@ defmodule GenLSP do
   @options_schema NimbleOptions.new!(
                     buffer: [
                       type: {:or, [:pid, :atom]},
-                      required: true,
+                      default: GenLSP.Buffer,
                       doc: "The `t:pid/0` or name of the `GenLSP.Buffer` process."
                     ],
                     name: [
@@ -148,7 +148,7 @@ defmodule GenLSP do
   @doc false
   def init({module, init_args, opts, parent}) do
     me = self()
-    buffer = Keyword.get(opts, :buffer, GenLSP.Buffer)
+    buffer = opts[:buffer]
     lsp = %LSP{mod: module, pid: me, buffer: buffer}
 
     case module.init(lsp, init_args) do
