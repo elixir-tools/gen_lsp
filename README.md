@@ -209,7 +209,7 @@ end
 
 ## Thank Yous
 
-- Thank you to the [ElixirLS](github.com/elixir-lsp/elixir-ls) project for inspiration and answers to questions I had about the Language Server Protocol.
+- Thank you to the [ElixirLS](https://github.com/elixir-lsp/elixir-ls) project for inspiration and answers to questions I had about the Language Server Protocol.
 
 ## Installation
 
