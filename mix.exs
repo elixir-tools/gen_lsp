@@ -1,10 +1,13 @@
 defmodule GenLSP.MixProject do
   use Mix.Project
 
+  @source_url "https://github.com/mhanberg/gen_lsp"
+
   def project do
     [
       app: :gen_lsp,
       description: "Library for creating language servers",
+      source_url: @source_url,
       version: "0.0.10",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
@@ -43,6 +46,7 @@ defmodule GenLSP.MixProject do
 
   defp docs() do
     [
+      main: "GenLSP",
       nest_modules_by_prefix: [
         "GenLSP.Requests",
         "GenLSP.Notifications",
@@ -57,7 +61,7 @@ defmodule GenLSP.MixProject do
     [
       maintainers: ["Mitchell Hanberg"],
       licenses: ["MIT"],
-      links: %{github: "https://github.com/mhanberg/gen_lsp"},
+      links: %{GitHub: @source_url},
       files: ~w(lib LICENSE mix.exs README.md .formatter.exs)
     ]
   end
