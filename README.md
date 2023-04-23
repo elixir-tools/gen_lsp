@@ -218,7 +218,7 @@ This package can be installed by adding `gen_lsp` to your list of dependencies i
 ```elixir
 def deps do
   [
-    {:gen_lsp, "~> 0.0.10"}
+    {:gen_lsp, "~> 0.0.11"}
   ]
 end
 ```

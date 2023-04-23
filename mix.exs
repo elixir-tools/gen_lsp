@@ -8,7 +8,7 @@ defmodule GenLSP.MixProject do
       app: :gen_lsp,
       description: "Library for creating language servers",
       source_url: @source_url,
-      version: "0.0.10",
+      version: "0.0.11",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -61,7 +61,10 @@ defmodule GenLSP.MixProject do
     [
       maintainers: ["Mitchell Hanberg"],
       licenses: ["MIT"],
-      links: %{GitHub: @source_url},
+      links: %{
+        GitHub: @source_url,
+        Sponsor: "https://github.com/sponsors/mhanberg"
+      },
       files: ~w(lib LICENSE mix.exs README.md .formatter.exs)
     ]
   end
