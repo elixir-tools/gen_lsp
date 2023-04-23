@@ -27,6 +27,10 @@ defmodule GenLSPTest.ExampleServer do
      }, lsp}
   end
 
+  def handle_request(%Requests.TextDocumentDocumentSymbol{}, lsp) do
+    {:reply, nil, lsp}
+  end
+
   @impl true
   def handle_notification(%Notifications.TextDocumentDidOpen{} = notification, lsp) do
     send(lsp.assigns.test_pid, {:callback, notification})
