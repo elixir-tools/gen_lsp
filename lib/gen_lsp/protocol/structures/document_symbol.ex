@@ -54,7 +54,7 @@ defmodule GenLSP.Structures.DocumentSymbol do
       optional({"deprecated", :deprecated}) => bool(),
       {"range", :range} => GenLSP.Structures.Range.schematic(),
       {"selectionRange", :selection_range} => GenLSP.Structures.Range.schematic(),
-      optional({"children", :children}) => list(GenLSP.Structures.DocumentSymbol.schematic())
+      optional({"children", :children}) => list({__MODULE__, :schematic, []})
     })
   end
 end

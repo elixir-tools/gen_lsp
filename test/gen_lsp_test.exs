@@ -113,4 +113,22 @@ defmodule GenLSPTest do
 
     assert_receive {:info, :ack}
   end
+
+  test "handles recursive structures", %{client: client} do
+    id = System.unique_integer([:positive])
+
+    assert :ok ==
+             request(client, %{
+               "jsonrpc" => "2.0",
+               "method" => "textDocument/documentSymbol",
+               "params" => %{
+                 "textDocument" => %{
+                   "uri" => "file://file/doesnt/matter.ex"
+                 }
+               },
+               "id" => id
+             })
+
+    assert_result(^id, nil)
+  end
 end

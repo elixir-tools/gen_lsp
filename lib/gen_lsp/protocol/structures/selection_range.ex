@@ -26,7 +26,7 @@ defmodule GenLSP.Structures.SelectionRange do
   def schematic() do
     schema(__MODULE__, %{
       {"range", :range} => GenLSP.Structures.Range.schematic(),
-      optional({"parent", :parent}) => GenLSP.Structures.SelectionRange.schematic()
+      optional({"parent", :parent}) => {__MODULE__, :schematic, []}
     })
   end
 end
