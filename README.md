@@ -7,9 +7,10 @@
 
 GenLSP is an OTP behaviour for building processes that implement the [Language Server Protocol](https://microsoft.github.io/language-server-protocol/).
 
-## Example
+## Examples
 
-Here is an example of a [Credo](https://github.com/rrrene/credo) language server.
+<details>
+<summary><a href="https://github.com/rrrene/credo">Credo</a> language server.</summary>
 
 ```elixir
 defmodule Credo.Lsp do
@@ -201,14 +202,13 @@ defmodule Credo.Lsp.Cache do
 end
 ```
 
+</details>
+
 <!-- MDOC !-->
 
-## TODO
+## Built with GenLSP
 
-- [x] Generate structs for the rest of the protocol.
-  - [x] Improve documentation for generated structs
-- [x] Communication: Support socket: uses a socket as the communication channel. The port is passed as next arg or with --port=.
-- [ ] Documentation/tooling to package your language server into a single binary with [Burrito](https://github.com/burrito-elixir/burrito).
+- [credo-language-server](https://github.com/elixir-tools/credo-language-server)
 
 ## Thank Yous
 
