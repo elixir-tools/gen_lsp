@@ -1,5 +1,8 @@
 # GenLSP
 
+[![Hex.pm](https://img.shields.io/hexpm/v/gen_lsp)](https://hex.pm/packages/gen_lsp)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/gen_lsp/)
+
 <!-- MDOC !-->
 
 GenLSP is an OTP behaviour for building processes that implement the [Language Server Protocol](https://microsoft.github.io/language-server-protocol/).
