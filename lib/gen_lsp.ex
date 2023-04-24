@@ -229,10 +229,16 @@ defmodule GenLSP do
 
             case lsp.mod.handle_request(req, lsp) do
               {:reply, reply, %LSP{} = lsp} ->
+                response_key =
+                  case reply do
+                    %GenLSP.ErrorResponse{} -> "error"
+                    _ -> "result"
+                  end
+
                 packet = %{
                   "jsonrpc" => "2.0",
                   "id" => id,
-                  "result" => dump!(req.__struct__.result(), reply)
+                  response_key => dump!(req.__struct__.result(), reply)
                 }
 
                 deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:out, :request, from})

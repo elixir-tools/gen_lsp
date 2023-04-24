@@ -37,6 +37,9 @@ defmodule GenLSP.Requests.WorkspaceWillDeleteFiles do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    oneof([GenLSP.Structures.WorkspaceEdit.schematic(), null()])
+    oneof([
+      oneof([GenLSP.Structures.WorkspaceEdit.schematic(), null()]),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

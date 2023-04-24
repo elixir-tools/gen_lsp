@@ -34,6 +34,9 @@ defmodule GenLSP.Requests.CodeLensResolve do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    GenLSP.Structures.CodeLens.schematic()
+    oneof([
+      GenLSP.Structures.CodeLens.schematic(),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

@@ -39,6 +39,9 @@ defmodule GenLSP.Requests.WindowShowDocument do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    GenLSP.Structures.ShowDocumentResult.schematic()
+    oneof([
+      GenLSP.Structures.ShowDocumentResult.schematic(),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

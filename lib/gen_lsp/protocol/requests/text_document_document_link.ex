@@ -34,6 +34,9 @@ defmodule GenLSP.Requests.TextDocumentDocumentLink do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    oneof([list(GenLSP.Structures.DocumentLink.schematic()), null()])
+    oneof([
+      oneof([list(GenLSP.Structures.DocumentLink.schematic()), null()]),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

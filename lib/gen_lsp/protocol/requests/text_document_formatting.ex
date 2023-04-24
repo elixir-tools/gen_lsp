@@ -34,6 +34,9 @@ defmodule GenLSP.Requests.TextDocumentFormatting do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    oneof([list(GenLSP.Structures.TextEdit.schematic()), null()])
+    oneof([
+      oneof([list(GenLSP.Structures.TextEdit.schematic()), null()]),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

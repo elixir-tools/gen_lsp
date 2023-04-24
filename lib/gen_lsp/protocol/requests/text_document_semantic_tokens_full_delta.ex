@@ -36,9 +36,12 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensFullDelta do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      GenLSP.Structures.SemanticTokens.schematic(),
-      GenLSP.Structures.SemanticTokensDelta.schematic(),
-      null()
+      oneof([
+        GenLSP.Structures.SemanticTokens.schematic(),
+        GenLSP.Structures.SemanticTokensDelta.schematic(),
+        null()
+      ]),
+      GenLSP.ErrorResponse.schematic()
     ])
   end
 end

@@ -37,6 +37,9 @@ defmodule GenLSP.Requests.TextDocumentPrepareCallHierarchy do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    oneof([list(GenLSP.Structures.CallHierarchyItem.schematic()), null()])
+    oneof([
+      oneof([list(GenLSP.Structures.CallHierarchyItem.schematic()), null()]),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

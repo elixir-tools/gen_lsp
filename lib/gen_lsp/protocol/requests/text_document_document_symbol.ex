@@ -41,9 +41,12 @@ defmodule GenLSP.Requests.TextDocumentDocumentSymbol do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      list(GenLSP.Structures.SymbolInformation.schematic()),
-      list(GenLSP.Structures.DocumentSymbol.schematic()),
-      null()
+      oneof([
+        list(GenLSP.Structures.SymbolInformation.schematic()),
+        list(GenLSP.Structures.DocumentSymbol.schematic()),
+        null()
+      ]),
+      GenLSP.ErrorResponse.schematic()
     ])
   end
 end

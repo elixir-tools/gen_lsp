@@ -114,21 +114,24 @@ defmodule GenLSPTest do
     assert_receive {:info, :ack}
   end
 
-  test "handles recursive structures", %{client: client} do
+  test "can respond with an error", %{client: client} do
     id = System.unique_integer([:positive])
 
     assert :ok ==
              request(client, %{
-               "jsonrpc" => "2.0",
-               "method" => "textDocument/documentSymbol",
-               "params" => %{
-                 "textDocument" => %{
-                   "uri" => "file://file/doesnt/matter.ex"
+               method: "textDocument/documentSymbol",
+               id: id,
+               jsonrpc: "2.0",
+               params: %{
+                 textDocument: %{
+                   uri: "file://file/doesnt/matter.ex"
                  }
-               },
-               "id" => id
+               }
              })
 
-    assert_result(^id, nil)
+    assert_error(^id, %{
+      "code" => -32601,
+      "message" => "Method Not Found"
+    })
   end
 end

@@ -35,6 +35,9 @@ defmodule GenLSP.Requests.WindowWorkDoneProgressCreate do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    null()
+    oneof([
+      null(),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

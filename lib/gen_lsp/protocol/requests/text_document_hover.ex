@@ -36,6 +36,9 @@ defmodule GenLSP.Requests.TextDocumentHover do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    oneof([GenLSP.Structures.Hover.schematic(), null()])
+    oneof([
+      oneof([GenLSP.Structures.Hover.schematic(), null()]),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

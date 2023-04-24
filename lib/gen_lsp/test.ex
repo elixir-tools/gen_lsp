@@ -143,7 +143,7 @@ defmodule GenLSP.Test do
   end
 
   @doc ~S"""
-  Assert on the response of a request that was sent with `GenLSP.Test.request/2`.
+  Assert on the successful response of a request that was sent with `GenLSP.Test.request/2`.
 
   The second argument is a pattern, similar to `ExUnit.Assertions.assert_receive/3`.
 
@@ -152,14 +152,16 @@ defmodule GenLSP.Test do
   ```elixir
   import GenLSP.Test
 
+  id = 1
+
   request(client, %{
     method: "initialize",
-    id: 1,
+    id: id,
     jsonrpc: "2.0",
     params: %{capabilities: %{}, rootUri: "file://#{root_path}"}
   })
 
-  assert_result(1, %{
+  assert_result(^id, %{
     "capabilities" => %{
       "textDocumentSync" => %{
         "openClose" => true,
@@ -179,6 +181,46 @@ defmodule GenLSP.Test do
                        "jsonrpc" => "2.0",
                        "id" => unquote(id),
                        "result" => unquote(pattern)
+                     },
+                     unquote(timeout)
+    end
+  end
+
+  @doc ~S"""
+  Assert on the error response of a request that was sent with `GenLSP.Test.request/2`.
+
+  The second argument is a pattern, similar to `ExUnit.Assertions.assert_receive/3`.
+
+  ## Usage
+
+  ```elixir
+  import GenLSP.Test
+
+  id = 3
+
+  request(client, %{
+    method: "textDocument/documentSymbol",
+    id: id,
+    jsonrpc: "2.0",
+    params: %{
+      textDocument: %{
+        uri: "file://file/doesnt/matter.ex"
+      }
+    }
+  })
+
+  assert_error(^id, %{
+    "code" => -32601,
+    "message" => "Method Not Found"
+  })
+  ```
+  """
+  defmacro assert_error(id, pattern, timeout \\ 100) do
+    quote do
+      assert_receive %{
+                       "jsonrpc" => "2.0",
+                       "id" => unquote(id),
+                       "error" => unquote(pattern)
                      },
                      unquote(timeout)
     end

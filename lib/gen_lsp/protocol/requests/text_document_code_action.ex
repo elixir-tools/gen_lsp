@@ -35,10 +35,13 @@ defmodule GenLSP.Requests.TextDocumentCodeAction do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      list(
-        oneof([GenLSP.Structures.Command.schematic(), GenLSP.Structures.CodeAction.schematic()])
-      ),
-      null()
+      oneof([
+        list(
+          oneof([GenLSP.Structures.Command.schematic(), GenLSP.Structures.CodeAction.schematic()])
+        ),
+        null()
+      ]),
+      GenLSP.ErrorResponse.schematic()
     ])
   end
 end

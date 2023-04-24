@@ -34,6 +34,9 @@ defmodule GenLSP.Requests.WorkspaceWorkspaceFolders do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    oneof([list(GenLSP.Structures.WorkspaceFolder.schematic()), null()])
+    oneof([
+      oneof([list(GenLSP.Structures.WorkspaceFolder.schematic()), null()]),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

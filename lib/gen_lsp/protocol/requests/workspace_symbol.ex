@@ -46,9 +46,12 @@ defmodule GenLSP.Requests.WorkspaceSymbol do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      list(GenLSP.Structures.SymbolInformation.schematic()),
-      list(GenLSP.Structures.WorkspaceSymbol.schematic()),
-      null()
+      oneof([
+        list(GenLSP.Structures.SymbolInformation.schematic()),
+        list(GenLSP.Structures.WorkspaceSymbol.schematic()),
+        null()
+      ]),
+      GenLSP.ErrorResponse.schematic()
     ])
   end
 end

@@ -38,6 +38,9 @@ defmodule GenLSP.Requests.InlayHintResolve do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    GenLSP.Structures.InlayHint.schematic()
+    oneof([
+      GenLSP.Structures.InlayHint.schematic(),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

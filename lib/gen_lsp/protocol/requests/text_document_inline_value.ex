@@ -38,6 +38,9 @@ defmodule GenLSP.Requests.TextDocumentInlineValue do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    oneof([list(GenLSP.TypeAlias.InlineValue.schematic()), null()])
+    oneof([
+      oneof([list(GenLSP.TypeAlias.InlineValue.schematic()), null()]),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

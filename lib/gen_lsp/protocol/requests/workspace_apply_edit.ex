@@ -34,6 +34,9 @@ defmodule GenLSP.Requests.WorkspaceApplyEdit do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    GenLSP.Structures.ApplyWorkspaceEditResult.schematic()
+    oneof([
+      GenLSP.Structures.ApplyWorkspaceEditResult.schematic(),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end
