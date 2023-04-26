@@ -190,7 +190,7 @@ defmodule GenLSP do
     send(pid, {:notification, from, notification})
   end
 
-  @doc """
+  @doc ~S"""
   Sends a notification to the client from the LSP process.
 
   ## Usage
@@ -219,6 +219,15 @@ defmodule GenLSP do
         :sys.handle_system_msg(request, from, parent, __MODULE__, deb, lsp)
 
       {:request, from, request} ->
+        start_time = System.monotonic_time()
+        default_context = make_ref()
+
+        :telemetry.execute(
+          [:gen_lsp, :request, :start],
+          %{system_time: System.system_time(), monotonic_time: start_time},
+          %{telemetry_span_context: default_context}
+        )
+
         deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:in, :request, from})
 
         attempt(
@@ -243,6 +252,14 @@ defmodule GenLSP do
 
                 deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:out, :request, from})
 
+                stop_time = System.monotonic_time()
+
+                :telemetry.execute(
+                  [:gen_lsp, :request, :stop],
+                  %{duration: stop_time - start_time, monotonic_time: stop_time},
+                  %{telemetry_span_context: default_context}
+                )
+
                 GenLSP.Buffer.outgoing(lsp.buffer, packet)
 
                 loop(lsp, parent, deb)
@@ -251,10 +268,20 @@ defmodule GenLSP do
                 loop(lsp, parent, deb)
             end
           end,
-          "Last message received: handle_request #{inspect(request)}"
+          "Last message received: handle_request #{inspect(request)}",
+          %{start_time: start_time, type: :request, context: default_context}
         )
 
       {:notification, from, notification} ->
+        start_time = System.monotonic_time()
+        default_context = make_ref()
+
+        :telemetry.execute(
+          [:gen_lsp, :notification, :start],
+          %{system_time: System.system_time(), monotonic_time: start_time},
+          %{telemetry_span_context: default_context}
+        )
+
         deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:in, :notification, from})
 
         attempt(
@@ -265,30 +292,65 @@ defmodule GenLSP do
 
             case lsp.mod.handle_notification(note, lsp) do
               {:noreply, %LSP{} = lsp} ->
+                stop_time = System.monotonic_time()
+
+                :telemetry.execute(
+                  [:gen_lsp, :notification, :stop],
+                  %{duration: stop_time - start_time, monotonic_time: stop_time},
+                  %{telemetry_span_context: default_context}
+                )
+
                 loop(lsp, parent, deb)
             end
           end,
-          "Last message received: handle_notification #{inspect(notification)}"
+          "Last message received: handle_notification #{inspect(notification)}",
+          %{start_time: start_time, type: :notification, context: default_context}
         )
 
       message ->
+        start_time = System.monotonic_time()
+        default_context = make_ref()
+
+        :telemetry.execute(
+          [:gen_lsp, :info, :start],
+          %{system_time: System.system_time(), monotonic_time: start_time},
+          %{telemetry_span_context: default_context}
+        )
+
         attempt(
           fn ->
             case lsp.mod.handle_info(message, lsp) do
               {:noreply, %LSP{} = lsp} ->
+                stop_time = System.monotonic_time()
+
+                :telemetry.execute(
+                  [:gen_lsp, :info, :stop],
+                  %{duration: stop_time - start_time, monotonic_time: stop_time},
+                  %{telemetry_span_context: default_context}
+                )
+
                 loop(lsp, parent, deb)
             end
           end,
-          "Last message received: handle_info #{inspect(message)}"
+          "Last message received: handle_info #{inspect(message)}",
+          %{start_time: start_time, type: :info, context: default_context}
         )
     end
   end
 
-  @spec attempt((() -> any()), String.t()) :: no_return()
-  defp attempt(callback, message) do
+  @spec attempt((() -> any()), String.t(), integer()) :: no_return()
+  defp attempt(callback, message, %{start_time: start_time, type: type, context: context}) do
     callback.()
   rescue
     e ->
+      stop_time = System.monotonic_time()
+
+      :telemetry.execute(
+        [:gen_lsp, type, :exception],
+        %{duration: stop_time - start_time, monotonic_time: stop_time},
+        %{telemetry_span_context: context}
+      )
+
       Logger.error("""
       LSP Exited.
 

@@ -26,7 +26,7 @@ defmodule GenLSP.Communication.TCPTest do
   @string ~s|{"a":"‘","b":"#{String.duplicate("hello world! ", 5000)}"}|
   @length byte_size(@string)
 
-  @port 9000
+  @port 9001
 
   @connect_opts [:binary, packet: :raw, active: false]
 

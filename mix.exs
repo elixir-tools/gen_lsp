@@ -40,7 +40,8 @@ defmodule GenLSP.MixProject do
       {:nimble_options, "~> 0.5 or ~> 1.0"},
       # {:schematic, path: "../schematic"},
       {:schematic, "~> 0.1"},
-      {:dialyxir, ">= 0.0.0", only: [:dev, :test], runtime: false}
+      {:dialyxir, ">= 0.0.0", only: [:dev, :test], runtime: false},
+      {:telemetry, "~> 0.4 or ~> 1.0"}
     ]
   end
 
