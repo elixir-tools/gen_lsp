@@ -338,7 +338,12 @@ defmodule GenLSP do
     end
   end
 
-  @spec attempt((() -> any()), String.t(), integer()) :: no_return()
+  @type metadata :: %{
+          start_time: integer(),
+          type: :request | :notification | :info,
+          context: reference()
+        }
+  @spec attempt((() -> any()), String.t(), metadata()) :: no_return()
   defp attempt(callback, message, %{start_time: start_time, type: type, context: context}) do
     callback.()
   rescue
