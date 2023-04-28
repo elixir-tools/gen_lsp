@@ -38,8 +38,8 @@ defmodule GenLSP.Buffer do
   end
 
   @doc false
-  def outgoing(server, packet) do
-    GenServer.cast(server, {:outgoing, packet})
+  def outgoing(server, packet, meta) do
+    GenServer.cast(server, {:outgoing, packet, meta})
   end
 
   @doc false
@@ -62,19 +62,48 @@ defmodule GenLSP.Buffer do
 
   @doc false
   def handle_cast({:incoming, packet}, %{lsp: lsp} = state) do
+    default_context = make_ref()
+    start_time = System.monotonic_time()
+
+    meta = %{start_time: start_time, context: default_context}
+
+    :telemetry.execute(
+      [:gen_lsp, :buffer, :read],
+      %{system_time: System.system_time(), monotonic_time: start_time},
+      %{telemetry_span_context: default_context}
+    )
+
     case Jason.decode!(packet) do
       %{"id" => _} = request ->
-        GenLSP.request_server(lsp, request)
+        GenLSP.request_server(lsp, request, meta)
 
       notification ->
-        GenLSP.notify_server(lsp, notification)
+        GenLSP.notify_server(lsp, notification, meta)
     end
 
     {:noreply, state}
   end
 
-  def handle_cast({:outgoing, packet}, state) do
-    :ok = state.comm.write(Jason.encode!(packet), state.comm_data)
+  def handle_cast({:outgoing, packet, meta}, state) do
+    data = Jason.encode!(packet)
+    stop_time = System.monotonic_time()
+
+    with caller when is_pid(caller) <- packet[:from] do
+      dbg "adding caller in outgoing"
+      add_caller(caller)
+    end
+
+    :telemetry.execute(
+      [:gen_lsp, :buffer, :write],
+      %{duration: stop_time - meta.start_time, monotonic_time: stop_time},
+      %{telemetry_span_context: meta.context, type: meta[:type], method: meta[:method]}
+    )
+
+    with caller when is_pid(caller) <- packet[:from] do
+      pop_caller(caller)
+    end
+
+    :ok = state.comm.write(data, state.comm_data)
 
     {:noreply, state}
   end
@@ -128,5 +157,20 @@ defmodule GenLSP.Buffer do
   @doc false
   def log(message) do
     Logger.debug(message)
+  end
+
+  defp add_caller(caller) do
+    callers = Process.get(:"$callers", [])
+
+    # dbg(caller)
+    # dbg(callers)
+
+    Process.put(:"$callers", [caller | callers])
+  end
+
+  defp pop_caller(caller) do
+    callers = Process.get(:"$callers", []) |> List.delete(caller)
+
+    Process.put(:"$callers", callers)
   end
 end

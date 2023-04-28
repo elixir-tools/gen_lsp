@@ -170,10 +170,10 @@ defmodule GenLSP do
 
   You shouldn't need to use this to implement a language server.
   """
-  @spec request_server(pid(), message) :: message when message: term()
-  def request_server(pid, request) do
+  @spec request_server(pid(), message, map()) :: message when message: term()
+  def request_server(pid, request, meta) do
     from = self()
-    message = {:request, from, request}
+    message = {:request, from, request, meta}
     send(pid, message)
   end
 
@@ -184,10 +184,10 @@ defmodule GenLSP do
 
   You shouldn't need to use this to implement a language server.
   """
-  @spec notify_server(pid(), message) :: message when message: term()
-  def notify_server(pid, notification) do
+  @spec notify_server(pid(), message, map()) :: message when message: term()
+  def notify_server(pid, notification, meta) do
     from = self()
-    send(pid, {:notification, from, notification})
+    send(pid, {:notification, from, notification, meta})
   end
 
   @doc ~S"""
@@ -206,7 +206,22 @@ defmodule GenLSP do
   """
   @spec notify(GenLSP.LSP.t(), notification :: any()) :: :ok
   def notify(%{buffer: buffer}, notification) do
-    GenLSP.Buffer.outgoing(buffer, dump!(notification.__struct__.schematic(), notification))
+    default_context = make_ref()
+    start_time = System.monotonic_time()
+
+    :telemetry.execute(
+      [:gen_lsp, :notification, :emit],
+      %{system_time: System.system_time(), monotonic_time: start_time},
+      %{telemetry_span_context: default_context, method: notification.method}
+    )
+
+    GenLSP.Buffer.outgoing(buffer, dump!(notification.__struct__.schematic(), notification), %{
+      start_time: start_time,
+      context: default_context,
+      from: self(),
+      type: :notification,
+      method: notification.method
+    })
   end
 
   defp write_debug(device, event, name) do
@@ -214,18 +229,27 @@ defmodule GenLSP do
   end
 
   defp loop(%LSP{} = lsp, parent, deb) do
+    default_context = make_ref()
+
     receive do
       {:system, from, request} ->
         :sys.handle_system_msg(request, from, parent, __MODULE__, deb, lsp)
 
-      {:request, from, request} ->
+      {:request, from, request, meta} ->
         start_time = System.monotonic_time()
-        default_context = make_ref()
+        system_time = System.system_time()
+
+        add_caller(from)
 
         :telemetry.execute(
-          [:gen_lsp, :request, :start],
-          %{system_time: System.system_time(), monotonic_time: start_time},
-          %{telemetry_span_context: default_context}
+          [:gen_lsp, :loop, :start],
+          %{system_time: system_time, monotonic_time: start_time},
+          %{
+            telemetry_span_context: default_context,
+            buffer: from,
+            type: :request,
+            method: request["method"]
+          }
         )
 
         deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:in, :request, from})
@@ -255,16 +279,37 @@ defmodule GenLSP do
                 stop_time = System.monotonic_time()
 
                 :telemetry.execute(
-                  [:gen_lsp, :request, :stop],
+                  [:gen_lsp, :loop, :stop],
                   %{duration: stop_time - start_time, monotonic_time: stop_time},
-                  %{telemetry_span_context: default_context}
+                  %{
+                    telemetry_span_context: default_context,
+                    buffer: from,
+                    type: :request,
+                    reply: true,
+                    method: req.method
+                  }
                 )
 
-                GenLSP.Buffer.outgoing(lsp.buffer, packet)
+                GenLSP.Buffer.outgoing(lsp.buffer, packet, Map.merge(meta, %{type: :reply, method: req.method}))
 
+                pop_caller(from)
                 loop(lsp, parent, deb)
 
               {:noreply, lsp} ->
+                stop_time = System.monotonic_time()
+
+                :telemetry.execute(
+                  [:gen_lsp, :loop, :stop],
+                  %{duration: stop_time - start_time, monotonic_time: stop_time},
+                  %{
+                    telemetry_span_context: default_context,
+                    buffer: from,
+                    type: :request,
+                    reply: false
+                  }
+                )
+
+                pop_caller(from)
                 loop(lsp, parent, deb)
             end
           end,
@@ -272,14 +317,20 @@ defmodule GenLSP do
           %{start_time: start_time, type: :request, context: default_context}
         )
 
-      {:notification, from, notification} ->
+      {:notification, from, notification, meta} ->
         start_time = System.monotonic_time()
-        default_context = make_ref()
+        system_time = System.system_time()
+
+        add_caller(from)
 
         :telemetry.execute(
-          [:gen_lsp, :notification, :start],
-          %{system_time: System.system_time(), monotonic_time: start_time},
-          %{telemetry_span_context: default_context}
+          [:gen_lsp, :loop, :start],
+          %{system_time: system_time, monotonic_time: start_time},
+          %{
+            type: :notification,
+            method: notification["method"],
+            telemetry_span_context: meta.context
+          }
         )
 
         deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:in, :notification, from})
@@ -295,21 +346,25 @@ defmodule GenLSP do
                 stop_time = System.monotonic_time()
 
                 :telemetry.execute(
-                  [:gen_lsp, :notification, :stop],
+                  [:gen_lsp, :loop, :stop],
                   %{duration: stop_time - start_time, monotonic_time: stop_time},
-                  %{telemetry_span_context: default_context}
+                  %{
+                    telemetry_span_context: meta.context,
+                    type: :notification,
+                    method: note.method
+                  }
                 )
 
+                pop_caller(from)
                 loop(lsp, parent, deb)
             end
           end,
           "Last message received: handle_notification #{inspect(notification)}",
-          %{start_time: start_time, type: :notification, context: default_context}
+          %{start_time: start_time, type: :notification, context: meta.context}
         )
 
       message ->
         start_time = System.monotonic_time()
-        default_context = make_ref()
 
         :telemetry.execute(
           [:gen_lsp, :info, :start],
@@ -336,6 +391,21 @@ defmodule GenLSP do
           %{start_time: start_time, type: :info, context: default_context}
         )
     end
+  end
+
+  defp add_caller(caller) do
+    callers = Process.get(:"$callers", [])
+
+    # dbg(caller)
+    # dbg(callers)
+
+    Process.put(:"$callers", [caller | callers])
+  end
+
+  defp pop_caller(caller) do
+    callers = Process.get(:"$callers", []) |> List.delete(caller)
+
+    Process.put(:"$callers", callers)
   end
 
   @type metadata :: %{
