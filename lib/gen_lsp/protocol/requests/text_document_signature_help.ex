@@ -28,6 +28,9 @@ defmodule GenLSP.Requests.TextDocumentSignatureHelp do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    oneof([GenLSP.Structures.SignatureHelp.schematic(), null()])
+    oneof([
+      oneof([GenLSP.Structures.SignatureHelp.schematic(), null()]),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

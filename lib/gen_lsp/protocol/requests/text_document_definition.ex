@@ -40,9 +40,12 @@ defmodule GenLSP.Requests.TextDocumentDefinition do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      GenLSP.TypeAlias.Definition.schematic(),
-      list(GenLSP.TypeAlias.DefinitionLink.schematic()),
-      null()
+      oneof([
+        GenLSP.TypeAlias.Definition.schematic(),
+        list(GenLSP.TypeAlias.DefinitionLink.schematic()),
+        null()
+      ]),
+      GenLSP.ErrorResponse.schematic()
     ])
   end
 end

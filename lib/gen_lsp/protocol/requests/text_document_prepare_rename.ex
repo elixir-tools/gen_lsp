@@ -36,6 +36,9 @@ defmodule GenLSP.Requests.TextDocumentPrepareRename do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    oneof([GenLSP.TypeAlias.PrepareRenameResult.schematic(), null()])
+    oneof([
+      oneof([GenLSP.TypeAlias.PrepareRenameResult.schematic(), null()]),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

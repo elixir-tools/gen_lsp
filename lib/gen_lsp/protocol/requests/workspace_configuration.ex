@@ -40,6 +40,9 @@ defmodule GenLSP.Requests.WorkspaceConfiguration do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    list(GenLSP.TypeAlias.LSPAny.schematic())
+    oneof([
+      list(GenLSP.TypeAlias.LSPAny.schematic()),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

@@ -36,6 +36,9 @@ defmodule GenLSP.Requests.TypeHierarchySupertypes do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    oneof([list(GenLSP.Structures.TypeHierarchyItem.schematic()), null()])
+    oneof([
+      oneof([list(GenLSP.Structures.TypeHierarchyItem.schematic()), null()]),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

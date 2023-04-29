@@ -36,6 +36,9 @@ defmodule GenLSP.Requests.WorkspaceDiagnostic do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    GenLSP.Structures.WorkspaceDiagnosticReport.schematic()
+    oneof([
+      GenLSP.Structures.WorkspaceDiagnosticReport.schematic(),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

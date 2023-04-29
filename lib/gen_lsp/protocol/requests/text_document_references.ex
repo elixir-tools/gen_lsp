@@ -37,6 +37,9 @@ defmodule GenLSP.Requests.TextDocumentReferences do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    oneof([list(GenLSP.Structures.Location.schematic()), null()])
+    oneof([
+      oneof([list(GenLSP.Structures.Location.schematic()), null()]),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

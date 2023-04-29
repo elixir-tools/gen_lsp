@@ -38,6 +38,9 @@ defmodule GenLSP.Requests.Initialize do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    GenLSP.Structures.InitializeResult.schematic()
+    oneof([
+      GenLSP.Structures.InitializeResult.schematic(),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

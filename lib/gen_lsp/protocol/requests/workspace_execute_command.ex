@@ -35,6 +35,9 @@ defmodule GenLSP.Requests.WorkspaceExecuteCommand do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    oneof([GenLSP.TypeAlias.LSPAny.schematic(), null()])
+    oneof([
+      oneof([GenLSP.TypeAlias.LSPAny.schematic(), null()]),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

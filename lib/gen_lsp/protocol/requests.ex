@@ -1,3 +1,4 @@
+# codegen: do not edit
 defmodule GenLSP.Requests do
   import Schematic
 

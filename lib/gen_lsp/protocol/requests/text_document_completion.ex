@@ -44,9 +44,12 @@ defmodule GenLSP.Requests.TextDocumentCompletion do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      list(GenLSP.Structures.CompletionItem.schematic()),
-      GenLSP.Structures.CompletionList.schematic(),
-      null()
+      oneof([
+        list(GenLSP.Structures.CompletionItem.schematic()),
+        GenLSP.Structures.CompletionList.schematic(),
+        null()
+      ]),
+      GenLSP.ErrorResponse.schematic()
     ])
   end
 end

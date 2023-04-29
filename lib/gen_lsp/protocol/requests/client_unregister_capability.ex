@@ -35,6 +35,9 @@ defmodule GenLSP.Requests.ClientUnregisterCapability do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    null()
+    oneof([
+      null(),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

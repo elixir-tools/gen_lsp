@@ -34,6 +34,9 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensFull do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    oneof([GenLSP.Structures.SemanticTokens.schematic(), null()])
+    oneof([
+      oneof([GenLSP.Structures.SemanticTokens.schematic(), null()]),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

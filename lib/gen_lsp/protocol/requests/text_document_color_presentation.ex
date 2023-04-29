@@ -37,6 +37,9 @@ defmodule GenLSP.Requests.TextDocumentColorPresentation do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    list(GenLSP.Structures.ColorPresentation.schematic())
+    oneof([
+      list(GenLSP.Structures.ColorPresentation.schematic()),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

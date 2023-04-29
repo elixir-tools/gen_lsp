@@ -36,6 +36,9 @@ defmodule GenLSP.Requests.TextDocumentDiagnostic do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    GenLSP.TypeAlias.DocumentDiagnosticReport.schematic()
+    oneof([
+      GenLSP.TypeAlias.DocumentDiagnosticReport.schematic(),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

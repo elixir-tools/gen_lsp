@@ -27,8 +27,12 @@ defmodule GenLSPTest.ExampleServer do
      }, lsp}
   end
 
-  def handle_request(%Requests.TextDocumentDocumentSymbol{}, lsp) do
-    {:reply, nil, lsp}
+  def handle_request(_, lsp) do
+    {:reply,
+     %GenLSP.ErrorResponse{
+       code: GenLSP.Enumerations.ErrorCodes.method_not_found(),
+       message: "Method Not Found"
+     }, lsp}
   end
 
   @impl true

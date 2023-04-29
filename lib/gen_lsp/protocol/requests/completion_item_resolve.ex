@@ -36,6 +36,9 @@ defmodule GenLSP.Requests.CompletionItemResolve do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    GenLSP.Structures.CompletionItem.schematic()
+    oneof([
+      GenLSP.Structures.CompletionItem.schematic(),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

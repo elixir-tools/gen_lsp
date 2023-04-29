@@ -36,6 +36,9 @@ defmodule GenLSP.Requests.CodeActionResolve do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    GenLSP.Structures.CodeAction.schematic()
+    oneof([
+      GenLSP.Structures.CodeAction.schematic(),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

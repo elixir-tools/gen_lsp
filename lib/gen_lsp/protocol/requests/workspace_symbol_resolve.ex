@@ -37,6 +37,9 @@ defmodule GenLSP.Requests.WorkspaceSymbolResolve do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    GenLSP.Structures.WorkspaceSymbol.schematic()
+    oneof([
+      GenLSP.Structures.WorkspaceSymbol.schematic(),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end

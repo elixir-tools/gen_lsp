@@ -35,6 +35,9 @@ defmodule GenLSP.Requests.WindowShowMessageRequest do
   @doc false
   @spec result() :: Schematic.t()
   def result() do
-    oneof([GenLSP.Structures.MessageActionItem.schematic(), null()])
+    oneof([
+      oneof([GenLSP.Structures.MessageActionItem.schematic(), null()]),
+      GenLSP.ErrorResponse.schematic()
+    ])
   end
 end
