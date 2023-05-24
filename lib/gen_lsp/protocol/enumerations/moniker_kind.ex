@@ -33,9 +33,9 @@ defmodule GenLSP.Enumerations.MonikerKind do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      str("import"),
-      str("export"),
-      str("local")
+      "import",
+      "export",
+      "local"
     ])
   end
 end

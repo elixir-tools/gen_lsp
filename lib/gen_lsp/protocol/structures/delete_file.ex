@@ -30,7 +30,7 @@ defmodule GenLSP.Structures.DeleteFile do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"kind", :kind} => str("delete"),
+      {"kind", :kind} => "delete",
       {"uri", :uri} => str(),
       optional({"options", :options}) => GenLSP.Structures.DeleteFileOptions.schematic(),
       optional({"annotationId", :annotation_id}) =>

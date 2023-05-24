@@ -24,7 +24,7 @@ defmodule GenLSP.Structures.HoverRegistrationOptions do
   def schematic() do
     schema(__MODULE__, %{
       {"documentSelector", :document_selector} =>
-        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()])
+        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), nil])
     })
   end
 end

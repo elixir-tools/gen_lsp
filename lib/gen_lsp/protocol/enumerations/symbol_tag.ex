@@ -20,7 +20,7 @@ defmodule GenLSP.Enumerations.SymbolTag do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      int(1)
+      1
     ])
   end
 end

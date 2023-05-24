@@ -50,7 +50,7 @@ defmodule GenLSP.Structures.CompletionRegistrationOptions do
   def schematic() do
     schema(__MODULE__, %{
       {"documentSelector", :document_selector} =>
-        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()]),
+        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), nil]),
       optional({"triggerCharacters", :trigger_characters}) => list(str()),
       optional({"allCommitCharacters", :all_commit_characters}) => list(str()),
       optional({"resolveProvider", :resolve_provider}) => bool(),

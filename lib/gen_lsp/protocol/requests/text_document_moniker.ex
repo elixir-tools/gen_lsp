@@ -26,8 +26,8 @@ defmodule GenLSP.Requests.TextDocumentMoniker do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/moniker"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/moniker",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.MonikerParams.schematic()
     })
@@ -37,7 +37,7 @@ defmodule GenLSP.Requests.TextDocumentMoniker do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([list(GenLSP.Structures.Moniker.schematic()), null()]),
+      oneof([list(GenLSP.Structures.Moniker.schematic()), nil]),
       GenLSP.ErrorResponse.schematic()
     ])
   end

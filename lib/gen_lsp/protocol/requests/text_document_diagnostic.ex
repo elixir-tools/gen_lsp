@@ -26,8 +26,8 @@ defmodule GenLSP.Requests.TextDocumentDiagnostic do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/diagnostic"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/diagnostic",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.DocumentDiagnosticParams.schematic()
     })

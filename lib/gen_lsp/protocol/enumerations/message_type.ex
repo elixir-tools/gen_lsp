@@ -36,10 +36,10 @@ defmodule GenLSP.Enumerations.MessageType do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      int(1),
-      int(2),
-      int(3),
-      int(4)
+      1,
+      2,
+      3,
+      4
     ])
   end
 end

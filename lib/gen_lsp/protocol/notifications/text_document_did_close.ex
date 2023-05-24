@@ -27,8 +27,8 @@ defmodule GenLSP.Notifications.TextDocumentDidClose do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/didClose"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/didClose",
+      jsonrpc: "2.0",
       params: GenLSP.Structures.DidCloseTextDocumentParams.schematic()
     })
   end

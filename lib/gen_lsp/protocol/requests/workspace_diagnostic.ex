@@ -26,8 +26,8 @@ defmodule GenLSP.Requests.WorkspaceDiagnostic do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("workspace/diagnostic"),
-      jsonrpc: str("2.0"),
+      method: "workspace/diagnostic",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.WorkspaceDiagnosticParams.schematic()
     })

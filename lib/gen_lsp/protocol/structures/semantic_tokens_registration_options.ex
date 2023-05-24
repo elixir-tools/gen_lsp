@@ -35,7 +35,7 @@ defmodule GenLSP.Structures.SemanticTokensRegistrationOptions do
     schema(__MODULE__, %{
       optional({"id", :id}) => str(),
       {"documentSelector", :document_selector} =>
-        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()]),
+        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), nil]),
       {"legend", :legend} => GenLSP.Structures.SemanticTokensLegend.schematic(),
       optional({"range", :range}) => oneof([bool(), map(%{})]),
       optional({"full", :full}) =>

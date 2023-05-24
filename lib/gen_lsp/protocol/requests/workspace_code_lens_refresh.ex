@@ -26,10 +26,10 @@ defmodule GenLSP.Requests.WorkspaceCodeLensRefresh do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("workspace/codeLens/refresh"),
-      jsonrpc: str("2.0"),
+      method: "workspace/codeLens/refresh",
+      jsonrpc: "2.0",
       id: int(),
-      params: null()
+      params: nil
     })
   end
 
@@ -37,7 +37,7 @@ defmodule GenLSP.Requests.WorkspaceCodeLensRefresh do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      null(),
+      nil,
       GenLSP.ErrorResponse.schematic()
     ])
   end

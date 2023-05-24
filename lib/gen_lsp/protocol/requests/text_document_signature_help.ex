@@ -18,8 +18,8 @@ defmodule GenLSP.Requests.TextDocumentSignatureHelp do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/signatureHelp"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/signatureHelp",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.SignatureHelpParams.schematic()
     })
@@ -29,7 +29,7 @@ defmodule GenLSP.Requests.TextDocumentSignatureHelp do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([GenLSP.Structures.SignatureHelp.schematic(), null()]),
+      oneof([GenLSP.Structures.SignatureHelp.schematic(), nil]),
       GenLSP.ErrorResponse.schematic()
     ])
   end

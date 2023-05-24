@@ -36,8 +36,8 @@ defmodule GenLSP.Structures.WorkspaceFullDocumentDiagnosticReport do
   def schematic() do
     schema(__MODULE__, %{
       {"uri", :uri} => str(),
-      {"version", :version} => oneof([int(), null()]),
-      {"kind", :kind} => str("full"),
+      {"version", :version} => oneof([int(), nil]),
+      {"kind", :kind} => "full",
       optional({"resultId", :result_id}) => str(),
       {"items", :items} => list(GenLSP.Structures.Diagnostic.schematic())
     })

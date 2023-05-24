@@ -24,8 +24,8 @@ defmodule GenLSP.Notifications.WorkspaceDidDeleteFiles do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("workspace/didDeleteFiles"),
-      jsonrpc: str("2.0"),
+      method: "workspace/didDeleteFiles",
+      jsonrpc: "2.0",
       params: GenLSP.Structures.DeleteFilesParams.schematic()
     })
   end

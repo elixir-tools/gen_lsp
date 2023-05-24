@@ -26,9 +26,9 @@ defmodule GenLSP.Enumerations.WatchKind do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      int(1),
-      int(2),
-      int(4)
+      1,
+      2,
+      4
     ])
   end
 end

@@ -52,7 +52,7 @@ defmodule GenLSP.Structures.RelatedUnchangedDocumentDiagnosticReport do
               GenLSP.Structures.UnchangedDocumentDiagnosticReport.schematic()
             ])
         ),
-      {"kind", :kind} => str("unchanged"),
+      {"kind", :kind} => "unchanged",
       {"resultId", :result_id} => str()
     })
   end

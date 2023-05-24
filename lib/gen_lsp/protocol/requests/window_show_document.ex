@@ -29,8 +29,8 @@ defmodule GenLSP.Requests.WindowShowDocument do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("window/showDocument"),
-      jsonrpc: str("2.0"),
+      method: "window/showDocument",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.ShowDocumentParams.schematic()
     })

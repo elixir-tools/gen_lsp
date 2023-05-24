@@ -11,7 +11,7 @@ defmodule GenLSP.Enumerations.TokenFormat do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      str("relative")
+      "relative"
     ])
   end
 end

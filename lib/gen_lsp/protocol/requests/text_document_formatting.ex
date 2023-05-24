@@ -24,8 +24,8 @@ defmodule GenLSP.Requests.TextDocumentFormatting do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/formatting"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/formatting",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.DocumentFormattingParams.schematic()
     })
@@ -35,7 +35,7 @@ defmodule GenLSP.Requests.TextDocumentFormatting do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([list(GenLSP.Structures.TextEdit.schematic()), null()]),
+      oneof([list(GenLSP.Structures.TextEdit.schematic()), nil]),
       GenLSP.ErrorResponse.schematic()
     ])
   end

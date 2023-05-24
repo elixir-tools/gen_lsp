@@ -15,8 +15,8 @@ defmodule GenLSP.Notifications.DollarLogTrace do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("$/logTrace"),
-      jsonrpc: str("2.0"),
+      method: "$/logTrace",
+      jsonrpc: "2.0",
       params: GenLSP.Structures.LogTraceParams.schematic()
     })
   end

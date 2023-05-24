@@ -24,8 +24,8 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensRange do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/semanticTokens/range"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/semanticTokens/range",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.SemanticTokensRangeParams.schematic()
     })
@@ -35,7 +35,7 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensRange do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([GenLSP.Structures.SemanticTokens.schematic(), null()]),
+      oneof([GenLSP.Structures.SemanticTokens.schematic(), nil]),
       GenLSP.ErrorResponse.schematic()
     ])
   end

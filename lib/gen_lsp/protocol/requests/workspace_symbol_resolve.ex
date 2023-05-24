@@ -27,8 +27,8 @@ defmodule GenLSP.Requests.WorkspaceSymbolResolve do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("workspaceSymbol/resolve"),
-      jsonrpc: str("2.0"),
+      method: "workspaceSymbol/resolve",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.WorkspaceSymbol.schematic()
     })

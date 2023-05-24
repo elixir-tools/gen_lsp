@@ -36,8 +36,8 @@ defmodule GenLSP.Structures.WorkspaceUnchangedDocumentDiagnosticReport do
   def schematic() do
     schema(__MODULE__, %{
       {"uri", :uri} => str(),
-      {"version", :version} => oneof([int(), null()]),
-      {"kind", :kind} => str("unchanged"),
+      {"version", :version} => oneof([int(), nil]),
+      {"kind", :kind} => "unchanged",
       {"resultId", :result_id} => str()
     })
   end

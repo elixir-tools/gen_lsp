@@ -25,8 +25,8 @@ defmodule GenLSP.Requests.WorkspaceExecuteCommand do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("workspace/executeCommand"),
-      jsonrpc: str("2.0"),
+      method: "workspace/executeCommand",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.ExecuteCommandParams.schematic()
     })
@@ -36,7 +36,7 @@ defmodule GenLSP.Requests.WorkspaceExecuteCommand do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([GenLSP.TypeAlias.LSPAny.schematic(), null()]),
+      oneof([GenLSP.TypeAlias.LSPAny.schematic(), nil]),
       GenLSP.ErrorResponse.schematic()
     ])
   end

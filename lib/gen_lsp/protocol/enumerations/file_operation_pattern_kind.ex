@@ -27,8 +27,8 @@ defmodule GenLSP.Enumerations.FileOperationPatternKind do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      str("file"),
-      str("folder")
+      "file",
+      "folder"
     ])
   end
 end

@@ -27,8 +27,8 @@ defmodule GenLSP.Requests.TextDocumentColorPresentation do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/colorPresentation"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/colorPresentation",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.ColorPresentationParams.schematic()
     })

@@ -27,8 +27,8 @@ defmodule GenLSP.Requests.WorkspaceWillCreateFiles do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("workspace/willCreateFiles"),
-      jsonrpc: str("2.0"),
+      method: "workspace/willCreateFiles",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.CreateFilesParams.schematic()
     })
@@ -38,7 +38,7 @@ defmodule GenLSP.Requests.WorkspaceWillCreateFiles do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([GenLSP.Structures.WorkspaceEdit.schematic(), null()]),
+      oneof([GenLSP.Structures.WorkspaceEdit.schematic(), nil]),
       GenLSP.ErrorResponse.schematic()
     ])
   end

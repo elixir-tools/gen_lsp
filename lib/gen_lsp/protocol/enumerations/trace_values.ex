@@ -26,9 +26,9 @@ defmodule GenLSP.Enumerations.TraceValues do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      str("off"),
-      str("messages"),
-      str("verbose")
+      "off",
+      "messages",
+      "verbose"
     ])
   end
 end

@@ -27,7 +27,7 @@ defmodule GenLSP.Structures.TextDocumentChangeRegistrationOptions do
     schema(__MODULE__, %{
       {"syncKind", :sync_kind} => GenLSP.Enumerations.TextDocumentSyncKind.schematic(),
       {"documentSelector", :document_selector} =>
-        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()])
+        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), nil])
     })
   end
 end

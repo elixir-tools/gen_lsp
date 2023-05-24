@@ -24,7 +24,7 @@ defmodule GenLSP.Structures.SelectionRangeRegistrationOptions do
     schema(__MODULE__, %{
       optional({"id", :id}) => str(),
       {"documentSelector", :document_selector} =>
-        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()])
+        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), nil])
     })
   end
 end

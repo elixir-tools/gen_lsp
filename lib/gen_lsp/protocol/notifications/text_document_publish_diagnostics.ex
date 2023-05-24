@@ -22,8 +22,8 @@ defmodule GenLSP.Notifications.TextDocumentPublishDiagnostics do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/publishDiagnostics"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/publishDiagnostics",
+      jsonrpc: "2.0",
       params: GenLSP.Structures.PublishDiagnosticsParams.schematic()
     })
   end

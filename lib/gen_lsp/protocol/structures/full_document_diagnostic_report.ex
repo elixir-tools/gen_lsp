@@ -30,7 +30,7 @@ defmodule GenLSP.Structures.FullDocumentDiagnosticReport do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"kind", :kind} => str("full"),
+      {"kind", :kind} => "full",
       optional({"resultId", :result_id}) => str(),
       {"items", :items} => list(GenLSP.Structures.Diagnostic.schematic())
     })

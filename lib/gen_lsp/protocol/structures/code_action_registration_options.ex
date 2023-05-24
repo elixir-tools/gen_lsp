@@ -34,7 +34,7 @@ defmodule GenLSP.Structures.CodeActionRegistrationOptions do
   def schematic() do
     schema(__MODULE__, %{
       {"documentSelector", :document_selector} =>
-        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()]),
+        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), nil]),
       optional({"codeActionKinds", :code_action_kinds}) =>
         list(GenLSP.Enumerations.CodeActionKind.schematic()),
       optional({"resolveProvider", :resolve_provider}) => bool()

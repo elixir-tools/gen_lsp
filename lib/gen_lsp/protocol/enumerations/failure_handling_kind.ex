@@ -37,10 +37,10 @@ defmodule GenLSP.Enumerations.FailureHandlingKind do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      str("abort"),
-      str("transactional"),
-      str("textOnlyTransactional"),
-      str("undo")
+      "abort",
+      "transactional",
+      "textOnlyTransactional",
+      "undo"
     ])
   end
 end

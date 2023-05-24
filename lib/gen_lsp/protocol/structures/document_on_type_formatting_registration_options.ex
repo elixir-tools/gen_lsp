@@ -28,7 +28,7 @@ defmodule GenLSP.Structures.DocumentOnTypeFormattingRegistrationOptions do
   def schematic() do
     schema(__MODULE__, %{
       {"documentSelector", :document_selector} =>
-        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()]),
+        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), nil]),
       {"firstTriggerCharacter", :first_trigger_character} => str(),
       optional({"moreTriggerCharacter", :more_trigger_character}) => list(str())
     })

@@ -40,7 +40,7 @@ defmodule GenLSP.Structures.WorkDoneProgressBegin do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"kind", :kind} => str("begin"),
+      {"kind", :kind} => "begin",
       {"title", :title} => str(),
       optional({"cancellable", :cancellable}) => bool(),
       optional({"message", :message}) => str(),

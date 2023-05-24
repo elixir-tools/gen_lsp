@@ -28,8 +28,8 @@ defmodule GenLSP.Requests.TextDocumentImplementation do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/implementation"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/implementation",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.ImplementationParams.schematic()
     })
@@ -42,7 +42,7 @@ defmodule GenLSP.Requests.TextDocumentImplementation do
       oneof([
         GenLSP.TypeAlias.Definition.schematic(),
         list(GenLSP.TypeAlias.DefinitionLink.schematic()),
-        null()
+        nil
       ]),
       GenLSP.ErrorResponse.schematic()
     ])

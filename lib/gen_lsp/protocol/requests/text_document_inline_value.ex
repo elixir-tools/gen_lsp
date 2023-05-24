@@ -28,8 +28,8 @@ defmodule GenLSP.Requests.TextDocumentInlineValue do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/inlineValue"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/inlineValue",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.InlineValueParams.schematic()
     })
@@ -39,7 +39,7 @@ defmodule GenLSP.Requests.TextDocumentInlineValue do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([list(GenLSP.TypeAlias.InlineValue.schematic()), null()]),
+      oneof([list(GenLSP.TypeAlias.InlineValue.schematic()), nil]),
       GenLSP.ErrorResponse.schematic()
     ])
   end

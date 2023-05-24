@@ -22,9 +22,9 @@ defmodule GenLSP.Notifications.Exit do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("exit"),
-      jsonrpc: str("2.0"),
-      params: null()
+      method: "exit",
+      jsonrpc: "2.0",
+      params: nil
     })
   end
 end

@@ -49,10 +49,10 @@ defmodule GenLSP.Enumerations.LSPErrorCodes do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      int(-32803),
-      int(-32802),
-      int(-32801),
-      int(-32800)
+      -32803,
+      -32802,
+      -32801,
+      -32800
     ])
   end
 end

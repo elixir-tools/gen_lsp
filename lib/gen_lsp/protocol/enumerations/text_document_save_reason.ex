@@ -31,9 +31,9 @@ defmodule GenLSP.Enumerations.TextDocumentSaveReason do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      int(1),
-      int(2),
-      int(3)
+      1,
+      2,
+      3
     ])
   end
 end

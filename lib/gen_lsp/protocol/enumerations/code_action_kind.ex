@@ -97,15 +97,15 @@ defmodule GenLSP.Enumerations.CodeActionKind do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      str(""),
-      str("quickfix"),
-      str("refactor"),
-      str("refactor.extract"),
-      str("refactor.inline"),
-      str("refactor.rewrite"),
-      str("source"),
-      str("source.organizeImports"),
-      str("source.fixAll")
+      "",
+      "quickfix",
+      "refactor",
+      "refactor.extract",
+      "refactor.inline",
+      "refactor.rewrite",
+      "source",
+      "source.organizeImports",
+      "source.fixAll"
     ])
   end
 end

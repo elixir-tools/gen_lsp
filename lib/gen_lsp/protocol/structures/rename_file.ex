@@ -32,7 +32,7 @@ defmodule GenLSP.Structures.RenameFile do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"kind", :kind} => str("rename"),
+      {"kind", :kind} => "rename",
       {"oldUri", :old_uri} => str(),
       {"newUri", :new_uri} => str(),
       optional({"options", :options}) => GenLSP.Structures.RenameFileOptions.schematic(),

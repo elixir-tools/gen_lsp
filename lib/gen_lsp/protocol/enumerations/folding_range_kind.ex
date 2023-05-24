@@ -30,9 +30,9 @@ defmodule GenLSP.Enumerations.FoldingRangeKind do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      str("comment"),
-      str("imports"),
-      str("region")
+      "comment",
+      "imports",
+      "region"
     ])
   end
 end

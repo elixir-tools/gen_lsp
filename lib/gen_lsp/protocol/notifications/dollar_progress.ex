@@ -15,8 +15,8 @@ defmodule GenLSP.Notifications.DollarProgress do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("$/progress"),
-      jsonrpc: str("2.0"),
+      method: "$/progress",
+      jsonrpc: "2.0",
       params: GenLSP.Structures.ProgressParams.schematic()
     })
   end

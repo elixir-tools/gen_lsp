@@ -26,8 +26,8 @@ defmodule GenLSP.Requests.TextDocumentLinkedEditingRange do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/linkedEditingRange"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/linkedEditingRange",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.LinkedEditingRangeParams.schematic()
     })
@@ -37,7 +37,7 @@ defmodule GenLSP.Requests.TextDocumentLinkedEditingRange do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([GenLSP.Structures.LinkedEditingRanges.schematic(), null()]),
+      oneof([GenLSP.Structures.LinkedEditingRanges.schematic(), nil]),
       GenLSP.ErrorResponse.schematic()
     ])
   end

@@ -28,8 +28,8 @@ defmodule GenLSP.Enumerations.MarkupKind do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      str("plaintext"),
-      str("markdown")
+      "plaintext",
+      "markdown"
     ])
   end
 end

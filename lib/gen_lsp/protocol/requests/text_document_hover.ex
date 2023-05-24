@@ -26,8 +26,8 @@ defmodule GenLSP.Requests.TextDocumentHover do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/hover"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/hover",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.HoverParams.schematic()
     })
@@ -37,7 +37,7 @@ defmodule GenLSP.Requests.TextDocumentHover do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([GenLSP.Structures.Hover.schematic(), null()]),
+      oneof([GenLSP.Structures.Hover.schematic(), nil]),
       GenLSP.ErrorResponse.schematic()
     ])
   end

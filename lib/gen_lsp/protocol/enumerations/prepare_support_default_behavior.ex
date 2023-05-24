@@ -15,7 +15,7 @@ defmodule GenLSP.Enumerations.PrepareSupportDefaultBehavior do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      int(1)
+      1
     ])
   end
 end

@@ -35,8 +35,8 @@ defmodule GenLSP.Requests.WorkspaceSymbol do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("workspace/symbol"),
-      jsonrpc: str("2.0"),
+      method: "workspace/symbol",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.WorkspaceSymbolParams.schematic()
     })
@@ -49,7 +49,7 @@ defmodule GenLSP.Requests.WorkspaceSymbol do
       oneof([
         list(GenLSP.Structures.SymbolInformation.schematic()),
         list(GenLSP.Structures.WorkspaceSymbol.schematic()),
-        null()
+        nil
       ]),
       GenLSP.ErrorResponse.schematic()
     ])
