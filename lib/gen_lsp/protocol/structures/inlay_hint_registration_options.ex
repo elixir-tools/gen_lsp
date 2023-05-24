@@ -34,7 +34,7 @@ defmodule GenLSP.Structures.InlayHintRegistrationOptions do
       optional({"id", :id}) => str(),
       optional({"resolveProvider", :resolve_provider}) => bool(),
       {"documentSelector", :document_selector} =>
-        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()])
+        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), nil])
     })
   end
 end

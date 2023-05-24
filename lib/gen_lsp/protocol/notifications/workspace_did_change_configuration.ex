@@ -23,8 +23,8 @@ defmodule GenLSP.Notifications.WorkspaceDidChangeConfiguration do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("workspace/didChangeConfiguration"),
-      jsonrpc: str("2.0"),
+      method: "workspace/didChangeConfiguration",
+      jsonrpc: "2.0",
       params: GenLSP.Structures.DidChangeConfigurationParams.schematic()
     })
   end

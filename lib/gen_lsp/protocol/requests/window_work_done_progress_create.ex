@@ -25,8 +25,8 @@ defmodule GenLSP.Requests.WindowWorkDoneProgressCreate do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("window/workDoneProgress/create"),
-      jsonrpc: str("2.0"),
+      method: "window/workDoneProgress/create",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.WorkDoneProgressCreateParams.schematic()
     })
@@ -36,7 +36,7 @@ defmodule GenLSP.Requests.WindowWorkDoneProgressCreate do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      null(),
+      nil,
       GenLSP.ErrorResponse.schematic()
     ])
   end

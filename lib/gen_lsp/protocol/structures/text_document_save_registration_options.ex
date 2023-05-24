@@ -26,7 +26,7 @@ defmodule GenLSP.Structures.TextDocumentSaveRegistrationOptions do
   def schematic() do
     schema(__MODULE__, %{
       {"documentSelector", :document_selector} =>
-        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), null()]),
+        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), nil]),
       optional({"includeText", :include_text}) => bool()
     })
   end

@@ -37,13 +37,13 @@ defmodule GenLSP.Enumerations.ErrorCodes do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      int(-32700),
-      int(-32600),
-      int(-32601),
-      int(-32602),
-      int(-32603),
-      int(-32002),
-      int(-32001)
+      -32700,
+      -32600,
+      -32601,
+      -32602,
+      -32603,
+      -32002,
+      -32001
     ])
   end
 end

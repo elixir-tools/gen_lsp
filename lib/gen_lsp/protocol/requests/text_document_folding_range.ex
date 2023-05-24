@@ -27,8 +27,8 @@ defmodule GenLSP.Requests.TextDocumentFoldingRange do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/foldingRange"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/foldingRange",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.FoldingRangeParams.schematic()
     })
@@ -38,7 +38,7 @@ defmodule GenLSP.Requests.TextDocumentFoldingRange do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([list(GenLSP.Structures.FoldingRange.schematic()), null()]),
+      oneof([list(GenLSP.Structures.FoldingRange.schematic()), nil]),
       GenLSP.ErrorResponse.schematic()
     ])
   end

@@ -33,8 +33,8 @@ defmodule GenLSP.Requests.TextDocumentCompletion do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/completion"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/completion",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.CompletionParams.schematic()
     })
@@ -47,7 +47,7 @@ defmodule GenLSP.Requests.TextDocumentCompletion do
       oneof([
         list(GenLSP.Structures.CompletionItem.schematic()),
         GenLSP.Structures.CompletionList.schematic(),
-        null()
+        nil
       ]),
       GenLSP.ErrorResponse.schematic()
     ])

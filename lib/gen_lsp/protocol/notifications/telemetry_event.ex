@@ -22,8 +22,8 @@ defmodule GenLSP.Notifications.TelemetryEvent do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("telemetry/event"),
-      jsonrpc: str("2.0"),
+      method: "telemetry/event",
+      jsonrpc: "2.0",
       params: GenLSP.TypeAlias.LSPAny.schematic()
     })
   end

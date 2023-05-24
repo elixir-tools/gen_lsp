@@ -24,8 +24,8 @@ defmodule GenLSP.Requests.TextDocumentCodeAction do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/codeAction"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/codeAction",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.CodeActionParams.schematic()
     })
@@ -39,7 +39,7 @@ defmodule GenLSP.Requests.TextDocumentCodeAction do
         list(
           oneof([GenLSP.Structures.Command.schematic(), GenLSP.Structures.CodeAction.schematic()])
         ),
-        null()
+        nil
       ]),
       GenLSP.ErrorResponse.schematic()
     ])

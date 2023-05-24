@@ -25,8 +25,8 @@ defmodule GenLSP.Requests.ClientRegisterCapability do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("client/registerCapability"),
-      jsonrpc: str("2.0"),
+      method: "client/registerCapability",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.RegistrationParams.schematic()
     })
@@ -36,7 +36,7 @@ defmodule GenLSP.Requests.ClientRegisterCapability do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      null(),
+      nil,
       GenLSP.ErrorResponse.schematic()
     ])
   end

@@ -24,8 +24,8 @@ defmodule GenLSP.Requests.WorkspaceApplyEdit do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("workspace/applyEdit"),
-      jsonrpc: str("2.0"),
+      method: "workspace/applyEdit",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.ApplyWorkspaceEditParams.schematic()
     })

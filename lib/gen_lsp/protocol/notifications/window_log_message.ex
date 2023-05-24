@@ -22,8 +22,8 @@ defmodule GenLSP.Notifications.WindowLogMessage do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("window/logMessage"),
-      jsonrpc: str("2.0"),
+      method: "window/logMessage",
+      jsonrpc: "2.0",
       params: GenLSP.Structures.LogMessageParams.schematic()
     })
   end

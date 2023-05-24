@@ -27,8 +27,8 @@ defmodule GenLSP.Requests.TextDocumentReferences do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/references"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/references",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.ReferenceParams.schematic()
     })
@@ -38,7 +38,7 @@ defmodule GenLSP.Requests.TextDocumentReferences do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([list(GenLSP.Structures.Location.schematic()), null()]),
+      oneof([list(GenLSP.Structures.Location.schematic()), nil]),
       GenLSP.ErrorResponse.schematic()
     ])
   end

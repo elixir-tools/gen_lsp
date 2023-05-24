@@ -30,7 +30,7 @@ defmodule GenLSP.Structures.CreateFile do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"kind", :kind} => str("create"),
+      {"kind", :kind} => "create",
       {"uri", :uri} => str(),
       optional({"options", :options}) => GenLSP.Structures.CreateFileOptions.schematic(),
       optional({"annotationId", :annotation_id}) =>

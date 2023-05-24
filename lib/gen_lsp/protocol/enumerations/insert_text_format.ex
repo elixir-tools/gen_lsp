@@ -32,8 +32,8 @@ defmodule GenLSP.Enumerations.InsertTextFormat do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      int(1),
-      int(2)
+      1,
+      2
     ])
   end
 end

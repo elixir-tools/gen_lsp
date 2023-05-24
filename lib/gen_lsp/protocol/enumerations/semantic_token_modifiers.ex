@@ -46,16 +46,16 @@ defmodule GenLSP.Enumerations.SemanticTokenModifiers do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      str("declaration"),
-      str("definition"),
-      str("readonly"),
-      str("static"),
-      str("deprecated"),
-      str("abstract"),
-      str("async"),
-      str("modification"),
-      str("documentation"),
-      str("defaultLibrary")
+      "declaration",
+      "definition",
+      "readonly",
+      "static",
+      "deprecated",
+      "abstract",
+      "async",
+      "modification",
+      "documentation",
+      "defaultLibrary"
     ])
   end
 end

@@ -28,8 +28,8 @@ defmodule GenLSP.Requests.TextDocumentInlayHint do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/inlayHint"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/inlayHint",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.InlayHintParams.schematic()
     })
@@ -39,7 +39,7 @@ defmodule GenLSP.Requests.TextDocumentInlayHint do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([list(GenLSP.Structures.InlayHint.schematic()), null()]),
+      oneof([list(GenLSP.Structures.InlayHint.schematic()), nil]),
       GenLSP.ErrorResponse.schematic()
     ])
   end

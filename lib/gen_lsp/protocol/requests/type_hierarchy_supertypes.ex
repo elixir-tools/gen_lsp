@@ -26,8 +26,8 @@ defmodule GenLSP.Requests.TypeHierarchySupertypes do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("typeHierarchy/supertypes"),
-      jsonrpc: str("2.0"),
+      method: "typeHierarchy/supertypes",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.TypeHierarchySupertypesParams.schematic()
     })
@@ -37,7 +37,7 @@ defmodule GenLSP.Requests.TypeHierarchySupertypes do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([list(GenLSP.Structures.TypeHierarchyItem.schematic()), null()]),
+      oneof([list(GenLSP.Structures.TypeHierarchyItem.schematic()), nil]),
       GenLSP.ErrorResponse.schematic()
     ])
   end

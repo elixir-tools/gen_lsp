@@ -24,8 +24,8 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensFull do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/semanticTokens/full"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/semanticTokens/full",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.SemanticTokensParams.schematic()
     })
@@ -35,7 +35,7 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensFull do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([GenLSP.Structures.SemanticTokens.schematic(), null()]),
+      oneof([GenLSP.Structures.SemanticTokens.schematic(), nil]),
       GenLSP.ErrorResponse.schematic()
     ])
   end

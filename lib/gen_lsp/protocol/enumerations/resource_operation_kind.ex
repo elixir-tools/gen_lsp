@@ -26,9 +26,9 @@ defmodule GenLSP.Enumerations.ResourceOperationKind do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      str("create"),
-      str("rename"),
-      str("delete")
+      "create",
+      "rename",
+      "delete"
     ])
   end
 end

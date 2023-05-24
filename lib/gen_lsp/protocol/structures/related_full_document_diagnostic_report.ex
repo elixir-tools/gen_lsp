@@ -52,7 +52,7 @@ defmodule GenLSP.Structures.RelatedFullDocumentDiagnosticReport do
               GenLSP.Structures.UnchangedDocumentDiagnosticReport.schematic()
             ])
         ),
-      {"kind", :kind} => str("full"),
+      {"kind", :kind} => "full",
       optional({"resultId", :result_id}) => str(),
       {"items", :items} => list(GenLSP.Structures.Diagnostic.schematic())
     })

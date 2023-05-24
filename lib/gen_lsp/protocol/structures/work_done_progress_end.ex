@@ -21,7 +21,7 @@ defmodule GenLSP.Structures.WorkDoneProgressEnd do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      {"kind", :kind} => str("end"),
+      {"kind", :kind} => "end",
       optional({"message", :message}) => str()
     })
   end

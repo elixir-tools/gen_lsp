@@ -28,8 +28,8 @@ defmodule GenLSP.Enumerations.DocumentDiagnosticReportKind do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      str("full"),
-      str("unchanged")
+      "full",
+      "unchanged"
     ])
   end
 end

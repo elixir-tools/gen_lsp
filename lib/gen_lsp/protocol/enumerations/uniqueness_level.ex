@@ -44,11 +44,11 @@ defmodule GenLSP.Enumerations.UniquenessLevel do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      str("document"),
-      str("project"),
-      str("group"),
-      str("scheme"),
-      str("global")
+      "document",
+      "project",
+      "group",
+      "scheme",
+      "global"
     ])
   end
 end

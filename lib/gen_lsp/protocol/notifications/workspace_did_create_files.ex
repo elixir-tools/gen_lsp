@@ -24,8 +24,8 @@ defmodule GenLSP.Notifications.WorkspaceDidCreateFiles do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("workspace/didCreateFiles"),
-      jsonrpc: str("2.0"),
+      method: "workspace/didCreateFiles",
+      jsonrpc: "2.0",
       params: GenLSP.Structures.CreateFilesParams.schematic()
     })
   end

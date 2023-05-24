@@ -26,8 +26,8 @@ defmodule GenLSP.Enumerations.InlayHintKind do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      int(1),
-      int(2)
+      1,
+      2
     ])
   end
 end

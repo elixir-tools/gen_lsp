@@ -23,8 +23,8 @@ defmodule GenLSP.Notifications.Initialized do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("initialized"),
-      jsonrpc: str("2.0"),
+      method: "initialized",
+      jsonrpc: "2.0",
       params: GenLSP.Structures.InitializedParams.schematic()
     })
   end

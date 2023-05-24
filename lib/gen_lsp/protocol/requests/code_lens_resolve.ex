@@ -24,8 +24,8 @@ defmodule GenLSP.Requests.CodeLensResolve do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("codeLens/resolve"),
-      jsonrpc: str("2.0"),
+      method: "codeLens/resolve",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.CodeLens.schematic()
     })

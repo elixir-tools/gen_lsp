@@ -27,8 +27,8 @@ defmodule GenLSP.Requests.TextDocumentPrepareCallHierarchy do
   @spec schematic() :: Schematic.t()
   def schematic() do
     schema(__MODULE__, %{
-      method: str("textDocument/prepareCallHierarchy"),
-      jsonrpc: str("2.0"),
+      method: "textDocument/prepareCallHierarchy",
+      jsonrpc: "2.0",
       id: int(),
       params: GenLSP.Structures.CallHierarchyPrepareParams.schematic()
     })
@@ -38,7 +38,7 @@ defmodule GenLSP.Requests.TextDocumentPrepareCallHierarchy do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([list(GenLSP.Structures.CallHierarchyItem.schematic()), null()]),
+      oneof([list(GenLSP.Structures.CallHierarchyItem.schematic()), nil]),
       GenLSP.ErrorResponse.schematic()
     ])
   end

@@ -34,9 +34,9 @@ defmodule GenLSP.Enumerations.TextDocumentSyncKind do
   @spec schematic() :: Schematic.t()
   def schematic() do
     oneof([
-      int(0),
-      int(1),
-      int(2)
+      0,
+      1,
+      2
     ])
   end
 end
