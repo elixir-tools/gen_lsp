@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.1.1
+
+fix: enumerations respect supports_custom_values (#19)
+
 ## v0.1.0
 
 - chore: update schematic (#18)
