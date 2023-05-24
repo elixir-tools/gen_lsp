@@ -52,7 +52,8 @@ defmodule GenLSP.Enumerations.LSPErrorCodes do
       -32803,
       -32802,
       -32801,
-      -32800
+      -32800,
+      int()
     ])
   end
 end

@@ -28,7 +28,8 @@ defmodule GenLSP.Enumerations.WatchKind do
     oneof([
       1,
       2,
-      4
+      4,
+      int()
     ])
   end
 end

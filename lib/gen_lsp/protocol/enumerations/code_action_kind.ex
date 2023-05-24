@@ -105,7 +105,8 @@ defmodule GenLSP.Enumerations.CodeActionKind do
       "refactor.rewrite",
       "source",
       "source.organizeImports",
-      "source.fixAll"
+      "source.fixAll",
+      str()
     ])
   end
 end

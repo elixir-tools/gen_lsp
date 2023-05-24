@@ -55,7 +55,8 @@ defmodule GenLSP.Enumerations.SemanticTokenModifiers do
       "async",
       "modification",
       "documentation",
-      "defaultLibrary"
+      "defaultLibrary",
+      str()
     ])
   end
 end
