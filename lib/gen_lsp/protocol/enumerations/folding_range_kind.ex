@@ -32,7 +32,8 @@ defmodule GenLSP.Enumerations.FoldingRangeKind do
     oneof([
       "comment",
       "imports",
-      "region"
+      "region",
+      str()
     ])
   end
 end

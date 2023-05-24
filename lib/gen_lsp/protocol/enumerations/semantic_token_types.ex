@@ -114,7 +114,8 @@ defmodule GenLSP.Enumerations.SemanticTokenTypes do
       "number",
       "regexp",
       "operator",
-      "decorator"
+      "decorator",
+      str()
     ])
   end
 end

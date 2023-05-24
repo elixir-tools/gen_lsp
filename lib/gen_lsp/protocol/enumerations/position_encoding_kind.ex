@@ -41,7 +41,8 @@ defmodule GenLSP.Enumerations.PositionEncodingKind do
     oneof([
       "utf-8",
       "utf-16",
-      "utf-32"
+      "utf-32",
+      str()
     ])
   end
 end
