@@ -8,7 +8,7 @@ defmodule GenLSP.MixProject do
       app: :gen_lsp,
       description: "Library for creating language servers",
       source_url: @source_url,
-      version: "0.0.12",
+      version: "0.1.0",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps(),

@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.1.0
+
+- chore: update schematic (#18)
+
 ## v0.0.12
 
 - feat: error response by @mhanberg in https://github.com/elixir-tools/gen_lsp/pull/14
