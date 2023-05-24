@@ -5,7 +5,7 @@ defmodule GenLSP.Communication.StdioTest do
   @string ~s|{"a":"‘"}|
   @length byte_size(@string)
 
-  @command "mix run -e '
+  @command "elixir --erl '-kernel standard_io_encoding latin1' -S mix run -e '
 defmodule GenLSP.Support.Buffer do
   def loop do
     case GenLSP.Communication.Stdio.read([], nil) do
@@ -23,11 +23,17 @@ defmodule GenLSP.Support.Buffer do
   end
 end
 
-GenLSP.Communication.Stdio.init([])
+defmodule Main do
+  def run() do
+    GenLSP.Communication.Stdio.init([])
 
-# the following match ensures that the script completes and does
-# not raise after stdin is closed.
-:eof = GenLSP.Support.Buffer.loop()'"
+    # the following match ensures that the script completes and does
+    # not raise after stdin is closed.
+    :eof = GenLSP.Support.Buffer.loop()
+  end
+end
+
+Main.run()'"
 
   test "can read and write through stdio" do
     port = Port.open({:spawn, @command}, [:binary, env: [{'MIX_ENV', 'test'}]])
