@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.1.2
+
+feat: respect :assert_receive_timeout config (#21)
+
 ## v0.1.1
 
 fix: enumerations respect supports_custom_values (#19)
