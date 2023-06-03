@@ -175,7 +175,11 @@ defmodule GenLSP.Test do
   })
   ```
   """
-  defmacro assert_result(id, pattern, timeout \\ 100) do
+  defmacro assert_result(
+             id,
+             pattern,
+             timeout \\ Application.get_env(:ex_unit, :assert_receive_timeout)
+           ) do
     quote do
       assert_receive %{
                        "jsonrpc" => "2.0",
@@ -215,7 +219,11 @@ defmodule GenLSP.Test do
   })
   ```
   """
-  defmacro assert_error(id, pattern, timeout \\ 100) do
+  defmacro assert_error(
+             id,
+             pattern,
+             timeout \\ Application.get_env(:ex_unit, :assert_receive_timeout)
+           ) do
     quote do
       assert_receive %{
                        "jsonrpc" => "2.0",
@@ -244,7 +252,11 @@ defmodule GenLSP.Test do
   })
   ```
   """
-  defmacro assert_notification(method, pattern, timeout \\ 100) do
+  defmacro assert_notification(
+             method,
+             pattern,
+             timeout \\ Application.get_env(:ex_unit, :assert_receive_timeout)
+           ) do
     quote do
       assert_receive %{
                        "jsonrpc" => "2.0",
