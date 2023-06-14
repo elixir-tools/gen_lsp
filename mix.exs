@@ -1,7 +1,7 @@
 defmodule GenLSP.MixProject do
   use Mix.Project
 
-  @source_url "https://github.com/mhanberg/gen_lsp"
+  @source_url "https://github.com/elixir-tools/gen_lsp"
 
   def project do
     [
