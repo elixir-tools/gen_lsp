@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.2.0](https://github.com/elixir-tools/gen_lsp/compare/v0.1.2...v0.2.0) (2023-06-22)
+
+
+### Features
+
+* bump schematic to 0.2 ([10359fd](https://github.com/elixir-tools/gen_lsp/commit/10359fd8b66f70f4ffee5727ebcdd907207c636c))
+
 ## v0.1.2
 
 feat: respect :assert_receive_timeout config (#21)
