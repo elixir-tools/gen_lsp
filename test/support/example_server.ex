@@ -70,6 +70,11 @@ defmodule GenLSPTest.ExampleServer do
   end
 
   @impl true
+  def handle_info(:boom, lsp) do
+    raise "boom"
+    {:noreply, lsp}
+  end
+
   def handle_info(_message, lsp) do
     send(lsp.assigns.test_pid, {:info, :ack})
     {:noreply, lsp}
