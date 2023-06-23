@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.2.1](https://github.com/elixir-tools/gen_lsp/compare/v0.2.0...v0.2.1) (2023-06-23)
+
+
+### Bug Fixes
+
+* send error log on exception during loop ([#25](https://github.com/elixir-tools/gen_lsp/issues/25)) ([c194f44](https://github.com/elixir-tools/gen_lsp/commit/c194f441378fb265b5551d6b4261040cb49495cc))
+
 ## [0.2.0](https://github.com/elixir-tools/gen_lsp/compare/v0.1.2...v0.2.0) (2023-06-22)
 
 
