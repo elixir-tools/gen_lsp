@@ -222,6 +222,8 @@ defmodule GenLSP do
         deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:in, :request, from})
 
         attempt(
+          lsp,
+          "Last message received: handle_request #{inspect(request)}",
           fn ->
             {:ok, %{id: id} = req} = GenLSP.Requests.new(request)
 
@@ -250,14 +252,15 @@ defmodule GenLSP do
               {:noreply, lsp} ->
                 loop(lsp, parent, deb)
             end
-          end,
-          "Last message received: handle_request #{inspect(request)}"
+          end
         )
 
       {:notification, from, notification} ->
         deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:in, :notification, from})
 
         attempt(
+          lsp,
+          "Last message received: handle_notification #{inspect(notification)}",
           fn ->
             {:ok, note} = GenLSP.Notifications.new(notification)
 
@@ -267,36 +270,39 @@ defmodule GenLSP do
               {:noreply, %LSP{} = lsp} ->
                 loop(lsp, parent, deb)
             end
-          end,
-          "Last message received: handle_notification #{inspect(notification)}"
+          end
         )
 
       message ->
         attempt(
+          lsp,
+          "Last message received: handle_info #{inspect(message)}",
           fn ->
             case lsp.mod.handle_info(message, lsp) do
               {:noreply, %LSP{} = lsp} ->
                 loop(lsp, parent, deb)
             end
-          end,
-          "Last message received: handle_info #{inspect(message)}"
+          end
         )
     end
   end
 
-  @spec attempt((() -> any()), String.t()) :: no_return()
-  defp attempt(callback, message) do
+  @spec attempt(LSP.t(), String.t(), (() -> any())) :: no_return()
+  defp attempt(lsp, message, callback) do
     callback.()
   rescue
     e ->
-      Logger.error("""
+      message = """
       LSP Exited.
 
       #{message}
 
       #{Exception.format(:error, e, __STACKTRACE__)}
 
-      """)
+      """
+
+      error(lsp, message)
+      Logger.error(message)
 
       reraise e, __STACKTRACE__
   end

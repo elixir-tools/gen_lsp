@@ -108,6 +108,18 @@ defmodule GenLSPTest do
                         500
   end
 
+  test "sends an error log on exception", %{server: server} do
+    send(server.lsp, :boom)
+
+    assert_notification "window/logMessage", %{
+      "message" => message,
+      "type" => 1
+    }
+
+    assert message =~
+             "LSP Exited.\n\nLast message received: handle_info :boom\n\n** (RuntimeError) boom"
+  end
+
   test "can receive a normal message with handle_info/2", %{server: server} do
     send(server.lsp, "hi")
 
