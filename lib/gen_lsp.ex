@@ -26,7 +26,7 @@ defmodule GenLSP do
 
       @impl true
       def handle_info(_, state) do
-        Logger.warn("Unhandled message passed to handle_info/2")
+        Logger.warning("Unhandled message passed to handle_info/2")
 
         {:noreply, state}
       end
