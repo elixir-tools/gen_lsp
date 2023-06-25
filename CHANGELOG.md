@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## [0.3.0](https://github.com/elixir-tools/gen_lsp/compare/v0.2.1...v0.3.0) (2023-06-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* bump min elixir version ([#27](https://github.com/elixir-tools/gen_lsp/issues/27))
+
+### Features
+
+* bump min elixir version ([#27](https://github.com/elixir-tools/gen_lsp/issues/27)) ([a0fe869](https://github.com/elixir-tools/gen_lsp/commit/a0fe86943fae8c8b8f84e42a74b08187edcdf01d))
+
 ## [0.2.1](https://github.com/elixir-tools/gen_lsp/compare/v0.2.0...v0.2.1) (2023-06-23)
 
 
