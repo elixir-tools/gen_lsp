@@ -220,14 +220,12 @@ end
 
 This package can be installed by adding `gen_lsp` to your list of dependencies in `mix.exs`:
 
-<!-- x-release-please-start-patch -->
 ```elixir
 def deps do
   [
-    {:gen_lsp, "~> 0.1"}
+    {:gen_lsp, "~> 0.2"}
   ]
 end
 ```
-<!-- x-release-please-end -->
 
 Documentation can be found at <https://hexdocs.pm/gen_lsp>.
