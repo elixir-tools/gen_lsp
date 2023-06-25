@@ -23,8 +23,6 @@ jobs:
           release-type: elixir
           package-name: gen_lsp
           bump-minor-pre-major: true
-          extra-files: |
-            README.md
 
       - uses: actions/checkout@v3
         if: ${{ steps.release.outputs.release_created }}
