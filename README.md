@@ -223,7 +223,7 @@ This package can be installed by adding `gen_lsp` to your list of dependencies i
 ```elixir
 def deps do
   [
-    {:gen_lsp, "~> 0.2"}
+    {:gen_lsp, "~> 0.3"}
   ]
 end
 ```
