@@ -22,6 +22,7 @@ jobs:
         with:
           release-type: elixir
           package-name: gen_lsp
+          bump-minor-pre-major: true
           extra-files: |
             README.md
 
