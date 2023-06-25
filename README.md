@@ -220,7 +220,7 @@ end
 
 This package can be installed by adding `gen_lsp` to your list of dependencies in `mix.exs`:
 
-<!-- x-release-please-start-minor -->
+<!-- x-release-please-start-patch -->
 ```elixir
 def deps do
   [
