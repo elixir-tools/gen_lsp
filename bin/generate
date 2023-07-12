@@ -9,8 +9,12 @@ elixir \
   --path ./lib/gen_lsp/protocol
 
 echo "==> Removing trailing whitespace"
-gsed -i 's/[ \t]*$//' ./lib/gen_lsp/protocol/**/*.ex
+case "$OSTYPE" in
+  darwin*) sedc="gsed" ;;
+  *) sedc="sed" ;;
+esac
+
+"$sedc" -i 's/[ \t]*$//' ./lib/gen_lsp/protocol/**/*.ex
 
 echo "==> mix format"
 mix format
-
