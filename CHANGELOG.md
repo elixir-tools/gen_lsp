@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.4.0](https://github.com/elixir-tools/gen_lsp/compare/v0.3.0...v0.4.0) (2023-07-12)
+
+
+### Features
+
+* update codegen ([#32](https://github.com/elixir-tools/gen_lsp/issues/32)) ([ef91d21](https://github.com/elixir-tools/gen_lsp/commit/ef91d2167710a680918764ea7777c9b481950e8c))
+
 ## [0.3.0](https://github.com/elixir-tools/gen_lsp/compare/v0.2.1...v0.3.0) (2023-06-25)
 
 
