@@ -17,7 +17,6 @@ defmodule GenLSP.Requests.WorkspaceCodeLensRefresh do
     field :method, String.t(), default: "workspace/codeLens/refresh"
     field :jsonrpc, String.t(), default: "2.0"
     field :id, integer(), enforce: true
-    field :params, nil
   end
 
   @type result :: nil
@@ -28,8 +27,7 @@ defmodule GenLSP.Requests.WorkspaceCodeLensRefresh do
     schema(__MODULE__, %{
       method: "workspace/codeLens/refresh",
       jsonrpc: "2.0",
-      id: int(),
-      params: nil
+      id: int()
     })
   end
 

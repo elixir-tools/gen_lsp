@@ -15,7 +15,6 @@ defmodule GenLSP.Requests.WorkspaceInlineValueRefresh do
     field :method, String.t(), default: "workspace/inlineValue/refresh"
     field :jsonrpc, String.t(), default: "2.0"
     field :id, integer(), enforce: true
-    field :params, nil
   end
 
   @type result :: nil
@@ -26,8 +25,7 @@ defmodule GenLSP.Requests.WorkspaceInlineValueRefresh do
     schema(__MODULE__, %{
       method: "workspace/inlineValue/refresh",
       jsonrpc: "2.0",
-      id: int(),
-      params: nil
+      id: int()
     })
   end
 

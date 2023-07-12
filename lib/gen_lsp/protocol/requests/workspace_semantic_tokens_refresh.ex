@@ -15,7 +15,6 @@ defmodule GenLSP.Requests.WorkspaceSemanticTokensRefresh do
     field :method, String.t(), default: "workspace/semanticTokens/refresh"
     field :jsonrpc, String.t(), default: "2.0"
     field :id, integer(), enforce: true
-    field :params, nil
   end
 
   @type result :: nil
@@ -26,8 +25,7 @@ defmodule GenLSP.Requests.WorkspaceSemanticTokensRefresh do
     schema(__MODULE__, %{
       method: "workspace/semanticTokens/refresh",
       jsonrpc: "2.0",
-      id: int(),
-      params: nil
+      id: int()
     })
   end
 
