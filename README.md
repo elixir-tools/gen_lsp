@@ -14,7 +14,7 @@ GenLSP is an OTP behaviour for building processes that implement the [Language S
 <details>
 <summary><a href="https://github.com/rrrene/credo">Credo</a> language server.</summary>
 
-```elixir
+<pre>
 defmodule Credo.Lsp do
   @moduledoc """
   LSP implementation for Credo.
@@ -202,7 +202,7 @@ defmodule Credo.Lsp.Cache do
   def category_to_severity(:consistency), do: 4
   def category_to_severity(:readability), do: 4
 end
-```
+</pre>
 
 </details>
 

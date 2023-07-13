@@ -16,6 +16,23 @@ defmodule GenLSP.TypeAlias.LSPAny do
   @doc false
   @spec schematic() :: Schematic.t()
   def schematic() do
-    any()
+    %Schematic{
+      kind: "lspany",
+      unify: fn x, dir ->
+        case x do
+          %mod{} ->
+            Code.ensure_loaded(mod)
+
+            if function_exported?(mod, :schematic, 0) do
+              mod.schematic().unify.(x, dir)
+            else
+              {:ok, x}
+            end
+
+          _ ->
+            {:ok, x}
+        end
+      end
+    }
   end
 end

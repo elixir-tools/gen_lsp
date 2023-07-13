@@ -35,6 +35,31 @@ defmodule GenLSPTest.ExampleServer do
      }, lsp}
   end
 
+  def handle_notification(%Notifications.Initialized{}, lsp) do
+    GenLSP.request(lsp, %GenLSP.Requests.ClientRegisterCapability{
+      id: System.unique_integer([:positive]),
+      params: %GenLSP.Structures.RegistrationParams{
+        registrations: [
+          %GenLSP.Structures.Registration{
+            id: "file-watching",
+            method: "workspace/didChangeWatchedFiles",
+            register_options: %GenLSP.Structures.DidChangeWatchedFilesRegistrationOptions{
+              watchers: [
+                %GenLSP.Structures.FileSystemWatcher{
+                  glob_pattern: "{lib|test}/**/*.{ex|exs|heex|eex|leex|surface}"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    })
+
+    GenLSP.log(lsp, "done initializing")
+
+    {:noreply, lsp}
+  end
+
   @impl true
   def handle_notification(%Notifications.TextDocumentDidOpen{} = notification, lsp) do
     send(lsp.assigns.test_pid, {:callback, notification})

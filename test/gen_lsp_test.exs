@@ -46,6 +46,49 @@ defmodule GenLSPTest do
                   500
   end
 
+  test "can send a request from the server to the client", %{client: client} do
+    id = System.unique_integer([:positive])
+
+    assert :ok ==
+             request(client, %{
+               "jsonrpc" => "2.0",
+               "method" => "initialize",
+               "params" => %{"capabilities" => %{}},
+               "id" => id
+             })
+
+    assert_result ^id, %{"capabilities" => %{}, "serverInfo" => %{"name" => "Test LSP"}}, 500
+
+    assert :ok ==
+             notify(client, %{
+               method: "initialized",
+               jsonrpc: "2.0",
+               params: %{}
+             })
+
+    assert_request(client, "client/registerCapability", 1000, fn params ->
+      assert params == %{
+               "registrations" => [
+                 %{
+                   "id" => "file-watching",
+                   "method" => "workspace/didChangeWatchedFiles",
+                   "registerOptions" => %{
+                     "watchers" => [
+                       %{
+                         "globPattern" => "{lib|test}/**/*.{ex|exs|heex|eex|leex|surface}"
+                       }
+                     ]
+                   }
+                 }
+               ]
+             }
+
+      nil
+    end)
+
+    assert_notification "window/logMessage", %{"message" => "done initializing"}, 500
+  end
+
   test "the server can receive a notification", %{client: client} do
     assert :ok ==
              notify(client, %{
