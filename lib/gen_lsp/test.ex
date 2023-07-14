@@ -273,6 +273,25 @@ defmodule GenLSP.Test do
   ## Usage
 
   ```elixir
+  assert_request(client, "client/registerCapability", 1000, fn params ->
+    assert params == %{
+             "registrations" => [
+               %{
+                 "id" => "file-watching",
+                 "method" => "workspace/didChangeWatchedFiles",
+                 "registerOptions" => %{
+                   "watchers" => [
+                     %{
+                       "globPattern" => "{lib|test}/**/*.{ex|exs|heex|eex|leex|surface}"
+                     }
+                   ]
+                 }
+               }
+             ]
+           }
+
+    nil
+  end)
   ```
   """
   defmacro assert_request(
