@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.5.0](https://github.com/elixir-tools/gen_lsp/compare/v0.4.0...v0.5.0) (2023-07-14)
+
+
+### Features
+
+* server to client requests ([#35](https://github.com/elixir-tools/gen_lsp/issues/35)) ([f38c761](https://github.com/elixir-tools/gen_lsp/commit/f38c761496a3fd9b7aee9080451cd42ceef5246d)), closes [#34](https://github.com/elixir-tools/gen_lsp/issues/34)
+
 ## [0.4.0](https://github.com/elixir-tools/gen_lsp/compare/v0.3.0...v0.4.0) (2023-07-12)
 
 
