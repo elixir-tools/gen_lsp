@@ -12,7 +12,13 @@ defmodule GenLSP.Buffer do
                       default: {GenLSP.Communication.Stdio, []},
                       doc:
                         "A `{module, args}` tuple, where `module` implements the `GenLSP.Communication.Adapter` behaviour."
+                    ],
+                    name: [
+                      type: :atom,
+                      doc:
+                        "Used for name registration as described in the \"Name registration\" section in the documentation for `GenServer`."
                     ]
+
                   )
 
   @doc """
@@ -24,7 +30,7 @@ defmodule GenLSP.Buffer do
   """
   def start_link(opts) do
     opts = NimbleOptions.validate!(opts, @options_schema)
-    GenServer.start_link(__MODULE__, opts, name: Keyword.get(opts, :name, __MODULE__))
+    GenServer.start_link(__MODULE__, opts, Keyword.take(opts, [:name]))
   end
 
   @doc false

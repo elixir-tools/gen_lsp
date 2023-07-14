@@ -189,4 +189,11 @@ defmodule GenLSPTest do
       "message" => "Method Not Found"
     })
   end
+
+  test "can start multiple servers in one test/2", %{server: server} do
+    server2 = server(GenLSPTest.ExampleServer, name: :example_server_2)
+
+    assert alive?(server)
+    assert alive?(server2)
+  end
 end
