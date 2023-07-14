@@ -190,7 +190,7 @@ defmodule GenLSP do
     send(pid, {:notification, from, notification})
   end
 
-  @doc """
+  @doc ~S'''
   Sends a notification to the client from the LSP process.
 
   ## Usage
@@ -198,15 +198,32 @@ defmodule GenLSP do
   ```elixir
   GenLSP.notify(lsp, %TextDocumentPublishDiagnostics{
     params: %PublishDiagnosticsParams{
-      uri: "file://#\{file}",
+      uri: "file://#{file}",
       diagnostics: diagnostics
     }
   })
   ```
-  """
+  '''
   @spec notify(GenLSP.LSP.t(), notification :: any()) :: :ok
   def notify(%{buffer: buffer}, notification) do
     GenLSP.Buffer.outgoing(buffer, dump!(notification.__struct__.schematic(), notification))
+  end
+
+  @doc ~S'''
+  Sends a request to the client from the LSP process.
+
+  ## Usage
+
+  ```elixir
+  GenLSP.request(lsp, %ClientRegisterCapability{
+    id: System.unique_integer([:positive]),
+    params: params
+  })
+  ```
+  '''
+  @spec request(GenLSP.LSP.t(), request :: any()) :: any()
+  def request(%{buffer: buffer}, request) do
+    GenLSP.Buffer.outgoing_sync(buffer, dump!(request.__struct__.schematic(), request))
   end
 
   defp write_debug(device, event, name) do
@@ -287,7 +304,7 @@ defmodule GenLSP do
     end
   end
 
-  @spec attempt(LSP.t(), String.t(), (() -> any())) :: no_return()
+  @spec attempt(LSP.t(), String.t(), (-> any())) :: no_return()
   defp attempt(lsp, message, callback) do
     callback.()
   rescue

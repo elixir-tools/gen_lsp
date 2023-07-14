@@ -43,6 +43,11 @@ defmodule GenLSP.Buffer do
   end
 
   @doc false
+  def outgoing_sync(server, packet) do
+    GenServer.call(server, {:outgoing_sync, packet})
+  end
+
+  @doc false
   def comm_state(server) do
     GenServer.call(server, :comm_state)
   end
@@ -52,7 +57,7 @@ defmodule GenLSP.Buffer do
     {comm, comm_args} = opts[:communication]
     {:ok, comm_data} = comm.init(comm_args)
 
-    {:ok, %{comm: comm, comm_data: comm_data}}
+    {:ok, %{comm: comm, comm_data: comm_data, awaiting_response: Map.new()}}
   end
 
   @doc false
@@ -60,15 +65,30 @@ defmodule GenLSP.Buffer do
     {:reply, comm_data, state}
   end
 
+  def handle_call({:outgoing_sync, %{"id" => id} = packet}, from, state) do
+    :ok = state.comm.write(Jason.encode!(packet), state.comm_data)
+
+    {:noreply, %{state | awaiting_response: Map.put(state.awaiting_response, id, from)}}
+  end
+
   @doc false
   def handle_cast({:incoming, packet}, %{lsp: lsp} = state) do
-    case Jason.decode!(packet) do
-      %{"id" => _} = request ->
-        GenLSP.request_server(lsp, request)
+    state =
+      case Jason.decode!(packet) do
+        %{"id" => id, "result" => result} when is_map_key(state.awaiting_response, id) ->
+          {from, awaiting_response} = Map.pop(state.awaiting_response, id)
+          GenServer.reply(from, result)
 
-      notification ->
-        GenLSP.notify_server(lsp, notification)
-    end
+          %{state | awaiting_response: awaiting_response}
+
+        %{"id" => _} = request ->
+          GenLSP.request_server(lsp, request)
+          state
+
+        notification ->
+          GenLSP.notify_server(lsp, notification)
+          state
+      end
 
     {:noreply, state}
   end

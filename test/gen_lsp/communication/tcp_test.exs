@@ -122,7 +122,7 @@ defmodule GenLSP.Communication.TCPTest do
   defp connect(start_time) do
     now = System.monotonic_time(:millisecond)
 
-    case :gen_tcp.connect('localhost', @port, @connect_opts) do
+    case :gen_tcp.connect(~c"localhost", @port, @connect_opts) do
       {:error, :econnrefused} when now - start_time > 5000 ->
         connect(start_time)
 

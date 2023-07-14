@@ -267,6 +267,57 @@ defmodule GenLSP.Test do
     end
   end
 
+  @doc ~S"""
+  Assert on a request that was sent from the server.
+
+  ## Usage
+
+  ```elixir
+  assert_request(client, "client/registerCapability", 1000, fn params ->
+    assert params == %{
+             "registrations" => [
+               %{
+                 "id" => "file-watching",
+                 "method" => "workspace/didChangeWatchedFiles",
+                 "registerOptions" => %{
+                   "watchers" => [
+                     %{
+                       "globPattern" => "{lib|test}/**/*.{ex|exs|heex|eex|leex|surface}"
+                     }
+                   ]
+                 }
+               }
+             ]
+           }
+
+    nil
+  end)
+  ```
+  """
+  defmacro assert_request(
+             client,
+             method,
+             timeout \\ Application.get_env(:ex_unit, :assert_receive_timeout),
+             callback
+           ) do
+    quote do
+      assert_receive %{
+                       "jsonrpc" => "2.0",
+                       "id" => id,
+                       "method" => unquote(method),
+                       "params" => params
+                     },
+                     unquote(timeout)
+
+      result = unquote(callback).(params)
+
+      GenLSP.Communication.TCP.write(
+        Jason.encode!(%{jsonrpc: "2.0", id: id, result: result}),
+        unquote(client)
+      )
+    end
+  end
+
   defp connect(port, start_time) do
     now = System.monotonic_time(:millisecond)
 

@@ -36,7 +36,7 @@ end
 Main.run()'"
 
   test "can read and write through stdio" do
-    port = Port.open({:spawn, @command}, [:binary, env: [{'MIX_ENV', 'test'}]])
+    port = Port.open({:spawn, @command}, [:binary, env: [{~c"MIX_ENV", ~c"test"}]])
 
     expected_message = "Content-Length: #{@length}\r\n\r\n#{@string}"
 
