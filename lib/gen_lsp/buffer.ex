@@ -18,7 +18,6 @@ defmodule GenLSP.Buffer do
                       doc:
                         "Used for name registration as described in the \"Name registration\" section in the documentation for `GenServer`."
                     ]
-
                   )
 
   @doc """
