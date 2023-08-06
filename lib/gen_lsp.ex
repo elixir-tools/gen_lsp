@@ -120,7 +120,6 @@ defmodule GenLSP do
   @options_schema NimbleOptions.new!(
                     buffer: [
                       type: {:or, [:pid, :atom]},
-                      default: GenLSP.Buffer,
                       doc: "The `t:pid/0` or name of the `GenLSP.Buffer` process."
                     ],
                     name: [
