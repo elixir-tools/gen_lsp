@@ -30,28 +30,12 @@ defmodule GenLSP.Test do
   """
   @spec server(mod :: atom()) :: server()
   def server(mod, opts \\ []) do
-    buffer_id = String.to_atom("#{opts[:name]}buffer")
-    lsp_id = String.to_atom("#{opts[:name]}lsp")
-
-    buffer = start_supervised!(
-      Supervisor.child_spec(
-        {
-          GenLSP.Buffer,
-          communication: {GenLSP.Communication.TCP, [port: 0]},
-          name: buffer_id
-        },
-        id: buffer_id
-      )
-    )
+    buffer =
+      start_supervised!({GenLSP.Buffer, communication: {GenLSP.Communication.TCP, [port: 0]}})
 
     {:ok, port} = :inet.port(GenLSP.Buffer.comm_state(buffer).lsocket)
 
-    lsp = start_supervised!(
-      Supervisor.child_spec(
-        {mod, Keyword.merge([buffer: buffer], opts)},
-        id: lsp_id
-      )
-    )
+    lsp = start_supervised!({mod, Keyword.merge([buffer: buffer], opts)})
 
     %{lsp: lsp, buffer: buffer, port: port}
   end
