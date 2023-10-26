@@ -127,6 +127,7 @@ defmodule GenLSP.Buffer do
         fn buffer ->
           case comm.read(comm_data, buffer) do
             :eof ->
+              System.stop()
               {:halt, :ok}
 
             {:error, reason} ->
