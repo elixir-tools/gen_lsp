@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.6.1](https://github.com/elixir-tools/gen_lsp/compare/v0.6.0...v0.6.1) (2023-10-27)
+
+
+### Bug Fixes
+
+* shutdown when the transport closes ([#42](https://github.com/elixir-tools/gen_lsp/issues/42)) ([4650300](https://github.com/elixir-tools/gen_lsp/commit/465030084dc7700edf149d3e4b6d526380667b62))
+
 ## [0.6.0](https://github.com/elixir-tools/gen_lsp/compare/v0.5.0...v0.6.0) (2023-08-06)
 
 
