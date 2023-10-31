@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.6.2](https://github.com/elixir-tools/gen_lsp/compare/v0.6.1...v0.6.2) (2023-10-31)
+
+
+### Bug Fixes
+
+* conditionally stop on buffer close ([c548f4c](https://github.com/elixir-tools/gen_lsp/commit/c548f4c62a57ee19d5cde3973de22cce73091b4c))
+
 ## [0.6.1](https://github.com/elixir-tools/gen_lsp/compare/v0.6.0...v0.6.1) (2023-10-27)
 
 
