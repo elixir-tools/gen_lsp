@@ -25,3 +25,4 @@ lsp-*.tar
 # Temporary files, for example, from tests.
 /tmp/
 gen_lsp.log
+node_modules
