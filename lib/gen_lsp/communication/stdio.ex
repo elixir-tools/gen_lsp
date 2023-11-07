@@ -5,8 +5,6 @@ defmodule GenLSP.Communication.Stdio do
   This is the default adapter, and is the communication channel that most LSP clients expect to be able to use.
   """
 
-  require Logger
-
   @behaviour GenLSP.Communication.Adapter
   @separator "\r\n\r\n"
 
@@ -43,6 +41,9 @@ defmodule GenLSP.Communication.Stdio do
       :eof ->
         :eof
 
+      {:error, error} ->
+        {:error, error}
+
       headers ->
         body =
           headers
@@ -58,6 +59,9 @@ defmodule GenLSP.Communication.Stdio do
     case IO.read(:stdio, :line) do
       :eof ->
         :eof
+
+      {:error, error} ->
+        {:error, error}
 
       line ->
         line = String.trim(line)
@@ -80,6 +84,9 @@ defmodule GenLSP.Communication.Stdio do
     case IO.binread(:stdio, length) do
       :eof ->
         :eof
+
+      {:error, error} ->
+        {:error, error}
 
       payload ->
         payload
