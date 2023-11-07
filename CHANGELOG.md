@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.6.3](https://github.com/elixir-tools/gen_lsp/compare/v0.6.2...v0.6.3) (2023-11-07)
+
+
+### Bug Fixes
+
+* clarify errors by handling more clauses ([#45](https://github.com/elixir-tools/gen_lsp/issues/45)) ([610b17f](https://github.com/elixir-tools/gen_lsp/commit/610b17f7e9268c1312a2b5131e22919e3e2a06aa))
+
 ## [0.6.2](https://github.com/elixir-tools/gen_lsp/compare/v0.6.1...v0.6.2) (2023-10-31)
 
 
