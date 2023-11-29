@@ -303,13 +303,15 @@ defmodule GenLSP do
                 loop(lsp, parent, deb)
 
               {:noreply, lsp} ->
+                duration = System.system_time(:microsecond) - start
+
                 Logger.debug(
-                  "handled request client -> server #{req.method} in #{format_time(System.system_time(:microsecond) - start)}",
+                  "handled request client -> server #{req.method} in #{format_time(duration)}",
                   id: req.id,
                   method: req.method
                 )
 
-                :telemetry.execute([:gen_lsp, :request, :client, :stop], %{system_time: start})
+                :telemetry.execute([:gen_lsp, :request, :client, :stop], %{duration: duration})
 
                 loop(lsp, parent, deb)
             end
@@ -342,7 +344,9 @@ defmodule GenLSP do
                   method: note.method
                 )
 
-                :telemetry.execute([:gen_lsp, :request, :client, :stop], %{duration: duration})
+                :telemetry.execute([:gen_lsp, :notification, :client, :stop], %{
+                  duration: duration
+                })
 
                 loop(lsp, parent, deb)
             end
