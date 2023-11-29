@@ -71,7 +71,10 @@ defmodule GenLSP.Buffer do
   end
 
   def handle_call({:outgoing_sync, %{"id" => id} = packet}, from, state) do
-    :ok = state.comm.write(Jason.encode!(packet), state.comm_data)
+    :telemetry.span([:gen_lsp, :buffer, :outgoing], %{kind: :sync}, fn ->
+      :ok = state.comm.write(Jason.encode!(packet), state.comm_data)
+      {:ok, %{}}
+    end)
 
     {:noreply, %{state | awaiting_response: Map.put(state.awaiting_response, id, from)}}
   end
@@ -79,27 +82,35 @@ defmodule GenLSP.Buffer do
   @doc false
   def handle_cast({:incoming, packet}, %{lsp: lsp} = state) do
     state =
-      case Jason.decode!(packet) do
-        %{"id" => id, "result" => result} when is_map_key(state.awaiting_response, id) ->
-          {from, awaiting_response} = Map.pop(state.awaiting_response, id)
-          GenServer.reply(from, result)
+      :telemetry.span([:gen_lsp, :buffer, :incoming], %{}, fn ->
+        state =
+          case Jason.decode!(packet) do
+            %{"id" => id, "result" => result} when is_map_key(state.awaiting_response, id) ->
+              {from, awaiting_response} = Map.pop(state.awaiting_response, id)
+              GenServer.reply(from, result)
 
-          %{state | awaiting_response: awaiting_response}
+              %{state | awaiting_response: awaiting_response}
 
-        %{"id" => _} = request ->
-          GenLSP.request_server(lsp, request)
-          state
+            %{"id" => _} = request ->
+              GenLSP.request_server(lsp, request)
+              state
 
-        notification ->
-          GenLSP.notify_server(lsp, notification)
-          state
-      end
+            notification ->
+              GenLSP.notify_server(lsp, notification)
+              state
+          end
+
+        {state, %{}}
+      end)
 
     {:noreply, state}
   end
 
   def handle_cast({:outgoing, packet}, state) do
-    :ok = state.comm.write(Jason.encode!(packet), state.comm_data)
+    :telemetry.span([:gen_lsp, :buffer, :outgoing], %{kind: :async}, fn ->
+      :ok = state.comm.write(Jason.encode!(packet), state.comm_data)
+      {:ok, %{}}
+    end)
 
     {:noreply, state}
   end

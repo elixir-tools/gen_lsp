@@ -205,7 +205,16 @@ defmodule GenLSP do
   '''
   @spec notify(GenLSP.LSP.t(), notification :: any()) :: :ok
   def notify(%{buffer: buffer}, notification) do
-    GenLSP.Buffer.outgoing(buffer, dump!(notification.__struct__.schematic(), notification))
+    Logger.debug("sent notification server -> client #{notification.method}",
+      method: notification.method
+    )
+
+    :telemetry.span([:gen_lsp, :notify, :server], %{}, fn ->
+      result =
+        GenLSP.Buffer.outgoing(buffer, dump!(notification.__struct__.schematic(), notification))
+
+      {result, %{method: notification.method}}
+    end)
   end
 
   @doc ~S'''
@@ -222,7 +231,17 @@ defmodule GenLSP do
   '''
   @spec request(GenLSP.LSP.t(), request :: any()) :: any()
   def request(%{buffer: buffer}, request) do
-    GenLSP.Buffer.outgoing_sync(buffer, dump!(request.__struct__.schematic(), request))
+    Logger.debug("sent request server -> client #{request.method}",
+      id: request.id,
+      method: request.method
+    )
+
+    :telemetry.span([:gen_lsp, :request, :server], %{}, fn ->
+      result =
+        GenLSP.Buffer.outgoing_sync(buffer, dump!(request.__struct__.schematic(), request))
+
+      {result, %{id: request.id, method: request.method}}
+    end)
   end
 
   defp write_debug(device, event, name) do
@@ -237,15 +256,22 @@ defmodule GenLSP do
       {:request, from, request} ->
         deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:in, :request, from})
 
+        start = System.system_time(:microsecond)
+        :telemetry.execute([:gen_lsp, :request, :client, :start], %{})
+
         attempt(
           lsp,
           "Last message received: handle_request #{inspect(request)}",
+          [:gen_lsp, :request, :client],
           fn ->
             {:ok, %{id: id} = req} = GenLSP.Requests.new(request)
 
-            # GenLSP.log(lsp, :log, "[GenLSP] Processing #{inspect(req.__struct__)}")
+            result =
+              :telemetry.span([:gen_lsp, :handle_request], %{method: req.method}, fn ->
+                {lsp.mod.handle_request(req, lsp), %{}}
+              end)
 
-            case lsp.mod.handle_request(req, lsp) do
+            case result do
               {:reply, reply, %LSP{} = lsp} ->
                 response_key =
                   case reply do
@@ -259,13 +285,34 @@ defmodule GenLSP do
                   response_key => dump!(req.__struct__.result(), reply)
                 }
 
-                deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:out, :request, from})
+                deb =
+                  :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:out, :request, from})
 
                 GenLSP.Buffer.outgoing(lsp.buffer, packet)
+
+                duration = System.system_time(:microsecond) - start
+
+                Logger.debug(
+                  "handled request client -> server #{req.method} in #{format_time(duration)}",
+                  id: req.id,
+                  method: req.method
+                )
+
+                :telemetry.execute([:gen_lsp, :request, :client, :stop], %{duration: duration})
 
                 loop(lsp, parent, deb)
 
               {:noreply, lsp} ->
+                duration = System.system_time(:microsecond) - start
+
+                Logger.debug(
+                  "handled request client -> server #{req.method} in #{format_time(duration)}",
+                  id: req.id,
+                  method: req.method
+                )
+
+                :telemetry.execute([:gen_lsp, :request, :client, :stop], %{duration: duration})
+
                 loop(lsp, parent, deb)
             end
           end
@@ -273,29 +320,57 @@ defmodule GenLSP do
 
       {:notification, from, notification} ->
         deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:in, :notification, from})
+        start = System.system_time(:microsecond)
+        :telemetry.execute([:gen_lsp, :notification, :client, :start], %{})
 
         attempt(
           lsp,
           "Last message received: handle_notification #{inspect(notification)}",
+          [:gen_lsp, :notification, :client],
           fn ->
             {:ok, note} = GenLSP.Notifications.new(notification)
 
-            # GenLSP.log(lsp, :log, "[GenLSP] Processing #{inspect(note.__struct__)}")
+            result =
+              :telemetry.span([:gen_lsp, :handle_notification], %{method: note.method}, fn ->
+                {lsp.mod.handle_notification(note, lsp), %{}}
+              end)
 
-            case lsp.mod.handle_notification(note, lsp) do
+            case result do
               {:noreply, %LSP{} = lsp} ->
+                duration = System.system_time(:microsecond) - start
+
+                Logger.debug(
+                  "handled notification client -> server #{note.method} in #{format_time(duration)}",
+                  method: note.method
+                )
+
+                :telemetry.execute([:gen_lsp, :notification, :client, :stop], %{
+                  duration: duration
+                })
+
                 loop(lsp, parent, deb)
             end
           end
         )
 
       message ->
+        start = System.system_time(:microsecond)
+        :telemetry.execute([:gen_lsp, :info, :start], %{})
+
         attempt(
           lsp,
           "Last message received: handle_info #{inspect(message)}",
+          [:gen_lsp, :info],
           fn ->
-            case lsp.mod.handle_info(message, lsp) do
+            result =
+              :telemetry.span([:gen_lsp, :handle_info], %{}, fn ->
+                {lsp.mod.handle_info(message, lsp), %{}}
+              end)
+
+            case result do
               {:noreply, %LSP{} = lsp} ->
+                duration = System.system_time(:microsecond) - start
+                :telemetry.execute([:gen_lsp, :info, :stop], %{duration: duration})
                 loop(lsp, parent, deb)
             end
           end
@@ -303,8 +378,16 @@ defmodule GenLSP do
     end
   end
 
-  @spec attempt(LSP.t(), String.t(), (-> any())) :: no_return()
-  defp attempt(lsp, message, callback) do
+  defp format_time(time) when time < 1000 do
+    "#{time}µs"
+  end
+
+  defp format_time(time) do
+    "#{System.convert_time_unit(time, :microsecond, :millisecond)}ms"
+  end
+
+  @spec attempt(LSP.t(), String.t(), list(atom()), (-> any())) :: no_return()
+  defp attempt(lsp, message, prefix, callback) do
     callback.()
   rescue
     e ->
@@ -316,6 +399,8 @@ defmodule GenLSP do
       #{Exception.format(:error, e, __STACKTRACE__)}
 
       """
+
+      :telemetry.execute(prefix ++ [:exception], %{message: message})
 
       error(lsp, message)
       Logger.error(message)
