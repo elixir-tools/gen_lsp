@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.7.0](https://github.com/elixir-tools/gen_lsp/compare/v0.6.3...v0.7.0) (2023-11-29)
+
+
+### Features
+
+* telemetry ([#48](https://github.com/elixir-tools/gen_lsp/issues/48)) ([6ef68c4](https://github.com/elixir-tools/gen_lsp/commit/6ef68c4b939e5a7150a072bb30548d1e0697bf85))
+
 ## [0.6.3](https://github.com/elixir-tools/gen_lsp/compare/v0.6.2...v0.6.3) (2023-11-07)
 
 
