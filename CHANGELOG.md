@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.7.1](https://github.com/elixir-tools/gen_lsp/compare/v0.7.0...v0.7.1) (2024-01-02)
+
+
+### Bug Fixes
+
+* protect String.split from &gt;2 parts ([#50](https://github.com/elixir-tools/gen_lsp/issues/50)) ([9988f4a](https://github.com/elixir-tools/gen_lsp/commit/9988f4aa4b1ca6e8d061ab737ceda231f65c1117))
+
 ## [0.7.0](https://github.com/elixir-tools/gen_lsp/compare/v0.6.3...v0.7.0) (2023-11-29)
 
 
