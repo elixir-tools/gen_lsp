@@ -74,7 +74,7 @@ defmodule GenLSP.Communication.Stdio do
             read_header(headers)
 
           line ->
-            [k, v] = String.split(line, ":")
+            [k, v] = String.split(line, ":", parts: 2)
             read_header(Map.put(headers, String.trim(k), String.trim(v)))
         end
     end
