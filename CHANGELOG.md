@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.7.2](https://github.com/elixir-tools/gen_lsp/compare/v0.7.1...v0.7.2) (2024-02-14)
+
+
+### Bug Fixes
+
+* avoid FunctionClauseError in transport stream ([5504b17](https://github.com/elixir-tools/gen_lsp/commit/5504b17c0d214fd3a79755022d54accc2218863a))
+
 ## [0.7.1](https://github.com/elixir-tools/gen_lsp/compare/v0.7.0...v0.7.1) (2024-01-02)
 
 
