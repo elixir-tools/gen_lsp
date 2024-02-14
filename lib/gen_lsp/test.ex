@@ -82,6 +82,11 @@ defmodule GenLSP.Test do
 
           {:error, reason} ->
             IO.warn("Unable to read from device: #{inspect(reason)}")
+
+          other ->
+            IO.warn(
+              "Ended stream with value: #{inspect(other)}. This was probably due to something going wrong."
+            )
         end
       )
       |> Enum.to_list()
