@@ -60,7 +60,7 @@ defmodule GenLSP.Communication.TCP do
   end
 
   def read(state, buffer) do
-    {%{"Content-Length" => length}, buffer} = read_headers(buffer)
+    {%{"Content-Length" => length}, buffer} = read_headers(buffer, state.socket)
 
     {body, buffer} = read_body(state.socket, buffer, String.to_integer(length))
 
@@ -80,23 +80,34 @@ defmodule GenLSP.Communication.TCP do
     read_body(socket, buffer <> packet, length)
   end
 
-  defp read_headers(packet) do
+  defp read_headers(packet, socket) do
     packet
-    |> decode_header()
-    |> read_headers(Map.new())
+    |> decode_header(socket)
+    |> read_headers(Map.new(), socket)
   end
 
-  defp read_headers({:ok, :http_eoh, body}, headers) do
+  defp read_headers({:ok, :http_eoh, body}, headers, _socket) do
     {headers, body}
   end
 
-  defp read_headers({:ok, {:http_header, _, header, _header, value}, more}, headers) do
+  defp read_headers({:ok, {:http_header, _, header, _header, value}, more}, headers, socket) do
     headers = Map.put(headers, to_string(header), value)
 
     more
-    |> decode_header()
-    |> read_headers(headers)
+    |> decode_header(socket)
+    |> read_headers(headers, socket)
   end
 
-  defp decode_header(packet), do: :erlang.decode_packet(:httph_bin, packet, [])
+  defp decode_header(packet, socket) do
+    case :erlang.decode_packet(:httph_bin, packet, []) do
+      {:more, size} ->
+        size = if size == :undefined, do: 0, else: size
+        {:ok, more} = :gen_tcp.recv(socket, size)
+
+        decode_header(packet <> more, socket)
+
+      other ->
+        other
+    end
+  end
 end
