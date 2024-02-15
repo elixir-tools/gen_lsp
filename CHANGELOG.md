@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.7.3](https://github.com/elixir-tools/gen_lsp/compare/v0.7.2...v0.7.3) (2024-02-15)
+
+
+### Bug Fixes
+
+* handle {:more, L} from decode_packet ([fb0cbd4](https://github.com/elixir-tools/gen_lsp/commit/fb0cbd4ef4b700f2d0dfaefae45c8cc5f73b128c))
+
 ## [0.7.2](https://github.com/elixir-tools/gen_lsp/compare/v0.7.1...v0.7.2) (2024-02-14)
 
 
