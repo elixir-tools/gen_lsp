@@ -86,6 +86,22 @@ defmodule GenLSPTest do
       nil
     end)
 
+    assert_request(client, "window/showMessageRequest", 1000, fn params ->
+      assert params == %{
+               "type" => 1,
+               "message" =>
+                 "The NextLS runtime failed with errors on dependencies. Would you like to re-fetch them?",
+               "actions" => [
+                 %{"title" => "yes"},
+                 %{"title" => "no"}
+               ]
+             }
+
+      %{"title" => "yes"}
+    end)
+
+    assert_receive %GenLSP.Structures.MessageActionItem{title: "yes"}
+
     assert_notification "window/logMessage", %{"message" => "done initializing"}, 500
   end
 

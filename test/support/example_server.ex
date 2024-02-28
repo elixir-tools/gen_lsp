@@ -55,6 +55,22 @@ defmodule GenLSPTest.ExampleServer do
       }
     })
 
+    result =
+      GenLSP.request(lsp, %GenLSP.Requests.WindowShowMessageRequest{
+        id: System.unique_integer([:positive]),
+        params: %GenLSP.Structures.ShowMessageRequestParams{
+          type: GenLSP.Enumerations.MessageType.error(),
+          message:
+            "The NextLS runtime failed with errors on dependencies. Would you like to re-fetch them?",
+          actions: [
+            %GenLSP.Structures.MessageActionItem{title: "yes"},
+            %GenLSP.Structures.MessageActionItem{title: "no"}
+          ]
+        }
+      })
+
+    send(lsp.assigns.test_pid, result)
+
     GenLSP.log(lsp, "done initializing")
 
     {:noreply, lsp}

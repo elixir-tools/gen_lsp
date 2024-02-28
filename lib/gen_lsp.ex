@@ -244,6 +244,8 @@ defmodule GenLSP do
           timeout
         )
 
+      result = unify!(request.__struct__.result(), result)
+
       {result, %{id: request.id, method: request.method}}
     end)
   end
@@ -414,6 +416,11 @@ defmodule GenLSP do
 
   defp dump!(schematic, structure) do
     {:ok, output} = Schematic.dump(schematic, structure)
+    output
+  end
+
+  defp unify!(schematic, structure) do
+    {:ok, output} = Schematic.unify(schematic, structure)
     output
   end
 
