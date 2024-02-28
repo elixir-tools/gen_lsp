@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.8.0](https://github.com/elixir-tools/gen_lsp/compare/v0.7.3...v0.8.0) (2024-02-28)
+
+
+### Features
+
+* **test:** shutdown_client!/1 and shutdown_server!/1 ([470dae6](https://github.com/elixir-tools/gen_lsp/commit/470dae62148b8e77a4734cb1abca1166bfb8bf55))
+
 ## [0.7.3](https://github.com/elixir-tools/gen_lsp/compare/v0.7.2...v0.7.3) (2024-02-15)
 
 
