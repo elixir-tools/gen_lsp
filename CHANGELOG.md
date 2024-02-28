@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [0.8.1](https://github.com/elixir-tools/gen_lsp/compare/v0.8.0...v0.8.1) (2024-02-28)
+
+
+### Bug Fixes
+
+* add timeout parameter to GenLSP.request/3 ([b6963bb](https://github.com/elixir-tools/gen_lsp/commit/b6963bbdac99780d90719a2c7edca9fbbb7a401f))
+* unify result in server to client request ([f2f0ba0](https://github.com/elixir-tools/gen_lsp/commit/f2f0ba0c217b3a4272dcb4c93bab48a25dd52d9c))
+
 ## [0.8.0](https://github.com/elixir-tools/gen_lsp/compare/v0.7.3...v0.8.0) (2024-02-28)
 
 
