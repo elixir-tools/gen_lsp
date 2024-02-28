@@ -189,4 +189,13 @@ defmodule GenLSPTest do
       "message" => "Method Not Found"
     })
   end
+
+  test "can shutdown a client and server", %{client: client, server: server} do
+    assert alive?(server)
+
+    shutdown_client!(client)
+    shutdown_server!(server)
+
+    refute alive?(server)
+  end
 end

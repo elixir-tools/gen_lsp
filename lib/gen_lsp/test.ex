@@ -10,12 +10,18 @@ defmodule GenLSP.Test do
   @typedoc """
   The test server data structure.
   """
-  @opaque server :: %{lsp: pid(), buffer: pid(), port: integer()}
+  @opaque server :: %{
+            lsp: pid(),
+            lsp_id: atom(),
+            buffer: pid(),
+            buffer_id: atom(),
+            port: integer()
+          }
 
   @typedoc """
   The test client data structure.
   """
-  @opaque client :: %{socket: :gen_tcp.socket()}
+  @opaque client :: %{socket: :gen_tcp.socket(), listener: pid()}
 
   @doc """
   Starts a new server.
@@ -30,14 +36,19 @@ defmodule GenLSP.Test do
   """
   @spec server(mod :: atom()) :: server()
   def server(mod, opts \\ []) do
+    buffer_id = Keyword.get(opts, :buffer_id, :buffer)
+    lsp_id = Keyword.get(opts, :lsp_id, :lsp)
+
     buffer =
-      start_supervised!({GenLSP.Buffer, communication: {GenLSP.Communication.TCP, [port: 0]}})
+      start_supervised!({GenLSP.Buffer, communication: {GenLSP.Communication.TCP, [port: 0]}},
+        id: buffer_id
+      )
 
     {:ok, port} = :inet.port(GenLSP.Buffer.comm_state(buffer).lsocket)
 
-    lsp = start_supervised!({mod, Keyword.merge([buffer: buffer], opts)})
+    lsp = start_supervised!({mod, Keyword.merge([buffer: buffer], opts)}, id: lsp_id)
 
-    %{lsp: lsp, buffer: buffer, port: port}
+    %{lsp: lsp, buffer: buffer, port: port, buffer_id: buffer_id, lsp_id: lsp_id}
   end
 
   @doc """
@@ -62,37 +73,59 @@ defmodule GenLSP.Test do
 
     me = self()
 
-    Task.start_link(fn ->
-      Stream.resource(
-        fn -> "" end,
-        fn buffer ->
-          case GenLSP.Communication.TCP.read(%{socket: socket}, buffer) do
-            :eof ->
-              {:halt, :ok}
+    {:ok, listener} =
+      Task.start_link(fn ->
+        Stream.resource(
+          fn -> "" end,
+          fn buffer ->
+            case GenLSP.Communication.TCP.read(%{socket: socket}, buffer) do
+              :eof ->
+                {:halt, :ok}
 
-            {:ok, body, buffer} ->
-              send(me, Jason.decode!(body))
+              {:ok, body, buffer} ->
+                send(me, Jason.decode!(body))
 
-              {[body], buffer}
+                {[body], buffer}
+            end
+          end,
+          fn
+            :ok ->
+              :ok
+
+            {:error, reason} ->
+              IO.warn("Unable to read from device: #{inspect(reason)}")
+
+            other ->
+              IO.warn(
+                "Ended stream with value: #{inspect(other)}. This was probably due to something going wrong."
+              )
           end
-        end,
-        fn
-          :ok ->
-            :ok
+        )
+        |> Enum.to_list()
+      end)
 
-          {:error, reason} ->
-            IO.warn("Unable to read from device: #{inspect(reason)}")
+    %{socket: socket, listener: listener}
+  end
 
-          other ->
-            IO.warn(
-              "Ended stream with value: #{inspect(other)}. This was probably due to something going wrong."
-            )
-        end
-      )
-      |> Enum.to_list()
-    end)
+  @doc """
+  Shuts down an LSP server.
+  """
+  @spec shutdown_server!(server :: server()) :: :ok
+  def shutdown_server!(server) do
+    stop_supervised!(server.buffer_id)
+    stop_supervised!(server.lsp_id)
 
-    %{socket: socket}
+    :ok
+  end
+
+  @doc """
+  Shuts down an LSP client.
+  """
+  @spec shutdown_client!(client :: client()) :: :ok
+  def shutdown_client!(client) do
+    Process.exit(client.listener, :normal)
+
+    :ok
   end
 
   @doc ~S"""
