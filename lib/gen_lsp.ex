@@ -229,8 +229,8 @@ defmodule GenLSP do
   })
   ```
   '''
-  @spec request(GenLSP.LSP.t(), request :: any()) :: any()
-  def request(%{buffer: buffer}, request) do
+  @spec request(GenLSP.LSP.t(), request :: any(), timeout :: atom() | non_neg_integer()) :: any()
+  def request(%{buffer: buffer}, request, timeout \\ :infinity) do
     Logger.debug("sent request server -> client #{request.method}",
       id: request.id,
       method: request.method
@@ -238,7 +238,11 @@ defmodule GenLSP do
 
     :telemetry.span([:gen_lsp, :request, :server], %{}, fn ->
       result =
-        GenLSP.Buffer.outgoing_sync(buffer, dump!(request.__struct__.schematic(), request))
+        GenLSP.Buffer.outgoing_sync(
+          buffer,
+          dump!(request.__struct__.schematic(), request),
+          timeout
+        )
 
       {result, %{id: request.id, method: request.method}}
     end)

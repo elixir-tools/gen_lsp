@@ -48,8 +48,8 @@ defmodule GenLSP.Buffer do
   end
 
   @doc false
-  def outgoing_sync(server, packet) do
-    GenServer.call(server, {:outgoing_sync, packet})
+  def outgoing_sync(server, packet, timeout \\ :infinity) do
+    GenServer.call(server, {:outgoing_sync, packet}, timeout)
   end
 
   @doc false
