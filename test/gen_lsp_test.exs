@@ -4,6 +4,7 @@ defmodule GenLSPTest do
   alias GenLSP.Structures
 
   import GenLSP.Test
+  import ExUnit.CaptureLog
 
   setup do
     server = server(GenLSPTest.ExampleServer, test_pid: self())
@@ -190,13 +191,12 @@ defmodule GenLSPTest do
 
     assert :ok ==
              request(client, %{
-               method: "textDocument/documentSymbol",
+               method: "textDocument/definition",
                id: id,
                jsonrpc: "2.0",
                params: %{
-                 textDocument: %{
-                   uri: "file://file/doesnt/matter.ex"
-                 }
+                 position: %{line: 0, character: 0},
+                 textDocument: %{uri: "foo"}
                }
              })
 
@@ -213,5 +213,68 @@ defmodule GenLSPTest do
     shutdown_server!(server)
 
     refute alive?(server)
+  end
+
+  test "returns an internal error and logs when the reply to a request is invalid", %{
+    client: client
+  } do
+    id = System.unique_integer([:positive])
+
+    expected_msg =
+      ~S'''
+      Invalid response for request textDocument/documentSymbol.
+
+      Response: [nil, []]
+      Errors: "expected either either a list of a %GenLSP.Structures.SymbolInformation{}, a list of a %GenLSP.Structures.DocumentSymbol{}, or null or a %GenLSP.ErrorResponse{}"
+      '''
+
+    assert :ok ==
+             request(client, %{
+               "jsonrpc" => "2.0",
+               "method" => "initialize",
+               "params" => %{"capabilities" => %{}},
+               "id" => id
+             })
+
+    log =
+      capture_log(fn ->
+        assert :ok ==
+                 request(client, %{
+                   "jsonrpc" => "2.0",
+                   "method" => "textDocument/documentSymbol",
+                   "params" => %{"textDocument" => %{"uri" => "foo"}},
+                   "id" => 2
+                 })
+
+        assert_error 2,
+                     %{
+                       "message" => msg,
+                       "code" => -32603
+                     },
+                     500
+
+        assert msg =~ expected_msg
+      end)
+
+    assert log =~ expected_msg
+  end
+
+  test "returns an invalid request when the paylaod is not parseable, but is still deemed a request",
+       %{client: client} do
+    assert :ok == request(client, %{"id" => "bingo", "random" => "stuff"})
+
+    assert_error "bingo",
+                 %{
+                   "message" => "Invalid request from the client" <> _,
+                   "code" => -32600
+                 },
+                 500
+  end
+
+  test "logs when an invalid payload is received", %{client: client} do
+    assert capture_log(fn ->
+             assert :ok == notify(client, %{"random" => "stuff"})
+             Process.sleep(100)
+           end) =~ "Invalid notification from the client"
   end
 end
