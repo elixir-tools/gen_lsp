@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## [0.9.0](https://github.com/elixir-tools/gen_lsp/compare/v0.8.1...v0.9.0) (2024-05-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* be resilient to LSP protocol errors ([#56](https://github.com/elixir-tools/gen_lsp/issues/56))
+
+### Features
+
+* be resilient to LSP protocol errors ([#56](https://github.com/elixir-tools/gen_lsp/issues/56)) ([fce380f](https://github.com/elixir-tools/gen_lsp/commit/fce380fb12faa56bbb83e28a04cbb8ab8612c10f))
+
 ## [0.8.1](https://github.com/elixir-tools/gen_lsp/compare/v0.8.0...v0.8.1) (2024-02-28)
 
 
