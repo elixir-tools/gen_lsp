@@ -27,6 +27,10 @@ defmodule GenLSPTest.ExampleServer do
      }, lsp}
   end
 
+  def handle_request(%Requests.TextDocumentDocumentSymbol{}, lsp) do
+    {:reply, [nil, []], lsp}
+  end
+
   def handle_request(_, lsp) do
     {:reply,
      %GenLSP.ErrorResponse{
