@@ -176,8 +176,38 @@ defmodule GenLSPTest do
       "type" => 1
     }
 
-    assert message =~
-             "LSP Exited.\n\nLast message received: handle_info :boom\n\n** (RuntimeError) boom"
+    assert message =~ "** (RuntimeError) boom"
+  end
+
+  test "returns an internal error when user code fails", %{client: client} do
+    log =
+      capture_log(fn ->
+        :ok =
+          request(client, %{
+            "jsonrpc" => "2.0",
+            "method" => "workspace/symbol",
+            "params" => %{"query" => ""},
+            "id" => 2
+          })
+
+        assert_notification "window/logMessage", %{
+          "message" => message,
+          "type" => 1
+        }
+
+        assert message =~ "(RuntimeError) boom"
+
+        assert_error(2, %{
+          "code" => -32603,
+          "message" =>
+            """
+            ** (RuntimeError) boom
+                (gen_lsp 0.9.0) test/support/example_server.ex:35: GenLSPTest.ExampleServer.handle_request/2
+            """ <> _
+        })
+      end)
+
+    assert log =~ "[error] ** (RuntimeError) boom"
   end
 
   test "can receive a normal message with handle_info/2", %{server: server} do
