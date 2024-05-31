@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.10.0](https://github.com/elixir-tools/gen_lsp/compare/v0.9.0...v0.10.0) (2024-05-31)
+
+
+### Features
+
+* be resilient to user level exceptions ([#58](https://github.com/elixir-tools/gen_lsp/issues/58)) ([4baee2f](https://github.com/elixir-tools/gen_lsp/commit/4baee2fdb24d3cc76e737703e674fb12287acc0d))
+
 ## [0.9.0](https://github.com/elixir-tools/gen_lsp/compare/v0.8.1...v0.9.0) (2024-05-20)
 
 
