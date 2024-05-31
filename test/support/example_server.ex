@@ -31,6 +31,11 @@ defmodule GenLSPTest.ExampleServer do
     {:reply, [nil, []], lsp}
   end
 
+  def handle_request(%Requests.WorkspaceSymbol{}, lsp) do
+    raise "boom"
+    {:reply, [], lsp}
+  end
+
   def handle_request(_, lsp) do
     {:reply,
      %GenLSP.ErrorResponse{
