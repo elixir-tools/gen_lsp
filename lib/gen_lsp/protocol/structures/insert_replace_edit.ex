@@ -25,12 +25,12 @@ defmodule GenLSP.Structures.InsertReplaceEdit do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"newText", :new_text} => str(),
-      {"insert", :insert} => GenLSP.Structures.Range.schematic(),
-      {"replace", :replace} => GenLSP.Structures.Range.schematic()
+      {"insert", :insert} => GenLSP.Structures.Range.schema(),
+      {"replace", :replace} => GenLSP.Structures.Range.schema()
     })
   end
 end

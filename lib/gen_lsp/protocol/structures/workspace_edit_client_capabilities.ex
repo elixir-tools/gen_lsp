@@ -38,14 +38,14 @@ defmodule GenLSP.Structures.WorkspaceEditClientCapabilities do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"documentChanges", :document_changes}) => bool(),
       optional({"resourceOperations", :resource_operations}) =>
-        list(GenLSP.Enumerations.ResourceOperationKind.schematic()),
+        list(GenLSP.Enumerations.ResourceOperationKind.schema()),
       optional({"failureHandling", :failure_handling}) =>
-        GenLSP.Enumerations.FailureHandlingKind.schematic(),
+        GenLSP.Enumerations.FailureHandlingKind.schema(),
       optional({"normalizesLineEndings", :normalizes_line_endings}) => bool(),
       optional({"changeAnnotationSupport", :change_annotation_support}) =>
         map(%{

@@ -22,13 +22,13 @@ defmodule GenLSP.Requests.ClientRegisterCapability do
   @type result :: nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "client/registerCapability",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.RegistrationParams.schematic()
+      params: GenLSP.Structures.RegistrationParams.schema()
     })
   end
 
@@ -37,7 +37,7 @@ defmodule GenLSP.Requests.ClientRegisterCapability do
   def result() do
     oneof([
       nil,
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

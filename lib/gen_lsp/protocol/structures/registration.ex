@@ -24,12 +24,12 @@ defmodule GenLSP.Structures.Registration do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"id", :id} => str(),
       {"method", :method} => str(),
-      optional({"registerOptions", :register_options}) => GenLSP.TypeAlias.LSPAny.schematic()
+      optional({"registerOptions", :register_options}) => GenLSP.TypeAlias.LSPAny.schema()
     })
   end
 end

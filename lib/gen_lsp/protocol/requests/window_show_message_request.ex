@@ -22,13 +22,13 @@ defmodule GenLSP.Requests.WindowShowMessageRequest do
   @type result :: GenLSP.Structures.MessageActionItem.t() | nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "window/showMessageRequest",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.ShowMessageRequestParams.schematic()
+      params: GenLSP.Structures.ShowMessageRequestParams.schema()
     })
   end
 
@@ -36,8 +36,8 @@ defmodule GenLSP.Requests.WindowShowMessageRequest do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([GenLSP.Structures.MessageActionItem.schematic(), nil]),
-      GenLSP.ErrorResponse.schematic()
+      oneof([GenLSP.Structures.MessageActionItem.schema(), nil]),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

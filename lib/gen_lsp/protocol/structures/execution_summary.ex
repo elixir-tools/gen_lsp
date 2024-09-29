@@ -20,8 +20,8 @@ defmodule GenLSP.Structures.ExecutionSummary do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"executionOrder", :execution_order} => int(),
       optional({"success", :success}) => bool()

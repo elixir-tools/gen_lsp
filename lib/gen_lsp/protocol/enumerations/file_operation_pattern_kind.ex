@@ -24,8 +24,8 @@ defmodule GenLSP.Enumerations.FileOperationPatternKind do
   def folder, do: "folder"
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       "file",
       "folder"

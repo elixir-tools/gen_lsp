@@ -41,8 +41,8 @@ defmodule GenLSP.Enumerations.UniquenessLevel do
   def global, do: "global"
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       "document",
       "project",

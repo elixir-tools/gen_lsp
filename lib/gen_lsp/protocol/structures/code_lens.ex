@@ -29,12 +29,12 @@ defmodule GenLSP.Structures.CodeLens do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"range", :range} => GenLSP.Structures.Range.schematic(),
-      optional({"command", :command}) => GenLSP.Structures.Command.schematic(),
-      optional({"data", :data}) => GenLSP.TypeAlias.LSPAny.schematic()
+      {"range", :range} => GenLSP.Structures.Range.schema(),
+      optional({"command", :command}) => GenLSP.Structures.Command.schema(),
+      optional({"data", :data}) => GenLSP.TypeAlias.LSPAny.schema()
     })
   end
 end

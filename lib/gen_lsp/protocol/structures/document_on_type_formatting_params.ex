@@ -30,13 +30,13 @@ defmodule GenLSP.Structures.DocumentOnTypeFormattingParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schematic(),
-      {"position", :position} => GenLSP.Structures.Position.schematic(),
+      {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schema(),
+      {"position", :position} => GenLSP.Structures.Position.schema(),
       {"ch", :ch} => str(),
-      {"options", :options} => GenLSP.Structures.FormattingOptions.schematic()
+      {"options", :options} => GenLSP.Structures.FormattingOptions.schema()
     })
   end
 end

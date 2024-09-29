@@ -36,8 +36,8 @@ defmodule GenLSP.Enumerations.PositionEncodingKind do
   def utf32, do: "utf-32"
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       "utf-8",
       "utf-16",

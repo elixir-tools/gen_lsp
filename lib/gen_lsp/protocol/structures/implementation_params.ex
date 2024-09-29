@@ -22,14 +22,14 @@ defmodule GenLSP.Structures.ImplementationParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      optional({"workDoneToken", :work_done_token}) => GenLSP.TypeAlias.ProgressToken.schematic(),
+      optional({"workDoneToken", :work_done_token}) => GenLSP.TypeAlias.ProgressToken.schema(),
       optional({"partialResultToken", :partial_result_token}) =>
-        GenLSP.TypeAlias.ProgressToken.schematic(),
-      {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schematic(),
-      {"position", :position} => GenLSP.Structures.Position.schematic()
+        GenLSP.TypeAlias.ProgressToken.schema(),
+      {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schema(),
+      {"position", :position} => GenLSP.Structures.Position.schema()
     })
   end
 end

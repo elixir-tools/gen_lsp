@@ -24,13 +24,13 @@ defmodule GenLSP.Requests.WorkspaceSymbolResolve do
   @type result :: GenLSP.Structures.WorkspaceSymbol.t()
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "workspaceSymbol/resolve",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.WorkspaceSymbol.schematic()
+      params: GenLSP.Structures.WorkspaceSymbol.schema()
     })
   end
 
@@ -38,8 +38,8 @@ defmodule GenLSP.Requests.WorkspaceSymbolResolve do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      GenLSP.Structures.WorkspaceSymbol.schematic(),
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.Structures.WorkspaceSymbol.schema(),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

@@ -35,14 +35,14 @@ defmodule GenLSP.Structures.NotebookCell do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"kind", :kind} => GenLSP.Enumerations.NotebookCellKind.schematic(),
+      {"kind", :kind} => GenLSP.Enumerations.NotebookCellKind.schema(),
       {"document", :document} => str(),
-      optional({"metadata", :metadata}) => GenLSP.TypeAlias.LSPObject.schematic(),
+      optional({"metadata", :metadata}) => GenLSP.TypeAlias.LSPObject.schema(),
       optional({"executionSummary", :execution_summary}) =>
-        GenLSP.Structures.ExecutionSummary.schematic()
+        GenLSP.Structures.ExecutionSummary.schema()
     })
   end
 end

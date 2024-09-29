@@ -24,13 +24,13 @@ defmodule GenLSP.Requests.TextDocumentSelectionRange do
   @type result :: list(GenLSP.Structures.SelectionRange.t()) | nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/selectionRange",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.SelectionRangeParams.schematic()
+      params: GenLSP.Structures.SelectionRangeParams.schema()
     })
   end
 
@@ -38,8 +38,8 @@ defmodule GenLSP.Requests.TextDocumentSelectionRange do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([list(GenLSP.Structures.SelectionRange.schematic()), nil]),
-      GenLSP.ErrorResponse.schematic()
+      oneof([list(GenLSP.Structures.SelectionRange.schema()), nil]),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

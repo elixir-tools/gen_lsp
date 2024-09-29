@@ -13,8 +13,8 @@ defmodule GenLSP.TypeAlias.NotebookDocumentFilter do
   @type t :: map() | map() | map()
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       map(%{
         {"notebookType", :notebook_type} => str(),

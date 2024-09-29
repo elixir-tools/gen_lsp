@@ -19,10 +19,10 @@ defmodule GenLSP.Structures.DidChangeWorkspaceFoldersParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"event", :event} => GenLSP.Structures.WorkspaceFoldersChangeEvent.schematic()
+      {"event", :event} => GenLSP.Structures.WorkspaceFoldersChangeEvent.schema()
     })
   end
 end

@@ -15,11 +15,10 @@ defmodule GenLSP.Structures.UnregistrationParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"unregisterations", :unregisterations} =>
-        list(GenLSP.Structures.Unregistration.schematic())
+      {"unregisterations", :unregisterations} => list(GenLSP.Structures.Unregistration.schema())
     })
   end
 end

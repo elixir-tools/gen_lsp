@@ -34,8 +34,8 @@ defmodule GenLSP.Enumerations.ErrorCodes do
   def unknown_error_code, do: -32001
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       -32700,
       -32600,

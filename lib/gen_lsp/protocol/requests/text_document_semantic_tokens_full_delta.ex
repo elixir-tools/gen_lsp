@@ -22,13 +22,13 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensFullDelta do
           GenLSP.Structures.SemanticTokens.t() | GenLSP.Structures.SemanticTokensDelta.t() | nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/semanticTokens/full/delta",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.SemanticTokensDeltaParams.schematic()
+      params: GenLSP.Structures.SemanticTokensDeltaParams.schema()
     })
   end
 
@@ -37,11 +37,11 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensFullDelta do
   def result() do
     oneof([
       oneof([
-        GenLSP.Structures.SemanticTokens.schematic(),
-        GenLSP.Structures.SemanticTokensDelta.schematic(),
+        GenLSP.Structures.SemanticTokens.schema(),
+        GenLSP.Structures.SemanticTokensDelta.schema(),
         nil
       ]),
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

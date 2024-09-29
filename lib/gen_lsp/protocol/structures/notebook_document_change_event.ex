@@ -25,28 +25,28 @@ defmodule GenLSP.Structures.NotebookDocumentChangeEvent do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      optional({"metadata", :metadata}) => GenLSP.TypeAlias.LSPObject.schematic(),
+      optional({"metadata", :metadata}) => GenLSP.TypeAlias.LSPObject.schema(),
       optional({"cells", :cells}) =>
         map(%{
           optional({"structure", :structure}) =>
             map(%{
-              {"array", :array} => GenLSP.Structures.NotebookCellArrayChange.schematic(),
+              {"array", :array} => GenLSP.Structures.NotebookCellArrayChange.schema(),
               optional({"didOpen", :did_open}) =>
-                list(GenLSP.Structures.TextDocumentItem.schematic()),
+                list(GenLSP.Structures.TextDocumentItem.schema()),
               optional({"didClose", :did_close}) =>
-                list(GenLSP.Structures.TextDocumentIdentifier.schematic())
+                list(GenLSP.Structures.TextDocumentIdentifier.schema())
             }),
-          optional({"data", :data}) => list(GenLSP.Structures.NotebookCell.schematic()),
+          optional({"data", :data}) => list(GenLSP.Structures.NotebookCell.schema()),
           optional({"textContent", :text_content}) =>
             list(
               map(%{
                 {"document", :document} =>
-                  GenLSP.Structures.VersionedTextDocumentIdentifier.schematic(),
+                  GenLSP.Structures.VersionedTextDocumentIdentifier.schema(),
                 {"changes", :changes} =>
-                  list(GenLSP.TypeAlias.TextDocumentContentChangeEvent.schematic())
+                  list(GenLSP.TypeAlias.TextDocumentContentChangeEvent.schema())
               })
             )
         })

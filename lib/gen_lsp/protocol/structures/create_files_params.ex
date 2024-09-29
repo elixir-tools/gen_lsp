@@ -22,10 +22,10 @@ defmodule GenLSP.Structures.CreateFilesParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"files", :files} => list(GenLSP.Structures.FileCreate.schematic())
+      {"files", :files} => list(GenLSP.Structures.FileCreate.schema())
     })
   end
 end

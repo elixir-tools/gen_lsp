@@ -22,10 +22,10 @@ defmodule GenLSP.Structures.DidSaveTextDocumentParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schematic(),
+      {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schema(),
       optional({"text", :text}) => str()
     })
   end

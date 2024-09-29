@@ -19,8 +19,8 @@ defmodule GenLSP.Structures.ShowMessageRequestClientCapabilities do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"messageActionItem", :message_action_item}) =>
         map(%{

@@ -20,8 +20,8 @@ defmodule GenLSP.TypeAlias.MarkedString do
   @type t :: String.t() | map()
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       str(),
       map(%{

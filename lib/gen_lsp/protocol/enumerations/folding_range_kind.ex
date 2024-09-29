@@ -27,8 +27,8 @@ defmodule GenLSP.Enumerations.FoldingRangeKind do
   def region, do: "region"
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       "comment",
       "imports",

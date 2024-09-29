@@ -21,12 +21,12 @@ defmodule GenLSP.Notifications.WorkspaceDidRenameFiles do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "workspace/didRenameFiles",
       jsonrpc: "2.0",
-      params: GenLSP.Structures.RenameFilesParams.schematic()
+      params: GenLSP.Structures.RenameFilesParams.schema()
     })
   end
 end

@@ -22,11 +22,11 @@ defmodule GenLSP.Structures.InlineValueContext do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"frameId", :frame_id} => int(),
-      {"stoppedLocation", :stopped_location} => GenLSP.Structures.Range.schematic()
+      {"stoppedLocation", :stopped_location} => GenLSP.Structures.Range.schema()
     })
   end
 end

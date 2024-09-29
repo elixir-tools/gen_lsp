@@ -24,13 +24,13 @@ defmodule GenLSP.Requests.TextDocumentReferences do
   @type result :: list(GenLSP.Structures.Location.t()) | nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/references",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.ReferenceParams.schematic()
+      params: GenLSP.Structures.ReferenceParams.schema()
     })
   end
 
@@ -38,8 +38,8 @@ defmodule GenLSP.Requests.TextDocumentReferences do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([list(GenLSP.Structures.Location.schematic()), nil]),
-      GenLSP.ErrorResponse.schematic()
+      oneof([list(GenLSP.Structures.Location.schema()), nil]),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

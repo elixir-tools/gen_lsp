@@ -27,13 +27,13 @@ defmodule GenLSP.Structures.RenameParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schematic(),
-      {"position", :position} => GenLSP.Structures.Position.schematic(),
+      {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schema(),
+      {"position", :position} => GenLSP.Structures.Position.schema(),
       {"newName", :new_name} => str(),
-      optional({"workDoneToken", :work_done_token}) => GenLSP.TypeAlias.ProgressToken.schematic()
+      optional({"workDoneToken", :work_done_token}) => GenLSP.TypeAlias.ProgressToken.schema()
     })
   end
 end

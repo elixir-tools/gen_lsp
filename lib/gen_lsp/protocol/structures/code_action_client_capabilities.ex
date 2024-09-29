@@ -52,15 +52,15 @@ defmodule GenLSP.Structures.CodeActionClientCapabilities do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"dynamicRegistration", :dynamic_registration}) => bool(),
       optional({"codeActionLiteralSupport", :code_action_literal_support}) =>
         map(%{
           {"codeActionKind", :code_action_kind} =>
             map(%{
-              {"valueSet", :value_set} => list(GenLSP.Enumerations.CodeActionKind.schematic())
+              {"valueSet", :value_set} => list(GenLSP.Enumerations.CodeActionKind.schema())
             })
         }),
       optional({"isPreferredSupport", :is_preferred_support}) => bool(),

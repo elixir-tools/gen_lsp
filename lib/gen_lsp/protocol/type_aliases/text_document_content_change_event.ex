@@ -10,11 +10,11 @@ defmodule GenLSP.TypeAlias.TextDocumentContentChangeEvent do
   @type t :: map() | map()
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       map(%{
-        {"range", :range} => GenLSP.Structures.Range.schematic(),
+        {"range", :range} => GenLSP.Structures.Range.schema(),
         optional({"rangeLength", :range_length}) => int(),
         {"text", :text} => str()
       }),

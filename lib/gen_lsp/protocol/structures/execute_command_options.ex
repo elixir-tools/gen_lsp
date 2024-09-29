@@ -21,8 +21,8 @@ defmodule GenLSP.Structures.ExecuteCommandOptions do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"commands", :commands} => list(str()),
       optional({"workDoneProgress", :work_done_progress}) => bool()

@@ -259,7 +259,7 @@ defmodule GenLSP do
 
     :telemetry.span([:gen_lsp, :notify, :server], %{}, fn ->
       result =
-        GenLSP.Buffer.outgoing(buffer, dump!(notification.__struct__.schematic(), notification))
+        GenLSP.Buffer.outgoing(buffer, dump!(notification.__struct__.schema(), notification))
 
       {result, %{method: notification.method}}
     end)
@@ -288,7 +288,7 @@ defmodule GenLSP do
       result =
         GenLSP.Buffer.outgoing_sync(
           buffer,
-          dump!(request.__struct__.schematic(), request),
+          dump!(request.__struct__.schema(), request),
           timeout
         )
 
@@ -321,7 +321,7 @@ defmodule GenLSP do
             {:error, error} ->
               {:ok, output} =
                 Schematic.dump(
-                  GenLSP.ErrorResponse.schematic(),
+                  GenLSP.ErrorResponse.schema(),
                   %GenLSP.ErrorResponse{
                     code: GenLSP.Enumerations.ErrorCodes.internal_error(),
                     message: error
@@ -371,7 +371,7 @@ defmodule GenLSP do
 
                             {:ok, output} =
                               Schematic.dump(
-                                GenLSP.ErrorResponse.schematic(),
+                                GenLSP.ErrorResponse.schema(),
                                 %GenLSP.ErrorResponse{
                                   code: GenLSP.Enumerations.ErrorCodes.internal_error(),
                                   message: exception.message
@@ -431,7 +431,7 @@ defmodule GenLSP do
 
                   {:ok, output} =
                     Schematic.dump(
-                      GenLSP.ErrorResponse.schematic(),
+                      GenLSP.ErrorResponse.schema(),
                       %GenLSP.ErrorResponse{
                         code: GenLSP.Enumerations.ErrorCodes.invalid_request(),
                         message: exception.message

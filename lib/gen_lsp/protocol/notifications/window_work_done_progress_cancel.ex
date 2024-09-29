@@ -19,12 +19,12 @@ defmodule GenLSP.Notifications.WindowWorkDoneProgressCancel do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "window/workDoneProgress/cancel",
       jsonrpc: "2.0",
-      params: GenLSP.Structures.WorkDoneProgressCancelParams.schematic()
+      params: GenLSP.Structures.WorkDoneProgressCancelParams.schema()
     })
   end
 end

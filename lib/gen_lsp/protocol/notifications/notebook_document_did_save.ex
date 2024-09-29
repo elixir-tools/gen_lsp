@@ -20,12 +20,12 @@ defmodule GenLSP.Notifications.NotebookDocumentDidSave do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "notebookDocument/didSave",
       jsonrpc: "2.0",
-      params: GenLSP.Structures.DidSaveNotebookDocumentParams.schematic()
+      params: GenLSP.Structures.DidSaveNotebookDocumentParams.schema()
     })
   end
 end

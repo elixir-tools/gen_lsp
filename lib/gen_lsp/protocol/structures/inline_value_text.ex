@@ -23,10 +23,10 @@ defmodule GenLSP.Structures.InlineValueText do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"range", :range} => GenLSP.Structures.Range.schematic(),
+      {"range", :range} => GenLSP.Structures.Range.schema(),
       {"text", :text} => str()
     })
   end

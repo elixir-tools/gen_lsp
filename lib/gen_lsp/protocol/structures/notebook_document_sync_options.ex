@@ -34,15 +34,15 @@ defmodule GenLSP.Structures.NotebookDocumentSyncOptions do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"notebookSelector", :notebook_selector} =>
         list(
           oneof([
             map(%{
               {"notebook", :notebook} =>
-                oneof([str(), GenLSP.TypeAlias.NotebookDocumentFilter.schematic()]),
+                oneof([str(), GenLSP.TypeAlias.NotebookDocumentFilter.schema()]),
               optional({"cells", :cells}) =>
                 list(
                   map(%{
@@ -52,7 +52,7 @@ defmodule GenLSP.Structures.NotebookDocumentSyncOptions do
             }),
             map(%{
               optional({"notebook", :notebook}) =>
-                oneof([str(), GenLSP.TypeAlias.NotebookDocumentFilter.schematic()]),
+                oneof([str(), GenLSP.TypeAlias.NotebookDocumentFilter.schema()]),
               {"cells", :cells} =>
                 list(
                   map(%{

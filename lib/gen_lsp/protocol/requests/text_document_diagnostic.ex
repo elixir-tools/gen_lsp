@@ -23,13 +23,13 @@ defmodule GenLSP.Requests.TextDocumentDiagnostic do
   @type result :: GenLSP.TypeAlias.DocumentDiagnosticReport.t()
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/diagnostic",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.DocumentDiagnosticParams.schematic()
+      params: GenLSP.Structures.DocumentDiagnosticParams.schema()
     })
   end
 
@@ -37,8 +37,8 @@ defmodule GenLSP.Requests.TextDocumentDiagnostic do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      GenLSP.TypeAlias.DocumentDiagnosticReport.schematic(),
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.TypeAlias.DocumentDiagnosticReport.schema(),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

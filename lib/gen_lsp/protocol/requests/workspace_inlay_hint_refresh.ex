@@ -20,8 +20,8 @@ defmodule GenLSP.Requests.WorkspaceInlayHintRefresh do
   @type result :: nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "workspace/inlayHint/refresh",
       jsonrpc: "2.0",
@@ -34,7 +34,7 @@ defmodule GenLSP.Requests.WorkspaceInlayHintRefresh do
   def result() do
     oneof([
       nil,
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

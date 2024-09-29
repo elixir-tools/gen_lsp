@@ -42,10 +42,10 @@ defmodule GenLSP.Structures.MarkupContent do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"kind", :kind} => GenLSP.Enumerations.MarkupKind.schematic(),
+      {"kind", :kind} => GenLSP.Enumerations.MarkupKind.schema(),
       {"value", :value} => str()
     })
   end

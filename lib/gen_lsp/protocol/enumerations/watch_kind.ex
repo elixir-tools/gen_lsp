@@ -23,8 +23,8 @@ defmodule GenLSP.Enumerations.WatchKind do
   def delete, do: 4
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       1,
       2,

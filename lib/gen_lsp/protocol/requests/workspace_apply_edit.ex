@@ -21,13 +21,13 @@ defmodule GenLSP.Requests.WorkspaceApplyEdit do
   @type result :: GenLSP.Structures.ApplyWorkspaceEditResult.t()
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "workspace/applyEdit",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.ApplyWorkspaceEditParams.schematic()
+      params: GenLSP.Structures.ApplyWorkspaceEditParams.schema()
     })
   end
 
@@ -35,8 +35,8 @@ defmodule GenLSP.Requests.WorkspaceApplyEdit do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      GenLSP.Structures.ApplyWorkspaceEditResult.schematic(),
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.Structures.ApplyWorkspaceEditResult.schema(),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

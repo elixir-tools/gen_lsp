@@ -19,12 +19,12 @@ defmodule GenLSP.Notifications.WorkspaceDidChangeWatchedFiles do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "workspace/didChangeWatchedFiles",
       jsonrpc: "2.0",
-      params: GenLSP.Structures.DidChangeWatchedFilesParams.schematic()
+      params: GenLSP.Structures.DidChangeWatchedFilesParams.schema()
     })
   end
 end

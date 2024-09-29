@@ -29,15 +29,15 @@ defmodule GenLSP.Structures.RenameFile do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"kind", :kind} => "rename",
       {"oldUri", :old_uri} => str(),
       {"newUri", :new_uri} => str(),
-      optional({"options", :options}) => GenLSP.Structures.RenameFileOptions.schematic(),
+      optional({"options", :options}) => GenLSP.Structures.RenameFileOptions.schema(),
       optional({"annotationId", :annotation_id}) =>
-        GenLSP.TypeAlias.ChangeAnnotationIdentifier.schematic()
+        GenLSP.TypeAlias.ChangeAnnotationIdentifier.schema()
     })
   end
 end

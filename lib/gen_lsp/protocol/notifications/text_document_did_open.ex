@@ -25,12 +25,12 @@ defmodule GenLSP.Notifications.TextDocumentDidOpen do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/didOpen",
       jsonrpc: "2.0",
-      params: GenLSP.Structures.DidOpenTextDocumentParams.schematic()
+      params: GenLSP.Structures.DidOpenTextDocumentParams.schema()
     })
   end
 end

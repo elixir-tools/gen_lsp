@@ -113,8 +113,8 @@ defmodule GenLSP.Enumerations.SymbolKind do
   def type_parameter, do: 26
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       1,
       2,
