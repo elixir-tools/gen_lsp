@@ -328,11 +328,21 @@ defmodule GenLSP do
                   }
                 )
 
-              packet = %{
-                "jsonrpc" => "2.0",
-                "id" => Process.get(:request_id),
-                "error" => output
-              }
+        {:ok, task} =
+          attempt(
+            lsp,
+            "Last message received: handle_request #{inspect(request)}",
+            [:gen_lsp, :request, :client],
+            fn
+              {:error, error} ->
+                {:ok, output} =
+                  Schematic.dump(
+                    GenLSP.ErrorResponse.schema(),
+                    %GenLSP.ErrorResponse{
+                      code: GenLSP.Enumerations.ErrorCodes.internal_error(),
+                      message: error
+                    }
+                  )
 
               deb =
                 :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:out, :request, from})
@@ -378,8 +388,14 @@ defmodule GenLSP do
                                 }
                               )
 
-                            {"error", output}
-                        end
+                              {:ok, output} =
+                                Schematic.dump(
+                                  GenLSP.ErrorResponse.schema(),
+                                  %GenLSP.ErrorResponse{
+                                    code: GenLSP.Enumerations.ErrorCodes.internal_error(),
+                                    message: exception.message
+                                  }
+                                )
 
                       packet = %{
                         "jsonrpc" => "2.0",
@@ -394,10 +410,46 @@ defmodule GenLSP do
 
                       duration = System.system_time(:microsecond) - start
 
-                      Logger.debug(
-                        "handled request client -> server #{req.method} in #{format_time(duration)}",
-                        id: req.id,
-                        method: req.method
+                        duration = System.system_time(:microsecond) - start
+
+                        Logger.debug(
+                          "handled request client -> server #{req.method} in #{format_time(duration)}",
+                          id: req.id,
+                          method: req.method
+                        )
+
+                        :telemetry.execute([:gen_lsp, :request, :client, :stop], %{
+                          duration: duration
+                        })
+
+                      {:noreply, _lsp} ->
+                        duration = System.system_time(:microsecond) - start
+
+                        Logger.debug(
+                          "handled request client -> server #{req.method} in #{format_time(duration)}",
+                          id: req.id,
+                          method: req.method
+                        )
+
+                        :telemetry.execute([:gen_lsp, :request, :client, :stop], %{
+                          duration: duration
+                        })
+                    end
+
+                  {:error, errors} ->
+                    # the payload is not parseable at all, other than being valid JSON and having
+                    # an `id` property to signal its a request
+                    exception = InvalidRequest.exception({request, errors})
+
+                    Logger.error(Exception.format(:error, exception))
+
+                    {:ok, output} =
+                      Schematic.dump(
+                        GenLSP.ErrorResponse.schema(),
+                        %GenLSP.ErrorResponse{
+                          code: GenLSP.Enumerations.ErrorCodes.invalid_request(),
+                          message: exception.message
+                        }
                       )
 
                       :telemetry.execute([:gen_lsp, :request, :client, :stop], %{
