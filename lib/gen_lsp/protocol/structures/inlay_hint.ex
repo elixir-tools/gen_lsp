@@ -52,18 +52,17 @@ defmodule GenLSP.Structures.InlayHint do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"position", :position} => GenLSP.Structures.Position.schematic(),
-      {"label", :label} => oneof([str(), list(GenLSP.Structures.InlayHintLabelPart.schematic())]),
-      optional({"kind", :kind}) => GenLSP.Enumerations.InlayHintKind.schematic(),
-      optional({"textEdits", :text_edits}) => list(GenLSP.Structures.TextEdit.schematic()),
-      optional({"tooltip", :tooltip}) =>
-        oneof([str(), GenLSP.Structures.MarkupContent.schematic()]),
+      {"position", :position} => GenLSP.Structures.Position.schema(),
+      {"label", :label} => oneof([str(), list(GenLSP.Structures.InlayHintLabelPart.schema())]),
+      optional({"kind", :kind}) => GenLSP.Enumerations.InlayHintKind.schema(),
+      optional({"textEdits", :text_edits}) => list(GenLSP.Structures.TextEdit.schema()),
+      optional({"tooltip", :tooltip}) => oneof([str(), GenLSP.Structures.MarkupContent.schema()]),
       optional({"paddingLeft", :padding_left}) => bool(),
       optional({"paddingRight", :padding_right}) => bool(),
-      optional({"data", :data}) => GenLSP.TypeAlias.LSPAny.schematic()
+      optional({"data", :data}) => GenLSP.TypeAlias.LSPAny.schema()
     })
   end
 end

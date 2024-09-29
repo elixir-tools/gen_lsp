@@ -22,10 +22,10 @@ defmodule GenLSP.Structures.DeleteFilesParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"files", :files} => list(GenLSP.Structures.FileDelete.schematic())
+      {"files", :files} => list(GenLSP.Structures.FileDelete.schema())
     })
   end
 end

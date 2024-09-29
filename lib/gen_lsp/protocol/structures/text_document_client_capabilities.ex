@@ -106,66 +106,65 @@ defmodule GenLSP.Structures.TextDocumentClientCapabilities do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"synchronization", :synchronization}) =>
-        GenLSP.Structures.TextDocumentSyncClientCapabilities.schematic(),
+        GenLSP.Structures.TextDocumentSyncClientCapabilities.schema(),
       optional({"completion", :completion}) =>
-        GenLSP.Structures.CompletionClientCapabilities.schematic(),
-      optional({"hover", :hover}) => GenLSP.Structures.HoverClientCapabilities.schematic(),
+        GenLSP.Structures.CompletionClientCapabilities.schema(),
+      optional({"hover", :hover}) => GenLSP.Structures.HoverClientCapabilities.schema(),
       optional({"signatureHelp", :signature_help}) =>
-        GenLSP.Structures.SignatureHelpClientCapabilities.schematic(),
+        GenLSP.Structures.SignatureHelpClientCapabilities.schema(),
       optional({"declaration", :declaration}) =>
-        GenLSP.Structures.DeclarationClientCapabilities.schematic(),
+        GenLSP.Structures.DeclarationClientCapabilities.schema(),
       optional({"definition", :definition}) =>
-        GenLSP.Structures.DefinitionClientCapabilities.schematic(),
+        GenLSP.Structures.DefinitionClientCapabilities.schema(),
       optional({"typeDefinition", :type_definition}) =>
-        GenLSP.Structures.TypeDefinitionClientCapabilities.schematic(),
+        GenLSP.Structures.TypeDefinitionClientCapabilities.schema(),
       optional({"implementation", :implementation}) =>
-        GenLSP.Structures.ImplementationClientCapabilities.schematic(),
+        GenLSP.Structures.ImplementationClientCapabilities.schema(),
       optional({"references", :references}) =>
-        GenLSP.Structures.ReferenceClientCapabilities.schematic(),
+        GenLSP.Structures.ReferenceClientCapabilities.schema(),
       optional({"documentHighlight", :document_highlight}) =>
-        GenLSP.Structures.DocumentHighlightClientCapabilities.schematic(),
+        GenLSP.Structures.DocumentHighlightClientCapabilities.schema(),
       optional({"documentSymbol", :document_symbol}) =>
-        GenLSP.Structures.DocumentSymbolClientCapabilities.schematic(),
+        GenLSP.Structures.DocumentSymbolClientCapabilities.schema(),
       optional({"codeAction", :code_action}) =>
-        GenLSP.Structures.CodeActionClientCapabilities.schematic(),
-      optional({"codeLens", :code_lens}) =>
-        GenLSP.Structures.CodeLensClientCapabilities.schematic(),
+        GenLSP.Structures.CodeActionClientCapabilities.schema(),
+      optional({"codeLens", :code_lens}) => GenLSP.Structures.CodeLensClientCapabilities.schema(),
       optional({"documentLink", :document_link}) =>
-        GenLSP.Structures.DocumentLinkClientCapabilities.schematic(),
+        GenLSP.Structures.DocumentLinkClientCapabilities.schema(),
       optional({"colorProvider", :color_provider}) =>
-        GenLSP.Structures.DocumentColorClientCapabilities.schematic(),
+        GenLSP.Structures.DocumentColorClientCapabilities.schema(),
       optional({"formatting", :formatting}) =>
-        GenLSP.Structures.DocumentFormattingClientCapabilities.schematic(),
+        GenLSP.Structures.DocumentFormattingClientCapabilities.schema(),
       optional({"rangeFormatting", :range_formatting}) =>
-        GenLSP.Structures.DocumentRangeFormattingClientCapabilities.schematic(),
+        GenLSP.Structures.DocumentRangeFormattingClientCapabilities.schema(),
       optional({"onTypeFormatting", :on_type_formatting}) =>
-        GenLSP.Structures.DocumentOnTypeFormattingClientCapabilities.schematic(),
-      optional({"rename", :rename}) => GenLSP.Structures.RenameClientCapabilities.schematic(),
+        GenLSP.Structures.DocumentOnTypeFormattingClientCapabilities.schema(),
+      optional({"rename", :rename}) => GenLSP.Structures.RenameClientCapabilities.schema(),
       optional({"foldingRange", :folding_range}) =>
-        GenLSP.Structures.FoldingRangeClientCapabilities.schematic(),
+        GenLSP.Structures.FoldingRangeClientCapabilities.schema(),
       optional({"selectionRange", :selection_range}) =>
-        GenLSP.Structures.SelectionRangeClientCapabilities.schematic(),
+        GenLSP.Structures.SelectionRangeClientCapabilities.schema(),
       optional({"publishDiagnostics", :publish_diagnostics}) =>
-        GenLSP.Structures.PublishDiagnosticsClientCapabilities.schematic(),
+        GenLSP.Structures.PublishDiagnosticsClientCapabilities.schema(),
       optional({"callHierarchy", :call_hierarchy}) =>
-        GenLSP.Structures.CallHierarchyClientCapabilities.schematic(),
+        GenLSP.Structures.CallHierarchyClientCapabilities.schema(),
       optional({"semanticTokens", :semantic_tokens}) =>
-        GenLSP.Structures.SemanticTokensClientCapabilities.schematic(),
+        GenLSP.Structures.SemanticTokensClientCapabilities.schema(),
       optional({"linkedEditingRange", :linked_editing_range}) =>
-        GenLSP.Structures.LinkedEditingRangeClientCapabilities.schematic(),
-      optional({"moniker", :moniker}) => GenLSP.Structures.MonikerClientCapabilities.schematic(),
+        GenLSP.Structures.LinkedEditingRangeClientCapabilities.schema(),
+      optional({"moniker", :moniker}) => GenLSP.Structures.MonikerClientCapabilities.schema(),
       optional({"typeHierarchy", :type_hierarchy}) =>
-        GenLSP.Structures.TypeHierarchyClientCapabilities.schematic(),
+        GenLSP.Structures.TypeHierarchyClientCapabilities.schema(),
       optional({"inlineValue", :inline_value}) =>
-        GenLSP.Structures.InlineValueClientCapabilities.schematic(),
+        GenLSP.Structures.InlineValueClientCapabilities.schema(),
       optional({"inlayHint", :inlay_hint}) =>
-        GenLSP.Structures.InlayHintClientCapabilities.schematic(),
+        GenLSP.Structures.InlayHintClientCapabilities.schema(),
       optional({"diagnostic", :diagnostic}) =>
-        GenLSP.Structures.DiagnosticClientCapabilities.schematic()
+        GenLSP.Structures.DiagnosticClientCapabilities.schema()
     })
   end
 end

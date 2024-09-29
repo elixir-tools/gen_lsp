@@ -28,8 +28,8 @@ defmodule GenLSP.Enumerations.TextDocumentSaveReason do
   def focus_out, do: 3
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       1,
       2,

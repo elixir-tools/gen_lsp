@@ -24,11 +24,11 @@ defmodule GenLSP.Structures.FileOperationFilter do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"scheme", :scheme}) => str(),
-      {"pattern", :pattern} => GenLSP.Structures.FileOperationPattern.schematic()
+      {"pattern", :pattern} => GenLSP.Structures.FileOperationPattern.schema()
     })
   end
 end

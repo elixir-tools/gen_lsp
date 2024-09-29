@@ -71,34 +71,34 @@ defmodule GenLSP.Structures.WorkspaceClientCapabilities do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"applyEdit", :apply_edit}) => bool(),
       optional({"workspaceEdit", :workspace_edit}) =>
-        GenLSP.Structures.WorkspaceEditClientCapabilities.schematic(),
+        GenLSP.Structures.WorkspaceEditClientCapabilities.schema(),
       optional({"didChangeConfiguration", :did_change_configuration}) =>
-        GenLSP.Structures.DidChangeConfigurationClientCapabilities.schematic(),
+        GenLSP.Structures.DidChangeConfigurationClientCapabilities.schema(),
       optional({"didChangeWatchedFiles", :did_change_watched_files}) =>
-        GenLSP.Structures.DidChangeWatchedFilesClientCapabilities.schematic(),
+        GenLSP.Structures.DidChangeWatchedFilesClientCapabilities.schema(),
       optional({"symbol", :symbol}) =>
-        GenLSP.Structures.WorkspaceSymbolClientCapabilities.schematic(),
+        GenLSP.Structures.WorkspaceSymbolClientCapabilities.schema(),
       optional({"executeCommand", :execute_command}) =>
-        GenLSP.Structures.ExecuteCommandClientCapabilities.schematic(),
+        GenLSP.Structures.ExecuteCommandClientCapabilities.schema(),
       optional({"workspaceFolders", :workspace_folders}) => bool(),
       optional({"configuration", :configuration}) => bool(),
       optional({"semanticTokens", :semantic_tokens}) =>
-        GenLSP.Structures.SemanticTokensWorkspaceClientCapabilities.schematic(),
+        GenLSP.Structures.SemanticTokensWorkspaceClientCapabilities.schema(),
       optional({"codeLens", :code_lens}) =>
-        GenLSP.Structures.CodeLensWorkspaceClientCapabilities.schematic(),
+        GenLSP.Structures.CodeLensWorkspaceClientCapabilities.schema(),
       optional({"fileOperations", :file_operations}) =>
-        GenLSP.Structures.FileOperationClientCapabilities.schematic(),
+        GenLSP.Structures.FileOperationClientCapabilities.schema(),
       optional({"inlineValue", :inline_value}) =>
-        GenLSP.Structures.InlineValueWorkspaceClientCapabilities.schematic(),
+        GenLSP.Structures.InlineValueWorkspaceClientCapabilities.schema(),
       optional({"inlayHint", :inlay_hint}) =>
-        GenLSP.Structures.InlayHintWorkspaceClientCapabilities.schematic(),
+        GenLSP.Structures.InlayHintWorkspaceClientCapabilities.schema(),
       optional({"diagnostics", :diagnostics}) =>
-        GenLSP.Structures.DiagnosticWorkspaceClientCapabilities.schematic()
+        GenLSP.Structures.DiagnosticWorkspaceClientCapabilities.schema()
     })
   end
 end

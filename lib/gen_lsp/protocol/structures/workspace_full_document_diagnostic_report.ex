@@ -32,14 +32,14 @@ defmodule GenLSP.Structures.WorkspaceFullDocumentDiagnosticReport do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"uri", :uri} => str(),
       {"version", :version} => oneof([int(), nil]),
       {"kind", :kind} => "full",
       optional({"resultId", :result_id}) => str(),
-      {"items", :items} => list(GenLSP.Structures.Diagnostic.schematic())
+      {"items", :items} => list(GenLSP.Structures.Diagnostic.schema())
     })
   end
 end

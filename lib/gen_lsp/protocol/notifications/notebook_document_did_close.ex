@@ -20,12 +20,12 @@ defmodule GenLSP.Notifications.NotebookDocumentDidClose do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "notebookDocument/didClose",
       jsonrpc: "2.0",
-      params: GenLSP.Structures.DidCloseNotebookDocumentParams.schematic()
+      params: GenLSP.Structures.DidCloseNotebookDocumentParams.schema()
     })
   end
 end

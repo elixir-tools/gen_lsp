@@ -15,10 +15,10 @@ defmodule GenLSP.Structures.SetTraceParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"value", :value} => GenLSP.Enumerations.TraceValues.schematic()
+      {"value", :value} => GenLSP.Enumerations.TraceValues.schema()
     })
   end
 end

@@ -23,8 +23,8 @@ defmodule GenLSP.Structures.WorkspaceFoldersServerCapabilities do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"supported", :supported}) => bool(),
       optional({"changeNotifications", :change_notifications}) => oneof([str(), bool()])

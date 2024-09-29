@@ -56,8 +56,8 @@ defmodule GenLSP.Structures.Position do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"line", :line} => int(),
       {"character", :character} => int()

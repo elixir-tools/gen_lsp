@@ -30,8 +30,8 @@ defmodule GenLSP.Enumerations.MonikerKind do
   def local, do: "local"
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       "import",
       "export",

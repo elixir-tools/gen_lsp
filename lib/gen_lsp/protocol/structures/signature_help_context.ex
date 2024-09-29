@@ -35,14 +35,14 @@ defmodule GenLSP.Structures.SignatureHelpContext do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"triggerKind", :trigger_kind} => GenLSP.Enumerations.SignatureHelpTriggerKind.schematic(),
+      {"triggerKind", :trigger_kind} => GenLSP.Enumerations.SignatureHelpTriggerKind.schema(),
       optional({"triggerCharacter", :trigger_character}) => str(),
       {"isRetrigger", :is_retrigger} => bool(),
       optional({"activeSignatureHelp", :active_signature_help}) =>
-        GenLSP.Structures.SignatureHelp.schematic()
+        GenLSP.Structures.SignatureHelp.schema()
     })
   end
 end

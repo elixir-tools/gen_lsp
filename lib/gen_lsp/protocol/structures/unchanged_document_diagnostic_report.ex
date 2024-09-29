@@ -28,8 +28,8 @@ defmodule GenLSP.Structures.UnchangedDocumentDiagnosticReport do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"kind", :kind} => "unchanged",
       {"resultId", :result_id} => str()

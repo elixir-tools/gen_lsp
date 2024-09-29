@@ -25,13 +25,13 @@ defmodule GenLSP.Requests.InlayHintResolve do
   @type result :: GenLSP.Structures.InlayHint.t()
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "inlayHint/resolve",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.InlayHint.schematic()
+      params: GenLSP.Structures.InlayHint.schema()
     })
   end
 
@@ -39,8 +39,8 @@ defmodule GenLSP.Requests.InlayHintResolve do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      GenLSP.Structures.InlayHint.schematic(),
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.Structures.InlayHint.schema(),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

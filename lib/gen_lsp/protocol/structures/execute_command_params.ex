@@ -23,12 +23,12 @@ defmodule GenLSP.Structures.ExecuteCommandParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"command", :command} => str(),
-      optional({"arguments", :arguments}) => list(GenLSP.TypeAlias.LSPAny.schematic()),
-      optional({"workDoneToken", :work_done_token}) => GenLSP.TypeAlias.ProgressToken.schematic()
+      optional({"arguments", :arguments}) => list(GenLSP.TypeAlias.LSPAny.schema()),
+      optional({"workDoneToken", :work_done_token}) => GenLSP.TypeAlias.ProgressToken.schema()
     })
   end
 end

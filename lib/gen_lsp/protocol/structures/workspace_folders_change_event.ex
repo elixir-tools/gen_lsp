@@ -21,11 +21,11 @@ defmodule GenLSP.Structures.WorkspaceFoldersChangeEvent do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"added", :added} => list(GenLSP.Structures.WorkspaceFolder.schematic()),
-      {"removed", :removed} => list(GenLSP.Structures.WorkspaceFolder.schematic())
+      {"added", :added} => list(GenLSP.Structures.WorkspaceFolder.schema()),
+      {"removed", :removed} => list(GenLSP.Structures.WorkspaceFolder.schema())
     })
   end
 end

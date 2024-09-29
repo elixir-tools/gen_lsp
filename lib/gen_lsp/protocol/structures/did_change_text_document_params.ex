@@ -35,13 +35,13 @@ defmodule GenLSP.Structures.DidChangeTextDocumentParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"textDocument", :text_document} =>
-        GenLSP.Structures.VersionedTextDocumentIdentifier.schematic(),
+        GenLSP.Structures.VersionedTextDocumentIdentifier.schema(),
       {"contentChanges", :content_changes} =>
-        list(GenLSP.TypeAlias.TextDocumentContentChangeEvent.schematic())
+        list(GenLSP.TypeAlias.TextDocumentContentChangeEvent.schema())
     })
   end
 end

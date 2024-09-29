@@ -14,8 +14,8 @@ defmodule GenLSP.TypeAlias.Definition do
   @type t :: GenLSP.Structures.Location.t() | list(GenLSP.Structures.Location.t())
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
-    oneof([GenLSP.Structures.Location.schematic(), list(GenLSP.Structures.Location.schematic())])
+  @spec schema() :: Schematic.t()
+  def schema() do
+    oneof([GenLSP.Structures.Location.schema(), list(GenLSP.Structures.Location.schema())])
   end
 end

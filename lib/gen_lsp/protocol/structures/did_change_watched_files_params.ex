@@ -19,10 +19,10 @@ defmodule GenLSP.Structures.DidChangeWatchedFilesParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"changes", :changes} => list(GenLSP.Structures.FileEvent.schematic())
+      {"changes", :changes} => list(GenLSP.Structures.FileEvent.schema())
     })
   end
 end

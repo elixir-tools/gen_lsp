@@ -27,8 +27,8 @@ defmodule GenLSP.Enumerations.DocumentHighlightKind do
   def write, do: 3
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       1,
       2,

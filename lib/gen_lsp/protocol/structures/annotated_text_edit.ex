@@ -27,11 +27,11 @@ defmodule GenLSP.Structures.AnnotatedTextEdit do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"annotationId", :annotation_id} => GenLSP.TypeAlias.ChangeAnnotationIdentifier.schematic(),
-      {"range", :range} => GenLSP.Structures.Range.schematic(),
+      {"annotationId", :annotation_id} => GenLSP.TypeAlias.ChangeAnnotationIdentifier.schema(),
+      {"range", :range} => GenLSP.Structures.Range.schema(),
       {"newText", :new_text} => str()
     })
   end

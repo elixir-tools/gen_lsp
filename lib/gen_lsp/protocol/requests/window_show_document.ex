@@ -26,13 +26,13 @@ defmodule GenLSP.Requests.WindowShowDocument do
   @type result :: GenLSP.Structures.ShowDocumentResult.t()
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "window/showDocument",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.ShowDocumentParams.schematic()
+      params: GenLSP.Structures.ShowDocumentParams.schema()
     })
   end
 
@@ -40,8 +40,8 @@ defmodule GenLSP.Requests.WindowShowDocument do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      GenLSP.Structures.ShowDocumentResult.schematic(),
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.Structures.ShowDocumentResult.schema(),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

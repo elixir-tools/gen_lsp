@@ -31,8 +31,8 @@ defmodule GenLSP.Structures.DiagnosticOptions do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"identifier", :identifier}) => str(),
       {"interFileDependencies", :inter_file_dependencies} => bool(),

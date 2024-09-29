@@ -23,12 +23,12 @@ defmodule GenLSP.Structures.ResourceOperation do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"kind", :kind} => str(),
       optional({"annotationId", :annotation_id}) =>
-        GenLSP.TypeAlias.ChangeAnnotationIdentifier.schematic()
+        GenLSP.TypeAlias.ChangeAnnotationIdentifier.schema()
     })
   end
 end

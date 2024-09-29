@@ -25,12 +25,12 @@ defmodule GenLSP.Structures.PublishDiagnosticsParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"uri", :uri} => str(),
       optional({"version", :version}) => int(),
-      {"diagnostics", :diagnostics} => list(GenLSP.Structures.Diagnostic.schematic())
+      {"diagnostics", :diagnostics} => list(GenLSP.Structures.Diagnostic.schema())
     })
   end
 end

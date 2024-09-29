@@ -23,10 +23,10 @@ defmodule GenLSP.Structures.RenameFilesParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"files", :files} => list(GenLSP.Structures.FileRename.schematic())
+      {"files", :files} => list(GenLSP.Structures.FileRename.schema())
     })
   end
 end

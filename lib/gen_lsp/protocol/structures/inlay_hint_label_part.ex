@@ -43,14 +43,13 @@ defmodule GenLSP.Structures.InlayHintLabelPart do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"value", :value} => str(),
-      optional({"tooltip", :tooltip}) =>
-        oneof([str(), GenLSP.Structures.MarkupContent.schematic()]),
-      optional({"location", :location}) => GenLSP.Structures.Location.schematic(),
-      optional({"command", :command}) => GenLSP.Structures.Command.schematic()
+      optional({"tooltip", :tooltip}) => oneof([str(), GenLSP.Structures.MarkupContent.schema()]),
+      optional({"location", :location}) => GenLSP.Structures.Location.schema(),
+      optional({"command", :command}) => GenLSP.Structures.Command.schema()
     })
   end
 end

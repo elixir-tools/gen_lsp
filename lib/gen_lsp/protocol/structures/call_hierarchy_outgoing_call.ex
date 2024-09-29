@@ -25,11 +25,11 @@ defmodule GenLSP.Structures.CallHierarchyOutgoingCall do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"to", :to} => GenLSP.Structures.CallHierarchyItem.schematic(),
-      {"fromRanges", :from_ranges} => list(GenLSP.Structures.Range.schematic())
+      {"to", :to} => GenLSP.Structures.CallHierarchyItem.schema(),
+      {"fromRanges", :from_ranges} => list(GenLSP.Structures.Range.schema())
     })
   end
 end

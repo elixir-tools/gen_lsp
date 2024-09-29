@@ -21,11 +21,11 @@ defmodule GenLSP.Structures.DidSaveNotebookDocumentParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"notebookDocument", :notebook_document} =>
-        GenLSP.Structures.NotebookDocumentIdentifier.schematic()
+        GenLSP.Structures.NotebookDocumentIdentifier.schema()
     })
   end
 end

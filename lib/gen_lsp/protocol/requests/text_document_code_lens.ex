@@ -21,13 +21,13 @@ defmodule GenLSP.Requests.TextDocumentCodeLens do
   @type result :: list(GenLSP.Structures.CodeLens.t()) | nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/codeLens",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.CodeLensParams.schematic()
+      params: GenLSP.Structures.CodeLensParams.schema()
     })
   end
 
@@ -35,8 +35,8 @@ defmodule GenLSP.Requests.TextDocumentCodeLens do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([list(GenLSP.Structures.CodeLens.schematic()), nil]),
-      GenLSP.ErrorResponse.schematic()
+      oneof([list(GenLSP.Structures.CodeLens.schema()), nil]),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

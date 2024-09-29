@@ -21,12 +21,12 @@ defmodule GenLSP.Notifications.WorkspaceDidCreateFiles do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "workspace/didCreateFiles",
       jsonrpc: "2.0",
-      params: GenLSP.Structures.CreateFilesParams.schematic()
+      params: GenLSP.Structures.CreateFilesParams.schema()
     })
   end
 end

@@ -19,12 +19,12 @@ defmodule GenLSP.Notifications.TextDocumentDidChange do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/didChange",
       jsonrpc: "2.0",
-      params: GenLSP.Structures.DidChangeTextDocumentParams.schematic()
+      params: GenLSP.Structures.DidChangeTextDocumentParams.schema()
     })
   end
 end

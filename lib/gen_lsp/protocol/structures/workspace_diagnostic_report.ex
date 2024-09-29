@@ -21,10 +21,10 @@ defmodule GenLSP.Structures.WorkspaceDiagnosticReport do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"items", :items} => list(GenLSP.TypeAlias.WorkspaceDocumentDiagnosticReport.schematic())
+      {"items", :items} => list(GenLSP.TypeAlias.WorkspaceDocumentDiagnosticReport.schema())
     })
   end
 end

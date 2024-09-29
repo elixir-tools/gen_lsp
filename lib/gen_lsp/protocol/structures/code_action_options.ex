@@ -29,11 +29,11 @@ defmodule GenLSP.Structures.CodeActionOptions do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"codeActionKinds", :code_action_kinds}) =>
-        list(GenLSP.Enumerations.CodeActionKind.schematic()),
+        list(GenLSP.Enumerations.CodeActionKind.schema()),
       optional({"resolveProvider", :resolve_provider}) => bool(),
       optional({"workDoneProgress", :work_done_progress}) => bool()
     })

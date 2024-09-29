@@ -193,143 +193,143 @@ defmodule GenLSP.Structures.ServerCapabilities do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"positionEncoding", :position_encoding}) =>
-        GenLSP.Enumerations.PositionEncodingKind.schematic(),
+        GenLSP.Enumerations.PositionEncodingKind.schema(),
       optional({"textDocumentSync", :text_document_sync}) =>
         oneof([
-          GenLSP.Structures.TextDocumentSyncOptions.schematic(),
-          GenLSP.Enumerations.TextDocumentSyncKind.schematic()
+          GenLSP.Structures.TextDocumentSyncOptions.schema(),
+          GenLSP.Enumerations.TextDocumentSyncKind.schema()
         ]),
       optional({"notebookDocumentSync", :notebook_document_sync}) =>
         oneof([
-          GenLSP.Structures.NotebookDocumentSyncOptions.schematic(),
-          GenLSP.Structures.NotebookDocumentSyncRegistrationOptions.schematic()
+          GenLSP.Structures.NotebookDocumentSyncOptions.schema(),
+          GenLSP.Structures.NotebookDocumentSyncRegistrationOptions.schema()
         ]),
       optional({"completionProvider", :completion_provider}) =>
-        GenLSP.Structures.CompletionOptions.schematic(),
+        GenLSP.Structures.CompletionOptions.schema(),
       optional({"hoverProvider", :hover_provider}) =>
-        oneof([bool(), GenLSP.Structures.HoverOptions.schematic()]),
+        oneof([bool(), GenLSP.Structures.HoverOptions.schema()]),
       optional({"signatureHelpProvider", :signature_help_provider}) =>
-        GenLSP.Structures.SignatureHelpOptions.schematic(),
+        GenLSP.Structures.SignatureHelpOptions.schema(),
       optional({"declarationProvider", :declaration_provider}) =>
         oneof([
           bool(),
-          GenLSP.Structures.DeclarationOptions.schematic(),
-          GenLSP.Structures.DeclarationRegistrationOptions.schematic()
+          GenLSP.Structures.DeclarationOptions.schema(),
+          GenLSP.Structures.DeclarationRegistrationOptions.schema()
         ]),
       optional({"definitionProvider", :definition_provider}) =>
-        oneof([bool(), GenLSP.Structures.DefinitionOptions.schematic()]),
+        oneof([bool(), GenLSP.Structures.DefinitionOptions.schema()]),
       optional({"typeDefinitionProvider", :type_definition_provider}) =>
         oneof([
           bool(),
-          GenLSP.Structures.TypeDefinitionOptions.schematic(),
-          GenLSP.Structures.TypeDefinitionRegistrationOptions.schematic()
+          GenLSP.Structures.TypeDefinitionOptions.schema(),
+          GenLSP.Structures.TypeDefinitionRegistrationOptions.schema()
         ]),
       optional({"implementationProvider", :implementation_provider}) =>
         oneof([
           bool(),
-          GenLSP.Structures.ImplementationOptions.schematic(),
-          GenLSP.Structures.ImplementationRegistrationOptions.schematic()
+          GenLSP.Structures.ImplementationOptions.schema(),
+          GenLSP.Structures.ImplementationRegistrationOptions.schema()
         ]),
       optional({"referencesProvider", :references_provider}) =>
-        oneof([bool(), GenLSP.Structures.ReferenceOptions.schematic()]),
+        oneof([bool(), GenLSP.Structures.ReferenceOptions.schema()]),
       optional({"documentHighlightProvider", :document_highlight_provider}) =>
-        oneof([bool(), GenLSP.Structures.DocumentHighlightOptions.schematic()]),
+        oneof([bool(), GenLSP.Structures.DocumentHighlightOptions.schema()]),
       optional({"documentSymbolProvider", :document_symbol_provider}) =>
-        oneof([bool(), GenLSP.Structures.DocumentSymbolOptions.schematic()]),
+        oneof([bool(), GenLSP.Structures.DocumentSymbolOptions.schema()]),
       optional({"codeActionProvider", :code_action_provider}) =>
-        oneof([bool(), GenLSP.Structures.CodeActionOptions.schematic()]),
+        oneof([bool(), GenLSP.Structures.CodeActionOptions.schema()]),
       optional({"codeLensProvider", :code_lens_provider}) =>
-        GenLSP.Structures.CodeLensOptions.schematic(),
+        GenLSP.Structures.CodeLensOptions.schema(),
       optional({"documentLinkProvider", :document_link_provider}) =>
-        GenLSP.Structures.DocumentLinkOptions.schematic(),
+        GenLSP.Structures.DocumentLinkOptions.schema(),
       optional({"colorProvider", :color_provider}) =>
         oneof([
           bool(),
-          GenLSP.Structures.DocumentColorOptions.schematic(),
-          GenLSP.Structures.DocumentColorRegistrationOptions.schematic()
+          GenLSP.Structures.DocumentColorOptions.schema(),
+          GenLSP.Structures.DocumentColorRegistrationOptions.schema()
         ]),
       optional({"workspaceSymbolProvider", :workspace_symbol_provider}) =>
-        oneof([bool(), GenLSP.Structures.WorkspaceSymbolOptions.schematic()]),
+        oneof([bool(), GenLSP.Structures.WorkspaceSymbolOptions.schema()]),
       optional({"documentFormattingProvider", :document_formatting_provider}) =>
-        oneof([bool(), GenLSP.Structures.DocumentFormattingOptions.schematic()]),
+        oneof([bool(), GenLSP.Structures.DocumentFormattingOptions.schema()]),
       optional({"documentRangeFormattingProvider", :document_range_formatting_provider}) =>
-        oneof([bool(), GenLSP.Structures.DocumentRangeFormattingOptions.schematic()]),
+        oneof([bool(), GenLSP.Structures.DocumentRangeFormattingOptions.schema()]),
       optional({"documentOnTypeFormattingProvider", :document_on_type_formatting_provider}) =>
-        GenLSP.Structures.DocumentOnTypeFormattingOptions.schematic(),
+        GenLSP.Structures.DocumentOnTypeFormattingOptions.schema(),
       optional({"renameProvider", :rename_provider}) =>
-        oneof([bool(), GenLSP.Structures.RenameOptions.schematic()]),
+        oneof([bool(), GenLSP.Structures.RenameOptions.schema()]),
       optional({"foldingRangeProvider", :folding_range_provider}) =>
         oneof([
           bool(),
-          GenLSP.Structures.FoldingRangeOptions.schematic(),
-          GenLSP.Structures.FoldingRangeRegistrationOptions.schematic()
+          GenLSP.Structures.FoldingRangeOptions.schema(),
+          GenLSP.Structures.FoldingRangeRegistrationOptions.schema()
         ]),
       optional({"selectionRangeProvider", :selection_range_provider}) =>
         oneof([
           bool(),
-          GenLSP.Structures.SelectionRangeOptions.schematic(),
-          GenLSP.Structures.SelectionRangeRegistrationOptions.schematic()
+          GenLSP.Structures.SelectionRangeOptions.schema(),
+          GenLSP.Structures.SelectionRangeRegistrationOptions.schema()
         ]),
       optional({"executeCommandProvider", :execute_command_provider}) =>
-        GenLSP.Structures.ExecuteCommandOptions.schematic(),
+        GenLSP.Structures.ExecuteCommandOptions.schema(),
       optional({"callHierarchyProvider", :call_hierarchy_provider}) =>
         oneof([
           bool(),
-          GenLSP.Structures.CallHierarchyOptions.schematic(),
-          GenLSP.Structures.CallHierarchyRegistrationOptions.schematic()
+          GenLSP.Structures.CallHierarchyOptions.schema(),
+          GenLSP.Structures.CallHierarchyRegistrationOptions.schema()
         ]),
       optional({"linkedEditingRangeProvider", :linked_editing_range_provider}) =>
         oneof([
           bool(),
-          GenLSP.Structures.LinkedEditingRangeOptions.schematic(),
-          GenLSP.Structures.LinkedEditingRangeRegistrationOptions.schematic()
+          GenLSP.Structures.LinkedEditingRangeOptions.schema(),
+          GenLSP.Structures.LinkedEditingRangeRegistrationOptions.schema()
         ]),
       optional({"semanticTokensProvider", :semantic_tokens_provider}) =>
         oneof([
-          GenLSP.Structures.SemanticTokensOptions.schematic(),
-          GenLSP.Structures.SemanticTokensRegistrationOptions.schematic()
+          GenLSP.Structures.SemanticTokensOptions.schema(),
+          GenLSP.Structures.SemanticTokensRegistrationOptions.schema()
         ]),
       optional({"monikerProvider", :moniker_provider}) =>
         oneof([
           bool(),
-          GenLSP.Structures.MonikerOptions.schematic(),
-          GenLSP.Structures.MonikerRegistrationOptions.schematic()
+          GenLSP.Structures.MonikerOptions.schema(),
+          GenLSP.Structures.MonikerRegistrationOptions.schema()
         ]),
       optional({"typeHierarchyProvider", :type_hierarchy_provider}) =>
         oneof([
           bool(),
-          GenLSP.Structures.TypeHierarchyOptions.schematic(),
-          GenLSP.Structures.TypeHierarchyRegistrationOptions.schematic()
+          GenLSP.Structures.TypeHierarchyOptions.schema(),
+          GenLSP.Structures.TypeHierarchyRegistrationOptions.schema()
         ]),
       optional({"inlineValueProvider", :inline_value_provider}) =>
         oneof([
           bool(),
-          GenLSP.Structures.InlineValueOptions.schematic(),
-          GenLSP.Structures.InlineValueRegistrationOptions.schematic()
+          GenLSP.Structures.InlineValueOptions.schema(),
+          GenLSP.Structures.InlineValueRegistrationOptions.schema()
         ]),
       optional({"inlayHintProvider", :inlay_hint_provider}) =>
         oneof([
           bool(),
-          GenLSP.Structures.InlayHintOptions.schematic(),
-          GenLSP.Structures.InlayHintRegistrationOptions.schematic()
+          GenLSP.Structures.InlayHintOptions.schema(),
+          GenLSP.Structures.InlayHintRegistrationOptions.schema()
         ]),
       optional({"diagnosticProvider", :diagnostic_provider}) =>
         oneof([
-          GenLSP.Structures.DiagnosticOptions.schematic(),
-          GenLSP.Structures.DiagnosticRegistrationOptions.schematic()
+          GenLSP.Structures.DiagnosticOptions.schema(),
+          GenLSP.Structures.DiagnosticRegistrationOptions.schema()
         ]),
       optional({"workspace", :workspace}) =>
         map(%{
           optional({"workspaceFolders", :workspace_folders}) =>
-            GenLSP.Structures.WorkspaceFoldersServerCapabilities.schematic(),
+            GenLSP.Structures.WorkspaceFoldersServerCapabilities.schema(),
           optional({"fileOperations", :file_operations}) =>
-            GenLSP.Structures.FileOperationOptions.schematic()
+            GenLSP.Structures.FileOperationOptions.schema()
         }),
-      optional({"experimental", :experimental}) => GenLSP.TypeAlias.LSPAny.schematic()
+      optional({"experimental", :experimental}) => GenLSP.TypeAlias.LSPAny.schema()
     })
   end
 end

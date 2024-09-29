@@ -23,8 +23,8 @@ defmodule GenLSP.Requests.Shutdown do
   @type result :: nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "shutdown",
       jsonrpc: "2.0",
@@ -37,7 +37,7 @@ defmodule GenLSP.Requests.Shutdown do
   def result() do
     oneof([
       nil,
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

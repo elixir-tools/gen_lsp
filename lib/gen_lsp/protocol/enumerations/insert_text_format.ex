@@ -29,8 +29,8 @@ defmodule GenLSP.Enumerations.InsertTextFormat do
   def snippet, do: 2
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       1,
       2

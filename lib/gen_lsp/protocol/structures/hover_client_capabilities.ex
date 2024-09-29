@@ -18,12 +18,12 @@ defmodule GenLSP.Structures.HoverClientCapabilities do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"dynamicRegistration", :dynamic_registration}) => bool(),
       optional({"contentFormat", :content_format}) =>
-        list(GenLSP.Enumerations.MarkupKind.schematic())
+        list(GenLSP.Enumerations.MarkupKind.schema())
     })
   end
 end

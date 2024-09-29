@@ -23,8 +23,8 @@ defmodule GenLSP.Enumerations.ResourceOperationKind do
   def delete, do: "delete"
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       "create",
       "rename",

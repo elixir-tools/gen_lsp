@@ -31,11 +31,11 @@ defmodule GenLSP.Structures.Range do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"start", :start} => GenLSP.Structures.Position.schematic(),
-      {"end", :end} => GenLSP.Structures.Position.schematic()
+      {"start", :start} => GenLSP.Structures.Position.schema(),
+      {"end", :end} => GenLSP.Structures.Position.schema()
     })
   end
 end

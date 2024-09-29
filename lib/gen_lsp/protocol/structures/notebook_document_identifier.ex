@@ -21,8 +21,8 @@ defmodule GenLSP.Structures.NotebookDocumentIdentifier do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"uri", :uri} => str()
     })

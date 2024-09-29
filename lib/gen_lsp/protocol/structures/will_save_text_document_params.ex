@@ -21,11 +21,11 @@ defmodule GenLSP.Structures.WillSaveTextDocumentParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schematic(),
-      {"reason", :reason} => GenLSP.Enumerations.TextDocumentSaveReason.schematic()
+      {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schema(),
+      {"reason", :reason} => GenLSP.Enumerations.TextDocumentSaveReason.schema()
     })
   end
 end

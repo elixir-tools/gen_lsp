@@ -58,8 +58,8 @@ defmodule GenLSP.Structures.SemanticTokensClientCapabilities do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"dynamicRegistration", :dynamic_registration}) => bool(),
       {"requests", :requests} =>
@@ -75,7 +75,7 @@ defmodule GenLSP.Structures.SemanticTokensClientCapabilities do
         }),
       {"tokenTypes", :token_types} => list(str()),
       {"tokenModifiers", :token_modifiers} => list(str()),
-      {"formats", :formats} => list(GenLSP.Enumerations.TokenFormat.schematic()),
+      {"formats", :formats} => list(GenLSP.Enumerations.TokenFormat.schema()),
       optional({"overlappingTokenSupport", :overlapping_token_support}) => bool(),
       optional({"multilineTokenSupport", :multiline_token_support}) => bool(),
       optional({"serverCancelSupport", :server_cancel_support}) => bool(),

@@ -33,13 +33,13 @@ defmodule GenLSP.Structures.DocumentLink do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"range", :range} => GenLSP.Structures.Range.schematic(),
+      {"range", :range} => GenLSP.Structures.Range.schema(),
       optional({"target", :target}) => str(),
       optional({"tooltip", :tooltip}) => str(),
-      optional({"data", :data}) => GenLSP.TypeAlias.LSPAny.schematic()
+      optional({"data", :data}) => GenLSP.TypeAlias.LSPAny.schema()
     })
   end
 end
