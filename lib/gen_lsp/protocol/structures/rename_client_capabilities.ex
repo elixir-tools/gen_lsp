@@ -35,13 +35,13 @@ defmodule GenLSP.Structures.RenameClientCapabilities do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"dynamicRegistration", :dynamic_registration}) => bool(),
       optional({"prepareSupport", :prepare_support}) => bool(),
       optional({"prepareSupportDefaultBehavior", :prepare_support_default_behavior}) =>
-        GenLSP.Enumerations.PrepareSupportDefaultBehavior.schematic(),
+        GenLSP.Enumerations.PrepareSupportDefaultBehavior.schema(),
       optional({"honorsChangeAnnotations", :honors_change_annotations}) => bool()
     })
   end

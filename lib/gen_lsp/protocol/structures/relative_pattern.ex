@@ -26,11 +26,11 @@ defmodule GenLSP.Structures.RelativePattern do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"baseUri", :base_uri} => oneof([GenLSP.Structures.WorkspaceFolder.schematic(), str()]),
-      {"pattern", :pattern} => GenLSP.TypeAlias.Pattern.schematic()
+      {"baseUri", :base_uri} => oneof([GenLSP.Structures.WorkspaceFolder.schema(), str()]),
+      {"pattern", :pattern} => GenLSP.TypeAlias.Pattern.schema()
     })
   end
 end

@@ -17,11 +17,11 @@ defmodule GenLSP.TypeAlias.DocumentDiagnosticReport do
           | GenLSP.Structures.RelatedUnchangedDocumentDiagnosticReport.t()
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
-      GenLSP.Structures.RelatedFullDocumentDiagnosticReport.schematic(),
-      GenLSP.Structures.RelatedUnchangedDocumentDiagnosticReport.schematic()
+      GenLSP.Structures.RelatedFullDocumentDiagnosticReport.schema(),
+      GenLSP.Structures.RelatedUnchangedDocumentDiagnosticReport.schema()
     ])
   end
 end

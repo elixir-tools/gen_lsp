@@ -23,13 +23,13 @@ defmodule GenLSP.Requests.CallHierarchyIncomingCalls do
   @type result :: list(GenLSP.Structures.CallHierarchyIncomingCall.t()) | nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "callHierarchy/incomingCalls",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.CallHierarchyIncomingCallsParams.schematic()
+      params: GenLSP.Structures.CallHierarchyIncomingCallsParams.schema()
     })
   end
 
@@ -37,8 +37,8 @@ defmodule GenLSP.Requests.CallHierarchyIncomingCalls do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([list(GenLSP.Structures.CallHierarchyIncomingCall.schematic()), nil]),
-      GenLSP.ErrorResponse.schematic()
+      oneof([list(GenLSP.Structures.CallHierarchyIncomingCall.schema()), nil]),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

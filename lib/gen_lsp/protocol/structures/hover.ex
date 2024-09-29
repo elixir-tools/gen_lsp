@@ -27,16 +27,16 @@ defmodule GenLSP.Structures.Hover do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"contents", :contents} =>
         oneof([
-          GenLSP.Structures.MarkupContent.schematic(),
-          GenLSP.TypeAlias.MarkedString.schematic(),
-          list(GenLSP.TypeAlias.MarkedString.schematic())
+          GenLSP.Structures.MarkupContent.schema(),
+          GenLSP.TypeAlias.MarkedString.schema(),
+          list(GenLSP.TypeAlias.MarkedString.schema())
         ]),
-      optional({"range", :range}) => GenLSP.Structures.Range.schematic()
+      optional({"range", :range}) => GenLSP.Structures.Range.schema()
     })
   end
 end

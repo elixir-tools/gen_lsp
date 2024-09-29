@@ -24,13 +24,13 @@ defmodule GenLSP.Requests.TextDocumentDocumentColor do
   @type result :: list(GenLSP.Structures.ColorInformation.t())
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/documentColor",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.DocumentColorParams.schematic()
+      params: GenLSP.Structures.DocumentColorParams.schema()
     })
   end
 
@@ -38,8 +38,8 @@ defmodule GenLSP.Requests.TextDocumentDocumentColor do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      list(GenLSP.Structures.ColorInformation.schematic()),
-      GenLSP.ErrorResponse.schematic()
+      list(GenLSP.Structures.ColorInformation.schema()),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

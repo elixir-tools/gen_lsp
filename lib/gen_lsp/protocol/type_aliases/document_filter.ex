@@ -14,11 +14,11 @@ defmodule GenLSP.TypeAlias.DocumentFilter do
           | GenLSP.Structures.NotebookCellTextDocumentFilter.t()
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
-      GenLSP.TypeAlias.TextDocumentFilter.schematic(),
-      GenLSP.Structures.NotebookCellTextDocumentFilter.schematic()
+      GenLSP.TypeAlias.TextDocumentFilter.schema(),
+      GenLSP.Structures.NotebookCellTextDocumentFilter.schema()
     ])
   end
 end

@@ -23,13 +23,13 @@ defmodule GenLSP.Requests.CompletionItemResolve do
   @type result :: GenLSP.Structures.CompletionItem.t()
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "completionItem/resolve",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.CompletionItem.schematic()
+      params: GenLSP.Structures.CompletionItem.schema()
     })
   end
 
@@ -37,8 +37,8 @@ defmodule GenLSP.Requests.CompletionItemResolve do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      GenLSP.Structures.CompletionItem.schematic(),
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.Structures.CompletionItem.schema(),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

@@ -33,14 +33,14 @@ defmodule GenLSP.Structures.NotebookDocument do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"uri", :uri} => str(),
       {"notebookType", :notebook_type} => str(),
       {"version", :version} => int(),
-      optional({"metadata", :metadata}) => GenLSP.TypeAlias.LSPObject.schematic(),
-      {"cells", :cells} => list(GenLSP.Structures.NotebookCell.schematic())
+      optional({"metadata", :metadata}) => GenLSP.TypeAlias.LSPObject.schema(),
+      {"cells", :cells} => list(GenLSP.Structures.NotebookCell.schema())
     })
   end
 end

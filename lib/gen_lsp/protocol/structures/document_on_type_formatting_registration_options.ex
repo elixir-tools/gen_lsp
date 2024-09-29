@@ -24,11 +24,11 @@ defmodule GenLSP.Structures.DocumentOnTypeFormattingRegistrationOptions do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"documentSelector", :document_selector} =>
-        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), nil]),
+        oneof([GenLSP.TypeAlias.DocumentSelector.schema(), nil]),
       {"firstTriggerCharacter", :first_trigger_character} => str(),
       optional({"moreTriggerCharacter", :more_trigger_character}) => list(str())
     })

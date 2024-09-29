@@ -21,13 +21,13 @@ defmodule GenLSP.Requests.TextDocumentCodeAction do
   @type result :: list(GenLSP.Structures.Command.t() | GenLSP.Structures.CodeAction.t()) | nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/codeAction",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.CodeActionParams.schematic()
+      params: GenLSP.Structures.CodeActionParams.schema()
     })
   end
 
@@ -36,12 +36,10 @@ defmodule GenLSP.Requests.TextDocumentCodeAction do
   def result() do
     oneof([
       oneof([
-        list(
-          oneof([GenLSP.Structures.Command.schematic(), GenLSP.Structures.CodeAction.schematic()])
-        ),
+        list(oneof([GenLSP.Structures.Command.schema(), GenLSP.Structures.CodeAction.schema()])),
         nil
       ]),
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

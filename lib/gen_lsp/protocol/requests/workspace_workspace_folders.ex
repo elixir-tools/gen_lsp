@@ -20,8 +20,8 @@ defmodule GenLSP.Requests.WorkspaceWorkspaceFolders do
   @type result :: list(GenLSP.Structures.WorkspaceFolder.t()) | nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "workspace/workspaceFolders",
       jsonrpc: "2.0",
@@ -33,8 +33,8 @@ defmodule GenLSP.Requests.WorkspaceWorkspaceFolders do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([list(GenLSP.Structures.WorkspaceFolder.schematic()), nil]),
-      GenLSP.ErrorResponse.schematic()
+      oneof([list(GenLSP.Structures.WorkspaceFolder.schema()), nil]),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

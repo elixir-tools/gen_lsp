@@ -29,15 +29,15 @@ defmodule GenLSP.Structures.WorkspaceDiagnosticParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"identifier", :identifier}) => str(),
       {"previousResultIds", :previous_result_ids} =>
-        list(GenLSP.Structures.PreviousResultId.schematic()),
-      optional({"workDoneToken", :work_done_token}) => GenLSP.TypeAlias.ProgressToken.schematic(),
+        list(GenLSP.Structures.PreviousResultId.schema()),
+      optional({"workDoneToken", :work_done_token}) => GenLSP.TypeAlias.ProgressToken.schema(),
       optional({"partialResultToken", :partial_result_token}) =>
-        GenLSP.TypeAlias.ProgressToken.schematic()
+        GenLSP.TypeAlias.ProgressToken.schema()
     })
   end
 end

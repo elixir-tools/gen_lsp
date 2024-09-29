@@ -26,10 +26,10 @@ defmodule GenLSP.Structures.SemanticTokensOptions do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"legend", :legend} => GenLSP.Structures.SemanticTokensLegend.schematic(),
+      {"legend", :legend} => GenLSP.Structures.SemanticTokensLegend.schema(),
       optional({"range", :range}) => oneof([bool(), map(%{})]),
       optional({"full", :full}) =>
         oneof([

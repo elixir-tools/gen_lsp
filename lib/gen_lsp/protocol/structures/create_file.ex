@@ -27,14 +27,14 @@ defmodule GenLSP.Structures.CreateFile do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"kind", :kind} => "create",
       {"uri", :uri} => str(),
-      optional({"options", :options}) => GenLSP.Structures.CreateFileOptions.schematic(),
+      optional({"options", :options}) => GenLSP.Structures.CreateFileOptions.schema(),
       optional({"annotationId", :annotation_id}) =>
-        GenLSP.TypeAlias.ChangeAnnotationIdentifier.schematic()
+        GenLSP.TypeAlias.ChangeAnnotationIdentifier.schema()
     })
   end
 end

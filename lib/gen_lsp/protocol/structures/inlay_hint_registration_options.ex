@@ -28,13 +28,13 @@ defmodule GenLSP.Structures.InlayHintRegistrationOptions do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"id", :id}) => str(),
       optional({"resolveProvider", :resolve_provider}) => bool(),
       {"documentSelector", :document_selector} =>
-        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), nil])
+        oneof([GenLSP.TypeAlias.DocumentSelector.schema(), nil])
     })
   end
 end

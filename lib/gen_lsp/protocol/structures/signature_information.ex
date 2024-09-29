@@ -33,14 +33,14 @@ defmodule GenLSP.Structures.SignatureInformation do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"label", :label} => str(),
       optional({"documentation", :documentation}) =>
-        oneof([str(), GenLSP.Structures.MarkupContent.schematic()]),
+        oneof([str(), GenLSP.Structures.MarkupContent.schema()]),
       optional({"parameters", :parameters}) =>
-        list(GenLSP.Structures.ParameterInformation.schematic()),
+        list(GenLSP.Structures.ParameterInformation.schema()),
       optional({"activeParameter", :active_parameter}) => int()
     })
   end

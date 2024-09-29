@@ -19,10 +19,10 @@ defmodule GenLSP.Structures.DidChangeConfigurationParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"settings", :settings} => GenLSP.TypeAlias.LSPAny.schematic()
+      {"settings", :settings} => GenLSP.TypeAlias.LSPAny.schema()
     })
   end
 end

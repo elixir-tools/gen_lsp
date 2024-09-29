@@ -24,13 +24,13 @@ defmodule GenLSP.Requests.WorkspaceWillRenameFiles do
   @type result :: GenLSP.Structures.WorkspaceEdit.t() | nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "workspace/willRenameFiles",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.RenameFilesParams.schematic()
+      params: GenLSP.Structures.RenameFilesParams.schema()
     })
   end
 
@@ -38,8 +38,8 @@ defmodule GenLSP.Requests.WorkspaceWillRenameFiles do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([GenLSP.Structures.WorkspaceEdit.schematic(), nil]),
-      GenLSP.ErrorResponse.schematic()
+      oneof([GenLSP.Structures.WorkspaceEdit.schema(), nil]),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

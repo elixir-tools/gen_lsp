@@ -57,8 +57,8 @@ defmodule GenLSP.Structures.InitializeParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"processId", :process_id} => oneof([int(), nil]),
       optional({"clientInfo", :client_info}) =>
@@ -69,12 +69,12 @@ defmodule GenLSP.Structures.InitializeParams do
       optional({"locale", :locale}) => str(),
       optional({"rootPath", :root_path}) => oneof([str(), nil]),
       {"rootUri", :root_uri} => oneof([str(), nil]),
-      {"capabilities", :capabilities} => GenLSP.Structures.ClientCapabilities.schematic(),
+      {"capabilities", :capabilities} => GenLSP.Structures.ClientCapabilities.schema(),
       optional({"initializationOptions", :initialization_options}) =>
-        GenLSP.TypeAlias.LSPAny.schematic(),
-      optional({"trace", :trace}) => GenLSP.Enumerations.TraceValues.schematic(),
+        GenLSP.TypeAlias.LSPAny.schema(),
+      optional({"trace", :trace}) => GenLSP.Enumerations.TraceValues.schema(),
       optional({"workspaceFolders", :workspace_folders}) =>
-        oneof([list(GenLSP.Structures.WorkspaceFolder.schematic()), nil])
+        oneof([list(GenLSP.Structures.WorkspaceFolder.schema()), nil])
     })
   end
 end

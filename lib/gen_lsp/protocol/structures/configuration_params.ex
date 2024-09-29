@@ -19,10 +19,10 @@ defmodule GenLSP.Structures.ConfigurationParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"items", :items} => list(GenLSP.Structures.ConfigurationItem.schematic())
+      {"items", :items} => list(GenLSP.Structures.ConfigurationItem.schema())
     })
   end
 end

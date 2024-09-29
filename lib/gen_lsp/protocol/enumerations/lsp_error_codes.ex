@@ -46,8 +46,8 @@ defmodule GenLSP.Enumerations.LSPErrorCodes do
   def request_cancelled, do: -32800
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       -32803,
       -32802,

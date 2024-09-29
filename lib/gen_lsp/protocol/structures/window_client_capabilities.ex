@@ -31,14 +31,14 @@ defmodule GenLSP.Structures.WindowClientCapabilities do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"workDoneProgress", :work_done_progress}) => bool(),
       optional({"showMessage", :show_message}) =>
-        GenLSP.Structures.ShowMessageRequestClientCapabilities.schematic(),
+        GenLSP.Structures.ShowMessageRequestClientCapabilities.schema(),
       optional({"showDocument", :show_document}) =>
-        GenLSP.Structures.ShowDocumentClientCapabilities.schematic()
+        GenLSP.Structures.ShowDocumentClientCapabilities.schema()
     })
   end
 end

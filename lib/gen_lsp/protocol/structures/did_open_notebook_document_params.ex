@@ -24,12 +24,12 @@ defmodule GenLSP.Structures.DidOpenNotebookDocumentParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"notebookDocument", :notebook_document} => GenLSP.Structures.NotebookDocument.schematic(),
+      {"notebookDocument", :notebook_document} => GenLSP.Structures.NotebookDocument.schema(),
       {"cellTextDocuments", :cell_text_documents} =>
-        list(GenLSP.Structures.TextDocumentItem.schematic())
+        list(GenLSP.Structures.TextDocumentItem.schema())
     })
   end
 end

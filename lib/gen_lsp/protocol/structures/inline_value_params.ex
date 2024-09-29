@@ -28,13 +28,13 @@ defmodule GenLSP.Structures.InlineValueParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schematic(),
-      {"range", :range} => GenLSP.Structures.Range.schematic(),
-      {"context", :context} => GenLSP.Structures.InlineValueContext.schematic(),
-      optional({"workDoneToken", :work_done_token}) => GenLSP.TypeAlias.ProgressToken.schematic()
+      {"textDocument", :text_document} => GenLSP.Structures.TextDocumentIdentifier.schema(),
+      {"range", :range} => GenLSP.Structures.Range.schema(),
+      {"context", :context} => GenLSP.Structures.InlineValueContext.schema(),
+      optional({"workDoneToken", :work_done_token}) => GenLSP.TypeAlias.ProgressToken.schema()
     })
   end
 end

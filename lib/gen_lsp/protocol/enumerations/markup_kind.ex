@@ -25,8 +25,8 @@ defmodule GenLSP.Enumerations.MarkupKind do
   def markdown, do: "markdown"
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       "plaintext",
       "markdown"

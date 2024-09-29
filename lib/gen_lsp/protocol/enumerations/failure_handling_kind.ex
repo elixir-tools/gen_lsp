@@ -34,8 +34,8 @@ defmodule GenLSP.Enumerations.FailureHandlingKind do
   def undo, do: "undo"
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       "abort",
       "transactional",

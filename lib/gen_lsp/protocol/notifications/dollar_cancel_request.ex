@@ -12,12 +12,12 @@ defmodule GenLSP.Notifications.DollarCancelRequest do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "$/cancelRequest",
       jsonrpc: "2.0",
-      params: GenLSP.Structures.CancelParams.schematic()
+      params: GenLSP.Structures.CancelParams.schema()
     })
   end
 end

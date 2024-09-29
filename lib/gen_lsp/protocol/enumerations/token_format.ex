@@ -8,8 +8,8 @@ defmodule GenLSP.Enumerations.TokenFormat do
   def relative, do: "relative"
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       "relative"
     ])

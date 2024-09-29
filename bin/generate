@@ -4,14 +4,14 @@ set -e
 
 echo "==> Generating Protocol"
 elixir \
-  -e 'Mix.install([{:lsp_codegen, github: "elixir-tools/lsp_codegen"}], force: true); LSPCodegen.generate(System.argv())' \
+  -e 'Mix.install([{:lsp_codegen, github: "elixir-tools/lsp_codegen", branch: "change-schematic-function-name"}], force: true); LSPCodegen.generate(System.argv())' \
   -- \
   --path ./lib/gen_lsp/protocol
 
 echo "==> Removing trailing whitespace"
 case "$OSTYPE" in
-  darwin*) sedc="gsed" ;;
-  *) sedc="sed" ;;
+darwin*) sedc="gsed" ;;
+*) sedc="sed" ;;
 esac
 
 "$sedc" -i 's/[ \t]*$//' ./lib/gen_lsp/protocol/**/*.ex

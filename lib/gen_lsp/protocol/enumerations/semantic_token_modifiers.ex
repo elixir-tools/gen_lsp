@@ -43,8 +43,8 @@ defmodule GenLSP.Enumerations.SemanticTokenModifiers do
   def default_library, do: "defaultLibrary"
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       "declaration",
       "definition",

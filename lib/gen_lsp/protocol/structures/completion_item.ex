@@ -135,37 +135,34 @@ defmodule GenLSP.Structures.CompletionItem do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"label", :label} => str(),
       optional({"labelDetails", :label_details}) =>
-        GenLSP.Structures.CompletionItemLabelDetails.schematic(),
-      optional({"kind", :kind}) => GenLSP.Enumerations.CompletionItemKind.schematic(),
-      optional({"tags", :tags}) => list(GenLSP.Enumerations.CompletionItemTag.schematic()),
+        GenLSP.Structures.CompletionItemLabelDetails.schema(),
+      optional({"kind", :kind}) => GenLSP.Enumerations.CompletionItemKind.schema(),
+      optional({"tags", :tags}) => list(GenLSP.Enumerations.CompletionItemTag.schema()),
       optional({"detail", :detail}) => str(),
       optional({"documentation", :documentation}) =>
-        oneof([str(), GenLSP.Structures.MarkupContent.schematic()]),
+        oneof([str(), GenLSP.Structures.MarkupContent.schema()]),
       optional({"deprecated", :deprecated}) => bool(),
       optional({"preselect", :preselect}) => bool(),
       optional({"sortText", :sort_text}) => str(),
       optional({"filterText", :filter_text}) => str(),
       optional({"insertText", :insert_text}) => str(),
       optional({"insertTextFormat", :insert_text_format}) =>
-        GenLSP.Enumerations.InsertTextFormat.schematic(),
+        GenLSP.Enumerations.InsertTextFormat.schema(),
       optional({"insertTextMode", :insert_text_mode}) =>
-        GenLSP.Enumerations.InsertTextMode.schematic(),
+        GenLSP.Enumerations.InsertTextMode.schema(),
       optional({"textEdit", :text_edit}) =>
-        oneof([
-          GenLSP.Structures.TextEdit.schematic(),
-          GenLSP.Structures.InsertReplaceEdit.schematic()
-        ]),
+        oneof([GenLSP.Structures.TextEdit.schema(), GenLSP.Structures.InsertReplaceEdit.schema()]),
       optional({"textEditText", :text_edit_text}) => str(),
       optional({"additionalTextEdits", :additional_text_edits}) =>
-        list(GenLSP.Structures.TextEdit.schematic()),
+        list(GenLSP.Structures.TextEdit.schema()),
       optional({"commitCharacters", :commit_characters}) => list(str()),
-      optional({"command", :command}) => GenLSP.Structures.Command.schematic(),
-      optional({"data", :data}) => GenLSP.TypeAlias.LSPAny.schematic()
+      optional({"command", :command}) => GenLSP.Structures.Command.schema(),
+      optional({"data", :data}) => GenLSP.TypeAlias.LSPAny.schema()
     })
   end
 end

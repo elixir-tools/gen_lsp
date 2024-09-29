@@ -35,13 +35,13 @@ defmodule GenLSP.Structures.ShowDocumentParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"uri", :uri} => str(),
       optional({"external", :external}) => bool(),
       optional({"takeFocus", :take_focus}) => bool(),
-      optional({"selection", :selection}) => GenLSP.Structures.Range.schematic()
+      optional({"selection", :selection}) => GenLSP.Structures.Range.schema()
     })
   end
 end

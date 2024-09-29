@@ -30,13 +30,13 @@ defmodule GenLSP.Requests.TextDocumentCompletion do
           list(GenLSP.Structures.CompletionItem.t()) | GenLSP.Structures.CompletionList.t() | nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/completion",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.CompletionParams.schematic()
+      params: GenLSP.Structures.CompletionParams.schema()
     })
   end
 
@@ -45,11 +45,11 @@ defmodule GenLSP.Requests.TextDocumentCompletion do
   def result() do
     oneof([
       oneof([
-        list(GenLSP.Structures.CompletionItem.schematic()),
-        GenLSP.Structures.CompletionList.schematic(),
+        list(GenLSP.Structures.CompletionItem.schema()),
+        GenLSP.Structures.CompletionList.schema(),
         nil
       ]),
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

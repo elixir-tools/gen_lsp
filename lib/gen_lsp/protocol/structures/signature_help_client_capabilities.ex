@@ -29,14 +29,14 @@ defmodule GenLSP.Structures.SignatureHelpClientCapabilities do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"dynamicRegistration", :dynamic_registration}) => bool(),
       optional({"signatureInformation", :signature_information}) =>
         map(%{
           optional({"documentationFormat", :documentation_format}) =>
-            list(GenLSP.Enumerations.MarkupKind.schematic()),
+            list(GenLSP.Enumerations.MarkupKind.schema()),
           optional({"parameterInformation", :parameter_information}) =>
             map(%{
               optional({"labelOffsetSupport", :label_offset_support}) => bool()

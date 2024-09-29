@@ -27,13 +27,13 @@ defmodule GenLSP.Requests.WorkspaceConfiguration do
   @type result :: list(GenLSP.TypeAlias.LSPAny.t())
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "workspace/configuration",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.ConfigurationParams.schematic()
+      params: GenLSP.Structures.ConfigurationParams.schema()
     })
   end
 
@@ -41,8 +41,8 @@ defmodule GenLSP.Requests.WorkspaceConfiguration do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      list(GenLSP.TypeAlias.LSPAny.schematic()),
-      GenLSP.ErrorResponse.schematic()
+      list(GenLSP.TypeAlias.LSPAny.schema()),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

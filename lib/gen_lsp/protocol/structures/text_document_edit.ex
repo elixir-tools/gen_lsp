@@ -30,16 +30,16 @@ defmodule GenLSP.Structures.TextDocumentEdit do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"textDocument", :text_document} =>
-        GenLSP.Structures.OptionalVersionedTextDocumentIdentifier.schematic(),
+        GenLSP.Structures.OptionalVersionedTextDocumentIdentifier.schema(),
       {"edits", :edits} =>
         list(
           oneof([
-            GenLSP.Structures.TextEdit.schematic(),
-            GenLSP.Structures.AnnotatedTextEdit.schematic()
+            GenLSP.Structures.TextEdit.schema(),
+            GenLSP.Structures.AnnotatedTextEdit.schema()
           ])
         )
     })

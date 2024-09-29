@@ -29,11 +29,11 @@ defmodule GenLSP.Structures.SignatureHelpRegistrationOptions do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"documentSelector", :document_selector} =>
-        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), nil]),
+        oneof([GenLSP.TypeAlias.DocumentSelector.schema(), nil]),
       optional({"triggerCharacters", :trigger_characters}) => list(str()),
       optional({"retriggerCharacters", :retrigger_characters}) => list(str())
     })

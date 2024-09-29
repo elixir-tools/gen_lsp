@@ -15,10 +15,10 @@ defmodule GenLSP.Structures.WorkDoneProgressCancelParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"token", :token} => GenLSP.TypeAlias.ProgressToken.schematic()
+      {"token", :token} => GenLSP.TypeAlias.ProgressToken.schema()
     })
   end
 end

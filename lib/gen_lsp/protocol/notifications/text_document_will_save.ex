@@ -19,12 +19,12 @@ defmodule GenLSP.Notifications.TextDocumentWillSave do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/willSave",
       jsonrpc: "2.0",
-      params: GenLSP.Structures.WillSaveTextDocumentParams.schematic()
+      params: GenLSP.Structures.WillSaveTextDocumentParams.schema()
     })
   end
 end
