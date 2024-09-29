@@ -41,6 +41,49 @@ defmodule GenLSPTest do
                   500
   end
 
+  # @tag :skip
+  test "cancels a request", %{client: client} do
+    id = System.unique_integer([:positive])
+
+    assert :ok ==
+             request(client, %{
+               "jsonrpc" => "2.0",
+               "method" => "initialize",
+               "params" => %{"capabilities" => %{}},
+               "id" => id
+             })
+
+    assert_result ^id, _, 500
+
+    request_id = id + 1
+
+    assert :ok ==
+             request(client, %{
+               "jsonrpc" => "2.0",
+               "method" => "textDocument/formatting",
+               "params" => %{
+                 "textDocument" => %{"uri" => "/path/to/file.ex"},
+                 "options" => %{"insertSpaces" => true, "tabSize" => 2}
+               },
+               "id" => request_id
+             })
+
+    assert_receive {:request_pid, request_pid}
+
+    ref = Process.monitor(request_pid)
+
+    assert :ok ==
+             notify(client, %{
+               "jsonrpc" => "2.0",
+               "method" => "$/cancelRequest",
+               "params" => %{
+                 "id" => request_id
+               }
+             })
+
+    assert_receive {:DOWN, ^ref, :process, _object, _reason}
+  end
+
   test "can send a request from the server to the client", %{client: client} do
     id = System.unique_integer([:positive])
 
@@ -193,12 +236,10 @@ defmodule GenLSPTest do
 
         assert_error(2, %{
           "code" => -32603,
-          "message" =>
-            """
-            ** (RuntimeError) boom
-                (gen_lsp 0.10.0) test/support/example_server.ex:35: GenLSPTest.ExampleServer.handle_request/2
-            """ <> _
+          "message" => message
         })
+
+        assert message =~ "** (RuntimeError) boom"
       end)
 
     assert log =~ "[error] ** (RuntimeError) boom"

@@ -174,6 +174,10 @@ defmodule GenLSP do
                       type: {:or, [:pid, :atom]},
                       doc: "The `t:pid/0` or name of the `GenLSP.Assigns` process."
                     ],
+                    task_supervisor: [
+                      type: {:or, [:pid, :atom]},
+                      doc: "The Task.Supervisor for the task queue"
+                    ],
                     name: [
                       type: :atom,
                       doc:
@@ -192,7 +196,8 @@ defmodule GenLSP do
     opts = NimbleOptions.validate!(opts, @options_schema)
 
     :proc_lib.start_link(__MODULE__, :init, [
-      {module, init_args, Keyword.take(opts, [:name, :buffer, :assigns]), self()}
+      {module, init_args, Keyword.take(opts, [:name, :buffer, :assigns, :task_supervisor]),
+       self()}
     ])
   end
 
@@ -201,7 +206,16 @@ defmodule GenLSP do
     me = self()
     buffer = opts[:buffer]
     assigns = opts[:assigns]
-    lsp = %LSP{mod: module, pid: me, buffer: buffer, assigns: assigns}
+    task_supervisor = opts[:task_supervisor]
+
+    lsp = %LSP{
+      mod: module,
+      pid: me,
+      buffer: buffer,
+      assigns: assigns,
+      task_supervisor: task_supervisor,
+      tasks: Map.new()
+    }
 
     case module.init(lsp, init_args) do
       {:ok, %LSP{} = lsp} ->
@@ -318,146 +332,149 @@ defmodule GenLSP do
         start = System.system_time(:microsecond)
         :telemetry.execute([:gen_lsp, :request, :client, :start], %{})
 
-        attempt(
-          lsp,
-          "Last message received: handle_request #{inspect(request)}",
-          [:gen_lsp, :request, :client],
-          fn
-            {:error, error} ->
-              {:ok, output} =
-                Schematic.dump(
-                  GenLSP.ErrorResponse.schema(),
-                  %GenLSP.ErrorResponse{
-                    code: GenLSP.Enumerations.ErrorCodes.internal_error(),
-                    message: error
-                  }
-                )
+        me = self()
 
-              packet = %{
-                "jsonrpc" => "2.0",
-                "id" => Process.get(:request_id),
-                "error" => output
-              }
+        {:ok, task} =
+          attempt(
+            lsp,
+            "Last message received: handle_request #{inspect(request)}",
+            [:gen_lsp, :request, :client],
+            fn
+              {:error, error} ->
+                {:ok, output} =
+                  Schematic.dump(
+                    GenLSP.ErrorResponse.schema(),
+                    %GenLSP.ErrorResponse{
+                      code: GenLSP.Enumerations.ErrorCodes.internal_error(),
+                      message: error
+                    }
+                  )
 
-              deb =
-                :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:out, :request, from})
+                packet = %{
+                  "jsonrpc" => "2.0",
+                  "id" => Process.get(:request_id),
+                  "error" => output
+                }
 
-              GenLSP.Buffer.outgoing(lsp.buffer, packet)
-              loop(lsp, parent, deb)
+                # deb =
+                #   :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:out, :request, from})
 
-            _ ->
-              case GenLSP.Requests.new(request) do
-                {:ok, %{id: id} = req} ->
-                  Process.put(:request_id, id)
+                GenLSP.Buffer.outgoing(lsp.buffer, packet)
 
-                  result =
-                    :telemetry.span([:gen_lsp, :handle_request], %{method: req.method}, fn ->
-                      {lsp.mod.handle_request(req, lsp), %{}}
-                    end)
+              _ ->
+                case GenLSP.Requests.new(request) do
+                  {:ok, %{id: id} = req} ->
+                    Process.put(:request_id, id)
+                    send(me, {:request_id, id})
 
-                  case result do
-                    {:reply, reply, %LSP{} = lsp} ->
-                      response_key =
-                        case reply do
-                          %GenLSP.ErrorResponse{} -> "error"
-                          _ -> "result"
-                        end
+                    result =
+                      :telemetry.span([:gen_lsp, :handle_request], %{method: req.method}, fn ->
+                        {lsp.mod.handle_request(req, lsp), %{}}
+                      end)
 
-                      # if result is valid, continue, if not, we return an internal error
-                      {response_key, response} =
-                        case Schematic.dump(req.__struct__.result(), reply) do
-                          {:ok, output} ->
-                            {response_key, output}
+                    case result do
+                      {:reply, reply, %LSP{} = lsp} ->
+                        response_key =
+                          case reply do
+                            %GenLSP.ErrorResponse{} -> "error"
+                            _ -> "result"
+                          end
 
-                          {:error, errors} ->
-                            exception = InvalidResponse.exception({req.method, reply, errors})
+                        # if result is valid, continue, if not, we return an internal error
+                        {response_key, response} =
+                          case Schematic.dump(req.__struct__.result(), reply) do
+                            {:ok, output} ->
+                              {response_key, output}
 
-                            Logger.error(Exception.format(:error, exception))
+                            {:error, errors} ->
+                              exception = InvalidResponse.exception({req.method, reply, errors})
 
-                            {:ok, output} =
-                              Schematic.dump(
-                                GenLSP.ErrorResponse.schema(),
-                                %GenLSP.ErrorResponse{
-                                  code: GenLSP.Enumerations.ErrorCodes.internal_error(),
-                                  message: exception.message
-                                }
-                              )
+                              Logger.error(Exception.format(:error, exception))
 
-                            {"error", output}
-                        end
+                              {:ok, output} =
+                                Schematic.dump(
+                                  GenLSP.ErrorResponse.schema(),
+                                  %GenLSP.ErrorResponse{
+                                    code: GenLSP.Enumerations.ErrorCodes.internal_error(),
+                                    message: exception.message
+                                  }
+                                )
 
-                      packet = %{
-                        "jsonrpc" => "2.0",
-                        "id" => id,
-                        response_key => response
-                      }
+                              {"error", output}
+                          end
 
-                      deb =
-                        :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:out, :request, from})
+                        packet = %{
+                          "jsonrpc" => "2.0",
+                          "id" => id,
+                          response_key => response
+                        }
 
-                      GenLSP.Buffer.outgoing(lsp.buffer, packet)
+                        GenLSP.Buffer.outgoing(lsp.buffer, packet)
 
-                      duration = System.system_time(:microsecond) - start
+                        duration = System.system_time(:microsecond) - start
 
-                      Logger.debug(
-                        "handled request client -> server #{req.method} in #{format_time(duration)}",
-                        id: req.id,
-                        method: req.method
+                        Logger.debug(
+                          "handled request client -> server #{req.method} in #{format_time(duration)}",
+                          id: req.id,
+                          method: req.method
+                        )
+
+                        :telemetry.execute([:gen_lsp, :request, :client, :stop], %{
+                          duration: duration
+                        })
+
+                      {:noreply, _lsp} ->
+                        duration = System.system_time(:microsecond) - start
+
+                        Logger.debug(
+                          "handled request client -> server #{req.method} in #{format_time(duration)}",
+                          id: req.id,
+                          method: req.method
+                        )
+
+                        :telemetry.execute([:gen_lsp, :request, :client, :stop], %{
+                          duration: duration
+                        })
+                    end
+
+                  {:error, errors} ->
+                    # the payload is not parseable at all, other than being valid JSON and having
+                    # an `id` property to signal its a request
+                    exception = InvalidRequest.exception({request, errors})
+
+                    Logger.error(Exception.format(:error, exception))
+
+                    {:ok, output} =
+                      Schematic.dump(
+                        GenLSP.ErrorResponse.schema(),
+                        %GenLSP.ErrorResponse{
+                          code: GenLSP.Enumerations.ErrorCodes.invalid_request(),
+                          message: exception.message
+                        }
                       )
 
-                      :telemetry.execute([:gen_lsp, :request, :client, :stop], %{
-                        duration: duration
-                      })
+                    packet = %{
+                      "jsonrpc" => "2.0",
+                      "id" => request["id"],
+                      "error" => output
+                    }
 
-                      loop(lsp, parent, deb)
+                    GenLSP.Buffer.outgoing(lsp.buffer, packet)
+                end
+            end
+          )
 
-                    {:noreply, lsp} ->
-                      duration = System.system_time(:microsecond) - start
-
-                      Logger.debug(
-                        "handled request client -> server #{req.method} in #{format_time(duration)}",
-                        id: req.id,
-                        method: req.method
-                      )
-
-                      :telemetry.execute([:gen_lsp, :request, :client, :stop], %{
-                        duration: duration
-                      })
-
-                      loop(lsp, parent, deb)
-                  end
-
-                {:error, errors} ->
-                  # the payload is not parseable at all, other than being valid JSON and having
-                  # an `id` property to signal its a request
-                  exception = InvalidRequest.exception({request, errors})
-
-                  Logger.error(Exception.format(:error, exception))
-
-                  {:ok, output} =
-                    Schematic.dump(
-                      GenLSP.ErrorResponse.schema(),
-                      %GenLSP.ErrorResponse{
-                        code: GenLSP.Enumerations.ErrorCodes.invalid_request(),
-                        message: exception.message
-                      }
-                    )
-
-                  packet = %{
-                    "jsonrpc" => "2.0",
-                    "id" => request["id"],
-                    "error" => output
-                  }
-
-                  deb =
-                    :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:out, :request, from})
-
-                  GenLSP.Buffer.outgoing(lsp.buffer, packet)
-
-                  loop(lsp, parent, deb)
-              end
+        id =
+          receive do
+            {:request_id, id} ->
+              id
           end
-        )
+
+        tasks = Map.put(lsp.tasks, id, task)
+
+        lsp = put_in(lsp.tasks, tasks)
+
+        loop(lsp, parent, deb)
 
       {:notification, from, notification} ->
         deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:in, :notification, from})
@@ -470,10 +487,38 @@ defmodule GenLSP do
           [:gen_lsp, :notification, :client],
           fn
             {:error, _} ->
-              loop(lsp, parent, deb)
+              Logger.warning("client -> server notification crashed")
 
             _ ->
               case GenLSP.Notifications.new(notification) do
+                {:ok, %GenLSP.Notifications.DollarCancelRequest{} = note} ->
+                  result =
+                    :telemetry.span(
+                      [:gen_lsp, :handle_notification],
+                      %{method: note.method},
+                      fn ->
+                        with pid when is_pid(pid) <- lsp.tasks[note.params.id] do
+                          Task.Supervisor.terminate_child(lsp.task_supervisor, pid)
+                        end
+
+                        {{:noreply, lsp}, %{}}
+                      end
+                    )
+
+                  case result do
+                    {:noreply, %LSP{}} ->
+                      duration = System.system_time(:microsecond) - start
+
+                      Logger.debug(
+                        "handled notification client -> server #{note.method} in #{format_time(duration)}",
+                        method: note.method
+                      )
+
+                      :telemetry.execute([:gen_lsp, :notification, :client, :stop], %{
+                        duration: duration
+                      })
+                  end
+
                 {:ok, note} ->
                   result =
                     :telemetry.span(
@@ -485,7 +530,7 @@ defmodule GenLSP do
                     )
 
                   case result do
-                    {:noreply, %LSP{} = lsp} ->
+                    {:noreply, %LSP{}} ->
                       duration = System.system_time(:microsecond) - start
 
                       Logger.debug(
@@ -496,8 +541,6 @@ defmodule GenLSP do
                       :telemetry.execute([:gen_lsp, :notification, :client, :stop], %{
                         duration: duration
                       })
-
-                      loop(lsp, parent, deb)
                   end
 
                 {:error, errors} ->
@@ -505,14 +548,11 @@ defmodule GenLSP do
                   exception = InvalidNotification.exception({notification, errors})
 
                   Logger.warning(Exception.format(:error, exception))
-
-                  deb =
-                    :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:out, :request, from})
-
-                  loop(lsp, parent, deb)
               end
           end
         )
+
+        loop(lsp, parent, deb)
 
       message ->
         deb = :sys.handle_debug(deb, &write_debug/3, __MODULE__, {:in, :info, message})
@@ -525,7 +565,7 @@ defmodule GenLSP do
           [:gen_lsp, :info],
           fn
             {:error, _} ->
-              loop(lsp, parent, deb)
+              Logger.warning("handle_info #{inspect(message)} crashed")
 
             _ ->
               result =
@@ -534,13 +574,14 @@ defmodule GenLSP do
                 end)
 
               case result do
-                {:noreply, %LSP{} = lsp} ->
+                {:noreply, %LSP{} = _lsp} ->
                   duration = System.system_time(:microsecond) - start
                   :telemetry.execute([:gen_lsp, :info, :stop], %{duration: duration})
-                  loop(lsp, parent, deb)
               end
           end
         )
+
+        loop(lsp, parent, deb)
     end
   end
 
@@ -553,18 +594,22 @@ defmodule GenLSP do
   end
 
   @spec attempt(LSP.t(), String.t(), list(atom()), (:try | {:error, String.t()} -> any())) ::
-          no_return()
+          DynamicSupervisor.on_start_child()
   defp attempt(lsp, message, prefix, callback) do
-    callback.(:try)
-  rescue
-    e ->
-      :telemetry.execute(prefix ++ [:exception], %{message: message})
+    Task.Supervisor.start_child(lsp.task_supervisor, fn ->
+      try do
+        callback.(:try)
+      rescue
+        e ->
+          :telemetry.execute(prefix ++ [:exception], %{message: message})
 
-      message = Exception.format(:error, e, __STACKTRACE__)
-      Logger.error(message)
-      error(lsp, message)
+          message = Exception.format(:error, e, __STACKTRACE__)
+          Logger.error(message)
+          error(lsp, message)
 
-      callback.({:error, message})
+          callback.({:error, message})
+      end
+    end)
   end
 
   defp dump!(schematic, structure) do

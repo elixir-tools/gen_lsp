@@ -16,6 +16,9 @@ defmodule GenLSP.Test do
             buffer: pid(),
             buffer_id: atom(),
             assigns: pid(),
+            assigns_id: atom(),
+            task_supervisor: pid(),
+            task_supervisor_id: atom(),
             port: integer()
           }
 
@@ -39,6 +42,7 @@ defmodule GenLSP.Test do
   def server(mod, opts \\ []) do
     buffer_id = Keyword.get(opts, :buffer_id, :buffer)
     assigns_id = Keyword.get(opts, :assigns_id, :assigns)
+    task_supervisor_id = Keyword.get(opts, :task_supervisor_id, :task_supervisor)
     lsp_id = Keyword.get(opts, :lsp_id, :lsp)
 
     buffer =
@@ -46,23 +50,30 @@ defmodule GenLSP.Test do
         id: buffer_id
       )
 
-    assigns =
-      start_supervised!(GenLSP.Assigns, id: assigns_id)
+    assigns = start_supervised!(GenLSP.Assigns, id: assigns_id)
+
+    task_supervisor =
+      start_supervised!(Supervisor.child_spec(Task.Supervisor, id: task_supervisor_id))
 
     {:ok, port} = :inet.port(GenLSP.Buffer.comm_state(buffer).lsocket)
 
     lsp =
-      start_supervised!({mod, Keyword.merge([buffer: buffer, assigns: assigns], opts)},
+      start_supervised!(
+        {mod,
+         Keyword.merge([buffer: buffer, assigns: assigns, task_supervisor: task_supervisor], opts)},
         id: lsp_id
       )
 
     %{
       lsp: lsp,
+      lsp_id: lsp_id,
       buffer: buffer,
-      assigns: assigns,
-      port: port,
       buffer_id: buffer_id,
-      lsp_id: lsp_id
+      assigns: assigns,
+      assigns_id: assigns_id,
+      task_supervisor: task_supervisor,
+      task_supervisor_id: task_supervisor_id,
+      port: port
     }
   end
 
@@ -128,6 +139,8 @@ defmodule GenLSP.Test do
   @spec shutdown_server!(server :: server()) :: :ok
   def shutdown_server!(server) do
     stop_supervised!(server.buffer_id)
+    stop_supervised!(server.assigns_id)
+    stop_supervised!(server.task_supervisor_id)
     stop_supervised!(server.lsp_id)
 
     :ok

@@ -9,6 +9,8 @@ defmodule GenLSP.LSP do
     field :buffer, atom() | pid()
     field :assigns, atom() | pid()
     field :pid, pid()
+    field :tasks, %{integer() => pid()}
+    field :task_supervisor, atom() | pid()
   end
 
   @spec assign(t(), Keyword.t() | (map() -> keyword())) :: t()
