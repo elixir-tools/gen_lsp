@@ -211,6 +211,7 @@ end
 ## Built with GenLSP
 
 - [credo-language-server](https://github.com/elixir-tools/credo-language-server)
+- [refactorex](https://github.com/gp-pereira/refactorex)
 
 ## Thank Yous
 
