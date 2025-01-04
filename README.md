@@ -210,6 +210,7 @@ end
 
 ## Built with GenLSP
 
+- [Next LS](https://github.com/elixir-tools/next-ls)
 - [credo-language-server](https://github.com/elixir-tools/credo-language-server)
 - [refactorex](https://github.com/gp-pereira/refactorex)
 
