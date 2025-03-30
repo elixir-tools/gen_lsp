@@ -170,6 +170,10 @@ defmodule GenLSP do
                       type: {:or, [:pid, :atom]},
                       doc: "The `t:pid/0` or name of the `GenLSP.Buffer` process."
                     ],
+                    assigns: [
+                      type: {:or, [:pid, :atom]},
+                      doc: "The `t:pid/0` or name of the `GenLSP.Assigns` process."
+                    ],
                     name: [
                       type: :atom,
                       doc:
@@ -188,7 +192,7 @@ defmodule GenLSP do
     opts = NimbleOptions.validate!(opts, @options_schema)
 
     :proc_lib.start_link(__MODULE__, :init, [
-      {module, init_args, Keyword.take(opts, [:name, :buffer]), self()}
+      {module, init_args, Keyword.take(opts, [:name, :buffer, :assigns]), self()}
     ])
   end
 
@@ -196,7 +200,8 @@ defmodule GenLSP do
   def init({module, init_args, opts, parent}) do
     me = self()
     buffer = opts[:buffer]
-    lsp = %LSP{mod: module, pid: me, buffer: buffer}
+    assigns = opts[:assigns]
+    lsp = %LSP{mod: module, pid: me, buffer: buffer, assigns: assigns}
 
     case module.init(lsp, init_args) do
       {:ok, %LSP{} = lsp} ->
