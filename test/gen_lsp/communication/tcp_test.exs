@@ -26,7 +26,7 @@ defmodule GenLSP.Communication.TCPTest do
   @string ~s|{"a":"‘","b":"#{String.duplicate("hello world! ", 5000)}"}|
   @length byte_size(@string)
 
-  @port 9000
+  @port 5000
 
   @connect_opts [:binary, packet: :raw, active: false]
 
@@ -35,11 +35,10 @@ defmodule GenLSP.Communication.TCPTest do
     # the following match ensures that the script completes and does
     # not raise after stdin is closed.
     Task.start_link(fn ->
-      {:ok, args} = GenLSP.Communication.TCP.init(port: @port)
-      {:ok, args} = GenLSP.Communication.TCP.listen(args)
-      send(me, {:done, args})
+      {:ok, tcp} = GenLSP.Communication.TCP.init(port: @port)
+      {:ok, tcp} = GenLSP.Communication.TCP.listen(tcp)
 
-      assert :eof = GenLSP.Support.Buffer.loop(args, me, "")
+      assert :eof = GenLSP.Support.Buffer.loop(tcp, me, "")
     end)
 
     assert {:ok, socket} = connect()
