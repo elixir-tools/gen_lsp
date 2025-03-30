@@ -38,6 +38,7 @@ defmodule GenLSP.Test do
   @spec server(mod :: atom(), opts :: Keyword.t()) :: server()
   def server(mod, opts \\ []) do
     buffer_id = Keyword.get(opts, :buffer_id, :buffer)
+    assigns_id = Keyword.get(opts, :assigns_id, :assigns)
     lsp_id = Keyword.get(opts, :lsp_id, :lsp)
 
     buffer =
@@ -45,11 +46,24 @@ defmodule GenLSP.Test do
         id: buffer_id
       )
 
+    assigns =
+      start_supervised!(GenLSP.Assigns, id: assigns_id)
+
     {:ok, port} = :inet.port(GenLSP.Buffer.comm_state(buffer).lsocket)
 
-    lsp = start_supervised!({mod, Keyword.merge([buffer: buffer], opts)}, id: lsp_id)
+    lsp =
+      start_supervised!({mod, Keyword.merge([buffer: buffer, assigns: assigns], opts)},
+        id: lsp_id
+      )
 
-    %{lsp: lsp, buffer: buffer, port: port, buffer_id: buffer_id, lsp_id: lsp_id}
+    %{
+      lsp: lsp,
+      buffer: buffer,
+      assigns: assigns,
+      port: port,
+      buffer_id: buffer_id,
+      lsp_id: lsp_id
+    }
   end
 
   @doc """

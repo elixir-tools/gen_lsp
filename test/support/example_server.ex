@@ -78,7 +78,7 @@ defmodule GenLSPTest.ExampleServer do
         }
       })
 
-    send(lsp.assigns.test_pid, result)
+    send(assigns(lsp).test_pid, result)
 
     GenLSP.log(lsp, "done initializing")
 
@@ -87,7 +87,7 @@ defmodule GenLSPTest.ExampleServer do
 
   @impl true
   def handle_notification(%Notifications.TextDocumentDidOpen{} = notification, lsp) do
-    send(lsp.assigns.test_pid, {:callback, notification})
+    send(assigns(lsp).test_pid, {:callback, notification})
 
     {:noreply, lsp}
   end
@@ -98,7 +98,7 @@ defmodule GenLSPTest.ExampleServer do
         } = notification,
         lsp
       ) do
-    send(lsp.assigns.test_pid, {:callback, notification})
+    send(assigns(lsp).test_pid, {:callback, notification})
 
     GenLSP.notify(lsp, %Notifications.TextDocumentPublishDiagnostics{
       params: %Structures.PublishDiagnosticsParams{
@@ -126,7 +126,7 @@ defmodule GenLSPTest.ExampleServer do
   end
 
   def handle_info(_message, lsp) do
-    send(lsp.assigns.test_pid, {:info, :ack})
+    send(assigns(lsp).test_pid, {:info, :ack})
     {:noreply, lsp}
   end
 end
