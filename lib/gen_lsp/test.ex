@@ -47,11 +47,12 @@ defmodule GenLSP.Test do
 
     assigns =
       start_supervised!(GenLSP.Assigns, id: assigns_id)
+    task_supervisor = start_supervised!(Task.Supervisor)
 
     {:ok, port} = :inet.port(GenLSP.Buffer.comm_state(buffer).lsocket)
 
     lsp =
-      start_supervised!({mod, Keyword.merge([buffer: buffer, assigns: assigns], opts)},
+      start_supervised!({mod, Keyword.merge([buffer: buffer, assigns: assigns, task_supervisor: task_supervisor], opts)},
         id: lsp_id
       )
 
@@ -59,6 +60,7 @@ defmodule GenLSP.Test do
       lsp: lsp,
       buffer: buffer,
       assigns: assigns,
+      task_supervisor: task_supervisor,
       port: port,
       buffer_id: buffer_id,
       lsp_id: lsp_id
