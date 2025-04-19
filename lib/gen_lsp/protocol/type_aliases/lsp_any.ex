@@ -23,7 +23,7 @@ defmodule GenLSP.TypeAlias.LSPAny do
           %mod{} ->
             Code.ensure_loaded(mod)
 
-            if function_exported?(mod, :schematic, 0) do
+            if function_exported?(mod, :schema, 0) do
               mod.schema().unify.(x, dir)
             else
               {:ok, x}
