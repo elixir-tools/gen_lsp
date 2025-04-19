@@ -202,7 +202,7 @@ defmodule GenLSPTest do
           "message" =>
             """
             ** (RuntimeError) boom
-                (gen_lsp 0.9.0) test/support/example_server.ex:35: GenLSPTest.ExampleServer.handle_request/2
+                (gen_lsp 0.10.0) test/support/example_server.ex:35: GenLSPTest.ExampleServer.handle_request/2
             """ <> _
         })
       end)
