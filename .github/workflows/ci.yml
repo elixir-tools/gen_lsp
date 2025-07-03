@@ -11,23 +11,11 @@ jobs:
 
     strategy:
       matrix:
-        otp: [23.x, 24.x, 25.x, 26.x]
-        elixir: [1.11.x, 1.12.x, 1.13.x, 1.14.x, 1.15.x, 1.16.x]
-        exclude:
-          - otp: 26.x
-            elixir: 1.11.x
-          - otp: 26.x
-            elixir: 1.12.x
-          - otp: 26.x
-            elixir: 1.13.x
-          - otp: 25.x
-            elixir: 1.11.x
-          - otp: 25.x
-            elixir: 1.12.x
-          - otp: 23.x
-            elixir: 1.15.x
-          - otp: 23.x
-            elixir: 1.16.x
+        otp: [26.x, 27.x]
+        elixir: [1.16.x, 1.17.x]
+        include:
+          - otp: 28.x
+            elixir: 1.18.x
 
     steps:
       - uses: actions/checkout@v2
@@ -52,22 +40,22 @@ jobs:
 
   formatter:
     runs-on: ubuntu-latest
-    name: Formatter (1.16.x/26.x)
+    name: Formatter (1.18.x/28.x)
 
     steps:
       - uses: actions/checkout@v2
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: 26.x
-          elixir-version: 1.16.x
+          otp-version: 28.x
+          elixir-version: 1.18.x
       - uses: actions/cache@v3
         with:
           path: |
             deps
             _build
-          key: ${{ runner.os }}-mix-24-1.15-${{ hashFiles('**/mix.lock') }}
+          key: ${{ runner.os }}-mix-28-1.18-${{ hashFiles('**/mix.lock') }}
           restore-keys: |
-            ${{ runner.os }}-mix-24-1.15-
+            ${{ runner.os }}-mix-28-1.18-
 
       - name: Install Dependencies
         run: mix deps.get
@@ -83,8 +71,8 @@ jobs:
         id: beam
         uses: erlef/setup-beam@v1
         with:
-          otp-version: 26.x
-          elixir-version: 1.15.x
+          otp-version: 28.x
+          elixir-version: 1.18.x
 
       # Don't cache PLTs based on mix.lock hash, as Dialyzer can incrementally update even old ones
       # Cache key based on Elixir & Erlang version (also useful when running in matrix)
