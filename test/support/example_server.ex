@@ -27,6 +27,16 @@ defmodule GenLSPTest.ExampleServer do
      }, lsp}
   end
 
+  def handle_request(%Requests.TextDocumentFormatting{}, lsp) do
+    send(assigns(lsp).test_pid, {:request_pid, self()})
+
+    receive do
+      :finish -> :ok
+    end
+
+    {:reply, nil, lsp}
+  end
+
   def handle_request(%Requests.TextDocumentDocumentSymbol{}, lsp) do
     {:reply, [nil, []], lsp}
   end
