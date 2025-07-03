@@ -6,12 +6,6 @@ on:
       - reopened
       - synchronize
       - edited
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
-      - edited
 
 jobs:
   commitlint:
