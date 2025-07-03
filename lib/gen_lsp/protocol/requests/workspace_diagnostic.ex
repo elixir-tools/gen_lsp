@@ -23,13 +23,13 @@ defmodule GenLSP.Requests.WorkspaceDiagnostic do
   @type result :: GenLSP.Structures.WorkspaceDiagnosticReport.t()
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "workspace/diagnostic",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.WorkspaceDiagnosticParams.schematic()
+      params: GenLSP.Structures.WorkspaceDiagnosticParams.schema()
     })
   end
 
@@ -37,8 +37,8 @@ defmodule GenLSP.Requests.WorkspaceDiagnostic do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      GenLSP.Structures.WorkspaceDiagnosticReport.schematic(),
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.Structures.WorkspaceDiagnosticReport.schema(),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

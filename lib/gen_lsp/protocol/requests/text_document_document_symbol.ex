@@ -27,13 +27,13 @@ defmodule GenLSP.Requests.TextDocumentDocumentSymbol do
           | nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/documentSymbol",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.DocumentSymbolParams.schematic()
+      params: GenLSP.Structures.DocumentSymbolParams.schema()
     })
   end
 
@@ -42,11 +42,11 @@ defmodule GenLSP.Requests.TextDocumentDocumentSymbol do
   def result() do
     oneof([
       oneof([
-        list(GenLSP.Structures.SymbolInformation.schematic()),
-        list(GenLSP.Structures.DocumentSymbol.schematic()),
+        list(GenLSP.Structures.SymbolInformation.schema()),
+        list(GenLSP.Structures.DocumentSymbol.schema()),
         nil
       ]),
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

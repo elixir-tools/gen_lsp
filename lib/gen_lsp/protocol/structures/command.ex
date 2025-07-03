@@ -27,12 +27,12 @@ defmodule GenLSP.Structures.Command do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"title", :title} => str(),
       {"command", :command} => str(),
-      optional({"arguments", :arguments}) => list(GenLSP.TypeAlias.LSPAny.schematic())
+      optional({"arguments", :arguments}) => list(GenLSP.TypeAlias.LSPAny.schema())
     })
   end
 end

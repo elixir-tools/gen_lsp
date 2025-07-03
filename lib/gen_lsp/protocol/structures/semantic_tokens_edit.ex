@@ -23,8 +23,8 @@ defmodule GenLSP.Structures.SemanticTokensEdit do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"start", :start} => int(),
       {"deleteCount", :delete_count} => int(),

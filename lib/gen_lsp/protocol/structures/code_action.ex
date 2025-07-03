@@ -63,20 +63,20 @@ defmodule GenLSP.Structures.CodeAction do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"title", :title} => str(),
-      optional({"kind", :kind}) => GenLSP.Enumerations.CodeActionKind.schematic(),
-      optional({"diagnostics", :diagnostics}) => list(GenLSP.Structures.Diagnostic.schematic()),
+      optional({"kind", :kind}) => GenLSP.Enumerations.CodeActionKind.schema(),
+      optional({"diagnostics", :diagnostics}) => list(GenLSP.Structures.Diagnostic.schema()),
       optional({"isPreferred", :is_preferred}) => bool(),
       optional({"disabled", :disabled}) =>
         map(%{
           {"reason", :reason} => str()
         }),
-      optional({"edit", :edit}) => GenLSP.Structures.WorkspaceEdit.schematic(),
-      optional({"command", :command}) => GenLSP.Structures.Command.schematic(),
-      optional({"data", :data}) => GenLSP.TypeAlias.LSPAny.schematic()
+      optional({"edit", :edit}) => GenLSP.Structures.WorkspaceEdit.schema(),
+      optional({"command", :command}) => GenLSP.Structures.Command.schema(),
+      optional({"data", :data}) => GenLSP.TypeAlias.LSPAny.schema()
     })
   end
 end

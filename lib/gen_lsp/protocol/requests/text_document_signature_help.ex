@@ -15,13 +15,13 @@ defmodule GenLSP.Requests.TextDocumentSignatureHelp do
   @type result :: GenLSP.Structures.SignatureHelp.t() | nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/signatureHelp",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.SignatureHelpParams.schematic()
+      params: GenLSP.Structures.SignatureHelpParams.schema()
     })
   end
 
@@ -29,8 +29,8 @@ defmodule GenLSP.Requests.TextDocumentSignatureHelp do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([GenLSP.Structures.SignatureHelp.schematic(), nil]),
-      GenLSP.ErrorResponse.schematic()
+      oneof([GenLSP.Structures.SignatureHelp.schema(), nil]),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

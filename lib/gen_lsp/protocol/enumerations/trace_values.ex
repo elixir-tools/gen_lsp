@@ -23,8 +23,8 @@ defmodule GenLSP.Enumerations.TraceValues do
   def verbose, do: "verbose"
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       "off",
       "messages",

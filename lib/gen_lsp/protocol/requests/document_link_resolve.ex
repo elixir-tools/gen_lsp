@@ -23,13 +23,13 @@ defmodule GenLSP.Requests.DocumentLinkResolve do
   @type result :: GenLSP.Structures.DocumentLink.t()
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "documentLink/resolve",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.DocumentLink.schematic()
+      params: GenLSP.Structures.DocumentLink.schema()
     })
   end
 
@@ -37,8 +37,8 @@ defmodule GenLSP.Requests.DocumentLinkResolve do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      GenLSP.Structures.DocumentLink.schematic(),
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.Structures.DocumentLink.schema(),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

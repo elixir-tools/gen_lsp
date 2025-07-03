@@ -24,13 +24,13 @@ defmodule GenLSP.Requests.TextDocumentColorPresentation do
   @type result :: list(GenLSP.Structures.ColorPresentation.t())
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/colorPresentation",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.ColorPresentationParams.schematic()
+      params: GenLSP.Structures.ColorPresentationParams.schema()
     })
   end
 
@@ -38,8 +38,8 @@ defmodule GenLSP.Requests.TextDocumentColorPresentation do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      list(GenLSP.Structures.ColorPresentation.schematic()),
-      GenLSP.ErrorResponse.schematic()
+      list(GenLSP.Structures.ColorPresentation.schema()),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

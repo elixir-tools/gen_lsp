@@ -45,8 +45,8 @@ defmodule GenLSP.Structures.CompletionOptions do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"triggerCharacters", :trigger_characters}) => list(str()),
       optional({"allCommitCharacters", :all_commit_characters}) => list(str()),

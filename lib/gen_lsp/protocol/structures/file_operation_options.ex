@@ -31,21 +31,21 @@ defmodule GenLSP.Structures.FileOperationOptions do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"didCreate", :did_create}) =>
-        GenLSP.Structures.FileOperationRegistrationOptions.schematic(),
+        GenLSP.Structures.FileOperationRegistrationOptions.schema(),
       optional({"willCreate", :will_create}) =>
-        GenLSP.Structures.FileOperationRegistrationOptions.schematic(),
+        GenLSP.Structures.FileOperationRegistrationOptions.schema(),
       optional({"didRename", :did_rename}) =>
-        GenLSP.Structures.FileOperationRegistrationOptions.schematic(),
+        GenLSP.Structures.FileOperationRegistrationOptions.schema(),
       optional({"willRename", :will_rename}) =>
-        GenLSP.Structures.FileOperationRegistrationOptions.schematic(),
+        GenLSP.Structures.FileOperationRegistrationOptions.schema(),
       optional({"didDelete", :did_delete}) =>
-        GenLSP.Structures.FileOperationRegistrationOptions.schematic(),
+        GenLSP.Structures.FileOperationRegistrationOptions.schema(),
       optional({"willDelete", :will_delete}) =>
-        GenLSP.Structures.FileOperationRegistrationOptions.schematic()
+        GenLSP.Structures.FileOperationRegistrationOptions.schema()
     })
   end
 end

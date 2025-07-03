@@ -19,8 +19,8 @@ defmodule GenLSP.Structures.SaveOptions do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"includeText", :include_text}) => bool()
     })

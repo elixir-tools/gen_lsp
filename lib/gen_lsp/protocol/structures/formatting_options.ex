@@ -33,8 +33,8 @@ defmodule GenLSP.Structures.FormattingOptions do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"tabSize", :tab_size} => int(),
       {"insertSpaces", :insert_spaces} => bool(),

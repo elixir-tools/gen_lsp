@@ -35,12 +35,12 @@ defmodule GenLSP.Structures.DiagnosticRegistrationOptions do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"id", :id}) => str(),
       {"documentSelector", :document_selector} =>
-        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), nil]),
+        oneof([GenLSP.TypeAlias.DocumentSelector.schema(), nil]),
       optional({"identifier", :identifier}) => str(),
       {"interFileDependencies", :inter_file_dependencies} => bool(),
       {"workspaceDiagnostics", :workspace_diagnostics} => bool()

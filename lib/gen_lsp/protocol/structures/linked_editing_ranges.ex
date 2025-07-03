@@ -26,10 +26,10 @@ defmodule GenLSP.Structures.LinkedEditingRanges do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"ranges", :ranges} => list(GenLSP.Structures.Range.schematic()),
+      {"ranges", :ranges} => list(GenLSP.Structures.Range.schema()),
       optional({"wordPattern", :word_pattern}) => str()
     })
   end

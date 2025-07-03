@@ -23,8 +23,8 @@ defmodule GenLSP.Structures.RegularExpressionsClientCapabilities do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"engine", :engine} => str(),
       optional({"version", :version}) => str()

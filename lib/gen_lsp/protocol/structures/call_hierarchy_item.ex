@@ -38,17 +38,17 @@ defmodule GenLSP.Structures.CallHierarchyItem do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"name", :name} => str(),
-      {"kind", :kind} => GenLSP.Enumerations.SymbolKind.schematic(),
-      optional({"tags", :tags}) => list(GenLSP.Enumerations.SymbolTag.schematic()),
+      {"kind", :kind} => GenLSP.Enumerations.SymbolKind.schema(),
+      optional({"tags", :tags}) => list(GenLSP.Enumerations.SymbolTag.schema()),
       optional({"detail", :detail}) => str(),
       {"uri", :uri} => str(),
-      {"range", :range} => GenLSP.Structures.Range.schematic(),
-      {"selectionRange", :selection_range} => GenLSP.Structures.Range.schematic(),
-      optional({"data", :data}) => GenLSP.TypeAlias.LSPAny.schematic()
+      {"range", :range} => GenLSP.Structures.Range.schema(),
+      {"selectionRange", :selection_range} => GenLSP.Structures.Range.schema(),
+      optional({"data", :data}) => GenLSP.TypeAlias.LSPAny.schema()
     })
   end
 end

@@ -24,13 +24,13 @@ defmodule GenLSP.Requests.TextDocumentDocumentHighlight do
   @type result :: list(GenLSP.Structures.DocumentHighlight.t()) | nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/documentHighlight",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.DocumentHighlightParams.schematic()
+      params: GenLSP.Structures.DocumentHighlightParams.schema()
     })
   end
 
@@ -38,8 +38,8 @@ defmodule GenLSP.Requests.TextDocumentDocumentHighlight do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([list(GenLSP.Structures.DocumentHighlight.schematic()), nil]),
-      GenLSP.ErrorResponse.schematic()
+      oneof([list(GenLSP.Structures.DocumentHighlight.schema()), nil]),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

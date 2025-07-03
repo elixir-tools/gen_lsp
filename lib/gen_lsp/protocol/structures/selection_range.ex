@@ -22,11 +22,11 @@ defmodule GenLSP.Structures.SelectionRange do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"range", :range} => GenLSP.Structures.Range.schematic(),
-      optional({"parent", :parent}) => {__MODULE__, :schematic, []}
+      {"range", :range} => GenLSP.Structures.Range.schema(),
+      optional({"parent", :parent}) => {__MODULE__, :schema, []}
     })
   end
 end

@@ -28,13 +28,13 @@ defmodule GenLSP.Structures.Moniker do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"scheme", :scheme} => str(),
       {"identifier", :identifier} => str(),
-      {"unique", :unique} => GenLSP.Enumerations.UniquenessLevel.schematic(),
-      optional({"kind", :kind}) => GenLSP.Enumerations.MonikerKind.schematic()
+      {"unique", :unique} => GenLSP.Enumerations.UniquenessLevel.schema(),
+      optional({"kind", :kind}) => GenLSP.Enumerations.MonikerKind.schema()
     })
   end
 end

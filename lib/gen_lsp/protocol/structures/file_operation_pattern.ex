@@ -34,12 +34,12 @@ defmodule GenLSP.Structures.FileOperationPattern do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"glob", :glob} => str(),
-      optional({"matches", :matches}) => GenLSP.Enumerations.FileOperationPatternKind.schematic(),
-      optional({"options", :options}) => GenLSP.Structures.FileOperationPatternOptions.schematic()
+      optional({"matches", :matches}) => GenLSP.Enumerations.FileOperationPatternKind.schema(),
+      optional({"options", :options}) => GenLSP.Structures.FileOperationPatternOptions.schema()
     })
   end
 end

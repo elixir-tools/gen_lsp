@@ -21,13 +21,13 @@ defmodule GenLSP.Requests.TextDocumentRename do
   @type result :: GenLSP.Structures.WorkspaceEdit.t() | nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/rename",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.RenameParams.schematic()
+      params: GenLSP.Structures.RenameParams.schema()
     })
   end
 
@@ -35,8 +35,8 @@ defmodule GenLSP.Requests.TextDocumentRename do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([GenLSP.Structures.WorkspaceEdit.schematic(), nil]),
-      GenLSP.ErrorResponse.schematic()
+      oneof([GenLSP.Structures.WorkspaceEdit.schema(), nil]),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

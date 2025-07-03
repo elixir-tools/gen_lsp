@@ -30,12 +30,12 @@ defmodule GenLSP.Structures.BaseSymbolInformation do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"name", :name} => str(),
-      {"kind", :kind} => GenLSP.Enumerations.SymbolKind.schematic(),
-      optional({"tags", :tags}) => list(GenLSP.Enumerations.SymbolTag.schematic()),
+      {"kind", :kind} => GenLSP.Enumerations.SymbolKind.schema(),
+      optional({"tags", :tags}) => list(GenLSP.Enumerations.SymbolTag.schema()),
       optional({"containerName", :container_name}) => str()
     })
   end

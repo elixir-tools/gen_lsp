@@ -32,8 +32,8 @@ defmodule GenLSP.Structures.WorkspaceUnchangedDocumentDiagnosticReport do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"uri", :uri} => str(),
       {"version", :version} => oneof([int(), nil]),

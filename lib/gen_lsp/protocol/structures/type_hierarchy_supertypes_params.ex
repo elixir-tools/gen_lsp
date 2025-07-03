@@ -26,13 +26,13 @@ defmodule GenLSP.Structures.TypeHierarchySupertypesParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"item", :item} => GenLSP.Structures.TypeHierarchyItem.schematic(),
-      optional({"workDoneToken", :work_done_token}) => GenLSP.TypeAlias.ProgressToken.schematic(),
+      {"item", :item} => GenLSP.Structures.TypeHierarchyItem.schema(),
+      optional({"workDoneToken", :work_done_token}) => GenLSP.TypeAlias.ProgressToken.schema(),
       optional({"partialResultToken", :partial_result_token}) =>
-        GenLSP.TypeAlias.ProgressToken.schematic()
+        GenLSP.TypeAlias.ProgressToken.schema()
     })
   end
 end

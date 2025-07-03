@@ -25,13 +25,13 @@ defmodule GenLSP.Requests.Initialize do
   @type result :: GenLSP.Structures.InitializeResult.t()
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "initialize",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.InitializeParams.schematic()
+      params: GenLSP.Structures.InitializeParams.schema()
     })
   end
 
@@ -39,8 +39,8 @@ defmodule GenLSP.Requests.Initialize do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      GenLSP.Structures.InitializeResult.schematic(),
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.Structures.InitializeResult.schema(),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

@@ -28,8 +28,8 @@ defmodule GenLSP.Structures.ChangeAnnotation do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"label", :label} => str(),
       optional({"needsConfirmation", :needs_confirmation}) => bool(),

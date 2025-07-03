@@ -24,13 +24,13 @@ defmodule GenLSP.Structures.DidCloseNotebookDocumentParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"notebookDocument", :notebook_document} =>
-        GenLSP.Structures.NotebookDocumentIdentifier.schematic(),
+        GenLSP.Structures.NotebookDocumentIdentifier.schema(),
       {"cellTextDocuments", :cell_text_documents} =>
-        list(GenLSP.Structures.TextDocumentIdentifier.schematic())
+        list(GenLSP.Structures.TextDocumentIdentifier.schema())
     })
   end
 end

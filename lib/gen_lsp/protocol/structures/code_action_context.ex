@@ -33,13 +33,13 @@ defmodule GenLSP.Structures.CodeActionContext do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"diagnostics", :diagnostics} => list(GenLSP.Structures.Diagnostic.schematic()),
-      optional({"only", :only}) => list(GenLSP.Enumerations.CodeActionKind.schematic()),
+      {"diagnostics", :diagnostics} => list(GenLSP.Structures.Diagnostic.schema()),
+      optional({"only", :only}) => list(GenLSP.Enumerations.CodeActionKind.schema()),
       optional({"triggerKind", :trigger_kind}) =>
-        GenLSP.Enumerations.CodeActionTriggerKind.schematic()
+        GenLSP.Enumerations.CodeActionTriggerKind.schema()
     })
   end
 end

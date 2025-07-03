@@ -31,8 +31,8 @@ defmodule GenLSP.Enumerations.TextDocumentSyncKind do
   def incremental, do: 2
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       0,
       1,

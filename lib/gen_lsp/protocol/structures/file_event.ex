@@ -21,11 +21,11 @@ defmodule GenLSP.Structures.FileEvent do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"uri", :uri} => str(),
-      {"type", :type} => GenLSP.Enumerations.FileChangeType.schematic()
+      {"type", :type} => GenLSP.Enumerations.FileChangeType.schema()
     })
   end
 end

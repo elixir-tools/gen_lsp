@@ -38,8 +38,8 @@ defmodule GenLSP.Structures.CompletionClientCapabilities do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"dynamicRegistration", :dynamic_registration}) => bool(),
       optional({"completionItem", :completion_item}) =>
@@ -47,12 +47,12 @@ defmodule GenLSP.Structures.CompletionClientCapabilities do
           optional({"snippetSupport", :snippet_support}) => bool(),
           optional({"commitCharactersSupport", :commit_characters_support}) => bool(),
           optional({"documentationFormat", :documentation_format}) =>
-            list(GenLSP.Enumerations.MarkupKind.schematic()),
+            list(GenLSP.Enumerations.MarkupKind.schema()),
           optional({"deprecatedSupport", :deprecated_support}) => bool(),
           optional({"preselectSupport", :preselect_support}) => bool(),
           optional({"tagSupport", :tag_support}) =>
             map(%{
-              {"valueSet", :value_set} => list(GenLSP.Enumerations.CompletionItemTag.schematic())
+              {"valueSet", :value_set} => list(GenLSP.Enumerations.CompletionItemTag.schema())
             }),
           optional({"insertReplaceSupport", :insert_replace_support}) => bool(),
           optional({"resolveSupport", :resolve_support}) =>
@@ -61,17 +61,17 @@ defmodule GenLSP.Structures.CompletionClientCapabilities do
             }),
           optional({"insertTextModeSupport", :insert_text_mode_support}) =>
             map(%{
-              {"valueSet", :value_set} => list(GenLSP.Enumerations.InsertTextMode.schematic())
+              {"valueSet", :value_set} => list(GenLSP.Enumerations.InsertTextMode.schema())
             }),
           optional({"labelDetailsSupport", :label_details_support}) => bool()
         }),
       optional({"completionItemKind", :completion_item_kind}) =>
         map(%{
           optional({"valueSet", :value_set}) =>
-            list(GenLSP.Enumerations.CompletionItemKind.schematic())
+            list(GenLSP.Enumerations.CompletionItemKind.schema())
         }),
       optional({"insertTextMode", :insert_text_mode}) =>
-        GenLSP.Enumerations.InsertTextMode.schematic(),
+        GenLSP.Enumerations.InsertTextMode.schema(),
       optional({"contextSupport", :context_support}) => bool(),
       optional({"completionList", :completion_list}) =>
         map(%{

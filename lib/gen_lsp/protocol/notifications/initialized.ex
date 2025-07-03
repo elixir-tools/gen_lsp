@@ -20,12 +20,12 @@ defmodule GenLSP.Notifications.Initialized do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "initialized",
       jsonrpc: "2.0",
-      params: GenLSP.Structures.InitializedParams.schematic()
+      params: GenLSP.Structures.InitializedParams.schema()
     })
   end
 end

@@ -26,13 +26,13 @@ defmodule GenLSP.Requests.TextDocumentDeclaration do
           GenLSP.TypeAlias.Declaration.t() | list(GenLSP.TypeAlias.DeclarationLink.t()) | nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/declaration",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.DeclarationParams.schematic()
+      params: GenLSP.Structures.DeclarationParams.schema()
     })
   end
 
@@ -41,11 +41,11 @@ defmodule GenLSP.Requests.TextDocumentDeclaration do
   def result() do
     oneof([
       oneof([
-        GenLSP.TypeAlias.Declaration.schematic(),
-        list(GenLSP.TypeAlias.DeclarationLink.schematic()),
+        GenLSP.TypeAlias.Declaration.schema(),
+        list(GenLSP.TypeAlias.DeclarationLink.schema()),
         nil
       ]),
-      GenLSP.ErrorResponse.schematic()
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end

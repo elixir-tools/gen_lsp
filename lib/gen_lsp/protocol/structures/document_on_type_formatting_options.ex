@@ -21,8 +21,8 @@ defmodule GenLSP.Structures.DocumentOnTypeFormattingOptions do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"firstTriggerCharacter", :first_trigger_character} => str(),
       optional({"moreTriggerCharacter", :more_trigger_character}) => list(str())

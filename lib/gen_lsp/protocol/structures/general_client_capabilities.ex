@@ -53,8 +53,8 @@ defmodule GenLSP.Structures.GeneralClientCapabilities do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"staleRequestSupport", :stale_request_support}) =>
         map(%{
@@ -62,11 +62,10 @@ defmodule GenLSP.Structures.GeneralClientCapabilities do
           {"retryOnContentModified", :retry_on_content_modified} => list(str())
         }),
       optional({"regularExpressions", :regular_expressions}) =>
-        GenLSP.Structures.RegularExpressionsClientCapabilities.schematic(),
-      optional({"markdown", :markdown}) =>
-        GenLSP.Structures.MarkdownClientCapabilities.schematic(),
+        GenLSP.Structures.RegularExpressionsClientCapabilities.schema(),
+      optional({"markdown", :markdown}) => GenLSP.Structures.MarkdownClientCapabilities.schema(),
       optional({"positionEncodings", :position_encodings}) =>
-        list(GenLSP.Enumerations.PositionEncodingKind.schematic())
+        list(GenLSP.Enumerations.PositionEncodingKind.schema())
     })
   end
 end

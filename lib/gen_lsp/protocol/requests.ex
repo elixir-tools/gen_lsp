@@ -6,196 +6,196 @@ defmodule GenLSP.Requests do
     unify(
       oneof(fn
         %{"method" => "callHierarchy/incomingCalls"} ->
-          GenLSP.Requests.CallHierarchyIncomingCalls.schematic()
+          GenLSP.Requests.CallHierarchyIncomingCalls.schema()
 
         %{"method" => "callHierarchy/outgoingCalls"} ->
-          GenLSP.Requests.CallHierarchyOutgoingCalls.schematic()
+          GenLSP.Requests.CallHierarchyOutgoingCalls.schema()
 
         %{"method" => "client/registerCapability"} ->
-          GenLSP.Requests.ClientRegisterCapability.schematic()
+          GenLSP.Requests.ClientRegisterCapability.schema()
 
         %{"method" => "client/unregisterCapability"} ->
-          GenLSP.Requests.ClientUnregisterCapability.schematic()
+          GenLSP.Requests.ClientUnregisterCapability.schema()
 
         %{"method" => "codeAction/resolve"} ->
-          GenLSP.Requests.CodeActionResolve.schematic()
+          GenLSP.Requests.CodeActionResolve.schema()
 
         %{"method" => "codeLens/resolve"} ->
-          GenLSP.Requests.CodeLensResolve.schematic()
+          GenLSP.Requests.CodeLensResolve.schema()
 
         %{"method" => "completionItem/resolve"} ->
-          GenLSP.Requests.CompletionItemResolve.schematic()
+          GenLSP.Requests.CompletionItemResolve.schema()
 
         %{"method" => "documentLink/resolve"} ->
-          GenLSP.Requests.DocumentLinkResolve.schematic()
+          GenLSP.Requests.DocumentLinkResolve.schema()
 
         %{"method" => "initialize"} ->
-          GenLSP.Requests.Initialize.schematic()
+          GenLSP.Requests.Initialize.schema()
 
         %{"method" => "inlayHint/resolve"} ->
-          GenLSP.Requests.InlayHintResolve.schematic()
+          GenLSP.Requests.InlayHintResolve.schema()
 
         %{"method" => "shutdown"} ->
-          GenLSP.Requests.Shutdown.schematic()
+          GenLSP.Requests.Shutdown.schema()
 
         %{"method" => "textDocument/codeAction"} ->
-          GenLSP.Requests.TextDocumentCodeAction.schematic()
+          GenLSP.Requests.TextDocumentCodeAction.schema()
 
         %{"method" => "textDocument/codeLens"} ->
-          GenLSP.Requests.TextDocumentCodeLens.schematic()
+          GenLSP.Requests.TextDocumentCodeLens.schema()
 
         %{"method" => "textDocument/colorPresentation"} ->
-          GenLSP.Requests.TextDocumentColorPresentation.schematic()
+          GenLSP.Requests.TextDocumentColorPresentation.schema()
 
         %{"method" => "textDocument/completion"} ->
-          GenLSP.Requests.TextDocumentCompletion.schematic()
+          GenLSP.Requests.TextDocumentCompletion.schema()
 
         %{"method" => "textDocument/declaration"} ->
-          GenLSP.Requests.TextDocumentDeclaration.schematic()
+          GenLSP.Requests.TextDocumentDeclaration.schema()
 
         %{"method" => "textDocument/definition"} ->
-          GenLSP.Requests.TextDocumentDefinition.schematic()
+          GenLSP.Requests.TextDocumentDefinition.schema()
 
         %{"method" => "textDocument/diagnostic"} ->
-          GenLSP.Requests.TextDocumentDiagnostic.schematic()
+          GenLSP.Requests.TextDocumentDiagnostic.schema()
 
         %{"method" => "textDocument/documentColor"} ->
-          GenLSP.Requests.TextDocumentDocumentColor.schematic()
+          GenLSP.Requests.TextDocumentDocumentColor.schema()
 
         %{"method" => "textDocument/documentHighlight"} ->
-          GenLSP.Requests.TextDocumentDocumentHighlight.schematic()
+          GenLSP.Requests.TextDocumentDocumentHighlight.schema()
 
         %{"method" => "textDocument/documentLink"} ->
-          GenLSP.Requests.TextDocumentDocumentLink.schematic()
+          GenLSP.Requests.TextDocumentDocumentLink.schema()
 
         %{"method" => "textDocument/documentSymbol"} ->
-          GenLSP.Requests.TextDocumentDocumentSymbol.schematic()
+          GenLSP.Requests.TextDocumentDocumentSymbol.schema()
 
         %{"method" => "textDocument/foldingRange"} ->
-          GenLSP.Requests.TextDocumentFoldingRange.schematic()
+          GenLSP.Requests.TextDocumentFoldingRange.schema()
 
         %{"method" => "textDocument/formatting"} ->
-          GenLSP.Requests.TextDocumentFormatting.schematic()
+          GenLSP.Requests.TextDocumentFormatting.schema()
 
         %{"method" => "textDocument/hover"} ->
-          GenLSP.Requests.TextDocumentHover.schematic()
+          GenLSP.Requests.TextDocumentHover.schema()
 
         %{"method" => "textDocument/implementation"} ->
-          GenLSP.Requests.TextDocumentImplementation.schematic()
+          GenLSP.Requests.TextDocumentImplementation.schema()
 
         %{"method" => "textDocument/inlayHint"} ->
-          GenLSP.Requests.TextDocumentInlayHint.schematic()
+          GenLSP.Requests.TextDocumentInlayHint.schema()
 
         %{"method" => "textDocument/inlineValue"} ->
-          GenLSP.Requests.TextDocumentInlineValue.schematic()
+          GenLSP.Requests.TextDocumentInlineValue.schema()
 
         %{"method" => "textDocument/linkedEditingRange"} ->
-          GenLSP.Requests.TextDocumentLinkedEditingRange.schematic()
+          GenLSP.Requests.TextDocumentLinkedEditingRange.schema()
 
         %{"method" => "textDocument/moniker"} ->
-          GenLSP.Requests.TextDocumentMoniker.schematic()
+          GenLSP.Requests.TextDocumentMoniker.schema()
 
         %{"method" => "textDocument/onTypeFormatting"} ->
-          GenLSP.Requests.TextDocumentOnTypeFormatting.schematic()
+          GenLSP.Requests.TextDocumentOnTypeFormatting.schema()
 
         %{"method" => "textDocument/prepareCallHierarchy"} ->
-          GenLSP.Requests.TextDocumentPrepareCallHierarchy.schematic()
+          GenLSP.Requests.TextDocumentPrepareCallHierarchy.schema()
 
         %{"method" => "textDocument/prepareRename"} ->
-          GenLSP.Requests.TextDocumentPrepareRename.schematic()
+          GenLSP.Requests.TextDocumentPrepareRename.schema()
 
         %{"method" => "textDocument/prepareTypeHierarchy"} ->
-          GenLSP.Requests.TextDocumentPrepareTypeHierarchy.schematic()
+          GenLSP.Requests.TextDocumentPrepareTypeHierarchy.schema()
 
         %{"method" => "textDocument/rangeFormatting"} ->
-          GenLSP.Requests.TextDocumentRangeFormatting.schematic()
+          GenLSP.Requests.TextDocumentRangeFormatting.schema()
 
         %{"method" => "textDocument/references"} ->
-          GenLSP.Requests.TextDocumentReferences.schematic()
+          GenLSP.Requests.TextDocumentReferences.schema()
 
         %{"method" => "textDocument/rename"} ->
-          GenLSP.Requests.TextDocumentRename.schematic()
+          GenLSP.Requests.TextDocumentRename.schema()
 
         %{"method" => "textDocument/selectionRange"} ->
-          GenLSP.Requests.TextDocumentSelectionRange.schematic()
+          GenLSP.Requests.TextDocumentSelectionRange.schema()
 
         %{"method" => "textDocument/semanticTokens/full"} ->
-          GenLSP.Requests.TextDocumentSemanticTokensFull.schematic()
+          GenLSP.Requests.TextDocumentSemanticTokensFull.schema()
 
         %{"method" => "textDocument/semanticTokens/full/delta"} ->
-          GenLSP.Requests.TextDocumentSemanticTokensFullDelta.schematic()
+          GenLSP.Requests.TextDocumentSemanticTokensFullDelta.schema()
 
         %{"method" => "textDocument/semanticTokens/range"} ->
-          GenLSP.Requests.TextDocumentSemanticTokensRange.schematic()
+          GenLSP.Requests.TextDocumentSemanticTokensRange.schema()
 
         %{"method" => "textDocument/signatureHelp"} ->
-          GenLSP.Requests.TextDocumentSignatureHelp.schematic()
+          GenLSP.Requests.TextDocumentSignatureHelp.schema()
 
         %{"method" => "textDocument/typeDefinition"} ->
-          GenLSP.Requests.TextDocumentTypeDefinition.schematic()
+          GenLSP.Requests.TextDocumentTypeDefinition.schema()
 
         %{"method" => "textDocument/willSaveWaitUntil"} ->
-          GenLSP.Requests.TextDocumentWillSaveWaitUntil.schematic()
+          GenLSP.Requests.TextDocumentWillSaveWaitUntil.schema()
 
         %{"method" => "typeHierarchy/subtypes"} ->
-          GenLSP.Requests.TypeHierarchySubtypes.schematic()
+          GenLSP.Requests.TypeHierarchySubtypes.schema()
 
         %{"method" => "typeHierarchy/supertypes"} ->
-          GenLSP.Requests.TypeHierarchySupertypes.schematic()
+          GenLSP.Requests.TypeHierarchySupertypes.schema()
 
         %{"method" => "window/showDocument"} ->
-          GenLSP.Requests.WindowShowDocument.schematic()
+          GenLSP.Requests.WindowShowDocument.schema()
 
         %{"method" => "window/showMessageRequest"} ->
-          GenLSP.Requests.WindowShowMessageRequest.schematic()
+          GenLSP.Requests.WindowShowMessageRequest.schema()
 
         %{"method" => "window/workDoneProgress/create"} ->
-          GenLSP.Requests.WindowWorkDoneProgressCreate.schematic()
+          GenLSP.Requests.WindowWorkDoneProgressCreate.schema()
 
         %{"method" => "workspace/applyEdit"} ->
-          GenLSP.Requests.WorkspaceApplyEdit.schematic()
+          GenLSP.Requests.WorkspaceApplyEdit.schema()
 
         %{"method" => "workspace/codeLens/refresh"} ->
-          GenLSP.Requests.WorkspaceCodeLensRefresh.schematic()
+          GenLSP.Requests.WorkspaceCodeLensRefresh.schema()
 
         %{"method" => "workspace/configuration"} ->
-          GenLSP.Requests.WorkspaceConfiguration.schematic()
+          GenLSP.Requests.WorkspaceConfiguration.schema()
 
         %{"method" => "workspace/diagnostic"} ->
-          GenLSP.Requests.WorkspaceDiagnostic.schematic()
+          GenLSP.Requests.WorkspaceDiagnostic.schema()
 
         %{"method" => "workspace/diagnostic/refresh"} ->
-          GenLSP.Requests.WorkspaceDiagnosticRefresh.schematic()
+          GenLSP.Requests.WorkspaceDiagnosticRefresh.schema()
 
         %{"method" => "workspace/executeCommand"} ->
-          GenLSP.Requests.WorkspaceExecuteCommand.schematic()
+          GenLSP.Requests.WorkspaceExecuteCommand.schema()
 
         %{"method" => "workspace/inlayHint/refresh"} ->
-          GenLSP.Requests.WorkspaceInlayHintRefresh.schematic()
+          GenLSP.Requests.WorkspaceInlayHintRefresh.schema()
 
         %{"method" => "workspace/inlineValue/refresh"} ->
-          GenLSP.Requests.WorkspaceInlineValueRefresh.schematic()
+          GenLSP.Requests.WorkspaceInlineValueRefresh.schema()
 
         %{"method" => "workspace/semanticTokens/refresh"} ->
-          GenLSP.Requests.WorkspaceSemanticTokensRefresh.schematic()
+          GenLSP.Requests.WorkspaceSemanticTokensRefresh.schema()
 
         %{"method" => "workspace/symbol"} ->
-          GenLSP.Requests.WorkspaceSymbol.schematic()
+          GenLSP.Requests.WorkspaceSymbol.schema()
 
         %{"method" => "workspace/willCreateFiles"} ->
-          GenLSP.Requests.WorkspaceWillCreateFiles.schematic()
+          GenLSP.Requests.WorkspaceWillCreateFiles.schema()
 
         %{"method" => "workspace/willDeleteFiles"} ->
-          GenLSP.Requests.WorkspaceWillDeleteFiles.schematic()
+          GenLSP.Requests.WorkspaceWillDeleteFiles.schema()
 
         %{"method" => "workspace/willRenameFiles"} ->
-          GenLSP.Requests.WorkspaceWillRenameFiles.schematic()
+          GenLSP.Requests.WorkspaceWillRenameFiles.schema()
 
         %{"method" => "workspace/workspaceFolders"} ->
-          GenLSP.Requests.WorkspaceWorkspaceFolders.schematic()
+          GenLSP.Requests.WorkspaceWorkspaceFolders.schema()
 
         %{"method" => "workspaceSymbol/resolve"} ->
-          GenLSP.Requests.WorkspaceSymbolResolve.schematic()
+          GenLSP.Requests.WorkspaceSymbolResolve.schema()
 
         _ ->
           {:error, "unexpected request payload"}

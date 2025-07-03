@@ -58,24 +58,24 @@ defmodule GenLSP.Structures.WorkspaceEdit do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"changes", :changes}) =>
-        map(keys: str(), values: list(GenLSP.Structures.TextEdit.schematic())),
+        map(keys: str(), values: list(GenLSP.Structures.TextEdit.schema())),
       optional({"documentChanges", :document_changes}) =>
         list(
           oneof([
-            GenLSP.Structures.TextDocumentEdit.schematic(),
-            GenLSP.Structures.CreateFile.schematic(),
-            GenLSP.Structures.RenameFile.schematic(),
-            GenLSP.Structures.DeleteFile.schematic()
+            GenLSP.Structures.TextDocumentEdit.schema(),
+            GenLSP.Structures.CreateFile.schema(),
+            GenLSP.Structures.RenameFile.schema(),
+            GenLSP.Structures.DeleteFile.schema()
           ])
         ),
       optional({"changeAnnotations", :change_annotations}) =>
         map(
-          keys: GenLSP.TypeAlias.ChangeAnnotationIdentifier.schematic(),
-          values: GenLSP.Structures.ChangeAnnotation.schematic()
+          keys: GenLSP.TypeAlias.ChangeAnnotationIdentifier.schema(),
+          values: GenLSP.Structures.ChangeAnnotation.schema()
         )
     })
   end

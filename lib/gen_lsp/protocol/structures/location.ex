@@ -22,11 +22,11 @@ defmodule GenLSP.Structures.Location do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"uri", :uri} => str(),
-      {"range", :range} => GenLSP.Structures.Range.schematic()
+      {"range", :range} => GenLSP.Structures.Range.schema()
     })
   end
 end

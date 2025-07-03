@@ -17,8 +17,8 @@ defmodule GenLSP.ErrorResponse do
     field :message, String.t(), enforce: true
   end
 
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional(:data) => oneof([str(), int(), bool(), list(), map(), nil]),
       code: int(),

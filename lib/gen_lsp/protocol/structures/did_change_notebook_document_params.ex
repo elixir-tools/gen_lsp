@@ -40,12 +40,12 @@ defmodule GenLSP.Structures.DidChangeNotebookDocumentParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"notebookDocument", :notebook_document} =>
-        GenLSP.Structures.VersionedNotebookDocumentIdentifier.schematic(),
-      {"change", :change} => GenLSP.Structures.NotebookDocumentChangeEvent.schematic()
+        GenLSP.Structures.VersionedNotebookDocumentIdentifier.schema(),
+      {"change", :change} => GenLSP.Structures.NotebookDocumentChangeEvent.schema()
     })
   end
 end

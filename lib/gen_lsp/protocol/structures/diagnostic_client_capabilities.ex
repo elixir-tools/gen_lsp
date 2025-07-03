@@ -25,8 +25,8 @@ defmodule GenLSP.Structures.DiagnosticClientCapabilities do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"dynamicRegistration", :dynamic_registration}) => bool(),
       optional({"relatedDocumentSupport", :related_document_support}) => bool()

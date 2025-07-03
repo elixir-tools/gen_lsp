@@ -22,12 +22,12 @@ defmodule GenLSP.Structures.TextDocumentChangeRegistrationOptions do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"syncKind", :sync_kind} => GenLSP.Enumerations.TextDocumentSyncKind.schematic(),
+      {"syncKind", :sync_kind} => GenLSP.Enumerations.TextDocumentSyncKind.schema(),
       {"documentSelector", :document_selector} =>
-        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), nil])
+        oneof([GenLSP.TypeAlias.DocumentSelector.schema(), nil])
     })
   end
 end

@@ -94,8 +94,8 @@ defmodule GenLSP.Enumerations.CodeActionKind do
   def source_fix_all, do: "source.fixAll"
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     oneof([
       "",
       "quickfix",

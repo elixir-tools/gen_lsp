@@ -30,13 +30,13 @@ defmodule GenLSP.Structures.SemanticTokensRegistrationOptions do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       optional({"id", :id}) => str(),
       {"documentSelector", :document_selector} =>
-        oneof([GenLSP.TypeAlias.DocumentSelector.schematic(), nil]),
-      {"legend", :legend} => GenLSP.Structures.SemanticTokensLegend.schematic(),
+        oneof([GenLSP.TypeAlias.DocumentSelector.schema(), nil]),
+      {"legend", :legend} => GenLSP.Structures.SemanticTokensLegend.schema(),
       optional({"range", :range}) => oneof([bool(), map(%{})]),
       optional({"full", :full}) =>
         oneof([

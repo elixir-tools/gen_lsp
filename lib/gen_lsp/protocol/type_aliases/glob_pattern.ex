@@ -11,8 +11,8 @@ defmodule GenLSP.TypeAlias.GlobPattern do
   @type t :: GenLSP.TypeAlias.Pattern.t() | GenLSP.Structures.RelativePattern.t()
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
-    oneof([GenLSP.TypeAlias.Pattern.schematic(), GenLSP.Structures.RelativePattern.schematic()])
+  @spec schema() :: Schematic.t()
+  def schema() do
+    oneof([GenLSP.TypeAlias.Pattern.schema(), GenLSP.Structures.RelativePattern.schema()])
   end
 end

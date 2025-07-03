@@ -23,11 +23,11 @@ defmodule GenLSP.Structures.DocumentHighlight do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"range", :range} => GenLSP.Structures.Range.schematic(),
-      optional({"kind", :kind}) => GenLSP.Enumerations.DocumentHighlightKind.schematic()
+      {"range", :range} => GenLSP.Structures.Range.schema(),
+      optional({"kind", :kind}) => GenLSP.Enumerations.DocumentHighlightKind.schema()
     })
   end
 end

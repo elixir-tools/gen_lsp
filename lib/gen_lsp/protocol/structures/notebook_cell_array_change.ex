@@ -26,12 +26,12 @@ defmodule GenLSP.Structures.NotebookCellArrayChange do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       {"start", :start} => int(),
       {"deleteCount", :delete_count} => int(),
-      optional({"cells", :cells}) => list(GenLSP.Structures.NotebookCell.schematic())
+      optional({"cells", :cells}) => list(GenLSP.Structures.NotebookCell.schema())
     })
   end
 end

@@ -17,11 +17,11 @@ defmodule GenLSP.Structures.ProgressParams do
   end
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
-      {"token", :token} => GenLSP.TypeAlias.ProgressToken.schematic(),
-      {"value", :value} => GenLSP.TypeAlias.LSPAny.schematic()
+      {"token", :token} => GenLSP.TypeAlias.ProgressToken.schema(),
+      {"value", :value} => GenLSP.TypeAlias.LSPAny.schema()
     })
   end
 end

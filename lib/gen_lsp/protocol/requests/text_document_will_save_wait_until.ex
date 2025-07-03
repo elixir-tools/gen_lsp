@@ -26,13 +26,13 @@ defmodule GenLSP.Requests.TextDocumentWillSaveWaitUntil do
   @type result :: list(GenLSP.Structures.TextEdit.t()) | nil
 
   @doc false
-  @spec schematic() :: Schematic.t()
-  def schematic() do
+  @spec schema() :: Schematic.t()
+  def schema() do
     schema(__MODULE__, %{
       method: "textDocument/willSaveWaitUntil",
       jsonrpc: "2.0",
       id: int(),
-      params: GenLSP.Structures.WillSaveTextDocumentParams.schematic()
+      params: GenLSP.Structures.WillSaveTextDocumentParams.schema()
     })
   end
 
@@ -40,8 +40,8 @@ defmodule GenLSP.Requests.TextDocumentWillSaveWaitUntil do
   @spec result() :: Schematic.t()
   def result() do
     oneof([
-      oneof([list(GenLSP.Structures.TextEdit.schematic()), nil]),
-      GenLSP.ErrorResponse.schematic()
+      oneof([list(GenLSP.Structures.TextEdit.schema()), nil]),
+      GenLSP.ErrorResponse.schema()
     ])
   end
 end
