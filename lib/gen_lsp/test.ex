@@ -15,6 +15,7 @@ defmodule GenLSP.Test do
             lsp_id: atom(),
             buffer: pid(),
             buffer_id: atom(),
+            assigns: pid(),
             port: integer()
           }
 
@@ -34,7 +35,7 @@ defmodule GenLSP.Test do
   server = server(MyLSP, some_arg: some_arg)
   ```
   """
-  @spec server(mod :: atom()) :: server()
+  @spec server(mod :: atom(), opts :: Keyword.t()) :: server()
   def server(mod, opts \\ []) do
     buffer_id = Keyword.get(opts, :buffer_id, :buffer)
     lsp_id = Keyword.get(opts, :lsp_id, :lsp)
