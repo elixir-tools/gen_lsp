@@ -1,5 +1,24 @@
 # CHANGELOG
 
+## [0.11.0](https://github.com/elixir-tools/gen_lsp/compare/v0.10.0...v0.11.0) (2025-07-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* async requests and request cancelling ([#67](https://github.com/elixir-tools/gen_lsp/issues/67))
+* change schematic functions to schema ([#61](https://github.com/elixir-tools/gen_lsp/issues/61))
+
+### Features
+
+* async requests and request cancelling ([#67](https://github.com/elixir-tools/gen_lsp/issues/67)) ([8096c5d](https://github.com/elixir-tools/gen_lsp/commit/8096c5db9d3df7f602fb56bcceb491cd0a25446a))
+* opaque assigns structure ([#66](https://github.com/elixir-tools/gen_lsp/issues/66)) ([eadcac8](https://github.com/elixir-tools/gen_lsp/commit/eadcac8daf8db8e1433de5b3430b949d8d468f24))
+
+
+### Bug Fixes
+
+* change schematic functions to schema ([#61](https://github.com/elixir-tools/gen_lsp/issues/61)) ([a9fa987](https://github.com/elixir-tools/gen_lsp/commit/a9fa98722eba2df4295c7bc0835508c0326f85d1))
+* spec for GenLSP.Test.server/2 ([374b05b](https://github.com/elixir-tools/gen_lsp/commit/374b05b4d8391e07d98d829902f30cec1eb8000b))
+
 ## [0.10.0](https://github.com/elixir-tools/gen_lsp/compare/v0.9.0...v0.10.0) (2024-05-31)
 
 
