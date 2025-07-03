@@ -14,15 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        otp: [25.3]
-        elixir: [1.14.x]
+        otp: [28.x]
+        elixir: [1.18.x]
     steps:
-      - uses: google-github-actions/release-please-action@v3
+      - uses: googleapis/release-please-action@v4
         id: release
-        with:
-          release-type: elixir
-          package-name: gen_lsp
-          bump-minor-pre-major: true
 
       - uses: actions/checkout@v3
         if: ${{ steps.release.outputs.release_created }}
