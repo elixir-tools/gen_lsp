@@ -16,13 +16,7 @@ defmodule GenLSPTest do
   test "stores the user state and internal state", %{server: server} do
     assert alive?(server)
 
-    assert %GenLSP.LSP{
-             assigns: %{foo: :bar, test_pid: self()},
-             buffer: server.buffer,
-             pid: server.lsp,
-             mod: GenLSPTest.ExampleServer
-           } ==
-             :sys.get_state(server.lsp)
+    assert %{foo: :bar, test_pid: self()} == :sys.get_state(server.assigns)
   end
 
   test "can receive and reply to a request", %{client: client} do
