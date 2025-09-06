@@ -17,7 +17,7 @@ defmodule GenLSP.Requests.TextDocumentImplementation do
   typedstruct do
     field :method, String.t(), default: "textDocument/implementation"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.ImplementationParams.t()
   end
 
@@ -30,7 +30,7 @@ defmodule GenLSP.Requests.TextDocumentImplementation do
     schema(__MODULE__, %{
       method: "textDocument/implementation",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.ImplementationParams.schema()
     })
   end

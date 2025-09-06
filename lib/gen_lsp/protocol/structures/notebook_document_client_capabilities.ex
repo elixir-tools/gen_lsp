@@ -14,7 +14,7 @@ defmodule GenLSP.Structures.NotebookDocumentClientCapabilities do
   ## Fields
 
   * synchronization: Capabilities specific to notebook document synchronization
-
+    
     @since 3.17.0
   """
   @derive Jason.Encoder

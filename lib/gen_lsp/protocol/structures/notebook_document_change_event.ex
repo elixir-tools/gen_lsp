@@ -14,7 +14,7 @@ defmodule GenLSP.Structures.NotebookDocumentChangeEvent do
   ## Fields
 
   * metadata: The changed meta data if any.
-
+    
     Note: should always be an object literal (e.g. LSPObject)
   * cells: Changes to cells
   """

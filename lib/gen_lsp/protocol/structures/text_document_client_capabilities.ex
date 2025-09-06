@@ -16,14 +16,14 @@ defmodule GenLSP.Structures.TextDocumentClientCapabilities do
   * hover: Capabilities specific to the `textDocument/hover` request.
   * signature_help: Capabilities specific to the `textDocument/signatureHelp` request.
   * declaration: Capabilities specific to the `textDocument/declaration` request.
-
+    
     @since 3.14.0
   * definition: Capabilities specific to the `textDocument/definition` request.
   * type_definition: Capabilities specific to the `textDocument/typeDefinition` request.
-
+    
     @since 3.6.0
   * implementation: Capabilities specific to the `textDocument/implementation` request.
-
+    
     @since 3.6.0
   * references: Capabilities specific to the `textDocument/references` request.
   * document_highlight: Capabilities specific to the `textDocument/documentHighlight` request.
@@ -33,42 +33,42 @@ defmodule GenLSP.Structures.TextDocumentClientCapabilities do
   * document_link: Capabilities specific to the `textDocument/documentLink` request.
   * color_provider: Capabilities specific to the `textDocument/documentColor` and the
     `textDocument/colorPresentation` request.
-
+    
     @since 3.6.0
   * formatting: Capabilities specific to the `textDocument/formatting` request.
   * range_formatting: Capabilities specific to the `textDocument/rangeFormatting` request.
   * on_type_formatting: Capabilities specific to the `textDocument/onTypeFormatting` request.
   * rename: Capabilities specific to the `textDocument/rename` request.
   * folding_range: Capabilities specific to the `textDocument/foldingRange` request.
-
+    
     @since 3.10.0
   * selection_range: Capabilities specific to the `textDocument/selectionRange` request.
-
+    
     @since 3.15.0
   * publish_diagnostics: Capabilities specific to the `textDocument/publishDiagnostics` notification.
   * call_hierarchy: Capabilities specific to the various call hierarchy requests.
-
+    
     @since 3.16.0
   * semantic_tokens: Capabilities specific to the various semantic token request.
-
+    
     @since 3.16.0
   * linked_editing_range: Capabilities specific to the `textDocument/linkedEditingRange` request.
-
+    
     @since 3.16.0
   * moniker: Client capabilities specific to the `textDocument/moniker` request.
-
+    
     @since 3.16.0
   * type_hierarchy: Capabilities specific to the various type hierarchy requests.
-
+    
     @since 3.17.0
   * inline_value: Capabilities specific to the `textDocument/inlineValue` request.
-
+    
     @since 3.17.0
   * inlay_hint: Capabilities specific to the `textDocument/inlayHint` request.
-
+    
     @since 3.17.0
   * diagnostic: Capabilities specific to the diagnostic pull model.
-
+    
     @since 3.17.0
   """
   @derive Jason.Encoder

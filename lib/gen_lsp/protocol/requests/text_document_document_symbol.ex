@@ -17,7 +17,7 @@ defmodule GenLSP.Requests.TextDocumentDocumentSymbol do
   typedstruct do
     field :method, String.t(), default: "textDocument/documentSymbol"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.DocumentSymbolParams.t()
   end
 
@@ -32,7 +32,7 @@ defmodule GenLSP.Requests.TextDocumentDocumentSymbol do
     schema(__MODULE__, %{
       method: "textDocument/documentSymbol",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.DocumentSymbolParams.schema()
     })
   end

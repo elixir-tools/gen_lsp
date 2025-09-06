@@ -17,7 +17,7 @@ defmodule GenLSP.Requests.Shutdown do
   typedstruct do
     field :method, String.t(), default: "shutdown"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
   end
 
   @type result :: nil
@@ -28,7 +28,7 @@ defmodule GenLSP.Requests.Shutdown do
     schema(__MODULE__, %{
       method: "shutdown",
       jsonrpc: "2.0",
-      id: int()
+      id: oneof([int(), str()])
     })
   end
 

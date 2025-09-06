@@ -17,7 +17,7 @@ defmodule GenLSP.Requests.TextDocumentPrepareTypeHierarchy do
   typedstruct do
     field :method, String.t(), default: "textDocument/prepareTypeHierarchy"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.TypeHierarchyPrepareParams.t()
   end
 
@@ -29,7 +29,7 @@ defmodule GenLSP.Requests.TextDocumentPrepareTypeHierarchy do
     schema(__MODULE__, %{
       method: "textDocument/prepareTypeHierarchy",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.TypeHierarchyPrepareParams.schema()
     })
   end

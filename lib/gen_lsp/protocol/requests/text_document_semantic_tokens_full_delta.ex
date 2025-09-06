@@ -14,7 +14,7 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensFullDelta do
   typedstruct do
     field :method, String.t(), default: "textDocument/semanticTokens/full/delta"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.SemanticTokensDeltaParams.t()
   end
 
@@ -27,7 +27,7 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensFullDelta do
     schema(__MODULE__, %{
       method: "textDocument/semanticTokens/full/delta",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.SemanticTokensDeltaParams.schema()
     })
   end

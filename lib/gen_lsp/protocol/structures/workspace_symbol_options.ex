@@ -13,7 +13,7 @@ defmodule GenLSP.Structures.WorkspaceSymbolOptions do
 
   * resolve_provider: The server provides support to resolve additional
     information for a workspace symbol.
-
+    
     @since 3.17.0
   * work_done_progress
   """

@@ -8,7 +8,7 @@ defmodule GenLSP.Requests.TextDocumentSignatureHelp do
   typedstruct do
     field :method, String.t(), default: "textDocument/signatureHelp"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.SignatureHelpParams.t()
   end
 
@@ -20,7 +20,7 @@ defmodule GenLSP.Requests.TextDocumentSignatureHelp do
     schema(__MODULE__, %{
       method: "textDocument/signatureHelp",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.SignatureHelpParams.schema()
     })
   end

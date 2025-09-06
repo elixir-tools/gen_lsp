@@ -15,7 +15,7 @@ defmodule GenLSP.Requests.ClientRegisterCapability do
   typedstruct do
     field :method, String.t(), default: "client/registerCapability"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.RegistrationParams.t()
   end
 
@@ -27,7 +27,7 @@ defmodule GenLSP.Requests.ClientRegisterCapability do
     schema(__MODULE__, %{
       method: "client/registerCapability",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.RegistrationParams.schema()
     })
   end

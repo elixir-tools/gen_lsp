@@ -18,7 +18,7 @@ defmodule GenLSP.Requests.TextDocumentInlineValue do
   typedstruct do
     field :method, String.t(), default: "textDocument/inlineValue"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.InlineValueParams.t()
   end
 
@@ -30,7 +30,7 @@ defmodule GenLSP.Requests.TextDocumentInlineValue do
     schema(__MODULE__, %{
       method: "textDocument/inlineValue",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.InlineValueParams.schema()
     })
   end

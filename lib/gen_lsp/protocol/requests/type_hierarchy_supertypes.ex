@@ -16,7 +16,7 @@ defmodule GenLSP.Requests.TypeHierarchySupertypes do
   typedstruct do
     field :method, String.t(), default: "typeHierarchy/supertypes"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.TypeHierarchySupertypesParams.t()
   end
 
@@ -28,7 +28,7 @@ defmodule GenLSP.Requests.TypeHierarchySupertypes do
     schema(__MODULE__, %{
       method: "typeHierarchy/supertypes",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.TypeHierarchySupertypesParams.schema()
     })
   end

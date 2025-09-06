@@ -14,7 +14,7 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensRange do
   typedstruct do
     field :method, String.t(), default: "textDocument/semanticTokens/range"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.SemanticTokensRangeParams.t()
   end
 
@@ -26,7 +26,7 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensRange do
     schema(__MODULE__, %{
       method: "textDocument/semanticTokens/range",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.SemanticTokensRangeParams.schema()
     })
   end

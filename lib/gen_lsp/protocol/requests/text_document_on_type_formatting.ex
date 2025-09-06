@@ -14,7 +14,7 @@ defmodule GenLSP.Requests.TextDocumentOnTypeFormatting do
   typedstruct do
     field :method, String.t(), default: "textDocument/onTypeFormatting"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.DocumentOnTypeFormattingParams.t()
   end
 
@@ -26,7 +26,7 @@ defmodule GenLSP.Requests.TextDocumentOnTypeFormatting do
     schema(__MODULE__, %{
       method: "textDocument/onTypeFormatting",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.DocumentOnTypeFormattingParams.schema()
     })
   end

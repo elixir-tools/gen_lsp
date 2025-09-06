@@ -17,7 +17,7 @@ defmodule GenLSP.Requests.WorkspaceWillCreateFiles do
   typedstruct do
     field :method, String.t(), default: "workspace/willCreateFiles"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.CreateFilesParams.t()
   end
 
@@ -29,7 +29,7 @@ defmodule GenLSP.Requests.WorkspaceWillCreateFiles do
     schema(__MODULE__, %{
       method: "workspace/willCreateFiles",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.CreateFilesParams.schema()
     })
   end

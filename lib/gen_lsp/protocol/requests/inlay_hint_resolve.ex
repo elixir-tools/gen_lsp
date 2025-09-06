@@ -18,7 +18,7 @@ defmodule GenLSP.Requests.InlayHintResolve do
   typedstruct do
     field :method, String.t(), default: "inlayHint/resolve"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.InlayHint.t()
   end
 
@@ -30,7 +30,7 @@ defmodule GenLSP.Requests.InlayHintResolve do
     schema(__MODULE__, %{
       method: "inlayHint/resolve",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.InlayHint.schema()
     })
   end

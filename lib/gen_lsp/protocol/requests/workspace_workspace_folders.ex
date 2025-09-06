@@ -14,7 +14,7 @@ defmodule GenLSP.Requests.WorkspaceWorkspaceFolders do
   typedstruct do
     field :method, String.t(), default: "workspace/workspaceFolders"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
   end
 
   @type result :: list(GenLSP.Structures.WorkspaceFolder.t()) | nil
@@ -25,7 +25,7 @@ defmodule GenLSP.Requests.WorkspaceWorkspaceFolders do
     schema(__MODULE__, %{
       method: "workspace/workspaceFolders",
       jsonrpc: "2.0",
-      id: int()
+      id: oneof([int(), str()])
     })
   end
 

@@ -15,7 +15,7 @@ defmodule GenLSP.Requests.ClientUnregisterCapability do
   typedstruct do
     field :method, String.t(), default: "client/unregisterCapability"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.UnregistrationParams.t()
   end
 
@@ -27,7 +27,7 @@ defmodule GenLSP.Requests.ClientUnregisterCapability do
     schema(__MODULE__, %{
       method: "client/unregisterCapability",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.UnregistrationParams.schema()
     })
   end

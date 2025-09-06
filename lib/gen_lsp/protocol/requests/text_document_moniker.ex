@@ -16,7 +16,7 @@ defmodule GenLSP.Requests.TextDocumentMoniker do
   typedstruct do
     field :method, String.t(), default: "textDocument/moniker"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.MonikerParams.t()
   end
 
@@ -28,7 +28,7 @@ defmodule GenLSP.Requests.TextDocumentMoniker do
     schema(__MODULE__, %{
       method: "textDocument/moniker",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.MonikerParams.schema()
     })
   end

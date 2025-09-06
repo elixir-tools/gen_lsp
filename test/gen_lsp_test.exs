@@ -41,6 +41,28 @@ defmodule GenLSPTest do
                   500
   end
 
+  test "accepts a string id", %{client: client} do
+    id = System.unique_integer([:positive]) |> to_string()
+
+    assert :ok ==
+             request(client, %{
+               "jsonrpc" => "2.0",
+               "method" => "initialize",
+               "params" => %{"capabilities" => %{}},
+               "id" => id
+             })
+
+    assert_result ^id,
+                  %{
+                    "capabilities" => %{
+                      "callHierarchyProvider" => %{"workDoneProgress" => true},
+                      "experimental" => nil
+                    },
+                    "serverInfo" => %{"name" => "Test LSP"}
+                  },
+                  500
+  end
+
   # @tag :skip
   test "cancels a request", %{client: client} do
     id = System.unique_integer([:positive])

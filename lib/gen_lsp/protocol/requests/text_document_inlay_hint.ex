@@ -18,7 +18,7 @@ defmodule GenLSP.Requests.TextDocumentInlayHint do
   typedstruct do
     field :method, String.t(), default: "textDocument/inlayHint"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.InlayHintParams.t()
   end
 
@@ -30,7 +30,7 @@ defmodule GenLSP.Requests.TextDocumentInlayHint do
     schema(__MODULE__, %{
       method: "textDocument/inlayHint",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.InlayHintParams.schema()
     })
   end

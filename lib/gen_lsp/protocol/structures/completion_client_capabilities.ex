@@ -18,13 +18,13 @@ defmodule GenLSP.Structures.CompletionClientCapabilities do
   * insert_text_mode: Defines how the client handles whitespace and indentation
     when accepting a completion item that uses multi line
     text in either `insertText` or `textEdit`.
-
+    
     @since 3.17.0
   * context_support: The client supports to send additional context information for a
     `textDocument/completion` request.
   * completion_list: The client supports the following `CompletionList` specific
     capabilities.
-
+    
     @since 3.17.0
   """
   @derive Jason.Encoder

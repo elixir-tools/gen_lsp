@@ -16,7 +16,7 @@ defmodule GenLSP.Requests.CallHierarchyOutgoingCalls do
   typedstruct do
     field :method, String.t(), default: "callHierarchy/outgoingCalls"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.CallHierarchyOutgoingCallsParams.t()
   end
 
@@ -28,7 +28,7 @@ defmodule GenLSP.Requests.CallHierarchyOutgoingCalls do
     schema(__MODULE__, %{
       method: "callHierarchy/outgoingCalls",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.CallHierarchyOutgoingCallsParams.schema()
     })
   end

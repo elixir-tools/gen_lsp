@@ -18,7 +18,7 @@ defmodule GenLSP.Requests.TextDocumentDefinition do
   typedstruct do
     field :method, String.t(), default: "textDocument/definition"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.DefinitionParams.t()
   end
 
@@ -31,7 +31,7 @@ defmodule GenLSP.Requests.TextDocumentDefinition do
     schema(__MODULE__, %{
       method: "textDocument/definition",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.DefinitionParams.schema()
     })
   end

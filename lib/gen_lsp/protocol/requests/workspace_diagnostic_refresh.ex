@@ -16,7 +16,7 @@ defmodule GenLSP.Requests.WorkspaceDiagnosticRefresh do
   typedstruct do
     field :method, String.t(), default: "workspace/diagnostic/refresh"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
   end
 
   @type result :: nil
@@ -27,7 +27,7 @@ defmodule GenLSP.Requests.WorkspaceDiagnosticRefresh do
     schema(__MODULE__, %{
       method: "workspace/diagnostic/refresh",
       jsonrpc: "2.0",
-      id: int()
+      id: oneof([int(), str()])
     })
   end
 

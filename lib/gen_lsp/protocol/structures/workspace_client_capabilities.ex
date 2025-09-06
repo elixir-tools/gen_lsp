@@ -20,33 +20,33 @@ defmodule GenLSP.Structures.WorkspaceClientCapabilities do
   * symbol: Capabilities specific to the `workspace/symbol` request.
   * execute_command: Capabilities specific to the `workspace/executeCommand` request.
   * workspace_folders: The client has support for workspace folders.
-
+    
     @since 3.6.0
   * configuration: The client supports `workspace/configuration` requests.
-
+    
     @since 3.6.0
   * semantic_tokens: Capabilities specific to the semantic token requests scoped to the
     workspace.
-
+    
     @since 3.16.0.
   * code_lens: Capabilities specific to the code lens requests scoped to the
     workspace.
-
+    
     @since 3.16.0.
   * file_operations: The client has support for file notifications/requests for user operations on files.
-
+    
     Since 3.16.0
   * inline_value: Capabilities specific to the inline values requests scoped to the
     workspace.
-
+    
     @since 3.17.0.
   * inlay_hint: Capabilities specific to the inlay hint requests scoped to the
     workspace.
-
+    
     @since 3.17.0.
   * diagnostics: Capabilities specific to the diagnostic requests scoped to the
     workspace.
-
+    
     @since 3.17.0.
   """
   @derive Jason.Encoder

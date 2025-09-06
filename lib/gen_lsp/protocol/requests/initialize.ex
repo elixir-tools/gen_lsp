@@ -18,7 +18,7 @@ defmodule GenLSP.Requests.Initialize do
   typedstruct do
     field :method, String.t(), default: "initialize"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.InitializeParams.t()
   end
 
@@ -30,7 +30,7 @@ defmodule GenLSP.Requests.Initialize do
     schema(__MODULE__, %{
       method: "initialize",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.InitializeParams.schema()
     })
   end

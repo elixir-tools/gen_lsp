@@ -15,7 +15,7 @@ defmodule GenLSP.Requests.WindowWorkDoneProgressCreate do
   typedstruct do
     field :method, String.t(), default: "window/workDoneProgress/create"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.WorkDoneProgressCreateParams.t()
   end
 
@@ -27,7 +27,7 @@ defmodule GenLSP.Requests.WindowWorkDoneProgressCreate do
     schema(__MODULE__, %{
       method: "window/workDoneProgress/create",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.WorkDoneProgressCreateParams.schema()
     })
   end

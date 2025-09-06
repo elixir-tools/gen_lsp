@@ -18,10 +18,10 @@ defmodule GenLSP.Structures.FoldingRangeClientCapabilities do
     If set, client will ignore specified `startCharacter` and `endCharacter`
     properties in a FoldingRange.
   * folding_range_kind: Specific options for the folding range kind.
-
+    
     @since 3.17.0
   * folding_range: Specific options for the folding range.
-
+    
     @since 3.17.0
   """
   @derive Jason.Encoder

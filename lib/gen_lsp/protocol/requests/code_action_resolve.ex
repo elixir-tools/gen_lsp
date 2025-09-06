@@ -16,7 +16,7 @@ defmodule GenLSP.Requests.CodeActionResolve do
   typedstruct do
     field :method, String.t(), default: "codeAction/resolve"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.CodeAction.t()
   end
 
@@ -28,7 +28,7 @@ defmodule GenLSP.Requests.CodeActionResolve do
     schema(__MODULE__, %{
       method: "codeAction/resolve",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.CodeAction.schema()
     })
   end
