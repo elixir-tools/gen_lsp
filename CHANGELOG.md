@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [0.11.1](https://github.com/elixir-tools/gen_lsp/compare/v0.11.0...v0.11.1) (2025-09-06)
+
+
+### Bug Fixes
+
+* ensure id always exists while handling requests ([#70](https://github.com/elixir-tools/gen_lsp/issues/70)) ([94896de](https://github.com/elixir-tools/gen_lsp/commit/94896dec18227d69d4a0976cd573e94cd81ce369))
+* handle string ids ([#72](https://github.com/elixir-tools/gen_lsp/issues/72)) ([f5e7388](https://github.com/elixir-tools/gen_lsp/commit/f5e7388a5aca46e30b062402d853623d6a1dac47))
+
 ## [0.11.0](https://github.com/elixir-tools/gen_lsp/compare/v0.10.0...v0.11.0) (2025-07-03)
 
 
