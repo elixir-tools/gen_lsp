@@ -324,7 +324,7 @@ defmodule GenLSPTest do
     assert log =~ expected_msg
   end
 
-  test "returns an invalid request when the paylaod is not parseable, but is still deemed a request",
+  test "returns an invalid request when the payload is not parseable, but is still deemed a request",
        %{client: client} do
     assert :ok == request(client, %{"id" => "bingo", "random" => "stuff"})
 
@@ -334,6 +334,38 @@ defmodule GenLSPTest do
                    "code" => -32600
                  },
                  500
+  end
+
+  test "gracefully recovers from invalid requests and continues to accept requests",
+       %{client: client} do
+    assert :ok == request(client, %{"id" => "whoops", "random" => "again"})
+
+    assert_error "whoops",
+                 %{
+                   "message" => "Invalid request from the client" <> _,
+                   "code" => -32600
+                 },
+                 500
+
+    id = System.unique_integer([:positive])
+
+    assert :ok ==
+             request(client, %{
+               "jsonrpc" => "2.0",
+               "method" => "initialize",
+               "params" => %{"capabilities" => %{}},
+               "id" => id
+             })
+
+    assert_result ^id,
+                  %{
+                    "capabilities" => %{
+                      "callHierarchyProvider" => %{"workDoneProgress" => true},
+                      "experimental" => nil
+                    },
+                    "serverInfo" => %{"name" => "Test LSP"}
+                  },
+                  500
   end
 
   test "logs when an invalid payload is received", %{client: client} do

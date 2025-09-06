@@ -332,7 +332,7 @@ defmodule GenLSP do
         start = System.system_time(:microsecond)
         :telemetry.execute([:gen_lsp, :request, :client, :start], %{})
 
-        me = self()
+        id = request["id"]
 
         {:ok, task} =
           attempt(
@@ -352,7 +352,7 @@ defmodule GenLSP do
 
                 packet = %{
                   "jsonrpc" => "2.0",
-                  "id" => Process.get(:request_id),
+                  "id" => id,
                   "error" => output
                 }
 
@@ -363,10 +363,7 @@ defmodule GenLSP do
 
               _ ->
                 case GenLSP.Requests.new(request) do
-                  {:ok, %{id: id} = req} ->
-                    Process.put(:request_id, id)
-                    send(me, {:request_id, id})
-
+                  {:ok, req} ->
                     result =
                       :telemetry.span([:gen_lsp, :handle_request], %{method: req.method}, fn ->
                         {lsp.mod.handle_request(req, lsp), %{}}
@@ -455,7 +452,7 @@ defmodule GenLSP do
 
                     packet = %{
                       "jsonrpc" => "2.0",
-                      "id" => request["id"],
+                      "id" => id,
                       "error" => output
                     }
 
@@ -463,12 +460,6 @@ defmodule GenLSP do
                 end
             end
           )
-
-        id =
-          receive do
-            {:request_id, id} ->
-              id
-          end
 
         tasks = Map.put(lsp.tasks, id, task)
 
