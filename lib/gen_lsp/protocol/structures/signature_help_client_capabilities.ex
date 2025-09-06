@@ -18,7 +18,7 @@ defmodule GenLSP.Structures.SignatureHelpClientCapabilities do
     `textDocument/signatureHelp` request. A client that opts into
     contextSupport will also support the `retriggerCharacters` on
     `SignatureHelpOptions`.
-
+    
     @since 3.15.0
   """
   @derive Jason.Encoder

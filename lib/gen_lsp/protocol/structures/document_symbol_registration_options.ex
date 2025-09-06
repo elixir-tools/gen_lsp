@@ -15,7 +15,7 @@ defmodule GenLSP.Structures.DocumentSymbolRegistrationOptions do
     the document selector provided on the client side will be used.
   * label: A human-readable string that is shown when multiple outlines trees
     are shown for the same document.
-
+    
     @since 3.16.0
   """
   @derive Jason.Encoder

@@ -14,7 +14,7 @@ defmodule GenLSP.Requests.TextDocumentCodeAction do
   typedstruct do
     field :method, String.t(), default: "textDocument/codeAction"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.CodeActionParams.t()
   end
 
@@ -26,7 +26,7 @@ defmodule GenLSP.Requests.TextDocumentCodeAction do
     schema(__MODULE__, %{
       method: "textDocument/codeAction",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.CodeActionParams.schema()
     })
   end

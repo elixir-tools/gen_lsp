@@ -14,7 +14,7 @@ defmodule GenLSP.Requests.CodeLensResolve do
   typedstruct do
     field :method, String.t(), default: "codeLens/resolve"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.CodeLens.t()
   end
 
@@ -26,7 +26,7 @@ defmodule GenLSP.Requests.CodeLensResolve do
     schema(__MODULE__, %{
       method: "codeLens/resolve",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.CodeLens.schema()
     })
   end

@@ -13,7 +13,7 @@ defmodule GenLSP.Structures.PublishDiagnosticsParams do
 
   * uri: The URI for which diagnostic information is reported.
   * version: Optional the version number of the document the diagnostics are published for.
-
+    
     @since 3.15.0
   * diagnostics: An array of diagnostic information items.
   """

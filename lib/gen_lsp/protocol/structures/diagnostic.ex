@@ -18,20 +18,20 @@ defmodule GenLSP.Structures.Diagnostic do
   * code: The diagnostic's code, which usually appear in the user interface.
   * code_description: An optional property to describe the error code.
     Requires the code field (above) to be present/not null.
-
+    
     @since 3.16.0
   * source: A human-readable string describing the source of this
     diagnostic, e.g. 'typescript' or 'super lint'. It usually
     appears in the user interface.
   * message: The diagnostic's message. It usually appears in the user interface
   * tags: Additional metadata about the diagnostic.
-
+    
     @since 3.15.0
   * related_information: An array of related diagnostic information, e.g. when symbol-names within
     a scope collide all definitions can be marked via this property.
   * data: A data entry field that is preserved between a `textDocument/publishDiagnostics`
     notification and `textDocument/codeAction` request.
-
+    
     @since 3.16.0
   """
   @derive Jason.Encoder

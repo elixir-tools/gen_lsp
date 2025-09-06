@@ -14,7 +14,7 @@ defmodule GenLSP.Requests.WorkspaceInlayHintRefresh do
   typedstruct do
     field :method, String.t(), default: "workspace/inlayHint/refresh"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
   end
 
   @type result :: nil
@@ -25,7 +25,7 @@ defmodule GenLSP.Requests.WorkspaceInlayHintRefresh do
     schema(__MODULE__, %{
       method: "workspace/inlayHint/refresh",
       jsonrpc: "2.0",
-      id: int()
+      id: oneof([int(), str()])
     })
   end
 

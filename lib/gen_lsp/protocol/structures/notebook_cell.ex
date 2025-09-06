@@ -21,7 +21,7 @@ defmodule GenLSP.Structures.NotebookCell do
   * document: The URI of the cell's text document
     content.
   * metadata: Additional metadata stored with the cell.
-
+    
     Note: should always be an object literal (e.g. LSPObject)
   * execution_summary: Additional execution summary information
     if supported by the client.

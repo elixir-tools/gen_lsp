@@ -16,7 +16,7 @@ defmodule GenLSP.Requests.DocumentLinkResolve do
   typedstruct do
     field :method, String.t(), default: "documentLink/resolve"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.DocumentLink.t()
   end
 
@@ -28,7 +28,7 @@ defmodule GenLSP.Requests.DocumentLinkResolve do
     schema(__MODULE__, %{
       method: "documentLink/resolve",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.DocumentLink.schema()
     })
   end

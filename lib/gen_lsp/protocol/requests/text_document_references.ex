@@ -17,7 +17,7 @@ defmodule GenLSP.Requests.TextDocumentReferences do
   typedstruct do
     field :method, String.t(), default: "textDocument/references"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.ReferenceParams.t()
   end
 
@@ -29,7 +29,7 @@ defmodule GenLSP.Requests.TextDocumentReferences do
     schema(__MODULE__, %{
       method: "textDocument/references",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.ReferenceParams.schema()
     })
   end

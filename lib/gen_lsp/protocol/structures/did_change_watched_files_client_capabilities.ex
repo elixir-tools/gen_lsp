@@ -12,7 +12,7 @@ defmodule GenLSP.Structures.DidChangeWatchedFilesClientCapabilities do
     from the server side.
   * relative_pattern_support: Whether the client has support for {@link  RelativePattern relative pattern}
     or not.
-
+    
     @since 3.17.0
   """
   @derive Jason.Encoder

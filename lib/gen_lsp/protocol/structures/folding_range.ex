@@ -24,7 +24,7 @@ defmodule GenLSP.Structures.FoldingRange do
   * collapsed_text: The text that the client should show when the specified range is
     collapsed. If not defined or not supported by the client, a default
     will be chosen by the client.
-
+    
     @since 3.17.0
   """
   @derive Jason.Encoder

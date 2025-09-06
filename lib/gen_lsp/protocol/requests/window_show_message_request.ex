@@ -15,7 +15,7 @@ defmodule GenLSP.Requests.WindowShowMessageRequest do
   typedstruct do
     field :method, String.t(), default: "window/showMessageRequest"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.ShowMessageRequestParams.t()
   end
 
@@ -27,7 +27,7 @@ defmodule GenLSP.Requests.WindowShowMessageRequest do
     schema(__MODULE__, %{
       method: "window/showMessageRequest",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.ShowMessageRequestParams.schema()
     })
   end

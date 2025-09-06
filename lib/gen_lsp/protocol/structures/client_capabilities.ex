@@ -14,11 +14,11 @@ defmodule GenLSP.Structures.ClientCapabilities do
   * workspace: Workspace specific client capabilities.
   * text_document: Text document specific client capabilities.
   * notebook_document: Capabilities specific to the notebook document support.
-
+    
     @since 3.17.0
   * window: Window specific client capabilities.
   * general: General client capabilities.
-
+    
     @since 3.16.0
   * experimental: Experimental client capabilities.
   """

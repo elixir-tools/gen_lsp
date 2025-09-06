@@ -14,7 +14,7 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensFull do
   typedstruct do
     field :method, String.t(), default: "textDocument/semanticTokens/full"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.SemanticTokensParams.t()
   end
 
@@ -26,7 +26,7 @@ defmodule GenLSP.Requests.TextDocumentSemanticTokensFull do
     schema(__MODULE__, %{
       method: "textDocument/semanticTokens/full",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.SemanticTokensParams.schema()
     })
   end

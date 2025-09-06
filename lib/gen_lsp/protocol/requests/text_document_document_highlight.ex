@@ -17,7 +17,7 @@ defmodule GenLSP.Requests.TextDocumentDocumentHighlight do
   typedstruct do
     field :method, String.t(), default: "textDocument/documentHighlight"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.DocumentHighlightParams.t()
   end
 
@@ -29,7 +29,7 @@ defmodule GenLSP.Requests.TextDocumentDocumentHighlight do
     schema(__MODULE__, %{
       method: "textDocument/documentHighlight",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.DocumentHighlightParams.schema()
     })
   end

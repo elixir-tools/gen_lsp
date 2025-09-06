@@ -13,7 +13,7 @@ defmodule GenLSP.Structures.DocumentSymbolOptions do
 
   * label: A human-readable string that is shown when multiple outlines trees
     are shown for the same document.
-
+    
     @since 3.16.0
   * work_done_progress
   """

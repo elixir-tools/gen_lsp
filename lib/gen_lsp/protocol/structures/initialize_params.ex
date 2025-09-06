@@ -9,38 +9,38 @@ defmodule GenLSP.Structures.InitializeParams do
 
   * process_id: The process Id of the parent process that started
     the server.
-
+    
     Is `null` if the process has not been started by another process.
     If the parent process is not alive then the server should exit.
   * client_info: Information about the client
-
+    
     @since 3.15.0
   * locale: The locale the client is currently showing the user interface
     in. This must not necessarily be the locale of the operating
     system.
-
+    
     Uses IETF language tags as the value's syntax
     (See https://en.wikipedia.org/wiki/IETF_language_tag)
-
+    
     @since 3.16.0
   * root_path: The rootPath of the workspace. Is null
     if no folder is open.
-
+    
     @deprecated in favour of rootUri.
   * root_uri: The rootUri of the workspace. Is null if no
     folder is open. If both `rootPath` and `rootUri` are set
     `rootUri` wins.
-
+    
     @deprecated in favour of workspaceFolders.
   * capabilities: The capabilities provided by the client (editor or tool)
   * initialization_options: User provided initialization options.
   * trace: The initial trace setting. If omitted trace is disabled ('off').
   * workspace_folders: The workspace folders configured in the client when the server starts.
-
+    
     This property is only available if the client supports workspace folders.
     It can be `null` if the client supports workspace folders but none are
     configured.
-
+    
     @since 3.6.0
   """
   @derive Jason.Encoder

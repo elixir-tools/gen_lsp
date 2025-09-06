@@ -15,7 +15,7 @@ defmodule GenLSP.Structures.ImplementationClientCapabilities do
     the client supports the new `ImplementationRegistrationOptions` return value
     for the corresponding server capability as well.
   * link_support: The client supports additional metadata in the form of definition links.
-
+    
     @since 3.14.0
   """
   @derive Jason.Encoder

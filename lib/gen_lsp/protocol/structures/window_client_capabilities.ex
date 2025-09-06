@@ -9,18 +9,18 @@ defmodule GenLSP.Structures.WindowClientCapabilities do
 
   * work_done_progress: It indicates whether the client supports server initiated
     progress using the `window/workDoneProgress/create` request.
-
+    
     The capability also controls Whether client supports handling
     of progress notifications. If set servers are allowed to report a
     `workDoneProgress` property in the request specific server
     capabilities.
-
+    
     @since 3.15.0
   * show_message: Capabilities specific to the showMessage request.
-
+    
     @since 3.16.0
   * show_document: Capabilities specific to the showDocument request.
-
+    
     @since 3.16.0
   """
   @derive Jason.Encoder

@@ -19,7 +19,7 @@ defmodule GenLSP.Requests.WindowShowDocument do
   typedstruct do
     field :method, String.t(), default: "window/showDocument"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.ShowDocumentParams.t()
   end
 
@@ -31,7 +31,7 @@ defmodule GenLSP.Requests.WindowShowDocument do
     schema(__MODULE__, %{
       method: "window/showDocument",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.ShowDocumentParams.schema()
     })
   end

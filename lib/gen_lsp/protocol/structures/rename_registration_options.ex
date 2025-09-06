@@ -14,7 +14,7 @@ defmodule GenLSP.Structures.RenameRegistrationOptions do
   * document_selector: A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used.
   * prepare_provider: Renames should be checked and tested before being executed.
-
+    
     @since version 3.12.0
   """
   @derive Jason.Encoder

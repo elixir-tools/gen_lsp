@@ -13,7 +13,7 @@ defmodule GenLSP.Structures.DocumentLinkClientCapabilities do
 
   * dynamic_registration: Whether document link supports dynamic registration.
   * tooltip_support: Whether the client supports the `tooltip` property on `DocumentLink`.
-
+    
     @since 3.15.0
   """
   @derive Jason.Encoder

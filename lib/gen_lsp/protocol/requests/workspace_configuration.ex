@@ -20,7 +20,7 @@ defmodule GenLSP.Requests.WorkspaceConfiguration do
   typedstruct do
     field :method, String.t(), default: "workspace/configuration"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.ConfigurationParams.t()
   end
 
@@ -32,7 +32,7 @@ defmodule GenLSP.Requests.WorkspaceConfiguration do
     schema(__MODULE__, %{
       method: "workspace/configuration",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.ConfigurationParams.schema()
     })
   end

@@ -14,7 +14,7 @@ defmodule GenLSP.Structures.BaseSymbolInformation do
   * name: The name of this symbol.
   * kind: The kind of this symbol.
   * tags: Tags for this symbol.
-
+    
     @since 3.16.0
   * container_name: The name of the symbol containing this symbol. This information is for
     user interface purposes (e.g. to render a qualifier in the user interface

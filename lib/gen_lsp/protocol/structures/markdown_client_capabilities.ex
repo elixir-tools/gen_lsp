@@ -17,7 +17,7 @@ defmodule GenLSP.Structures.MarkdownClientCapabilities do
   * version: The version of the parser.
   * allowed_tags: A list of HTML tags that the client allows / supports in
     Markdown.
-
+    
     @since 3.17.0
   """
   @derive Jason.Encoder

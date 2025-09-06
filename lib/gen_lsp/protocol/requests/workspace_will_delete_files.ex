@@ -17,7 +17,7 @@ defmodule GenLSP.Requests.WorkspaceWillDeleteFiles do
   typedstruct do
     field :method, String.t(), default: "workspace/willDeleteFiles"
     field :jsonrpc, String.t(), default: "2.0"
-    field :id, integer(), enforce: true
+    field :id, integer() | String.t(), enforce: true
     field :params, GenLSP.Structures.DeleteFilesParams.t()
   end
 
@@ -29,7 +29,7 @@ defmodule GenLSP.Requests.WorkspaceWillDeleteFiles do
     schema(__MODULE__, %{
       method: "workspace/willDeleteFiles",
       jsonrpc: "2.0",
-      id: int(),
+      id: oneof([int(), str()]),
       params: GenLSP.Structures.DeleteFilesParams.schema()
     })
   end

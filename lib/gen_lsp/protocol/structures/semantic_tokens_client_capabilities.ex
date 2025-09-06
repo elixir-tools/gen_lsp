@@ -31,17 +31,17 @@ defmodule GenLSP.Structures.SemanticTokensClientCapabilities do
     semantic token request, e.g. supports returning
     LSPErrorCodes.ServerCancelled. If a server does the client
     needs to retrigger the request.
-
+    
     @since 3.17.0
   * augments_syntax_tokens: Whether the client uses semantic tokens to augment existing
     syntax tokens. If set to `true` client side created syntax
     tokens and semantic tokens are both used for colorization. If
     set to `false` the client only uses the returned semantic tokens
     for colorization.
-
+    
     If the value is `undefined` then the client behavior is not
     specified.
-
+    
     @since 3.17.0
   """
   @derive Jason.Encoder
