@@ -12,7 +12,7 @@ locals = [
 
 [
   locals_without_parens: locals,
-  import_deps: [:typed_struct],
+  import_deps: [:typed_struct, :stream_data],
   inputs: ["{mix,.formatter}.exs", "{config,lib,test,}/**/*.{ex,exs}"],
   export: [
     locals_without_parens: locals
