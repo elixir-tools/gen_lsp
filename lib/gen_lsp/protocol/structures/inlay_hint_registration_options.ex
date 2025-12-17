@@ -17,6 +17,7 @@ defmodule GenLSP.Structures.InlayHintRegistrationOptions do
     the request again. See also Registration#id.
   * resolve_provider: The server provides support to resolve additional
     information for an inlay hint item.
+  * work_done_progress
   * document_selector: A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used.
   """
@@ -24,6 +25,7 @@ defmodule GenLSP.Structures.InlayHintRegistrationOptions do
   typedstruct do
     field :id, String.t()
     field :resolve_provider, boolean()
+    field :work_done_progress, boolean()
     field :document_selector, GenLSP.TypeAlias.DocumentSelector.t() | nil, enforce: true
   end
 
@@ -33,6 +35,7 @@ defmodule GenLSP.Structures.InlayHintRegistrationOptions do
     schema(__MODULE__, %{
       optional({"id", :id}) => str(),
       optional({"resolveProvider", :resolve_provider}) => bool(),
+      optional({"workDoneProgress", :work_done_progress}) => bool(),
       {"documentSelector", :document_selector} =>
         oneof([GenLSP.TypeAlias.DocumentSelector.schema(), nil])
     })

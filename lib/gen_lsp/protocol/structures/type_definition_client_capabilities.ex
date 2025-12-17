@@ -15,7 +15,7 @@ defmodule GenLSP.Structures.TypeDefinitionClientCapabilities do
     the client supports the new `TypeDefinitionRegistrationOptions` return value
     for the corresponding server capability as well.
   * link_support: The client supports additional metadata in the form of definition links.
-    
+
     Since 3.14.0
   """
   @derive Jason.Encoder

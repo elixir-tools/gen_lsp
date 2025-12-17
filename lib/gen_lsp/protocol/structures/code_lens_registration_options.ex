@@ -14,11 +14,13 @@ defmodule GenLSP.Structures.CodeLensRegistrationOptions do
   * document_selector: A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used.
   * resolve_provider: Code lens has a resolve provider as well.
+  * work_done_progress
   """
   @derive Jason.Encoder
   typedstruct do
     field :document_selector, GenLSP.TypeAlias.DocumentSelector.t() | nil, enforce: true
     field :resolve_provider, boolean()
+    field :work_done_progress, boolean()
   end
 
   @doc false
@@ -27,7 +29,8 @@ defmodule GenLSP.Structures.CodeLensRegistrationOptions do
     schema(__MODULE__, %{
       {"documentSelector", :document_selector} =>
         oneof([GenLSP.TypeAlias.DocumentSelector.schema(), nil]),
-      optional({"resolveProvider", :resolve_provider}) => bool()
+      optional({"resolveProvider", :resolve_provider}) => bool(),
+      optional({"workDoneProgress", :work_done_progress}) => bool()
     })
   end
 end

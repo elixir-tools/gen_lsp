@@ -14,13 +14,13 @@ defmodule GenLSP.Structures.FormattingOptions do
   * tab_size: Size of a tab in spaces.
   * insert_spaces: Prefer spaces over tabs.
   * trim_trailing_whitespace: Trim trailing whitespace on a line.
-    
+
     @since 3.15.0
   * insert_final_newline: Insert a newline character at the end of the file if one does not exist.
-    
+
     @since 3.15.0
   * trim_final_newlines: Trim all newlines after the final newline at the end of the file.
-    
+
     @since 3.15.0
   """
   @derive Jason.Encoder

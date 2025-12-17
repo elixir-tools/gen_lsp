@@ -15,12 +15,12 @@ defmodule GenLSP.Structures.WorkspaceSymbolClientCapabilities do
   * symbol_kind: Specific capabilities for the `SymbolKind` in the `workspace/symbol` request.
   * tag_support: The client supports tags on `SymbolInformation`.
     Clients supporting tags have to handle unknown tags gracefully.
-    
+
     @since 3.16.0
   * resolve_support: The client support partial workspace symbols. The client will send the
     request `workspaceSymbol/resolve` to the server to resolve additional
     properties.
-    
+
     @since 3.17.0
   """
   @derive Jason.Encoder

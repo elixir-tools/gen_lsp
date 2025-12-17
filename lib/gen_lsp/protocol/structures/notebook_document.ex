@@ -19,7 +19,7 @@ defmodule GenLSP.Structures.NotebookDocument do
     change, including undo/redo).
   * metadata: Additional metadata stored with the notebook
     document.
-    
+
     Note: should always be an object literal (e.g. LSPObject)
   * cells: The cells of a notebook.
   """

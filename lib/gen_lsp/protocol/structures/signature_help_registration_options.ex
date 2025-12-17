@@ -15,17 +15,19 @@ defmodule GenLSP.Structures.SignatureHelpRegistrationOptions do
     the document selector provided on the client side will be used.
   * trigger_characters: List of characters that trigger signature help automatically.
   * retrigger_characters: List of characters that re-trigger signature help.
-    
+
     These trigger characters are only active when signature help is already showing. All trigger characters
     are also counted as re-trigger characters.
-    
+
     @since 3.15.0
+  * work_done_progress
   """
   @derive Jason.Encoder
   typedstruct do
     field :document_selector, GenLSP.TypeAlias.DocumentSelector.t() | nil, enforce: true
     field :trigger_characters, list(String.t())
     field :retrigger_characters, list(String.t())
+    field :work_done_progress, boolean()
   end
 
   @doc false
@@ -35,7 +37,8 @@ defmodule GenLSP.Structures.SignatureHelpRegistrationOptions do
       {"documentSelector", :document_selector} =>
         oneof([GenLSP.TypeAlias.DocumentSelector.schema(), nil]),
       optional({"triggerCharacters", :trigger_characters}) => list(str()),
-      optional({"retriggerCharacters", :retrigger_characters}) => list(str())
+      optional({"retriggerCharacters", :retrigger_characters}) => list(str()),
+      optional({"workDoneProgress", :work_done_progress}) => bool()
     })
   end
 end

@@ -13,7 +13,7 @@ defmodule GenLSP.Structures.ResourceOperation do
 
   * kind: The resource operation kind.
   * annotation_id: An optional annotation identifier describing the operation.
-    
+
     @since 3.16.0
   """
   @derive Jason.Encoder

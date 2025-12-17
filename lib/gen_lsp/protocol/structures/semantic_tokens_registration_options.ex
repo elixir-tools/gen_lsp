@@ -19,6 +19,7 @@ defmodule GenLSP.Structures.SemanticTokensRegistrationOptions do
   * range: Server supports providing semantic tokens for a specific range
     of a document.
   * full: Server supports providing semantic tokens for a full document.
+  * work_done_progress
   """
   @derive Jason.Encoder
   typedstruct do
@@ -27,6 +28,7 @@ defmodule GenLSP.Structures.SemanticTokensRegistrationOptions do
     field :legend, GenLSP.Structures.SemanticTokensLegend.t(), enforce: true
     field :range, boolean() | map()
     field :full, boolean() | map()
+    field :work_done_progress, boolean()
   end
 
   @doc false
@@ -44,7 +46,8 @@ defmodule GenLSP.Structures.SemanticTokensRegistrationOptions do
           map(%{
             optional({"delta", :delta}) => bool()
           })
-        ])
+        ]),
+      optional({"workDoneProgress", :work_done_progress}) => bool()
     })
   end
 end

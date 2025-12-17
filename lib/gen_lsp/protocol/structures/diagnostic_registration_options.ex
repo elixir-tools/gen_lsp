@@ -24,6 +24,7 @@ defmodule GenLSP.Structures.DiagnosticRegistrationOptions do
     set in another file. Inter file dependencies are common for
     most programming languages and typically uncommon for linters.
   * workspace_diagnostics: The server provides support for workspace diagnostics as well.
+  * work_done_progress
   """
   @derive Jason.Encoder
   typedstruct do
@@ -32,6 +33,7 @@ defmodule GenLSP.Structures.DiagnosticRegistrationOptions do
     field :identifier, String.t()
     field :inter_file_dependencies, boolean(), enforce: true
     field :workspace_diagnostics, boolean(), enforce: true
+    field :work_done_progress, boolean()
   end
 
   @doc false
@@ -43,7 +45,8 @@ defmodule GenLSP.Structures.DiagnosticRegistrationOptions do
         oneof([GenLSP.TypeAlias.DocumentSelector.schema(), nil]),
       optional({"identifier", :identifier}) => str(),
       {"interFileDependencies", :inter_file_dependencies} => bool(),
-      {"workspaceDiagnostics", :workspace_diagnostics} => bool()
+      {"workspaceDiagnostics", :workspace_diagnostics} => bool(),
+      optional({"workDoneProgress", :work_done_progress}) => bool()
     })
   end
 end

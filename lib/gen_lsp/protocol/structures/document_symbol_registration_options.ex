@@ -15,13 +15,15 @@ defmodule GenLSP.Structures.DocumentSymbolRegistrationOptions do
     the document selector provided on the client side will be used.
   * label: A human-readable string that is shown when multiple outlines trees
     are shown for the same document.
-    
+
     @since 3.16.0
+  * work_done_progress
   """
   @derive Jason.Encoder
   typedstruct do
     field :document_selector, GenLSP.TypeAlias.DocumentSelector.t() | nil, enforce: true
     field :label, String.t()
+    field :work_done_progress, boolean()
   end
 
   @doc false
@@ -30,7 +32,8 @@ defmodule GenLSP.Structures.DocumentSymbolRegistrationOptions do
     schema(__MODULE__, %{
       {"documentSelector", :document_selector} =>
         oneof([GenLSP.TypeAlias.DocumentSelector.schema(), nil]),
-      optional({"label", :label}) => str()
+      optional({"label", :label}) => str(),
+      optional({"workDoneProgress", :work_done_progress}) => bool()
     })
   end
 end

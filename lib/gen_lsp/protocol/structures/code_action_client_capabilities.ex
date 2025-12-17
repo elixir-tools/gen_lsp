@@ -15,29 +15,29 @@ defmodule GenLSP.Structures.CodeActionClientCapabilities do
   * code_action_literal_support: The client support code action literals of type `CodeAction` as a valid
     response of the `textDocument/codeAction` request. If the property is not
     set the request can only return `Command` literals.
-    
+
     @since 3.8.0
   * is_preferred_support: Whether code action supports the `isPreferred` property.
-    
+
     @since 3.15.0
   * disabled_support: Whether code action supports the `disabled` property.
-    
+
     @since 3.16.0
   * data_support: Whether code action supports the `data` property which is
     preserved between a `textDocument/codeAction` and a
     `codeAction/resolve` request.
-    
+
     @since 3.16.0
   * resolve_support: Whether the client supports resolving additional code action
     properties via a separate `codeAction/resolve` request.
-    
+
     @since 3.16.0
   * honors_change_annotations: Whether the client honors the change annotations in
     text edits and resource operations returned via the
     `CodeAction#edit` property by for example presenting
     the workspace edit in the user interface and asking
     for confirmation.
-    
+
     @since 3.16.0
   """
   @derive Jason.Encoder

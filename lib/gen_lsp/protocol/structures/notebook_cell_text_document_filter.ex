@@ -19,7 +19,7 @@ defmodule GenLSP.Structures.NotebookCellTextDocumentFilter do
     value is provided it matches against the
     notebook type. '*' matches every notebook.
   * language: A language id like `python`.
-    
+
     Will be matched against the language id of the
     notebook cell document. '*' matches every language.
   """

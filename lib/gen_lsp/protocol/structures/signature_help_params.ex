@@ -13,7 +13,7 @@ defmodule GenLSP.Structures.SignatureHelpParams do
 
   * context: The signature help context. This is only available if the client specifies
     to send this using the client capability `textDocument.signatureHelp.contextSupport === true`
-    
+
     @since 3.15.0
   * work_done_token: An optional token that a server can use to report work done progress.
   * text_document: The text document.

@@ -16,7 +16,7 @@ defmodule GenLSP.Structures.TextDocumentEdit do
 
   * text_document: The text document to change.
   * edits: The edits to be applied.
-    
+
     @since 3.16.0 - support for AnnotatedTextEdit. This is guarded using a
     client capability.
   """

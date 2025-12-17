@@ -15,7 +15,7 @@ defmodule GenLSP.Structures.CreateFile do
   * uri: The resource to create.
   * options: Additional options
   * annotation_id: An optional annotation identifier describing the operation.
-    
+
     @since 3.16.0
   """
   @derive Jason.Encoder

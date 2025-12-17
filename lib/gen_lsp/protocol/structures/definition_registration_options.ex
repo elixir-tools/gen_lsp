@@ -13,10 +13,12 @@ defmodule GenLSP.Structures.DefinitionRegistrationOptions do
 
   * document_selector: A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used.
+  * work_done_progress
   """
   @derive Jason.Encoder
   typedstruct do
     field :document_selector, GenLSP.TypeAlias.DocumentSelector.t() | nil, enforce: true
+    field :work_done_progress, boolean()
   end
 
   @doc false
@@ -24,7 +26,8 @@ defmodule GenLSP.Structures.DefinitionRegistrationOptions do
   def schema() do
     schema(__MODULE__, %{
       {"documentSelector", :document_selector} =>
-        oneof([GenLSP.TypeAlias.DocumentSelector.schema(), nil])
+        oneof([GenLSP.TypeAlias.DocumentSelector.schema(), nil]),
+      optional({"workDoneProgress", :work_done_progress}) => bool()
     })
   end
 end

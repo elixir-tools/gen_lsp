@@ -18,11 +18,11 @@ defmodule GenLSP.Structures.DocumentSymbolClientCapabilities do
   * tag_support: The client supports tags on `SymbolInformation`. Tags are supported on
     `DocumentSymbol` if `hierarchicalDocumentSymbolSupport` is set to true.
     Clients supporting tags have to handle unknown tags gracefully.
-    
+
     @since 3.16.0
   * label_support: The client supports an additional label presented in the UI when
     registering a document symbol provider.
-    
+
     @since 3.16.0
   """
   @derive Jason.Encoder

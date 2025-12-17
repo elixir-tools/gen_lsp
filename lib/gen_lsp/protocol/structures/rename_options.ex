@@ -12,7 +12,7 @@ defmodule GenLSP.Structures.RenameOptions do
   ## Fields
 
   * prepare_provider: Renames should be checked and tested before being executed.
-    
+
     @since version 3.12.0
   * work_done_progress
   """
