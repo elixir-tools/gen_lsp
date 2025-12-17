@@ -19,7 +19,7 @@ defmodule GenLSPTest do
     assert %{foo: :bar, test_pid: self()} == :sys.get_state(server.assigns)
   end
 
-  test "can receive and reply to a request", %{client: client} do
+  test "can receive and reply to a request, with handle_continue", %{client: client} do
     id = System.unique_integer([:positive])
 
     assert :ok ==
@@ -30,6 +30,7 @@ defmodule GenLSPTest do
                "id" => id
              })
 
+    # Response arrives first
     assert_result ^id,
                   %{
                     "capabilities" => %{
@@ -39,6 +40,9 @@ defmodule GenLSPTest do
                     "serverInfo" => %{"name" => "Test LSP"}
                   },
                   500
+
+    # Then handle_continue fires (after response is flushed to wire)
+    assert_notification "window/logMessage", %{"message" => "post_init continue executed"}, 500
   end
 
   test "accepts a string id", %{client: client} do
@@ -271,6 +275,13 @@ defmodule GenLSPTest do
     send(server.lsp, "hi")
 
     assert_receive {:info, :ack}
+  end
+
+  test "handle_continue chains in sequence", %{server: server} do
+    send(server.lsp, :trigger_chain)
+
+    assert_receive {:continue, :chain_step1}, 500
+    assert_receive {:continue, :chain_step2}, 500
   end
 
   test "can respond with an error", %{client: client} do

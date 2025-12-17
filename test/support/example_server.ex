@@ -24,7 +24,7 @@ defmodule GenLSPTest.ExampleServer do
          call_hierarchy_provider: %CallHierarchyOptions{work_done_progress: true}
        },
        server_info: %{name: "Test LSP"}
-     }, lsp}
+     }, lsp, {:continue, :post_init}}
   end
 
   def handle_request(%Requests.TextDocumentFormatting{}, lsp) do
@@ -54,6 +54,23 @@ defmodule GenLSPTest.ExampleServer do
      }, lsp}
   end
 
+  @impl true
+  def handle_continue(:post_init, lsp) do
+    GenLSP.log(lsp, "post_init continue executed")
+    {:noreply, lsp}
+  end
+
+  def handle_continue(:chain_step1, lsp) do
+    send(assigns(lsp).test_pid, {:continue, :chain_step1})
+    {:noreply, lsp, {:continue, :chain_step2}}
+  end
+
+  def handle_continue(:chain_step2, lsp) do
+    send(assigns(lsp).test_pid, {:continue, :chain_step2})
+    {:noreply, lsp}
+  end
+
+  @impl true
   def handle_notification(%Notifications.Initialized{}, lsp) do
     GenLSP.request(lsp, %GenLSP.Requests.ClientRegisterCapability{
       id: System.unique_integer([:positive]),
@@ -133,6 +150,10 @@ defmodule GenLSPTest.ExampleServer do
   def handle_info(:boom, lsp) do
     raise "boom"
     {:noreply, lsp}
+  end
+
+  def handle_info(:trigger_chain, lsp) do
+    {:noreply, lsp, {:continue, :chain_step1}}
   end
 
   def handle_info(_message, lsp) do

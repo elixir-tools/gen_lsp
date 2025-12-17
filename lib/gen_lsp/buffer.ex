@@ -53,6 +53,11 @@ defmodule GenLSP.Buffer do
   end
 
   @doc false
+  def outgoing_flush(server, packet) do
+    GenServer.call(server, {:outgoing_flush, packet})
+  end
+
+  @doc false
   def comm_state(server) do
     GenServer.call(server, :comm_state)
   end
@@ -77,6 +82,15 @@ defmodule GenLSP.Buffer do
     end)
 
     {:noreply, %{state | awaiting_response: Map.put(state.awaiting_response, id, from)}}
+  end
+
+  def handle_call({:outgoing_flush, packet}, _from, state) do
+    :telemetry.span([:gen_lsp, :buffer, :outgoing], %{kind: :flush}, fn ->
+      :ok = state.comm.write(Jason.encode!(packet), state.comm_data)
+      {:ok, %{}}
+    end)
+
+    {:reply, :ok, state}
   end
 
   @doc false
