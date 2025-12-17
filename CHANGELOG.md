@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.11.2](https://github.com/elixir-tools/gen_lsp/compare/v0.11.1...v0.11.2) (2025-12-17)
+
+
+### Bug Fixes
+
+* include workDoneProgress token ([3258e11](https://github.com/elixir-tools/gen_lsp/commit/3258e116ba5cc4edf8a9bcb132aab0d490ea2f57))
+
 ## [0.11.1](https://github.com/elixir-tools/gen_lsp/compare/v0.11.0...v0.11.1) (2025-09-06)
 
 
