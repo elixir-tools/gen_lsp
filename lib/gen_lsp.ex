@@ -83,6 +83,8 @@ defmodule GenLSP do
     end
   end
 
+  @optional_callbacks handle_continue: 2
+
   require Logger
 
   @doc """
@@ -101,7 +103,8 @@ defmodule GenLSP do
   end
   ```
   """
-  @callback init(lsp :: GenLSP.LSP.t(), init_arg :: term()) :: {:ok, GenLSP.LSP.t()}
+  @callback init(lsp :: GenLSP.LSP.t(), init_arg :: term()) ::
+              {:ok, GenLSP.LSP.t()} | {:ok, GenLSP.LSP.t(), {:continue, term()}}
   @doc """
   The callback responsible for handling requests from the client.
 
@@ -127,7 +130,10 @@ defmodule GenLSP do
   ```
   """
   @callback handle_request(request :: term(), state) ::
-              {:reply, reply :: term(), state} | {:noreply, state}
+              {:reply, reply :: term(), state}
+              | {:reply, reply :: term(), state, {:continue, term()}}
+              | {:noreply, state}
+              | {:noreply, state, {:continue, term()}}
             when state: GenLSP.LSP.t()
   @doc """
   The callback responsible for handling notifications from the client.
@@ -145,7 +151,8 @@ defmodule GenLSP do
   end
   ```
   """
-  @callback handle_notification(notification :: term(), state) :: {:noreply, state}
+  @callback handle_notification(notification :: term(), state) ::
+              {:noreply, state} | {:noreply, state, {:continue, term()}}
             when state: GenLSP.LSP.t()
   @doc """
   The callback responsible for handling normal messages.
@@ -163,7 +170,20 @@ defmodule GenLSP do
   end
   ```
   """
-  @callback handle_info(message :: any(), state) :: {:noreply, state} when state: GenLSP.LSP.t()
+  @callback handle_info(message :: any(), state) ::
+              {:noreply, state} | {:noreply, state, {:continue, term()}}
+            when state: GenLSP.LSP.t()
+
+  @doc """
+  Invoked to handle continue instructions, workalike to `GenServer.handle_continue/2`.
+
+  The continue callback is guaranteed to execute after the initiating reply was written to
+  the wire. This ensures the client receives the response before any side effects from
+  the continue callback.
+  """
+  @callback handle_continue(continue_arg :: term(), state) ::
+              {:noreply, state} | {:noreply, state, {:continue, term()}}
+            when state: GenLSP.LSP.t()
 
   @options_schema NimbleOptions.new!(
                     buffer: [
@@ -217,16 +237,21 @@ defmodule GenLSP do
       tasks: Map.new()
     }
 
-    case module.init(lsp, init_args) do
-      {:ok, %LSP{} = lsp} ->
-        deb = :sys.debug_options([])
-        if opts[:name], do: Process.register(self(), opts[:name])
-        :proc_lib.init_ack(parent, {:ok, me})
+    {lsp, continue_arg} =
+      case module.init(lsp, init_args) do
+        {:ok, %LSP{} = lsp} -> {lsp, nil}
+        {:ok, %LSP{} = lsp, {:continue, continue_arg}} -> {lsp, continue_arg}
+      end
 
-        GenLSP.Buffer.listen(buffer, me)
+    deb = :sys.debug_options([])
+    if opts[:name], do: Process.register(self(), opts[:name])
+    :proc_lib.init_ack(parent, {:ok, me})
 
-        loop(lsp, parent, deb)
-    end
+    GenLSP.Buffer.listen(buffer, me)
+
+    lsp = if continue_arg, do: execute_continue(lsp, continue_arg), else: lsp
+
+    loop(lsp, parent, deb)
   end
 
   @doc """
@@ -369,70 +394,85 @@ defmodule GenLSP do
                         {lsp.mod.handle_request(req, lsp), %{}}
                       end)
 
-                    case result do
-                      {:reply, reply, %LSP{} = lsp} ->
-                        response_key =
-                          case reply do
-                            %GenLSP.ErrorResponse{} -> "error"
-                            _ -> "result"
+                    # Normalize result to extract continue_arg
+                    {result, continue_arg} =
+                      case result do
+                        {:reply, reply, %LSP{} = lsp} ->
+                          {{:reply, reply, lsp}, nil}
+
+                        {:reply, reply, %LSP{} = lsp, {:continue, arg}} ->
+                          {{:reply, reply, lsp}, arg}
+
+                        {:noreply, %LSP{} = lsp} ->
+                          {{:noreply, lsp}, nil}
+
+                        {:noreply, %LSP{} = lsp, {:continue, arg}} ->
+                          {{:noreply, lsp}, arg}
+                      end
+
+                    lsp =
+                      case result do
+                        {:reply, reply, %LSP{} = lsp} ->
+                          response_key =
+                            case reply do
+                              %GenLSP.ErrorResponse{} -> "error"
+                              _ -> "result"
+                            end
+
+                          # if result is valid, continue, if not, we return an internal error
+                          {response_key, response} =
+                            case Schematic.dump(req.__struct__.result(), reply) do
+                              {:ok, output} ->
+                                {response_key, output}
+
+                              {:error, errors} ->
+                                exception = InvalidResponse.exception({req.method, reply, errors})
+
+                                Logger.error(Exception.format(:error, exception))
+
+                                {:ok, output} =
+                                  Schematic.dump(
+                                    GenLSP.ErrorResponse.schema(),
+                                    %GenLSP.ErrorResponse{
+                                      code: GenLSP.Enumerations.ErrorCodes.internal_error(),
+                                      message: exception.message
+                                    }
+                                  )
+
+                                {"error", output}
+                            end
+
+                          packet = %{
+                            "jsonrpc" => "2.0",
+                            "id" => id,
+                            response_key => response
+                          }
+
+                          if continue_arg do
+                            GenLSP.Buffer.outgoing_flush(lsp.buffer, packet)
+                          else
+                            GenLSP.Buffer.outgoing(lsp.buffer, packet)
                           end
 
-                        # if result is valid, continue, if not, we return an internal error
-                        {response_key, response} =
-                          case Schematic.dump(req.__struct__.result(), reply) do
-                            {:ok, output} ->
-                              {response_key, output}
+                          lsp
 
-                            {:error, errors} ->
-                              exception = InvalidResponse.exception({req.method, reply, errors})
+                        {:noreply, %LSP{} = lsp} ->
+                          lsp
+                      end
 
-                              Logger.error(Exception.format(:error, exception))
+                    duration = System.system_time(:microsecond) - start
 
-                              {:ok, output} =
-                                Schematic.dump(
-                                  GenLSP.ErrorResponse.schema(),
-                                  %GenLSP.ErrorResponse{
-                                    code: GenLSP.Enumerations.ErrorCodes.internal_error(),
-                                    message: exception.message
-                                  }
-                                )
+                    Logger.debug(
+                      "handled request client -> server #{req.method} in #{format_time(duration)}",
+                      id: req.id,
+                      method: req.method
+                    )
 
-                              {"error", output}
-                          end
+                    :telemetry.execute([:gen_lsp, :request, :client, :stop], %{
+                      duration: duration
+                    })
 
-                        packet = %{
-                          "jsonrpc" => "2.0",
-                          "id" => id,
-                          response_key => response
-                        }
-
-                        GenLSP.Buffer.outgoing(lsp.buffer, packet)
-
-                        duration = System.system_time(:microsecond) - start
-
-                        Logger.debug(
-                          "handled request client -> server #{req.method} in #{format_time(duration)}",
-                          id: req.id,
-                          method: req.method
-                        )
-
-                        :telemetry.execute([:gen_lsp, :request, :client, :stop], %{
-                          duration: duration
-                        })
-
-                      {:noreply, _lsp} ->
-                        duration = System.system_time(:microsecond) - start
-
-                        Logger.debug(
-                          "handled request client -> server #{req.method} in #{format_time(duration)}",
-                          id: req.id,
-                          method: req.method
-                        )
-
-                        :telemetry.execute([:gen_lsp, :request, :client, :stop], %{
-                          duration: duration
-                        })
-                    end
+                    if continue_arg, do: execute_continue(lsp, continue_arg)
 
                   {:error, errors} ->
                     # the payload is not parseable at all, other than being valid JSON and having
@@ -520,19 +560,24 @@ defmodule GenLSP do
                       end
                     )
 
-                  case result do
-                    {:noreply, %LSP{}} ->
-                      duration = System.system_time(:microsecond) - start
+                  {lsp, continue_arg} =
+                    case result do
+                      {:noreply, %LSP{} = lsp} -> {lsp, nil}
+                      {:noreply, %LSP{} = lsp, {:continue, arg}} -> {lsp, arg}
+                    end
 
-                      Logger.debug(
-                        "handled notification client -> server #{note.method} in #{format_time(duration)}",
-                        method: note.method
-                      )
+                  duration = System.system_time(:microsecond) - start
 
-                      :telemetry.execute([:gen_lsp, :notification, :client, :stop], %{
-                        duration: duration
-                      })
-                  end
+                  Logger.debug(
+                    "handled notification client -> server #{note.method} in #{format_time(duration)}",
+                    method: note.method
+                  )
+
+                  :telemetry.execute([:gen_lsp, :notification, :client, :stop], %{
+                    duration: duration
+                  })
+
+                  if continue_arg, do: execute_continue(lsp, continue_arg)
 
                 {:error, errors} ->
                   # the payload is not parseable at all, other than being valid JSON
@@ -564,11 +609,16 @@ defmodule GenLSP do
                   {lsp.mod.handle_info(message, lsp), %{}}
                 end)
 
-              case result do
-                {:noreply, %LSP{} = _lsp} ->
-                  duration = System.system_time(:microsecond) - start
-                  :telemetry.execute([:gen_lsp, :info, :stop], %{duration: duration})
-              end
+              {lsp, continue_arg} =
+                case result do
+                  {:noreply, %LSP{} = lsp} -> {lsp, nil}
+                  {:noreply, %LSP{} = lsp, {:continue, arg}} -> {lsp, arg}
+                end
+
+              duration = System.system_time(:microsecond) - start
+              :telemetry.execute([:gen_lsp, :info, :stop], %{duration: duration})
+
+              if continue_arg, do: execute_continue(lsp, continue_arg)
           end
         )
 
@@ -601,6 +651,21 @@ defmodule GenLSP do
           callback.({:error, message})
       end
     end)
+  end
+
+  defp execute_continue(lsp, continue_arg) do
+    result =
+      :telemetry.span([:gen_lsp, :handle_continue], %{continue: continue_arg}, fn ->
+        {lsp.mod.handle_continue(continue_arg, lsp), %{}}
+      end)
+
+    case result do
+      {:noreply, %LSP{} = lsp} ->
+        lsp
+
+      {:noreply, %LSP{} = lsp, {:continue, next_continue}} ->
+        execute_continue(lsp, next_continue)
+    end
   end
 
   defp dump!(schematic, structure) do
