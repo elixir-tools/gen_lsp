@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [0.11.3](https://github.com/elixir-tools/gen_lsp/compare/v0.11.2...v0.11.3) (2026-01-19)
+
+
+### Bug Fixes
+
+* handle document lifecycle notifications synchronously ([#78](https://github.com/elixir-tools/gen_lsp/issues/78)) ([7f6e159](https://github.com/elixir-tools/gen_lsp/commit/7f6e1596837922b54c50952ef1009960945d87e4))
+
 ## [0.11.2](https://github.com/elixir-tools/gen_lsp/compare/v0.11.1...v0.11.2) (2025-12-17)
 
 
