@@ -165,6 +165,19 @@ defmodule GenLSP do
   """
   @callback handle_info(message :: any(), state) :: {:noreply, state} when state: GenLSP.LSP.t()
 
+  @default_sync_notifications [
+    GenLSP.Notifications.TextDocumentDidOpen,
+    GenLSP.Notifications.TextDocumentDidChange,
+    GenLSP.Notifications.TextDocumentDidClose,
+    GenLSP.Notifications.TextDocumentDidSave,
+    GenLSP.Notifications.TextDocumentWillSave,
+    GenLSP.Notifications.WorkspaceDidChangeWatchedFiles,
+    GenLSP.Notifications.WorkspaceDidChangeWorkspaceFolders,
+    GenLSP.Notifications.WorkspaceDidChangeConfiguration,
+    GenLSP.Notifications.Initialized,
+    GenLSP.Notifications.Exit
+  ]
+
   @options_schema NimbleOptions.new!(
                     buffer: [
                       type: {:or, [:pid, :atom]},
@@ -182,6 +195,11 @@ defmodule GenLSP do
                       type: :atom,
                       doc:
                         "Used for name registration as described in the \"Name registration\" section in the documentation for `GenServer`."
+                    ],
+                    sync_notifications: [
+                      type: {:list, :atom},
+                      doc:
+                        "List of notification to process synchronously. Defaults to document lifecycle notifications."
                     ]
                   )
 
@@ -196,7 +214,8 @@ defmodule GenLSP do
     opts = NimbleOptions.validate!(opts, @options_schema)
 
     :proc_lib.start_link(__MODULE__, :init, [
-      {module, init_args, Keyword.take(opts, [:name, :buffer, :assigns, :task_supervisor]),
+      {module, init_args,
+       Keyword.take(opts, [:name, :buffer, :assigns, :task_supervisor, :sync_notifications]),
        self()}
     ])
   end
@@ -207,6 +226,7 @@ defmodule GenLSP do
     buffer = opts[:buffer]
     assigns = opts[:assigns]
     task_supervisor = opts[:task_supervisor]
+    sync_notifications = opts[:sync_notifications] || @default_sync_notifications
 
     lsp = %LSP{
       mod: module,
@@ -214,7 +234,8 @@ defmodule GenLSP do
       buffer: buffer,
       assigns: assigns,
       task_supervisor: task_supervisor,
-      tasks: Map.new()
+      tasks: Map.new(),
+      sync_notifications: MapSet.new(sync_notifications)
     }
 
     case module.init(lsp, init_args) do
@@ -472,76 +493,22 @@ defmodule GenLSP do
         start = System.system_time(:microsecond)
         :telemetry.execute([:gen_lsp, :notification, :client, :start], %{})
 
-        attempt(
-          lsp,
-          "Last message received: handle_notification #{inspect(notification)}",
-          [:gen_lsp, :notification, :client],
-          fn
-            {:error, _} ->
-              Logger.warning("client -> server notification crashed")
+        case GenLSP.Notifications.new(notification) do
+          {:ok, %GenLSP.Notifications.DollarCancelRequest{} = note} ->
+            handle_cancel_request(lsp, note, start)
 
-            _ ->
-              case GenLSP.Notifications.new(notification) do
-                {:ok, %GenLSP.Notifications.DollarCancelRequest{} = note} ->
-                  result =
-                    :telemetry.span(
-                      [:gen_lsp, :handle_notification],
-                      %{method: note.method},
-                      fn ->
-                        with pid when is_pid(pid) <- lsp.tasks[note.params.id] do
-                          Task.Supervisor.terminate_child(lsp.task_supervisor, pid)
-                        end
+          {:ok, note} ->
+            if MapSet.member?(lsp.sync_notifications, note.__struct__) do
+              handle_notification_sync(lsp, note, start)
+            else
+              handle_notification_async(lsp, note, start)
+            end
 
-                        {{:noreply, lsp}, %{}}
-                      end
-                    )
-
-                  case result do
-                    {:noreply, %LSP{}} ->
-                      duration = System.system_time(:microsecond) - start
-
-                      Logger.debug(
-                        "handled notification client -> server #{note.method} in #{format_time(duration)}",
-                        method: note.method
-                      )
-
-                      :telemetry.execute([:gen_lsp, :notification, :client, :stop], %{
-                        duration: duration
-                      })
-                  end
-
-                {:ok, note} ->
-                  result =
-                    :telemetry.span(
-                      [:gen_lsp, :handle_notification],
-                      %{method: note.method},
-                      fn ->
-                        {lsp.mod.handle_notification(note, lsp), %{}}
-                      end
-                    )
-
-                  case result do
-                    {:noreply, %LSP{}} ->
-                      duration = System.system_time(:microsecond) - start
-
-                      Logger.debug(
-                        "handled notification client -> server #{note.method} in #{format_time(duration)}",
-                        method: note.method
-                      )
-
-                      :telemetry.execute([:gen_lsp, :notification, :client, :stop], %{
-                        duration: duration
-                      })
-                  end
-
-                {:error, errors} ->
-                  # the payload is not parseable at all, other than being valid JSON
-                  exception = InvalidNotification.exception({notification, errors})
-
-                  Logger.warning(Exception.format(:error, exception))
-              end
-          end
-        )
+          {:error, errors} ->
+            # the payload is not parseable at all, other than being valid JSON
+            exception = InvalidNotification.exception({notification, errors})
+            Logger.warning(Exception.format(:error, exception))
+        end
 
         loop(lsp, parent, deb)
 
@@ -601,6 +568,89 @@ defmodule GenLSP do
           callback.({:error, message})
       end
     end)
+  end
+
+  defp handle_cancel_request(lsp, note, start) do
+    result =
+      :telemetry.span([:gen_lsp, :handle_notification], %{method: note.method}, fn ->
+        with pid when is_pid(pid) <- lsp.tasks[note.params.id] do
+          Task.Supervisor.terminate_child(lsp.task_supervisor, pid)
+        end
+
+        {{:noreply, lsp}, %{}}
+      end)
+
+    case result do
+      {:noreply, %LSP{}} ->
+        duration = System.system_time(:microsecond) - start
+
+        Logger.debug(
+          "handled notification client -> server #{note.method} in #{format_time(duration)}",
+          method: note.method
+        )
+
+        :telemetry.execute([:gen_lsp, :notification, :client, :stop], %{duration: duration})
+    end
+  end
+
+  defp handle_notification_sync(lsp, note, start) do
+    try do
+      result =
+        :telemetry.span([:gen_lsp, :handle_notification], %{method: note.method}, fn ->
+          {lsp.mod.handle_notification(note, lsp), %{}}
+        end)
+
+      case result do
+        {:noreply, %LSP{}} ->
+          duration = System.system_time(:microsecond) - start
+
+          Logger.debug(
+            "handled notification client -> server #{note.method} in #{format_time(duration)}",
+            method: note.method
+          )
+
+          :telemetry.execute([:gen_lsp, :notification, :client, :stop], %{duration: duration})
+      end
+    rescue
+      e ->
+        :telemetry.execute([:gen_lsp, :notification, :client, :exception], %{
+          message: "Last message received: handle_notification #{inspect(note)}"
+        })
+
+        message = Exception.format(:error, e, __STACKTRACE__)
+        Logger.error(message)
+        error(lsp, message)
+    end
+  end
+
+  defp handle_notification_async(lsp, note, start) do
+    attempt(
+      lsp,
+      "Last message received: handle_notification #{inspect(note)}",
+      [:gen_lsp, :notification, :client],
+      fn
+        {:error, _} ->
+          :ok
+
+        _ ->
+          result =
+            :telemetry.span([:gen_lsp, :handle_notification], %{method: note.method}, fn ->
+              {lsp.mod.handle_notification(note, lsp), %{}}
+            end)
+
+          case result do
+            {:noreply, %LSP{}} ->
+              duration = System.system_time(:microsecond) - start
+
+              Logger.debug(
+                "handled notification client -> server #{note.method} in #{format_time(duration)}",
+                method: note.method
+              )
+
+              :telemetry.execute([:gen_lsp, :notification, :client, :stop], %{duration: duration})
+          end
+      end
+    )
   end
 
   defp dump!(schematic, structure) do

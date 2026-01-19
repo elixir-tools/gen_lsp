@@ -11,6 +11,7 @@ defmodule GenLSP.LSP do
     field :pid, pid()
     field :tasks, %{integer() => pid()}
     field :task_supervisor, atom() | pid()
+    field :sync_notifications, MapSet.t(module())
   end
 
   @spec assign(t(), Keyword.t() | (map() -> keyword())) :: t()
