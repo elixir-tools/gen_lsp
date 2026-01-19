@@ -6,11 +6,15 @@ defmodule GenLSPTest do
   import GenLSP.Test
   import ExUnit.CaptureLog
 
-  setup do
-    server = server(GenLSPTest.ExampleServer, test_pid: self())
-    client = client(server)
+  setup context do
+    if context[:skip_setup] do
+      :ok
+    else
+      server = server(GenLSPTest.ExampleServer, test_pid: self())
+      client = client(server)
 
-    [server: server, client: client]
+      [server: server, client: client]
+    end
   end
 
   test "stores the user state and internal state", %{server: server} do
@@ -395,5 +399,58 @@ defmodule GenLSPTest do
              assert :ok == notify(client, %{"random" => "stuff"})
              Process.sleep(100)
            end) =~ "Invalid notification from the client"
+  end
+
+  @tag :skip_setup
+  test "processes sync notifications in order" do
+    {:ok, order_agent} = Agent.start_link(fn -> [] end)
+
+    server =
+      server(GenLSPTest.OrderingServer,
+        test_pid: self(),
+        order_agent: order_agent
+      )
+
+    client = client(server)
+
+    notify(client, %{
+      "jsonrpc" => "2.0",
+      "method" => "textDocument/didOpen",
+      "params" => %{
+        "textDocument" => %{
+          "uri" => "file://somefile",
+          "languageId" => "elixir",
+          "version" => 1,
+          "text" => "hello world!"
+        }
+      }
+    })
+
+    notify(client, %{
+      "jsonrpc" => "2.0",
+      "method" => "textDocument/didChange",
+      "params" => %{
+        "textDocument" => %{
+          "uri" => "file://somefile",
+          "version" => 2
+        },
+        "contentChanges" => [%{"text" => "updated content"}]
+      }
+    })
+
+    notify(client, %{
+      "jsonrpc" => "2.0",
+      "method" => "textDocument/didClose",
+      "params" => %{
+        "textDocument" => %{
+          "uri" => "file://somefile"
+        }
+      }
+    })
+
+    assert_receive {:callback, %Notifications.TextDocumentDidOpen{}}
+    assert_receive {:callback, %Notifications.TextDocumentDidChange{}}
+    assert_receive {:callback, %Notifications.TextDocumentDidClose{}}
+    assert Agent.get(order_agent, & &1) == [:did_open, :did_change, :did_close]
   end
 end
