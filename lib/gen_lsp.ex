@@ -67,8 +67,9 @@ defmodule GenLSP do
           id: __MODULE__,
           start: {__MODULE__, :start_link, [opts]},
           type: :worker,
-          restart: :permanent,
-          shutdown: 500
+          restart: :temporary,
+          shutdown: 500,
+          significant: true
         }
       end
 
