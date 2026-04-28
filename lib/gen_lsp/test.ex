@@ -47,7 +47,9 @@ defmodule GenLSP.Test do
 
     buffer =
       start_supervised!({GenLSP.Buffer, communication: {GenLSP.Communication.TCP, [port: 0]}},
-        id: buffer_id
+        id: buffer_id,
+        # The test supervisor only supports auto_shutdown: :never, so we override it to avoid conflicts
+        significant: false
       )
 
     assigns = start_supervised!(GenLSP.Assigns, id: assigns_id)
@@ -61,7 +63,9 @@ defmodule GenLSP.Test do
       start_supervised!(
         {mod,
          Keyword.merge([buffer: buffer, assigns: assigns, task_supervisor: task_supervisor], opts)},
-        id: lsp_id
+        id: lsp_id,
+        # The test supervisor only supports auto_shutdown: :never, so we override it to avoid conflicts
+        significant: false
       )
 
     %{

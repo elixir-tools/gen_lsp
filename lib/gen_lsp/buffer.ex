@@ -2,7 +2,7 @@ defmodule GenLSP.Buffer do
   @moduledoc """
   The data buffer between the LSP process and the communication channel.
   """
-  use GenServer
+  use GenServer, restart: :temporary, significant: true
 
   require Logger
 
