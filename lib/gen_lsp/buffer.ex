@@ -139,6 +139,8 @@ defmodule GenLSP.Buffer do
           case comm.read(comm_data, buffer) do
             :eof ->
               if Application.get_env(:gen_lsp, :exit_on_end, true) do
+                :persistent_term.put(:gen_lsp_exit_trigerred, true)
+
                 System.stop()
               end
 
