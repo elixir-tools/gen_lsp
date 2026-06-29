@@ -98,7 +98,7 @@ jobs:
       # By default, the GitHub Cache action will only save the cache if all steps in the job succeed,
       # so we separate the cache restore and save steps in case running dialyzer fails.
       - name: Save PLT cache
-        uses: actions/cache/save@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6.0.0
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         if: steps.plt_cache.outputs.cache-hit != 'true'
         id: plt_cache_save
         with:
