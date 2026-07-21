@@ -9,10 +9,21 @@ defmodule GenLSP.Communication.Stdio do
   @separator "\r\n\r\n"
 
   @impl true
-  def init(_) do
-    :ok = :io.setopts(encoding: :latin1, binary: true)
+  @doc """
+  ## Options
 
-    {:ok, nil}
+    * `:device` - the IO device to read from and write to. Defaults to `:stdio`.
+  """
+  def init(opts) do
+    opts = Keyword.validate!(opts, device: :stdio)
+    device = opts[:device]
+
+    case device do
+      :stdio -> :io.setopts(:standard_io, encoding: :latin1, binary: true)
+      _ -> :io.setopts(device, encoding: :latin1, binary: true)
+    end
+
+    {:ok, %{device: device}}
   end
 
   @impl true
@@ -21,21 +32,20 @@ defmodule GenLSP.Communication.Stdio do
   end
 
   @impl true
-  def write(body, _) do
+  def write(body, %{device: device}) do
     content_length =
       body
       |> IO.iodata_length()
       |> Integer.to_string()
 
-    IO.binwrite(
-      :stdio,
-      IO.iodata_to_binary(["Content-Length: ", content_length, @separator, body])
-    )
+    data = IO.iodata_to_binary(["Content-Length: ", content_length, @separator, body])
+
+    IO.binwrite(device, data)
   end
 
   @impl true
-  def read(_, _) do
-    headers = read_header(%{})
+  def read(%{device: device}, _) do
+    headers = read_header(device, %{})
 
     case headers do
       :eof ->
@@ -45,25 +55,20 @@ defmodule GenLSP.Communication.Stdio do
         {:error, error}
 
       headers ->
-        body =
+        content_length =
           headers
           |> Map.fetch!("Content-Length")
           |> String.to_integer()
-          |> read_body()
+
+        body = read_body(device, content_length)
 
         {:ok, body, ""}
     end
   end
 
-  defp read_header(headers) do
-    case IO.read(:stdio, :line) do
-      :eof ->
-        :eof
-
-      {:error, error} ->
-        {:error, error}
-
-      line ->
+  defp read_header(device, headers) do
+    case IO.read(device, :line) do
+      line when is_binary(line) ->
         line = String.trim(line)
 
         case line do
@@ -71,25 +76,28 @@ defmodule GenLSP.Communication.Stdio do
             headers
 
           "" ->
-            read_header(headers)
+            read_header(device, headers)
 
           line ->
             [k, v] = String.split(line, ":", parts: 2)
-            read_header(Map.put(headers, String.trim(k), String.trim(v)))
-        end
-    end
-  end
+            headers = Map.put(headers, String.trim(k), String.trim(v))
 
-  defp read_body(length) do
-    case IO.binread(:stdio, length) do
+            read_header(device, headers)
+        end
+
       :eof ->
         :eof
 
       {:error, error} ->
         {:error, error}
+    end
+  end
 
-      payload ->
-        payload
+  defp read_body(device, length) when is_integer(length) do
+    case IO.binread(device, length) do
+      payload when is_binary(payload) -> payload
+      :eof -> :eof
+      {:error, error} -> {:error, error}
     end
   end
 end

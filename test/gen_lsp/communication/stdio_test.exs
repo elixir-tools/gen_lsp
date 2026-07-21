@@ -7,8 +7,8 @@ defmodule GenLSP.Communication.StdioTest do
 
   @command "elixir --erl '-kernel standard_io_encoding latin1' -S mix run -e '
 defmodule GenLSP.Support.Buffer do
-  def loop do
-    case GenLSP.Communication.Stdio.read([], nil) do
+  def loop(state) do
+    case GenLSP.Communication.Stdio.read(state, nil) do
       :eof ->
         :eof
 
@@ -16,20 +16,20 @@ defmodule GenLSP.Support.Buffer do
         body
         |> Jason.decode!()
         |> Jason.encode!()
-        |> GenLSP.Communication.Stdio.write([])
+        |> GenLSP.Communication.Stdio.write(state)
 
-        loop()
+        loop(state)
     end
   end
 end
 
 defmodule Main do
   def run() do
-    GenLSP.Communication.Stdio.init([])
+    {:ok, state} = GenLSP.Communication.Stdio.init([])
 
     # the following match ensures that the script completes and does
     # not raise after stdin is closed.
-    :eof = GenLSP.Support.Buffer.loop()
+    :eof = GenLSP.Support.Buffer.loop(state)
   end
 end
 
@@ -48,5 +48,20 @@ Main.run()'"
 
     # assert the message is echoed back
     assert_receive {^port, {:data, ^expected_message}}, 2000
+  end
+
+  test "reads from and writes to an explicit :device instead of :stdio" do
+    {:ok, source} = StringIO.open(~s(Content-Length: 9\r\n\r\n{"a":"b"}))
+    {:ok, read_state} = GenLSP.Communication.Stdio.init(device: source)
+    assert {:ok, ~s({"a":"b"}), ""} = GenLSP.Communication.Stdio.read(read_state, "")
+
+    {:ok, sink} = StringIO.open("")
+    {:ok, write_state} = GenLSP.Communication.Stdio.init(device: sink)
+    assert :ok = GenLSP.Communication.Stdio.write(~s({"a":1}), write_state)
+    assert {"", ~s(Content-Length: 7\r\n\r\n{"a":1})} = StringIO.contents(sink)
+  end
+
+  test "defaults to :stdio when no device is given" do
+    assert {:ok, %{device: :stdio}} = GenLSP.Communication.Stdio.init([])
   end
 end
