@@ -161,7 +161,7 @@ defmodule GenLSP.Buffer do
             :ok
         end
       )
-      |> Enum.to_list()
+      |> Stream.run()
     end)
   end
 
