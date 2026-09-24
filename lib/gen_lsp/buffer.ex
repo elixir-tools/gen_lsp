@@ -91,6 +91,12 @@ defmodule GenLSP.Buffer do
 
               %{state | awaiting_response: awaiting_response}
 
+            %{"id" => id, "error" => error} when is_map_key(state.awaiting_response, id) ->
+              {from, awaiting_response} = Map.pop(state.awaiting_response, id)
+              GenServer.reply(from, error)
+
+              %{state | awaiting_response: awaiting_response}
+
             %{"id" => _} = request ->
               GenLSP.request_server(lsp, request)
               state
