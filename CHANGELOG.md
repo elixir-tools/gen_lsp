@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [0.11.4](https://github.com/elixir-tools/gen_lsp/compare/v0.11.3...v0.11.4) (2026-09-24)
+
+
+### Bug Fixes
+
+* avoid unbounded memory growth in the buffer ([#91](https://github.com/elixir-tools/gen_lsp/issues/91)) ([200e223](https://github.com/elixir-tools/gen_lsp/commit/200e223c80be445b15ded291f853c11cf08fc415))
+* handle client error responses ([#90](https://github.com/elixir-tools/gen_lsp/issues/90)) ([5b47cd1](https://github.com/elixir-tools/gen_lsp/commit/5b47cd1c95bc6de8389422b1863a0fa864974cd5))
+
 ## [0.11.3](https://github.com/elixir-tools/gen_lsp/compare/v0.11.2...v0.11.3) (2026-01-19)
 
 
