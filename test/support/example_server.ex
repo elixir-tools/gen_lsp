@@ -55,24 +55,27 @@ defmodule GenLSPTest.ExampleServer do
   end
 
   def handle_notification(%Notifications.Initialized{}, lsp) do
-    GenLSP.request(lsp, %GenLSP.Requests.ClientRegisterCapability{
-      id: System.unique_integer([:positive]),
-      params: %GenLSP.Structures.RegistrationParams{
-        registrations: [
-          %GenLSP.Structures.Registration{
-            id: "file-watching",
-            method: "workspace/didChangeWatchedFiles",
-            register_options: %GenLSP.Structures.DidChangeWatchedFilesRegistrationOptions{
-              watchers: [
-                %GenLSP.Structures.FileSystemWatcher{
-                  glob_pattern: "{lib|test}/**/*.{ex|exs|heex|eex|leex|surface}"
-                }
-              ]
+    result =
+      GenLSP.request(lsp, %GenLSP.Requests.ClientRegisterCapability{
+        id: System.unique_integer([:positive]),
+        params: %GenLSP.Structures.RegistrationParams{
+          registrations: [
+            %GenLSP.Structures.Registration{
+              id: "file-watching",
+              method: "workspace/didChangeWatchedFiles",
+              register_options: %GenLSP.Structures.DidChangeWatchedFilesRegistrationOptions{
+                watchers: [
+                  %GenLSP.Structures.FileSystemWatcher{
+                    glob_pattern: "{lib|test}/**/*.{ex|exs|heex|eex|leex|surface}"
+                  }
+                ]
+              }
             }
-          }
-        ]
-      }
-    })
+          ]
+        }
+      })
+
+    send(assigns(lsp).test_pid, {:register_capability_result, result})
 
     result =
       GenLSP.request(lsp, %GenLSP.Requests.WindowShowMessageRequest{

@@ -169,6 +169,57 @@ defmodule GenLSPTest do
     assert_notification "window/logMessage", %{"message" => "done initializing"}, 500
   end
 
+  test "handles an error response to a server request", %{client: client, server: server} do
+    id = System.unique_integer([:positive])
+
+    assert :ok ==
+             request(client, %{
+               "jsonrpc" => "2.0",
+               "method" => "initialize",
+               "params" => %{"capabilities" => %{}},
+               "id" => id
+             })
+
+    assert_result ^id, _, 500
+
+    assert :ok ==
+             notify(client, %{
+               method: "initialized",
+               jsonrpc: "2.0",
+               params: %{}
+             })
+
+    assert_receive %{
+                     "jsonrpc" => "2.0",
+                     "id" => request_id,
+                     "method" => "client/registerCapability"
+                   },
+                   500
+
+    error = %{"code" => -32601, "message" => "Method not found"}
+
+    assert :ok ==
+             GenLSP.Communication.TCP.write(
+               Jason.encode!(%{"jsonrpc" => "2.0", "id" => request_id, "error" => error}),
+               client
+             )
+
+    assert_receive {:register_capability_result,
+                    %GenLSP.ErrorResponse{
+                      code: -32601,
+                      message: "Method not found"
+                    }},
+                   500
+
+    assert_request(client, "window/showMessageRequest", 500, fn _params ->
+      %{"title" => "yes"}
+    end)
+
+    assert_receive %GenLSP.Structures.MessageActionItem{title: "yes"}, 500
+    assert_notification "window/logMessage", %{"message" => "done initializing"}, 500
+    assert :sys.get_state(server.buffer).awaiting_response == %{}
+  end
+
   test "the server can receive a notification", %{client: client} do
     assert :ok ==
              notify(client, %{
